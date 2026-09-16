@@ -8,7 +8,7 @@ public class Cleric {
     int mp;
     final int MAXHP = 50;
     final int MAXMP =10;
-    int oldmp = this.mp;
+
 
     void selfAid() {
         this.mp -= 5;
@@ -16,6 +16,7 @@ public class Cleric {
         System.out.println("스킬 사용 self aid!!");
     }
     int pray(int sec) {
+        int oldmp = this.mp;
         Random random = new Random();
         int bonus = random.nextInt(3);
         int prayTime = sec + bonus;
