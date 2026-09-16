@@ -32,13 +32,13 @@ public class SlimeTest {
     @Test
     @DisplayName("남은 hp보다 큰 피해를 받으면 hp가 음수가 되지 않고 0이 되어야 한다")
     void takeDamage_hpShouldNotBeNegative() {
-    // given
-    slime.hp = 5;
+        // given
+        slime.hp = 5;
 
-    // when
-    slime.takeDamage(10);
+        // when
+        slime.takeDamage(10);
 
-    // then
-    assertEquals(0, slime.hp);
+        // then
+        assertEquals(0, slime.hp);
     }
 }
