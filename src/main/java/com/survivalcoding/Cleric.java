@@ -1,6 +1,7 @@
-package com;
+package com.survivalcoding;
 
 public class Cleric {
+
     //성직자 클레릭을 생성
     String name;
     //현재 HP
@@ -15,7 +16,7 @@ public class Cleric {
     final int MAX_MP = 10;
 
     //생산자
-    Cleric(String name) {
+    public Cleric(String name) {
         this.name = name;
     }
 

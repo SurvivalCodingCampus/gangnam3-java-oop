@@ -1,5 +1,7 @@
 package com;
 
+import com.survivalcoding.Cleric;
+
 public class Main {
     public static void main(String[] args) {
         // 성직자 생성

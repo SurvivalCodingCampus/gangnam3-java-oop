@@ -8,4 +8,5 @@ public class  Slime {
     void run() {
         System.out.println("슬라임 " + suffix + "가 도망갔다");
     }
+    void takeDamage(int x){};
 }
