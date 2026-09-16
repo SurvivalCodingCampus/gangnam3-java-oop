@@ -96,5 +96,6 @@ class ClericTest {
         
         // then 검증 : 회복량이 아무리 커도 MAX_MP가 max여야 함,
         assertEquals(cleric.MAX_MP, cleric.mp);
+        assert (recoveryAmount <= cleric.MAX_MP);
     }
 }
