@@ -29,7 +29,13 @@ class Cleric {
         int randomPoint = random.nextInt(PRAY_RECOVERY_RANDOM_BOUND);
         int recoveryAmount = randomPoint + sec;
         int resultMp = this.mp + recoveryAmount;
-        this.mp = Math.min(resultMp, MAX_MP);
+        
+        if (resultMp > MAX_MP) {
+            recoveryAmount = MAX_MP - this.mp;
+            this.mp = MAX_MP;
+        } else {
+            this.mp = resultMp;
+        }
         
         return recoveryAmount;
     }
