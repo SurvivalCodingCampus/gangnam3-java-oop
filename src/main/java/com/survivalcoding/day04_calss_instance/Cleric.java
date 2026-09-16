@@ -2,7 +2,7 @@ package com.survivalcoding.day04_calss_instance;
 
 import java.util.Random;
 
-public class Cleric {
+class Cleric {
     final int MAX_HP = 50;
     final int MAX_MP = 10;
     final int SELFAID_MP_COST = 5;
@@ -28,9 +28,9 @@ public class Cleric {
         
         int randomPoint = random.nextInt(PRAY_RECOVERY_RANDOM_BOUND);
         int recoveryAmount = randomPoint + sec;
-        this.mp = Math.max((this.mp + recoveryAmount), MAX_MP);
+        int resultMp = this.mp + recoveryAmount;
+        this.mp = Math.min(resultMp, MAX_MP);
         
         return recoveryAmount;
     }
 }
-
