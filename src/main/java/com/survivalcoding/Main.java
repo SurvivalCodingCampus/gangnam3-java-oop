@@ -1,17 +1,45 @@
 package com.survivalcoding;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.survivalcoding.day01_class_instance.Cleric;
+import com.survivalcoding.day01_class_instance.Hero;
+import com.survivalcoding.day01_class_instance.Slime;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        // 가상 세계에 용사를 생성
+        Hero hero = new Hero();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        // 가상 세계에 슬라임을 생성
+        Slime slime1 = new Slime();
+        Slime slime2 = new Slime();
+
+        // 생성된 용사에게 최초의 HP 와 이름을 설정
+        hero.name = "Hero";
+        hero.hp = 100;
+        System.out.println("용사 " + hero.name + " 를 생성했습니다!");
+
+        // 생성된 슬라임에게 최초의 HP 와 이름을 설정
+        slime1.hp = 50;
+        slime1.suffix = "A";
+
+        slime2.hp = 48;
+        slime2.suffix = "B";
+
+        // 용사에게 '5초 앉기', '넘어지기', '25초 않기', '도망' 을 지시
+        hero.sit(5);
+        hero.slip();
+        hero.sit(25);
+        hero.run();
+
+        // 슬라임에게 '도망' 을 지시
+        slime1.run();
+        slime2.run();
+
+        Cleric cleric = new Cleric();
+        cleric.selfAid();
+        
+        System.out.println(cleric.mp);
+        System.out.println("회복량: " + cleric.pray(5));
+        System.out.println(cleric.mp);
     }
 }
