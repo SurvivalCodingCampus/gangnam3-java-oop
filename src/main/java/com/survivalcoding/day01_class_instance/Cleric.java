@@ -6,6 +6,7 @@ public class Cleric {
 
     public static final int MAX_HP = 50;
     public static final int MAX_MP = 10;
+    public static final int COST_MP = 5;
     public static final int RANDOM_BOUND = 3;
     public static final Random RANDOM = new Random();
 
@@ -28,7 +29,11 @@ public class Cleric {
     }
 
     public void selfAid() {
-        this.mp -= 5;
+        if (COST_MP > this.mp) {
+            System.out.println("MP가 부족합니다");
+            return;
+        }
+        this.mp -= COST_MP;
         this.hp = MAX_HP;
     }
 
