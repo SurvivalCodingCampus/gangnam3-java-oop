@@ -6,8 +6,29 @@ public class Cleric {
     static final int MAXHP = 50;
     static final int MAXMP = 10;
     String name;
+
     int hp;
     int mp;
+
+    Cleric(String name, int hp, int mp) {
+        this.name = name;
+        this.hp = hp;
+        this.mp = mp;
+
+    }
+
+    Cleric(String name, int hp) {
+        this(name, hp, MAXMP);
+
+    }
+
+
+    Cleric(String name) {
+        this(name, MAXHP, MAXMP);
+
+
+    }
+
 
     void selfAid() {
         this.mp -= 5;
