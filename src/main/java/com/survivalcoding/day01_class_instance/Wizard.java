@@ -7,6 +7,10 @@ public class Wizard {
     public int hp;
 
     // constructor
+    public Wizard() {
+
+    }
+
     public Wizard(String name, int hp) {
         this.name = name;
         this.hp = hp;
@@ -14,5 +18,6 @@ public class Wizard {
 
     public void heal(Hero hero) {
         hero.hp += 10;
+        System.out.println(hero.name + "의 HP를 10 회복했다!");
     }
 }

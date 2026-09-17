@@ -1,13 +1,24 @@
 package com.survivalcoding.day01_class_instance;
 
+import java.util.Random;
+
 public class Hero {
 
     // field
     public String name;
     public int hp;
+    public Sword sword;
+    public static int money = 100;
 
     // constructor
     public Hero() {
+        this.hp = 100;
+        this.name = "김영웅";
+    }
+
+    public Hero(String name) {
+        this.hp = 100;
+        this.name = name;
     }
 
     public Hero(String name, int hp) {
@@ -16,6 +27,10 @@ public class Hero {
     }
 
     // method
+    public static void setRandomMoney() {
+        money = new Random().nextInt(1000);
+    }
+
     public void attack() {
     };
 
