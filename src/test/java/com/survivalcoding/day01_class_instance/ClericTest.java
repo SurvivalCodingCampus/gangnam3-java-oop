@@ -42,7 +42,7 @@ public class ClericTest {
         cleric.selfAid();
 
         // then
-        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(cleric.MAX_HP, cleric.hp);
     }
 
     @Test
@@ -71,6 +71,6 @@ public class ClericTest {
         cleric.pray(sec);
 
         // then
-        assertTrue(cleric.mp <= Cleric.MAX_MP);
+        assertTrue(cleric.mp <= cleric.MAX_MP);
     }
 }

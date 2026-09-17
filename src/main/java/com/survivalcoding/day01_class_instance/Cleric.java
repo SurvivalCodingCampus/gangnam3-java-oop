@@ -8,10 +8,10 @@ public class Cleric {
     public int hp = 50;
     public int mp = 10;
 
-    public static final int MAX_HP = 50;
-    public static final int MAX_MP = 10;
-    public static final int RANDOM_BOUND = 3;
-    public static final Random random = new Random();
+    public final int MAX_HP = 50;
+    public final int MAX_MP = 10;
+    public final int RANDOM_BOUND = 3;
+    public final Random random = new Random();
 
     public void selfAid() {
         this.mp -= 5;
