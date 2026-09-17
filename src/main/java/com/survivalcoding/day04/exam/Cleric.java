@@ -3,11 +3,12 @@ package com.survivalcoding.day04.exam;
 import java.util.Random;
 
 public class Cleric {
+    static final int maxHp = 50;
+    static final int maxMp = 10;
+
     final Random random = new Random();
     final int costForSelfAid = 5;
     final int maxCorrectionValue = 2;
-    final int maxHp = 50;
-    final int maxMp = 10;
 
     int hp = maxHp;
     int mp = maxMp;
