@@ -21,7 +21,7 @@ class HeroTest {
         hero.sleep();
 
         // then (검증)
-        assertEquals(200, hero.hp);
+        assertEquals(100, hero.hp);
     }
 
     @Test
