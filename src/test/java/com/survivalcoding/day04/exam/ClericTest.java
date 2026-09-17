@@ -14,7 +14,7 @@ class ClericTest {
         final Cleric cleric = new Cleric();
 
         // mp소비 코스트보다 높은 값
-        final int enoughMp = cleric.costForSelfAid;
+        final int enoughMp = Cleric.COST_FOR_SELF_AID;
         cleric.mp = enoughMp;
         final int beforeMp = cleric.mp;
 
@@ -22,8 +22,8 @@ class ClericTest {
         cleric.selfAid();
 
         // Then
-        assertEquals(cleric.MAX_HP, cleric.hp);
-        assertEquals(beforeMp - cleric.costForSelfAid, cleric.mp);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(beforeMp - Cleric.COST_FOR_SELF_AID, cleric.mp);
     }
 
     @Test
@@ -33,7 +33,7 @@ class ClericTest {
         final Cleric cleric = new Cleric();
 
         // 스킬 사용 불가한 costForSelfAid - 1 로 설정
-        final int notEnoughMp = cleric.costForSelfAid - 1;
+        final int notEnoughMp = Cleric.COST_FOR_SELF_AID - 1;
         cleric.mp = notEnoughMp;
         final int beforeHp = cleric.hp;
         final int beforeMp = cleric.mp;
@@ -50,21 +50,26 @@ class ClericTest {
     @DisplayName("회복 마나가 최댓값보다 작을 때")
     void restoreMp() {
         // Given
-        final Cleric cleric = new Cleric();
+        final Cleric cleric = new Cleric("엄");
 
         // 최대값보다 작은 값
-        final int notMaxMp = cleric.MAX_MP - 1;
-        cleric.mp = notMaxMp;
+        final int MinMp = 0;
+
+        cleric.mp = MinMp;
         final int beforeMp = cleric.mp;
-        final int durationSecond = 9;
+        final int durationSecond = 3;
 
         final int minMpRestoreAmount = beforeMp + durationSecond;
-        final int maxMpRestoreAmount = minMpRestoreAmount + cleric.maxCorrectionValue;
+        final int maxMpRestoreAmount = minMpRestoreAmount + Cleric.MAX_CORRECTION_VALUE;
 
+        System.out.println(minMpRestoreAmount);
+        System.out.println(maxMpRestoreAmount);
         // When
         final int mpRestoreAmount = cleric.pray(durationSecond);
         boolean isInRange = minMpRestoreAmount <= cleric.mp && cleric.mp <= maxMpRestoreAmount;
 
+
+        System.out.println(cleric.mp);
         // Then
         assertTrue(isInRange);
         assertEquals(beforeMp + mpRestoreAmount, cleric.mp);
@@ -86,8 +91,8 @@ class ClericTest {
         final int mpRestoreAmount = cleric.pray(durationSecond);
 
         // Then
-        assertEquals(cleric.MAX_MP, beforeMp + mpRestoreAmount);
-        assertEquals(cleric.MAX_MP, cleric.mp);
+        assertEquals(Cleric.MAX_MP, beforeMp + mpRestoreAmount);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
     }
 
     @Test
@@ -112,7 +117,7 @@ class ClericTest {
     void restoreMp4() {
         // Given
         final Cleric cleric = new Cleric();
-        cleric.mp = cleric.MAX_MP;
+        cleric.mp = Cleric.MAX_MP;
         final int durationSecond = 5;
         final int maxMpCode = 0;
         final int beforeMp = cleric.mp;
