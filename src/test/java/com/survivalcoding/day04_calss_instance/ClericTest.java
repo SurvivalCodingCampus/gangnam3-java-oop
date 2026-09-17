@@ -13,7 +13,7 @@ class ClericTest {
     @DisplayName("selfAid : MP 5를 소비해 최대 HP까지 회복")
     void selfAidTest() {
         // given 준비
-        final int MP_COST = cleric.SELFAID_MP_COST;
+        final int MP_COST = Cleric.SELF_AID_MP_COST;
         
         /* 1 */
         // given 준비 : mp - mpCost < 0 인 경우 1
@@ -53,7 +53,7 @@ class ClericTest {
         
         // then 검증 : mp 0, hp는 max
         assertEquals(0, cleric.mp);
-        assertEquals(cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
         
         
         /* 4 */
@@ -66,7 +66,7 @@ class ClericTest {
         
         // then 검증 : MP_COST 뺀 만큼 남고 hp는 max
         assertEquals(3, cleric.mp);
-        assertEquals(cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
     }
     
     
@@ -88,14 +88,14 @@ class ClericTest {
         
         /* 2 */
         // given 준비 : 입력 시간 >= MAX_MP
-        inputSec = cleric.MAX_MP + 10;
+        inputSec = Cleric.MAX_MP + 10;
         beforeMp = cleric.mp;
         
         // when 실행
         recoveryAmount = cleric.pray(inputSec);
         
         // then 검증 : 회복량이 아무리 커도 MAX_MP가 max여야 함,
-        assertEquals(cleric.MAX_MP, cleric.mp);
-        assert (recoveryAmount <= cleric.MAX_MP);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+        assert (recoveryAmount <= Cleric.MAX_MP);
     }
 }
