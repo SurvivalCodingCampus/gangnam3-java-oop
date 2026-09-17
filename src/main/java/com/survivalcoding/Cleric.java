@@ -3,18 +3,18 @@ package com.survivalcoding;
 import java.util.Random;
 
 public class Cleric {
+    static final int MAXHP = 50;
+    static final int MAXMP = 10;
     String name;
     int hp;
     int mp;
-    final int MAXHP = 50;
-    final int MAXMP =10;
-
 
     void selfAid() {
         this.mp -= 5;
         this.hp += MAXHP;
         System.out.println("스킬 사용 self aid!!");
     }
+
     int pray(int sec) {
         int oldmp = this.mp;
         Random random = new Random();
@@ -29,10 +29,6 @@ public class Cleric {
         return prayDo - oldmp;
 
     }
-
-
-
-
 
 
 }
