@@ -3,12 +3,16 @@ package com.survivalcoding.day01_class_instance;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HeroTest {
     @Test
     @DisplayName("sleep 은 hp 를 100으로 만들어야 한다")
     void sleepTest2() {
+        Random random = new Random();
+        random.nextInt(3);
         // given (준비)
         Hero hero = new Hero();
         hero.hp = 50;
@@ -31,6 +35,6 @@ class HeroTest {
         hero.sleep();
 
         // then (검증)
-        assertEquals(200, hero.hp);
+        assertEquals(100, hero.hp);
     }
 }
