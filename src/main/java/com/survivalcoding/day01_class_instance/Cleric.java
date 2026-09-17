@@ -11,7 +11,7 @@ public class Cleric {
     public final int MAX_HP = 50;
     public final int MAX_MP = 10;
     public final int RANDOM_BOUND = 3;
-    public final Random random = new Random();
+    public final Random RANDOM = new Random();
 
     public void selfAid() {
         this.mp -= 5;
@@ -19,7 +19,7 @@ public class Cleric {
     }
 
     public int pray(int sec) {
-        int heal = random.nextInt(RANDOM_BOUND) + sec;
+        int heal = RANDOM.nextInt(RANDOM_BOUND) + sec;
         int amount = this.mp + heal;
 
         if (amount > MAX_MP) {
