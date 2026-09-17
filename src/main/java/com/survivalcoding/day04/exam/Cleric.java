@@ -44,8 +44,6 @@ public class Cleric {
         this.name = name;
     }
 
-    Cleric() {}
-
     void selfAid() {
         if (mp - COST_FOR_SELF_AID < 0) {
             System.out.println("마나가 부족합니다");

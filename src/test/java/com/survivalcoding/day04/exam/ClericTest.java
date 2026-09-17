@@ -11,7 +11,7 @@ class ClericTest {
     @DisplayName("heal을 하면 hp를 10 회복해야 한다")
     void heal() {
         // Given
-        final Cleric cleric = new Cleric();
+        final Cleric cleric = new Cleric("엄");
 
         // mp소비 코스트보다 높은 값
         final int enoughMp = Cleric.COST_FOR_SELF_AID;
@@ -30,7 +30,7 @@ class ClericTest {
     @DisplayName("MP가 부족하면 회복을 못 한다")
     void heal2() {
         // Given
-        final Cleric cleric = new Cleric();
+        final Cleric cleric = new Cleric("엄");
 
         // 스킬 사용 불가한 costForSelfAid - 1 로 설정
         final int notEnoughMp = Cleric.COST_FOR_SELF_AID - 1;
@@ -79,7 +79,7 @@ class ClericTest {
     @DisplayName("회복 마나가 maxMp를 넘길 때")
     void restoreMp2() {
         // Given
-        final Cleric cleric = new Cleric();
+        final Cleric cleric = new Cleric("엄");
 
         // mp 최대값에 가깝게
         final int mpNearMax = cleric.MAX_MP - 1;
@@ -99,7 +99,7 @@ class ClericTest {
     @DisplayName("잘못된 기도 시간")
     void restoreMp3() {
         // Given
-        final Cleric cleric = new Cleric();
+        final Cleric cleric = new Cleric("엄");
         final int invalidDurationSecond = -1;
         final int invalidDurationErrCode = -1;
         final int beforeMp = cleric.mp;
@@ -116,7 +116,7 @@ class ClericTest {
     @DisplayName("최대 마나면 회복 불가")
     void restoreMp4() {
         // Given
-        final Cleric cleric = new Cleric();
+        final Cleric cleric = new Cleric("엄");
         cleric.mp = Cleric.MAX_MP;
         final int durationSecond = 5;
         final int maxMpCode = 0;
