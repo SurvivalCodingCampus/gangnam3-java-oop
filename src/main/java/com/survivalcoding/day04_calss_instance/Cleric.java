@@ -12,6 +12,20 @@ class Cleric {
     int mp;
     String name;
     
+    Cleric(String name, int hp, int mp) {
+        this.name = name;
+        this.hp = hp;
+        this.mp = mp;
+    }
+    
+    Cleric(String name, int hp) {
+        this(name, hp, MAX_MP);
+    }
+    
+    Cleric(String name) {
+        this(name, MAX_HP, MAX_MP);
+    }
+    
     void selfAid() {  // 셀프 에이드 마법 사용
         if ((this.mp - SELFAID_MP_COST) >= 0) {
             this.mp -= SELFAID_MP_COST;
