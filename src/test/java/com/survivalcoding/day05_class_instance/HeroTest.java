@@ -1,4 +1,4 @@
-package com.survivalcoding.day01_class_instance;
+package com.survivalcoding.day05_class_instance;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
