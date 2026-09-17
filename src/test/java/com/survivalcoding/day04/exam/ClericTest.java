@@ -22,7 +22,7 @@ class ClericTest {
         cleric.selfAid();
 
         // Then
-        assertEquals(cleric.maxHp, cleric.hp);
+        assertEquals(cleric.MAX_HP, cleric.hp);
         assertEquals(beforeMp - cleric.costForSelfAid, cleric.mp);
     }
 
@@ -53,7 +53,7 @@ class ClericTest {
         final Cleric cleric = new Cleric();
 
         // 최대값보다 작은 값
-        final int notMaxMp = cleric.maxMp - 1;
+        final int notMaxMp = cleric.MAX_MP - 1;
         cleric.mp = notMaxMp;
         final int beforeMp = cleric.mp;
         final int durationSecond = 9;
@@ -77,7 +77,7 @@ class ClericTest {
         final Cleric cleric = new Cleric();
 
         // mp 최대값에 가깝게
-        final int mpNearMax = cleric.maxMp - 1;
+        final int mpNearMax = cleric.MAX_MP - 1;
         cleric.mp = mpNearMax;
         final int beforeMp = cleric.mp;
         final int durationSecond = 3;
@@ -86,8 +86,8 @@ class ClericTest {
         final int mpRestoreAmount = cleric.pray(durationSecond);
 
         // Then
-        assertEquals(cleric.maxMp, beforeMp + mpRestoreAmount);
-        assertEquals(cleric.maxMp, cleric.mp);
+        assertEquals(cleric.MAX_MP, beforeMp + mpRestoreAmount);
+        assertEquals(cleric.MAX_MP, cleric.mp);
     }
 
     @Test
@@ -112,7 +112,7 @@ class ClericTest {
     void restoreMp4() {
         // Given
         final Cleric cleric = new Cleric();
-        cleric.mp = cleric.maxMp;
+        cleric.mp = cleric.MAX_MP;
         final int durationSecond = 5;
         final int maxMpCode = 0;
         final int beforeMp = cleric.mp;

@@ -3,22 +3,23 @@ package com.survivalcoding.day04.exam;
 import java.util.Random;
 
 public class Cleric {
-    static final int maxHp = 50;
-    static final int maxMp = 10;
+    static final int MAX_HP = 50;
+    static final int MAX_MP = 10;
 
     final Random random = new Random();
     final int costForSelfAid = 5;
     final int maxCorrectionValue = 2;
 
-    int hp = maxHp;
-    int mp = maxMp;
+    int hp = MAX_HP;
+    int mp = MAX_MP;
+    String name;
 
     void selfAid() {
         if (mp - costForSelfAid < 0) {
             System.out.println("마나가 부족합니다");
         } else {
             mp -= costForSelfAid;
-            hp = maxHp;
+            hp = MAX_HP;
             System.out.println("MP " + costForSelfAid + "를 소비하여 MAX HP로 회복했습니다");
         }
     }
@@ -32,7 +33,7 @@ public class Cleric {
      *         범위를 벗어난 경우 -1
      */
     int pray(int durationSecond) {
-        if (mp == maxMp) {
+        if (mp == MAX_MP) {
             System.out.println("이미 최대 마나입니다");
             return 0;
         } else if (durationSecond <= 0) {
@@ -44,8 +45,8 @@ public class Cleric {
         final int randomCorrectionValue = random.nextInt(maxCorrectionValue + 1);
         int mpRestoreAmount = durationSecond + randomCorrectionValue;
 
-        if (maxMp < mp + mpRestoreAmount) {
-            mpRestoreAmount = maxMp - mp;
+        if (MAX_MP < mp + mpRestoreAmount) {
+            mpRestoreAmount = MAX_MP - mp;
         }
 
         mp += mpRestoreAmount;
