@@ -1,6 +1,4 @@
-package com.survivalcoding;
-
-import com.survivalcoding.day01_class_instance.Hero;
+package com.survivalcoding.day01_class_instance;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
