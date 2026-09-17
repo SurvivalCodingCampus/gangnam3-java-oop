@@ -99,7 +99,9 @@ class ClericTest {
     @DisplayName("잘못된 기도 시간")
     void restoreMp3() {
         // Given
+        final int minMp = 0;
         final Cleric cleric = new Cleric("엄");
+        cleric.mp = minMp;
         final int invalidDurationSecond = -1;
         final int invalidDurationErrCode = -1;
         final int beforeMp = cleric.mp;
@@ -128,5 +130,233 @@ class ClericTest {
         // Then
         assertEquals(maxMpCode, mpRestoreAmount);
         assertEquals(beforeMp, cleric.mp);
+    }
+}
+
+@DisplayName("Day05 테스트(생성자)")
+class ClericTestDay05 {
+    @Test
+    @DisplayName("여러 Cleric 인스턴스는 MAX_HP와 MAX_MP 값을 공유한다")
+    void maxHpAndMaxMpShouldBeShared() {
+        // given
+        String tmpName = "홍길동";
+        final Cleric cleric1 = new Cleric(tmpName);
+        final Cleric cleric2 = new Cleric(tmpName);
+
+        // when & then
+        assertEquals(Cleric.MAX_HP, cleric1.MAX_HP);
+        assertEquals(Cleric.MAX_HP, cleric2.MAX_HP);
+
+        assertEquals(Cleric.MAX_MP, cleric1.MAX_MP);
+        assertEquals(Cleric.MAX_MP, cleric2.MAX_MP);
+    }
+
+    @Test
+    @DisplayName("이름만 입력하면 HP와 MP는 최대값으로 초기화된다")
+    void constructorWithNameShouldSetMaxHpAndMp() {
+        // given & when
+        final Cleric cleric = new Cleric("홍길동");
+
+        // then
+        assertEquals("홍길동", cleric.name);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("이름과 HP만 입력하면 MP는 최대값으로 초기화된다")
+    void constructorWithNameAndHpShouldSetMaxMp() {
+        // given
+        int hp = 30;
+
+        // when
+        final Cleric cleric = new Cleric("홍길동", hp);
+
+        // then
+        assertEquals("홍길동", cleric.name);
+        assertEquals(hp, cleric.hp);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("이름이 null이면 정상적인 이름으로 저장되지 않는다")
+    void nameShouldNotAcceptNull() {
+        // when
+        final Cleric cleric = new Cleric(null);
+
+        // then
+        assertNull(cleric.name);
+    }
+
+    @Test
+    @DisplayName("이름이 빈 문자열이면 정상적인 이름으로 저장되지 않는다")
+    void nameShouldNotAcceptEmptyString() {
+        // when
+        final Cleric cleric = new Cleric("");
+
+        // then
+        assertNull(cleric.name);
+    }
+
+    @Test
+    @DisplayName("이름이 공백 한 칸이면 정상적인 이름으로 저장되지 않는다")
+    void nameShouldNotAcceptSingleBlank() {
+        // when
+        final Cleric cleric = new Cleric(" ");
+
+        // then
+        assertNull(cleric.name);
+    }
+
+    @Test
+    @DisplayName("이름이 여러 공백이면 정상적인 이름으로 저장되지 않는다")
+    void nameShouldNotAcceptMultipleBlanks() {
+        // when
+        final Cleric cleric = new Cleric("     ");
+
+        // then
+        assertNull(cleric.name);
+    }
+
+    @Test
+    @DisplayName("일반적인 이름은 정상적으로 저장된다 - 동등 분할")
+    void validNameShouldBeStored() {
+        // given
+        final String name = "홍길동";
+
+        // when
+        final Cleric cleric = new Cleric(name);
+
+        // then
+        assertEquals(name, cleric.name);
+    }
+
+    @Test
+    @DisplayName("HP 최소 정상값 1은 저장된다")
+    void hpMinimumBoundary() {
+        // when
+        final Cleric cleric = new Cleric("홍길동", 1);
+
+        // then
+        assertEquals(1, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 0은 저장되지 않는다")
+    void hpZeroShouldNotBeAccepted() {
+        // when
+        final Cleric cleric = new Cleric("홍길동", 0);
+
+        // then
+        assertEquals(0, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 음수는 저장되지 않는다")
+    void negativeHpShouldNotBeAccepted() {
+        // when
+        final Cleric cleric = new Cleric("홍길동", -1);
+
+        // then
+        assertEquals(0, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값 바로 아래인 49는 저장된다")
+    void hpJustBelowMaximum() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", Cleric.MAX_HP - 1);
+
+        // then
+        assertEquals(49, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값 50을 입력할 수 있다")
+    void hpMaximumBoundary() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", Cleric.MAX_HP);
+
+        // then
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값보다 큰 값은 저장되지 않는다")
+    void hpOverMaximumShouldNotBeAccepted() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", Cleric.MAX_HP + 1);
+
+        // then
+        assertNotEquals(Cleric.MAX_HP + 1, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("MP 최소 정상값 1은 저장된다")
+    void mpMinimumBoundary() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", 30, 1);
+
+        // then
+        assertEquals(1, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 0은 저장되지 않는다")
+    void mpZeroShouldNotBeAccepted() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", 30, 0);
+
+        // then
+        assertEquals(0, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 음수는 저장되지 않는다")
+    void negativeMpShouldNotBeAccepted() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", 30, -1);
+
+        // then
+        assertEquals(0, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최대값 바로 아래인 9는 저장된다")
+    void mpJustBelowMaximum() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", 30, Cleric.MAX_MP - 1);
+
+        // then
+        assertEquals(9, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최대값 10을 입력할 수 있다")
+    void mpMaximumBoundary() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", 30, Cleric.MAX_MP);
+
+        // then
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최대값보다 큰 값은 저장되지 않는다")
+    void mpOverMaximumShouldNotBeAccepted() {
+        // when
+        final Cleric cleric
+                = new Cleric("홍길동", 30, Cleric.MAX_MP + 1);
+
+        // then
+        assertNotEquals(Cleric.MAX_MP + 1, cleric.mp);
     }
 }

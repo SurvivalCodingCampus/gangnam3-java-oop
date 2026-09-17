@@ -14,34 +14,36 @@ public class Cleric {
     String name;
 
     Cleric(String name, int hp, int mp) {
-        this(name, hp);
-
-        if (mp <= 0 || MAX_MP <= mp) {
+        if (mp <= 0 || MAX_MP < mp) {
             System.out.println("올바른 mp를 입력해 주세요");
             return;
         }
 
+        this.name = name;
+        this.hp = hp;
         this.mp = mp;
     }
 
     Cleric(String name, int hp) {
-        this(name);
-
-        if (hp <= 0 || MAX_HP <= hp) {
+        if (hp <= 0 || MAX_HP < hp) {
             System.out.println("올바른 hp를 입력해 주세요");
             return;
         }
 
+        this.name = name;
         this.hp = hp;
+        mp = MAX_MP;
     }
 
     Cleric(String name) {
-        if (name.isBlank() || name == null) {
+        if (name == null || name.isBlank()) {
             System.out.println("잘못된 이름 형식입니다");
             return;
         }
 
         this.name = name;
+        hp = MAX_HP;
+        mp = MAX_MP;
     }
 
     void selfAid() {
