@@ -53,9 +53,9 @@ class ClericTest {
         final Cleric cleric = new Cleric("엄");
 
         // 최대값보다 작은 값
-        final int MinMp = 0;
+        final int minMp = 0;
 
-        cleric.mp = MinMp;
+        cleric.mp = minMp;
         final int beforeMp = cleric.mp;
         final int durationSecond = 3;
 
