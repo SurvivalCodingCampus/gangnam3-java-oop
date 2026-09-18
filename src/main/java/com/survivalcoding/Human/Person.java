@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class Person {
     static final int MIN_NAME_LENGTH = 1;
     
-    private int thisYear;
+    private int thisYear = getThisYear();
     
     private final String name;
     private final int birthYear;
@@ -19,5 +19,9 @@ public class Person {
         
         this.name = name;
         this.birthYear = birthYear;
+    }
+    
+    private int getThisYear() {
+        return LocalDate.now().getYear();
     }
 }
