@@ -6,6 +6,7 @@ public class Wizard {
     static final int MIN_MP = 0;
     static final int MAX_MP = 10;
     static final int BASE_HEAL_POINT = 10;  // 기본 회복 포인트
+    static final int MIN_NAME_LENGTH = 2;
     
     private String name;
     private int hp;
@@ -47,7 +48,7 @@ public class Wizard {
     
     public void setName(String name) {
         Validator.validateNotNull(name);
-        Validator.validateMinLength(name, 2);
+        Validator.validateMinLength(name, MIN_NAME_LENGTH);
         
         this.name = name;
     }
@@ -67,8 +68,8 @@ public class Wizard {
     }
     
     public void setMp(int mp) {
-        Validator.validateAtLeast(mp, MIN_MP);
         Validator.validateAtMost(mp, MAX_MP);
+        Validator.validateAtLeast(mp, MIN_MP);
         
         this.mp = mp;
     }
