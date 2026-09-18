@@ -17,8 +17,8 @@ public class Wand {
     }
     
     public Wand(String name, double power) {
-        this.power = power;
         setName(name);
+        setPower(power);
     }
     
     // getter/setter
@@ -38,6 +38,8 @@ public class Wand {
     }
     
     public void setPower(double power) {
+        Validator.validateRangeInclusive(power, MIN_POWER, MAX_POWER);
+        
         this.power = power;
     }
 }
