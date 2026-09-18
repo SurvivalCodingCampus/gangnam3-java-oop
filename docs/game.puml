@@ -1,0 +1,35 @@
+@startuml
+
+class Cleric {
+    static final int MAX_HP
+    static final int MAX_MP
+    static final int SELF_AID_MP_COST
+    static final int PRAY_RECOVERY_RANDOM_BOUND
+
+    String name
+    int hp
+    int mp
+
+    void selfAid()
+    int pray(int sec)
+}
+
+class Hero {
+    static int money
+
+    String name
+    int hp
+    int mp
+
+    static void setRandomMoney()
+    void attack()
+    void counterattacked()
+    void run()
+    void sit(int sec)
+    void slip()
+    void sleep()
+    void bye()
+    - void die()
+}
+
+@enduml
