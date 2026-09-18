@@ -1,17 +1,6 @@
 @startuml
 scale 1
 
-class Hero {
-    + String name;
-    + int hp;
-    + int mp;
-    + void run()
-    + void seat()
-    + void attack()
-}
-
-class Cleric {
-}
 
 class Wizard {
 }
