@@ -1,4 +1,4 @@
-package com.survivalcoding.day01_class_instance;
+package com.survivalcoding.day05_class_instance;
 
 public class Hero {
     // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
