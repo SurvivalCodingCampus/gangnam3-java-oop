@@ -14,7 +14,7 @@ public class Hero {
         this("김영웅");
     }
 
-    public Hero(String name) {
+    public Hero(final String name) {
         this.name = name;
         hp = MAX_HP;
     }
@@ -27,7 +27,7 @@ public class Hero {
         System.out.println("용자는 이별을 고했다");
     }
 
-    public void die() {
+    private void die() {
         System.out.println(name + "는 죽었다");
     }
 
@@ -41,6 +41,24 @@ public class Hero {
         System.out.println("적에게 5포인트 데미지를 주었다");
     }
 
+    public void run() {
+        System.out.println(name + "는 도망쳤다!");
+        System.out.println("GAME OVER");
+        System.out.println("최종 HP는" + hp + " 입니다");
+    }
+
+    public void slip() {
+        hp -= 5;
+        System.out.println(name + "는 넘어졌다!");
+        System.out.println("5의 데미지");
+    }
+
+    public void sit(int sec) {
+        hp += sec;
+        System.out.println(name + "는 " + sec + "초 앉았다");
+        System.out.println("HP가 " + sec + "포인트 회복되었다");
+    }
+
     public void setHp(final int hp) {
         this.hp = hp;
     }
@@ -51,5 +69,19 @@ public class Hero {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름은 null이 아니어야함");
+        }
+
+        if (name.length() <= 1) {
+            throw new IllegalArgumentException("이름이 너무 짧음");
+        }
+
+        if (name.length() >= 8) {
+            throw new IllegalArgumentException("이름이 너무 긺");
+        }
     }
 }

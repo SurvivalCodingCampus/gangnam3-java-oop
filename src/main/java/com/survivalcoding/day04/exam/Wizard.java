@@ -8,7 +8,7 @@ public class Wizard {
 
     private void heal(final Hero hero) {
         int basePoint = 10; // 기본회복 포인트
-        int recovPoint = (int) (basePoint * wand.getPower());
-        hero.setHp(hero.getHp() + recovPoint);
+        int recovPoint = (int) (basePoint * wand.getPower()); // 지팡이에 의한 증폭
+        hero.setHp(hero.getHp() + recovPoint); // 용사의 HP 회복
     }
 }
