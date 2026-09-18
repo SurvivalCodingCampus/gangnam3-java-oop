@@ -22,13 +22,15 @@ public class Cleric {
 
     }
 
-
     Cleric(String name) {
         this(name, MAXHP, MAXMP);
 
 
     }
 
+    public int getMp() {
+        return mp;
+    }
 
     void selfAid() {
         this.mp -= 5;
