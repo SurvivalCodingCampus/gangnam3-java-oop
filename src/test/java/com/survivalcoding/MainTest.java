@@ -1,83 +1,176 @@
 package com.survivalcoding;
 
-import com.Cleric;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MainTest {
+public class MainTest {
 
-    // 1. 이름만 지정했을 때
-    // HP와 MP가 최대치로 설정되는지 테스트
+    // ==============================
+    // Hero 테스트
+    // ==============================
     @Test
-    void testClericWithNameOnly() {
-        Cleric cleric = new Cleric("아서스");
+    void heroNameTest() {
+        Hero hero = new Hero();
 
-        assertEquals("아서스", cleric.name);
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+        hero.setName("준석이");
+
+        assertEquals("준석이", hero.getName());
     }
 
-    // 2. 이름과 HP를 지정했을 때
-    // MP가 MAX_MP로 설정되는지 테스트
     @Test
-    void testClericWithNameAndHp() {
-        Cleric cleric = new Cleric("세라핌", 30);
+    void heroHpTest() {
+        Hero hero = new Hero();
 
-        assertEquals("세라핌", cleric.name);
-        assertEquals(30, cleric.hp);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+        hero.setHp(100);
+
+        assertEquals(100, hero.getHp());
     }
 
-    // 3. 이름, HP, MP를 모두 지정했을 때
     @Test
-    void testClericWithNameHpMp() {
-        Cleric cleric = new Cleric("우서", 40, 5);
+    void heroNegativeHpTest() {
+        Hero hero = new Hero();
 
-        assertEquals("우서", cleric.name);
-        assertEquals(40, cleric.hp);
-        assertEquals(5, cleric.mp);
+        hero.setHp(-50);
+
+        // HP가 음수가 되면 0으로 변경되어야 한다.
+        assertEquals(0, hero.getHp());
     }
 
-    // 4. selfAid() 테스트
-    // HP는 MAX_HP가 되고 MP는 5 감소해야 함
+    // ==============================
+    // Wand 테스트
+    // ==============================
     @Test
-    void testSelfAid() {
-        Cleric cleric = new Cleric("아서스", 10, 10);
+    void wandNameTest() {
+        Wand wand = new Wand();
 
-        cleric.selfAid();
+        wand.setName("마법지팡이");
 
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-        assertEquals(5, cleric.mp);
+        assertEquals("마법지팡이", wand.getName());
     }
 
-    // 5. pray() 테스트
-    // 기도 후 MP가 MAX_MP를 초과하지 않는지 테스트
     @Test
-    void testPray() {
-        Cleric cleric = new Cleric("아서스", 30, 5);
+    void wandPowerTest() {
+        Wand wand = new Wand();
 
-        int beforeMp = cleric.mp;
-        int recovery = cleric.pray(3);
+        wand.setPower(50.0);
 
-        // 회복량은 3~5
-        assertTrue(recovery >= 3 && recovery <= 5);
-
-        // MP는 기도 전보다 증가
-        assertTrue(cleric.mp > beforeMp);
-
-        // MP는 최대 10을 넘지 않음
-        assertTrue(cleric.mp <= Cleric.MAX_MP);
+        assertEquals(50.0, wand.getPower());
     }
 
-    // 6. MP가 MAX_MP를 초과하지 않는지 테스트
     @Test
-    void testPrayDoesNotExceedMaxMp() {
-        Cleric cleric = new Cleric("아서스", 30, 9);
+    void wandNameNullTest() {
+        Wand wand = new Wand();
 
-        cleric.pray(10);
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> wand.setName(null)
+        );
+    }
 
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+    @Test
+    void wandNameTooShortTest() {
+        Wand wand = new Wand();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> wand.setName("AB")
+        );
+    }
+
+    @Test
+    void wandPowerTooLowTest() {
+        Wand wand = new Wand();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> wand.setPower(0.4)
+        );
+    }
+
+    @Test
+    void wandPowerTooHighTest() {
+        Wand wand = new Wand();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> wand.setPower(100.1)
+        );
+    }
+
+
+    // ==============================
+    // Wizard 테스트
+    // ==============================
+
+    @Test
+    void wizardNameTest() {
+        Wizard wizard = new Wizard();
+
+        wizard.setName("마법사");
+
+        assertEquals("마법사", wizard.getName());
+    }
+
+    @Test
+    void wizardHpTest() {
+        Wizard wizard = new Wizard();
+
+        wizard.setHp(100);
+
+        assertEquals(100, wizard.getHp());
+    }
+
+    @Test
+    void wizardNegativeHpTest() {
+        Wizard wizard = new Wizard();
+
+        wizard.setHp(-10);
+
+        // HP가 음수가 되면 0이 되어야 한다.
+        assertEquals(0, wizard.getHp());
+    }
+
+    @Test
+    void wizardMpTest() {
+        Wizard wizard = new Wizard();
+
+        wizard.setMp(50);
+
+        assertEquals(50, wizard.getMp());
+    }
+
+    @Test
+    void wizardNegativeMpTest() {
+        Wizard wizard = new Wizard();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> wizard.setMp(-1)
+        );
+    }
+
+    @Test
+    void wizardWandTest() {
+        Wizard wizard = new Wizard();
+        Wand wand = new Wand();
+
+        wand.setName("마법지팡이");
+        wand.setPower(50.0);
+
+        wizard.setWand(wand);
+
+        assertEquals(wand, wizard.getWand());
+    }
+
+    @Test
+    void wizardWandNullTest() {
+        Wizard wizard = new Wizard();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> wizard.setWand(null)
+        );
     }
 }
