@@ -32,4 +32,14 @@ class Hero {
     - void die()
 }
 
+class Wand {
+    static final double MIN_POWER
+    static final double MAX_POWER
+    static final int MIN_NAME_LENGTH
+
+    double power
+    String name
+}
+
+
 @enduml
