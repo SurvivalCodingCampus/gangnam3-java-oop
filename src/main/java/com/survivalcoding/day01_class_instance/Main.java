@@ -10,6 +10,5 @@ public class Main {
         Hero hero = new Hero();
         Hero hero2 = new Hero();
 
-        //과제 제출을 위한 코드 수정 테스트
     }
 }
