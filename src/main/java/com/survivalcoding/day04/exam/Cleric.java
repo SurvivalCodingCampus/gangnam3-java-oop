@@ -97,7 +97,7 @@ public class Cleric {
         }
 
         if (!isWithinRange(mp, MAX_MP, MIN_MP)) {
-            System.out.println("올바른 MP를 넣어주세요 MaxHp(" + MAX_MP + ") MinHp(" + MIN_MP + ")");
+            System.out.println("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + MIN_MP + ")");
             hasInValidValue = true;
         }
 
