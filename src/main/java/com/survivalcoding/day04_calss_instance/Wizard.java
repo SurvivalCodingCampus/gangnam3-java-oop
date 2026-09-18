@@ -2,6 +2,7 @@ package com.survivalcoding.day04_calss_instance;
 
 public class Wizard {
     static final int MAX_HP = 50;
+    static final int MIN_MP = 0;
     static final int MAX_MP = 10;
     static final int BASE_HEAL_POINT = 10;  // 기본 회복 포인트
     
@@ -32,7 +33,7 @@ public class Wizard {
     public Wizard(String name, int hp, int mp, Wand wand) {
         this.name = name;
         this.hp = hp;
-        this.mp = mp;
+        setMp(mp);
         setWand(wand);
     }
     
@@ -63,6 +64,8 @@ public class Wizard {
     }
     
     public void setMp(int mp) {
+        Validator.validateRangeInclusive(mp, MIN_MP, MAX_MP);
+        
         this.mp = mp;
     }
     
