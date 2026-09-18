@@ -6,9 +6,9 @@ public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static int money = 100;
     
-    String name;
     Sword sword;
     
+    private String name;
     private int hp;
     
     // 생성자
@@ -22,6 +22,23 @@ public class Hero {
     
     Hero(String name, int hp) {
         this.name = name;
+        this.hp = hp;
+    }
+    
+    // getter / setter
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public int getHp() {
+        return hp;
+    }
+    
+    public void setHp(int hp) {
         this.hp = hp;
     }
     
