@@ -8,9 +8,9 @@ public class Wizard {
     static final int BASE_HEAL_POINT = 10;  // 기본 회복 포인트
     static final int MIN_NAME_LENGTH = 2;
     
-    private String name;
     private int hp;
     private int mp;
+    private String name;
     private Wand wand;
     
     // ==========================================
