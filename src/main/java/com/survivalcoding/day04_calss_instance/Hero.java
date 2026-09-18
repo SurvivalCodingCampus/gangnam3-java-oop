@@ -4,9 +4,13 @@ public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     String name;
     int hp;
+    Sword sword;
     
     // 기능(method)
-    void attack() {}
+    void attack() {
+        System.out.printf("%s는 공격했다!%n", this.name);
+        System.out.println("적에게 5 포인트의 데미지를 주었다!");
+    }
     
     void run() {
         System.out.printf("%s는 도망쳤다!%n", this.name);
