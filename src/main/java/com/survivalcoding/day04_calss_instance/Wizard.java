@@ -1,6 +1,10 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Wizard {
+    static final int MAX_HP = 50;
+    static final int MAX_MP = 10;
+    static final int BASE_HEAL_POINT = 10;  // 기본 회복 포인트
+    
     private String name;
     private int hp;
     private int mp;
@@ -8,15 +12,15 @@ public class Wizard {
     
     // constructor
     public Wizard() {
-        this("박마법", 100);
+        this("박마법", MAX_HP);
     }
     
     public Wizard(String name) {
-        this(name, 100);
+        this(name, MAX_HP);
     }
     
     public Wizard(String name, int hp) {
-        this(name, hp, 10, new Wand());
+        this(name, hp, MAX_MP, new Wand());
     }
     
     public Wizard(String name, int hp, int mp) {
@@ -65,7 +69,7 @@ public class Wizard {
     
     // method
     public void heal(Hero hero) {
-        hero.setHp(hero.getHp() + 10);
-        System.out.printf("%s의 HP 10을 회복했다!%n", hero.getName());
+        hero.setHp(hero.getHp() + BASE_HEAL_POINT);
+        System.out.printf("%s의 HP %d을 회복했다!%n", hero.getName(), BASE_HEAL_POINT);
     }
 }
