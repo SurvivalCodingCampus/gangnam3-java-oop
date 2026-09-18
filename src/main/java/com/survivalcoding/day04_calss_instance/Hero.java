@@ -1,19 +1,27 @@
 package com.survivalcoding.day04_calss_instance;
 
+import java.util.Random;
+
 public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
+    static int money = 100;
+    
     String name;
     int hp;
     Sword sword;
     
     // 생성자
     Hero() {
-        this("김영웅");
+        this("김영웅", 100);
     }
     
     Hero(String name) {
+        this(name, 100);
+    }
+    
+    Hero(String name, int hp) {
         this.name = name;
-        this.hp = 100;
+        this.hp = hp;
     }
     
     // 기능(method)
