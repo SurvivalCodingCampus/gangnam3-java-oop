@@ -4,9 +4,9 @@ public class Validator {
     public static void validate(String name) {
     }
     
-    public static void validateNull(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("이름은 null이 아니어야 함");
+    public static void validateNotNull(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException("null이 아니어야 함");
         }
     }
     
