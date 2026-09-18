@@ -15,20 +15,27 @@ public class Cleric {
     int mp;
     String name;
 
+    // 생성자를 바로 이용해서 생성하지 않음
     Cleric(final String name, final int hp, final int mp) {
         this.name = name;
         this.hp = hp;
         this.mp = mp;
     }
 
+    // 생성자를 바로 이용해서 생성하지 않음
     Cleric(final String name, final int hp) {
         this(name, hp, MAX_MP);
     }
 
+    // 생성자를 바로 이용해서 생성하지 않음
     Cleric(final String name) {
         this(name, MAX_HP, MAX_MP);
     }
 
+    /**
+     * @param name
+     * @return 유효한 값이면 생성 아니면 null
+     */
     static Cleric CreateOrNull(final String name) {
         boolean hasInValidValue = false;
 
@@ -44,6 +51,11 @@ public class Cleric {
         return new Cleric(name);
     }
 
+    /**
+     * @param name
+     * @param hp
+     * @return 유효한 값이면 생성 아니면 null
+     */
     static Cleric CreateOrNull(final String name, final int hp) {
         boolean hasInValidValue = false;
 
@@ -64,6 +76,12 @@ public class Cleric {
         return new Cleric(name, hp);
     }
 
+    /**
+     * @param name
+     * @param hp
+     * @param mp
+     * @return 유효한 값이면 생성 아니면 null
+     */
     static Cleric CreateOrNull(final String name, final int hp, final int mp) {
 
         boolean hasInValidValue = false;
@@ -98,6 +116,14 @@ public class Cleric {
         return true;
     }
 
+    /**
+     * 주어진 값이 최소값과 최대값 범위 내에 있는지 확인 (경계값 포함)
+     *
+     * @param value
+     * @param max
+     * @param min
+     * @return 값이 범위 내에 있으면 true, 아니면 false
+     */
     static boolean isWithinRange(final int value, final int max, final int min) {
         return min <= value && value <= max;
     }
