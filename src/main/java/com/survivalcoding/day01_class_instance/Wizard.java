@@ -6,20 +6,27 @@ public class Wizard {
     private String name;
     private Wand wand;
 
-    // 캡슐화
+    // 캡슐화 (getter & setter)
     public int getHp() {
         return hp;
     }
 
     public void setHp(int hp) {
+        if (hp < 0) {
+            throw new IllegalArgumentException("HP가 0입니다. 물약을 드세용");
+        }
         this.hp = hp;
     }
+
 
     public int getMp() {
         return mp;
     }
 
     public void setMp(int mp) {
+        if (mp <= 0) {
+            throw new IllegalArgumentException("MP가 0입니다. 물약을 드세용");
+        }
         this.mp = mp;
     }
 
@@ -28,6 +35,12 @@ public class Wizard {
     }
 
     public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름은 null이 아니어야 함");
+        }
+        if (name.length() <= 3) {
+            throw new IllegalArgumentException("이름이 너무 짧음");
+        }
         this.name = name;
     }
 
@@ -36,11 +49,11 @@ public class Wizard {
     }
 
     public void setWand(Wand wand) {
-        this.wand = wand;
+        if (wand == null) {
+            throw new IllegalArgumentException("지팡이 없는 법사가 법사냐!?");
+            this.wand = wand;
+        }
     }
-
-
-
 
     // 스킬 heal --> hero
     void heal(Hero hero) {
