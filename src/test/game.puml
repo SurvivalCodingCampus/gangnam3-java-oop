@@ -1,0 +1,16 @@
+@startuml
+
+class Cleric{
+Private String name;
+int hp;
+int mp;
++void selfaid()
+}
+class Hero{
+String name;
+int hp;
+
++ public void run()
+}
+
+@enduml
