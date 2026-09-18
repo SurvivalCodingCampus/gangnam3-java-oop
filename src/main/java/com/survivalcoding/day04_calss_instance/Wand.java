@@ -1,7 +1,8 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Wand {
-    static final double MAX_POWER = 10.0;
+    static final double MIN_POWER = 0.5;
+    static final double MAX_POWER = 100.0;
     
     private String name;
     private double power;
