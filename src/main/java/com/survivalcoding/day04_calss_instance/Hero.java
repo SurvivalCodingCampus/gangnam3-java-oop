@@ -6,10 +6,10 @@ public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static int money = 100;
     
-    private int hp;
-    
     String name;
     Sword sword;
+    
+    private int hp;
     
     // 생성자
     Hero() {
@@ -30,9 +30,17 @@ public class Hero {
         money = new Random().nextInt(1000);
     }
     
-    void attack() {
+    public void attack() {
         System.out.printf("%s는 공격했다!%n", this.name);
         System.out.println("적에게 5 포인트의 데미지를 주었다!");
+    }
+    
+    public void counterattacked() {
+        System.out.println("반격을 받았다");
+        hp -= 10;
+        if (hp < 1) {
+            die();
+        }
     }
     
     void run() {
