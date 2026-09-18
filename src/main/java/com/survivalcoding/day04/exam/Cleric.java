@@ -1,19 +1,109 @@
 package com.survivalcoding.day04.exam;
 
-import java.util.Random;
-
 public class Cleric {
+    static final int COST_FOR_SELF_AID = 5;
+    static final int MAX_CORRECTION_VALUE = 2;
+    static final int MAX_HP = 50;
+    static final int MAX_MP = 10;
+    static final int MIN_HP = 0;
+    static final int MIN_MP = 0;
 
-    final Random RANDOM = new Random();
-    final int COST_FOR_SELF_AID = 5;
-    final int MAX_CORRECTION_VALUE = 2;
-    int RANDOM_CORRECTION_VALUE;
+    int hp;
+    int mp;
+    String name;
 
-    int MAX_HP = 50;
-    int MAX_MP = 10;
+    // 생성자를 바로 이용해서 생성하지 않음
+    Cleric(final String name, final int hp, final int mp) {
+        this.name = name;
+        this.hp = hp;
+        this.mp = mp;
+    }
 
-    int hp = MAX_HP;
-    int mp = MAX_MP;
+    // 생성자를 바로 이용해서 생성하지 않음
+    Cleric(final String name, final int hp) {
+        this(name, hp, MAX_MP);
+    }
+
+    // 생성자를 바로 이용해서 생성하지 않음
+    Cleric(final String name) {
+        this(name, MAX_HP, MAX_MP);
+    }
+
+    /**
+     * @param name
+     * @return 유효한 값이면 생성 아니면 null
+     */
+    static Cleric CreateOrNull(final String name) {
+        boolean hasInValidValue = false;
+
+        if (!Utils.isValidName(name)) {
+            System.out.println("올바른 이름을 넣어주세요");
+            hasInValidValue = true;
+        }
+
+        if (hasInValidValue) {
+            return null;
+        }
+
+        return new Cleric(name);
+    }
+
+    /**
+     * @param name
+     * @param hp
+     * @return 유효한 값이면 생성 아니면 null
+     */
+    static Cleric CreateOrNull(final String name, final int hp) {
+        boolean hasInValidValue = false;
+
+        if (!Utils.isValidName(name)) {
+            System.out.println("올바른 이름을 넣어주세요");
+            hasInValidValue = true;
+        }
+
+        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
+            System.out.println("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
+            hasInValidValue = true;
+        }
+
+        if (hasInValidValue) {
+            return null;
+        }
+
+        return new Cleric(name, hp);
+    }
+
+    /**
+     * @param name
+     * @param hp
+     * @param mp
+     * @return 유효한 값이면 생성 아니면 null
+     */
+    static Cleric CreateOrNull(final String name, final int hp, final int mp) {
+
+        boolean hasInValidValue = false;
+
+        if (!Utils.isValidName(name)) {
+            System.out.println("올바른 이름을 넣어주세요");
+            hasInValidValue = true;
+        }
+
+        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
+            System.out.println("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
+            hasInValidValue = true;
+        }
+
+        if (!Utils.isWithinRange(mp, MAX_MP, MIN_MP)) {
+            System.out.println("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + MIN_MP + ")");
+            hasInValidValue = true;
+        }
+
+        if (hasInValidValue) {
+            return null;
+        }
+
+        return new Cleric(name, hp, mp);
+    }
 
     void selfAid() {
         if (mp - COST_FOR_SELF_AID < 0) {
@@ -29,12 +119,11 @@ public class Cleric {
      * 캐릭터의 MP를 회복시킵니다.
      *
      * @param durationSecond 기도 시간
-     * @return 정상 처리 시 회복량, <br>
-     *         이미 최대값인 경우 0, <br>
+     * @return 정상 처리 시 회복량 <br>
+     *         이미 최대값인 경우 0 <br>
      *         범위를 벗어난 경우 -1
      */
     int pray(int durationSecond) {
-
         if (mp == MAX_MP) {
             System.out.println("이미 최대 마나입니다");
             return 0;
@@ -43,9 +132,9 @@ public class Cleric {
             return -1;
         }
 
-        RANDOM_CORRECTION_VALUE = RANDOM.nextInt(MAX_CORRECTION_VALUE + 1);
-
-        int mpRestoreAmount = durationSecond + RANDOM_CORRECTION_VALUE;
+        // 보정치는 0 ~ 2까지지만 nextInt 특성상 + 1
+        final int randomCorrectionValue = Utils.RANDOM.nextInt(MAX_CORRECTION_VALUE + 1);
+        int mpRestoreAmount = durationSecond + randomCorrectionValue;
 
         if (MAX_MP < mp + mpRestoreAmount) {
             mpRestoreAmount = MAX_MP - mp;
