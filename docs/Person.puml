@@ -1,0 +1,14 @@
+@startuml
+
+class Person {
+    static final int MIN_NAME_LENGTH
+    static final int MIN_BIRTH_YEAR
+
+    final String name
+    final int birthYear
+
+    - int getThisYear()
+    int getAge()
+}
+
+@enduml
