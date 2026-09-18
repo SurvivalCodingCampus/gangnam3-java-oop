@@ -3,9 +3,10 @@ package com.survivalcoding.day04_calss_instance;
 public class Wand {
     static final double MIN_POWER = 0.5;
     static final double MAX_POWER = 100.0;
+    static final int MIN_NAME_LENGTH = 2;
     
-    private String name;
     private double power;
+    private String name;
     
     // constructor
     public Wand() {
@@ -28,7 +29,7 @@ public class Wand {
     
     public void setName(String name) {
         Validator.validateNotNull(name);
-        Validator.validateMinLength(name, 2);
+        Validator.validateMinLength(name, MIN_NAME_LENGTH);
         
         this.name = name;
     }
