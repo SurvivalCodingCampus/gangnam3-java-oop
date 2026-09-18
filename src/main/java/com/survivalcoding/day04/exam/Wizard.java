@@ -11,4 +11,53 @@ public class Wizard {
         int recovPoint = (int) (basePoint * wand.getPower()); // 지팡이에 의한 증폭
         hero.setHp(hero.getHp() + recovPoint); // 용사의 HP 회복
     }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(final int hp) {
+        if (hp < 0) {
+            this.hp = 0;
+            System.out.println("음수여서 0으로 설정함");
+        }
+
+        this.hp = hp;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public void setMp(final int mp) {
+        final int minMp = 0;
+
+        if (mp < minMp) {
+            throw new IllegalArgumentException(
+                "%d 이상의 mp 입력"
+                    .formatted(minMp));
+        }
+
+        this.mp = mp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public Wand getWand() {
+        return wand;
+    }
+
+    public void setWand(final Wand wand) {
+        if (wand == null) {
+            throw new IllegalArgumentException("null 금지");
+        }
+
+        this.wand = wand;
+    }
 }

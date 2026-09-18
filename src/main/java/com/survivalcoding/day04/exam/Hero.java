@@ -41,6 +41,15 @@ public class Hero {
         System.out.println("적에게 5포인트 데미지를 주었다");
     }
 
+    public void attack(final Slime slime) {
+        System.out.println("반격을 받았다");
+        hp -= 10;
+
+        if (hp < 1) {
+            die();
+        }
+    }
+
     public void run() {
         System.out.println(name + "는 도망쳤다!");
         System.out.println("GAME OVER");
@@ -53,7 +62,7 @@ public class Hero {
         System.out.println("5의 데미지");
     }
 
-    public void sit(int sec) {
+    public void sit(final int sec) {
         hp += sec;
         System.out.println(name + "는 " + sec + "초 앉았다");
         System.out.println("HP가 " + sec + "포인트 회복되었다");
@@ -71,7 +80,7 @@ public class Hero {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         if (name == null) {
             throw new IllegalArgumentException("이름은 null이 아니어야함");
         }

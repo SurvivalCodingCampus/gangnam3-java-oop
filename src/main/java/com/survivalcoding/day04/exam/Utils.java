@@ -24,4 +24,8 @@ public class Utils {
     static boolean isWithinRange(final int value, final int max, final int min) {
         return min <= value && value <= max;
     }
+
+    static boolean isWithinRange(final double value, final double max, final double min) {
+        return min <= value && value <= max;
+    }
 }
