@@ -69,7 +69,9 @@ public class Wizard {
     
     // method
     public void heal(Hero hero) {
-        hero.setHp(hero.getHp() + BASE_HEAL_POINT);
+        int recovPoint = (int) (BASE_HEAL_POINT * this.wand.getPower());
+        hero.setHp(hero.getHp() + recovPoint);
+        
         System.out.printf("%s의 HP %d을 회복했다!%n", hero.getName(), BASE_HEAL_POINT);
     }
 }
