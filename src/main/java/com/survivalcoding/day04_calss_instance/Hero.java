@@ -25,6 +25,10 @@ public class Hero {
     }
     
     // 기능(method)
+    static void setRandomMoney() {
+        money = new Random().nextInt(1000);
+    }
+    
     void attack() {
         System.out.printf("%s는 공격했다!%n", this.name);
         System.out.println("적에게 5 포인트의 데미지를 주었다!");
