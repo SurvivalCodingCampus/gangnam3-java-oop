@@ -10,7 +10,9 @@ public class Wizard {
     private int mp;
     private Wand wand;
     
+    // ==========================================
     // constructor
+    // ==========================================
     public Wizard() {
         this("박마법", MAX_HP);
     }
@@ -34,12 +36,17 @@ public class Wizard {
         this.wand = wand;
     }
     
+    // ==========================================
     // getter/setter
+    // ==========================================
     public String getName() {
         return name;
     }
     
     public void setName(String name) {
+        NameValidator.validateNull(name);
+        NameValidator.validateMinLength(name, 2);
+        
         this.name = name;
     }
     
@@ -67,7 +74,9 @@ public class Wizard {
         this.wand = wand;
     }
     
+    // ==========================================
     // method
+    // ==========================================
     public void heal(Hero hero) {
         int recovPoint = (int) (BASE_HEAL_POINT * this.wand.getPower());
         hero.setHp(hero.getHp() + recovPoint);
