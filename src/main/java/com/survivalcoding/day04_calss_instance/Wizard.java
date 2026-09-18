@@ -3,6 +3,8 @@ package com.survivalcoding.day04_calss_instance;
 public class Wizard {
     private String name;
     private int hp;
+    private int mp;
+    Wand wand;
     
     // constructor
     public Wizard() {
@@ -33,6 +35,14 @@ public class Wizard {
     
     public void setHp(int hp) {
         this.hp = hp;
+    }
+    
+    public int getMp() {
+        return mp;
+    }
+    
+    public void setMp(int mp) {
+        this.mp = mp;
     }
     
     // method
