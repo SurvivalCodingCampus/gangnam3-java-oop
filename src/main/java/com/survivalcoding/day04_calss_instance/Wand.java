@@ -1,6 +1,22 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Wand {
-    String name;
-    double power;
+    private String name;
+    private double power;
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public double getPower() {
+        return power;
+    }
+    
+    public void setPower(double power) {
+        this.power = power;
+    }
 }
