@@ -1,6 +1,6 @@
 package com.survivalcoding.day04_calss_instance;
 
-public class NameValidator {
+public class Validator {
     public static void validate(String name) {
     }
     

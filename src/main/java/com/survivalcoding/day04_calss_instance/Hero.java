@@ -31,9 +31,9 @@ public class Hero {
     }
     
     public void setName(String name) {
-        NameValidator.validateNull(name);
-        NameValidator.validateMinLength(name, 1);
-        NameValidator.validateMaxLength(name, 8);
+        Validator.validateNull(name);
+        Validator.validateMinLength(name, 1);
+        Validator.validateMaxLength(name, 8);
         
         this.name = name;
     }

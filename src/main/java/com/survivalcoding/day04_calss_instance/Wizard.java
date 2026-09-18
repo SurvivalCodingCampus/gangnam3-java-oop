@@ -44,8 +44,8 @@ public class Wizard {
     }
     
     public void setName(String name) {
-        NameValidator.validateNull(name);
-        NameValidator.validateMinLength(name, 2);
+        Validator.validateNull(name);
+        Validator.validateMinLength(name, 2);
         
         this.name = name;
     }
