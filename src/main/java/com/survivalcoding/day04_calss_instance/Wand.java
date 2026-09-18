@@ -1,16 +1,18 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Wand {
+    static final double MAX_POWER = 10.0;
+    
     private String name;
     private double power;
     
     // constructor
     public Wand() {
-        this("지팡이", 10.0);
+        this("Mr.지팡", MAX_POWER);
     }
     
     public Wand(String name) {
-        this(name, 10.0);
+        this(name, MAX_POWER);
     }
     
     public Wand(String name, double power) {
