@@ -21,7 +21,7 @@ public class Hero {
     }
     
     Hero(String name, int hp) {
-        this.name = name;
+        setName(name);
         this.hp = hp;
     }
     
