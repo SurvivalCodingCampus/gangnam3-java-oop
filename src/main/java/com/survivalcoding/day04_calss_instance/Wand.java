@@ -17,8 +17,8 @@ public class Wand {
     }
     
     public Wand(String name, double power) {
-        this.name = name;
         this.power = power;
+        setName(name);
     }
     
     // getter/setter
