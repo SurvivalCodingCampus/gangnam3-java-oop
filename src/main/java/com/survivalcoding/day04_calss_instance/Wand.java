@@ -4,6 +4,21 @@ public class Wand {
     private String name;
     private double power;
     
+    // constructor
+    public Wand() {
+        this("지팡이", 10.0);
+    }
+    
+    public Wand(String name) {
+        this(name, 10.0);
+    }
+    
+    public Wand(String name, double power) {
+        this.name = name;
+        this.power = power;
+    }
+    
+    // getter/setter
     public String getName() {
         return name;
     }
