@@ -6,8 +6,7 @@ public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static int money = 100;
     
-    Sword sword;
-    
+    private Sword sword;
     private String name;
     private int hp;
     
@@ -46,8 +45,14 @@ public class Hero {
         this.hp = hp;
     }
     
+    public Sword getSword() { return sword; }
+    
+    public void setSword(Sword sword) {
+        this.sword = sword;
+    }
+    
     // 기능(method)
-    static void setRandomMoney() {
+    public static void setRandomMoney() {
         money = new Random().nextInt(1000);
     }
     
