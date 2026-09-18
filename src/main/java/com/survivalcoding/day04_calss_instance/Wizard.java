@@ -33,7 +33,7 @@ public class Wizard {
         this.name = name;
         this.hp = hp;
         this.mp = mp;
-        this.wand = wand;
+        setWand(wand);
     }
     
     // ==========================================
@@ -71,6 +71,8 @@ public class Wizard {
     }
     
     public void setWand(Wand wand) {
+        Validator.validateNotNull(wand);
+        
         this.wand = wand;
     }
     
