@@ -1,9 +1,6 @@
 package com.survivalcoding.day04.exam;
 
-import java.util.Random;
-
 public class Cleric {
-    static final Random RANDOM = new Random();
     static final int COST_FOR_SELF_AID = 5;
     static final int MAX_CORRECTION_VALUE = 2;
     static final int MAX_HP = 50;
@@ -39,7 +36,7 @@ public class Cleric {
     static Cleric CreateOrNull(final String name) {
         boolean hasInValidValue = false;
 
-        if (!isValidName(name)) {
+        if (!Utils.isValidName(name)) {
             System.out.println("올바른 이름을 넣어주세요");
             hasInValidValue = true;
         }
@@ -59,12 +56,12 @@ public class Cleric {
     static Cleric CreateOrNull(final String name, final int hp) {
         boolean hasInValidValue = false;
 
-        if (!isValidName(name)) {
+        if (!Utils.isValidName(name)) {
             System.out.println("올바른 이름을 넣어주세요");
             hasInValidValue = true;
         }
 
-        if (!isWithinRange(hp, MAX_HP, MIN_HP)) {
+        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
             System.out.println("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
             hasInValidValue = true;
         }
@@ -86,17 +83,17 @@ public class Cleric {
 
         boolean hasInValidValue = false;
 
-        if (!isValidName(name)) {
+        if (!Utils.isValidName(name)) {
             System.out.println("올바른 이름을 넣어주세요");
             hasInValidValue = true;
         }
 
-        if (!isWithinRange(hp, MAX_HP, MIN_HP)) {
+        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
             System.out.println("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
             hasInValidValue = true;
         }
 
-        if (!isWithinRange(mp, MAX_MP, MIN_MP)) {
+        if (!Utils.isWithinRange(mp, MAX_MP, MIN_MP)) {
             System.out.println("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + MIN_MP + ")");
             hasInValidValue = true;
         }
@@ -106,26 +103,6 @@ public class Cleric {
         }
 
         return new Cleric(name, hp, mp);
-    }
-
-    static boolean isValidName(final String name) {
-        if (name == null || name.isBlank()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * 주어진 값이 최소값과 최대값 범위 내에 있는지 확인 (경계값 포함)
-     *
-     * @param value
-     * @param max
-     * @param min
-     * @return 값이 범위 내에 있으면 true, 아니면 false
-     */
-    static boolean isWithinRange(final int value, final int max, final int min) {
-        return min <= value && value <= max;
     }
 
     void selfAid() {
@@ -156,7 +133,7 @@ public class Cleric {
         }
 
         // 보정치는 0 ~ 2까지지만 nextInt 특성상 + 1
-        final int randomCorrectionValue = RANDOM.nextInt(MAX_CORRECTION_VALUE + 1);
+        final int randomCorrectionValue = Utils.RANDOM.nextInt(MAX_CORRECTION_VALUE + 1);
         int mpRestoreAmount = durationSecond + randomCorrectionValue;
 
         if (MAX_MP < mp + mpRestoreAmount) {
