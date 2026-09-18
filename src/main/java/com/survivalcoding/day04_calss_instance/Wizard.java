@@ -5,7 +5,7 @@ public class Wizard {
     int hp;
     
     void heal(Hero hero) {
-        hero.hp += 10;
-        System.out.printf("%s의 HP 10을 회복했다!%n", hero.name);
+        hero.setHp(hero.getHp() + 10);
+        System.out.printf("%s의 HP 10을 회복했다!%n", hero.getName());
     }
 }
