@@ -41,5 +41,22 @@ class Wand {
     String name
 }
 
+class Wizard {
+    static final int MIN_HP
+    static final int MAX_HP
+    static final int MIN_MP
+    static final int MAX_MP
+    static final int BASE_HEAL_POINT
+    static final int MIN_NAME_LENGTH
+
+    int hp
+    int mp
+    String name
+    Wand wand
+
+    - int ensureAtLeast(int value, int min)
+    - int preventNegativeValue(int value)
+    void heal(Hero hero)
+}
 
 @enduml
