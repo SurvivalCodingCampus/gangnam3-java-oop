@@ -11,6 +11,9 @@ public class Wizard {
     }
 
     public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름을 입력하세요.");
+        }
         this.name = name;
     }
 
@@ -21,7 +24,7 @@ public class Wizard {
     public void setHp(int hp) {
         this.hp = hp;
         if (hp <= 0) {
-            System.out.println("죽었습니다. ㅋㅋ");
+            this.hp = 0;
         }
     }
 
@@ -30,6 +33,9 @@ public class Wizard {
     }
 
     public void setWand(Wand wand) {
+        if (wand == null) {
+            throw new IllegalArgumentException("무기를 장착하지 않았습니다.");
+        }
         this.wand = wand;
     }
 
@@ -40,7 +46,9 @@ public class Wizard {
     public void setMp(int mp) {
         this.mp = mp;
         if (mp <= 0) {
-            System.out.println("마나가 진찌로 부족합니다.");
+            System.out.println("마나가 진짜로 부족합니다.");
+            System.out.println("    ");
+            throw new IllegalArgumentException("마나가 부족하여 스킬이 중단됩니다.");
         }
     }
 
