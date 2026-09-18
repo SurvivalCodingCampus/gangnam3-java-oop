@@ -1,0 +1,19 @@
+@startuml
+
+class Cleric {
+    String name
+    int hp
+    int mp
+
+    void selfAid()
+}
+
+class Hero {
+    String name
+    int hp
+    int mp
+
+    void run()
+}
+
+@enduml
