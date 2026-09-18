@@ -8,11 +8,16 @@ public class Wand {
         return name;
     }
 
-    public double getPower() {
-        return 33333.222;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    
+    public double getPower() {
+        return power;
+    }
 
+    public void setPower(double power) {
+        this.power = power;
+    }
 }
 
