@@ -1,16 +1,28 @@
 @startuml
 
-class Cleric{
-Private String name;
-int hp;
-int mp;
-+void selfaid()
+class this{
+this은 자기와 가장 가까운 선언을 찾음
+ex>
+public class wizard_freren
+String X = hello;
+public wizard_freren(String X)
+this.X = X;인것 처럼;
 }
-class Hero{
-String name;
-int hp;
-
-+ public void run()
+class "호출위치+권한"{
+ private 
+ protected
+ public
+ final(선언후 변경 X)
+ ->constructor로 값 할당.
+ get은 return 하나
+ set은 입력값 하나
+ public int getX()
+ public void setX(type q)
+}
+class etc{
+null은 특수객체와 String 의 기본값 나머지는 기본값이 있음
+숫자에 null 안들어감
+.isBlank() 빈칸 처리
 }
 
 @enduml

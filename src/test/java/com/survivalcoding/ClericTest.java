@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Cleric 테스트 (JUnit 5)
- *
+ * <p>
  * Cleric.java 와 같은 패키지(com.survivalcoding)에 둬야 필드에 직접 접근된다.
  * (필드가 default 접근 제어자라서 같은 패키지에서만 보임)
- *
+ * <p>
  * 구성
- *   1. 통과해야 하는 테스트  : 생성자 3종, selfAid, pray 정상 동작
- *   2. 일부러 실패하는 테스트: 현재 코드의 버그를 드러내는 용도 (메서드명 앞에 fail_ )
+ * 1. 통과해야 하는 테스트  : 생성자 3종, selfAid, pray 정상 동작
+ * 2. 일부러 실패하는 테스트: 현재 코드의 버그를 드러내는 용도 (메서드명 앞에 fail_ )
  */
 class ClericTest {
 
@@ -27,7 +27,7 @@ class ClericTest {
         Cleric c = new Cleric("힐러", 50, 30);
 
         assertEquals("힐러", c.Name);
-        assertEquals(50, c.HP);
+        assertEquals(50, c.getHp());
         assertEquals(30, c.MP);
     }
 
@@ -36,7 +36,7 @@ class ClericTest {
     void constructor_nameAndHp() {
         Cleric c = new Cleric("힐러", 50);
 
-        assertEquals(50, c.HP);
+        assertEquals(50, c.getHp());
         assertEquals(67, c.MP);   // Max_MP
     }
 
@@ -45,7 +45,7 @@ class ClericTest {
     void constructor_nameOnly() {
         Cleric c = new Cleric("힐러");
 
-        assertEquals(100, c.HP);  // Max_HP
+        assertEquals(100, c.getHp());  // Max_HP
         assertEquals(67, c.MP);   // Max_MP
     }
 
@@ -56,7 +56,7 @@ class ClericTest {
 
         c.selfAid();
 
-        assertEquals(100, c.HP);
+        assertEquals(100, c.getHp());
         assertEquals(1, c.MP);
     }
 
@@ -67,7 +67,7 @@ class ClericTest {
 
         c.selfAid();
 
-        assertEquals(100, c.HP);
+        assertEquals(100, c.getHp());
         assertEquals(0, c.MP);
     }
 
@@ -78,7 +78,7 @@ class ClericTest {
 
         c.selfAid();
 
-        assertEquals(10, c.HP);   // HP 그대로
+        assertEquals(10, c.getHp());   // HP 그대로
         assertEquals(4, c.MP);    // MP 그대로
     }
 
@@ -162,7 +162,7 @@ class ClericTest {
     void fail_constructor_noRangeCheck() {
         Cleric c = new Cleric("힐러", 9999, 9999);
 
-        assertTrue(c.HP <= c.Max_HP, "HP가 최대치를 넘었다: " + c.HP);
+        assertTrue(c.getHp() <= c.Max_HP, "HP가 최대치를 넘었다: " + c.getHp());
         assertTrue(c.MP <= c.Max_MP, "MP가 최대치를 넘었다: " + c.MP);
     }
 }
