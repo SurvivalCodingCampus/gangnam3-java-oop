@@ -9,15 +9,31 @@ public class Cleric {
     final int maxMp = 10;
 
     String name;
-    int hp = maxHp;
-    int mp = maxMp;
+    int hp;
+    int mp;
+
+    Cleric(String name, int hp, int mp) {
+        this(name, hp);
+        this.mp = mp;
+    }
+
+    Cleric(String name, int hp) {
+        this(name);
+        this.hp = hp;
+    }
+
+    Cleric(String name) {
+        this.name = name;
+        this.hp = maxHp;
+        this.mp = maxMp;
+    }
 
     void selfAid() {
-        if (mp < 5) {
+        if (mp < MP_COST) {
             return;
         }
 
-        mp -= 5;
+        mp -= MP_COST;
         hp = maxHp;
     }
 
