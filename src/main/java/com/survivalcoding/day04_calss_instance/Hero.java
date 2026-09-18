@@ -69,27 +69,27 @@ public class Hero {
         }
     }
     
-    void run() {
+    public void run() {
         System.out.printf("%s는 도망쳤다!%n", this.name);
         System.out.println("GAME OVER!");
         System.out.printf("최종 HP는 %d 입니다%n", this.hp);
     }
     
-    void sit(int sec) {
+    public void sit(int sec) {
         this.hp += sec;  // 앉은 시간 만큼 HP 증가
         
         System.out.printf("%s는 %d초 앉았다%n", this.name, sec);
         System.out.printf("HP가 %d 포인트 회복되었다%n", sec);
     }
     
-    void slip() {
+    public void slip() {
         this.hp -= 5;
         
         System.out.printf("%s는 넘어졌다!%n", this.name);
         System.out.println("5의 데미지!");
     }
     
-    void sleep() {
+    public void sleep() {
         this.hp = 100;  // 100 = magic number. 이게 뭔데? 라고 물어볼 수 있음. max_hp 이런 식으로 따로 설정해줘야 함
         System.out.printf("%s는 잠을 자고 회복했다!%n", this.name);
     }
