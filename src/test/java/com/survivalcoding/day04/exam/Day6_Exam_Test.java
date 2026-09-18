@@ -224,7 +224,7 @@ class PersonTest {
         final int thisYear = LocalDate.now().getYear();
 
         return List.of(
-                Arguments.of(thisYear, 0, 1),       // 경계값
+                Arguments.of(thisYear, 0),       // 경계값
                 Arguments.of(thisYear - 1, 1),   // 경계 바로 옆
                 Arguments.of(thisYear - 20, 20)  // 일반값
         );
