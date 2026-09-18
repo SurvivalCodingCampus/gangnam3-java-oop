@@ -4,6 +4,20 @@ public class Wizard {
     private String name;
     private int hp;
     
+    // constructor
+    public Wizard() {
+        this("박마법", 100);
+    }
+    
+    public Wizard(String name) {
+        this(name, 100);
+    }
+    
+    public Wizard(String name, int hp) {
+        this.name = name;
+        this.hp = hp;
+    }
+    
     // getter/setter
     public String getName() {
         return name;
