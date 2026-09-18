@@ -16,7 +16,7 @@ public class ClericTest {
 
     @BeforeEach
     void setUp() {
-        cleric = new Cleric();
+        cleric = new Cleric("클레릭");
     }
 
     @Test
@@ -24,12 +24,13 @@ public class ClericTest {
     void selfAid_reduceMp() {
         // given
         cleric.mp = 10;
+        int expectedMp = 5;
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(5, cleric.mp);
+        assertEquals(expectedMp, cleric.mp);
     }
 
     @Test
@@ -42,7 +43,74 @@ public class ClericTest {
         cleric.selfAid();
 
         // then
-        assertEquals(cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("mp가 0이면 selfAid가 실행되지 않고 hp, mp가 유지된다")
+    void selfAid_mpZero_doesNothing() {
+        // given
+        int beforeHp = 20;
+        int beforeMp = 0;
+        cleric.hp = beforeHp;
+        cleric.mp = beforeMp;
+
+        // when
+        cleric.selfAid();
+
+        // then
+        assertEquals(beforeHp, cleric.hp);
+        assertEquals(beforeMp, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("mp가 음수이면 selfAid가 실행되지 않고 hp, mp가 유지된다")
+    void selfAid_mpNegative_doesNothing() {
+        // given
+        int beforeHp = 20;
+        int beforeMp = -1;
+        cleric.hp = beforeHp;
+        cleric.mp = beforeMp;
+
+        // when
+        cleric.selfAid();
+
+        // then
+        assertEquals(beforeHp, cleric.hp);
+        assertEquals(beforeMp, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("mp가 COST_MP보다 1 작으면 selfAid가 실행되지 않고 hp, mp가 유지된다")
+    void selfAid_mpBelowCost_doesNothing() {
+        // given
+        int beforeHp = 20;
+        int beforeMp = Cleric.COST_MP - 1;
+        cleric.hp = beforeHp;
+        cleric.mp = beforeMp;
+
+        // when
+        cleric.selfAid();
+
+        // then
+        assertEquals(beforeHp, cleric.hp);
+        assertEquals(beforeMp, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("mp가 COST_MP와 같으면 selfAid가 실행되어 mp가 0이 되고 hp가 최대 체력이 된다")
+    void selfAid_mpEqualsCost_executes() {
+        // given
+        cleric.hp = 20;
+        cleric.mp = Cleric.COST_MP;
+        int expectedMp = 0;
+
+        // when
+        cleric.selfAid();
+
+        // then
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(expectedMp, cleric.mp);
     }
 
     @Test
@@ -71,6 +139,48 @@ public class ClericTest {
         cleric.pray(sec);
 
         // then
-        assertTrue(cleric.mp <= cleric.MAX_MP);
+        assertTrue(cleric.mp <= Cleric.MAX_MP);
+    }
+
+    @Test
+    @DisplayName("mp가 이미 MAX_MP이면 pray를 해도 MAX_MP를 유지한다")
+    void pray_mpAlreadyMax_staysAtMax() {
+        // given
+        cleric.mp = Cleric.MAX_MP;
+
+        // when
+        cleric.pray(0);
+
+        // then
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("mp와 heal의 합이 MAX_MP를 넘지 않으면 heal만큼 그대로 더해진다")
+    void pray_amountNotExceedMax_addsHeal() {
+        // given
+        cleric.mp = 6;
+        int sec = 2; // heal: 2~4, amount: 8~10 (MAX_MP를 넘지 않는 구간)
+        int beforeMp = cleric.mp;
+
+        // when
+        int heal = cleric.pray(sec);
+
+        // then
+        assertEquals(beforeMp + heal, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("mp와 heal의 합이 MAX_MP를 넘으면 mp는 MAX_MP로 고정된다")
+    void pray_amountExceedsMax_capsAtMax() {
+        // given
+        cleric.mp = 9;
+        int sec = 2; // heal: 2~4, amount: 11~13 (항상 MAX_MP 초과)
+
+        // when
+        cleric.pray(sec);
+
+        // then
+        assertEquals(Cleric.MAX_MP, cleric.mp);
     }
 }
