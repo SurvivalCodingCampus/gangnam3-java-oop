@@ -20,6 +20,7 @@ public class Wizard {
         if (hp < 0) {
             this.hp = 0;
             System.out.println("음수여서 0으로 설정함");
+            return;
         }
 
         this.hp = hp;
@@ -46,6 +47,14 @@ public class Wizard {
     }
 
     public void setName(final String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름은 null 금지");
+        }
+
+        if (name.length() < 3) {
+            throw new IllegalArgumentException("이름은 3문자 이상");
+        }
+
         this.name = name;
     }
 
