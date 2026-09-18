@@ -1,6 +1,7 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Wizard {
+    static final int MIN_HP = 0;
     static final int MAX_HP = 50;
     static final int MIN_MP = 0;
     static final int MAX_MP = 10;
@@ -32,7 +33,7 @@ public class Wizard {
     
     public Wizard(String name, int hp, int mp, Wand wand) {
         this.name = name;
-        this.hp = hp;
+        setHp(hp);
         setMp(mp);
         setWand(wand);
     }
@@ -56,7 +57,9 @@ public class Wizard {
     }
     
     public void setHp(int hp) {
-        this.hp = hp;
+        Validator.validateAtMost(hp, MAX_HP);
+        
+        this.hp = preventNegativeValue(hp);
     }
     
     public int getMp() {
@@ -64,7 +67,8 @@ public class Wizard {
     }
     
     public void setMp(int mp) {
-        Validator.validateRangeInclusive(mp, MIN_MP, MAX_MP);
+        Validator.validateAtLeast(mp, MIN_MP);
+        Validator.validateAtMost(mp, MAX_MP);
         
         this.mp = mp;
     }
@@ -82,6 +86,14 @@ public class Wizard {
     // ==========================================
     // method
     // ==========================================
+    private int ensureAtLeast(int value, int min) {  // 최솟값 보장
+        return Math.max(value, min);
+    }
+    
+    private int preventNegativeValue(int value) {
+        return Math.max(value, 0);
+    }
+    
     public void heal(Hero hero) {
         int recovPoint = (int) (BASE_HEAL_POINT * this.wand.getPower());
         hero.setHp(hero.getHp() + recovPoint);
