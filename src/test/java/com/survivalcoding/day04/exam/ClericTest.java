@@ -133,230 +133,491 @@ class ClericTest {
     }
 }
 
-@DisplayName("Day05 테스트(생성자)")
 class ClericTestDay05 {
-    @Test
-    @DisplayName("여러 Cleric 인스턴스는 MAX_HP와 MAX_MP 값을 공유한다")
-    void maxHpAndMaxMpShouldBeShared() {
-        // given
-        String tmpName = "홍길동";
-        final Cleric cleric1 = new Cleric(tmpName);
-        final Cleric cleric2 = new Cleric(tmpName);
 
-        // when & then
-        assertEquals(Cleric.MAX_HP, cleric1.MAX_HP);
-        assertEquals(Cleric.MAX_HP, cleric2.MAX_HP);
-
-        assertEquals(Cleric.MAX_MP, cleric1.MAX_MP);
-        assertEquals(Cleric.MAX_MP, cleric2.MAX_MP);
-    }
+    // ==================================================
+    // CreateOrNull(String name)
+    // ==================================================
 
     @Test
     @DisplayName("이름만 입력하면 HP와 MP는 최대값으로 초기화된다")
-    void constructorWithNameShouldSetMaxHpAndMp() {
-        // given & when
-        final Cleric cleric = new Cleric("홍길동");
+    void createWithNameShouldSetMaxHpAndMp() {
+        // given
+        final String name = "홍길동";
+
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull(name);
 
         // then
-        assertEquals("홍길동", cleric.name);
+        assertNotNull(cleric);
+        assertEquals(name, cleric.name);
         assertEquals(Cleric.MAX_HP, cleric.hp);
         assertEquals(Cleric.MAX_MP, cleric.mp);
     }
 
     @Test
-    @DisplayName("이름과 HP만 입력하면 MP는 최대값으로 초기화된다")
-    void constructorWithNameAndHpShouldSetMaxMp() {
-        // given
-        int hp = 30;
-
+    @DisplayName("이름이 null이면 생성되지 않는다")
+    void nullNameShouldReturnNull() {
         // when
-        final Cleric cleric = new Cleric("홍길동", hp);
+        final Cleric cleric =
+                Cleric.CreateOrNull(null);
 
         // then
-        assertEquals("홍길동", cleric.name);
-        assertEquals(hp, cleric.hp);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+        assertNull(cleric);
     }
 
     @Test
-    @DisplayName("이름이 null이면 정상적인 이름으로 저장되지 않는다")
-    void nameShouldNotAcceptNull() {
+    @DisplayName("이름이 빈 문자열이면 생성되지 않는다")
+    void emptyNameShouldReturnNull() {
         // when
-        final Cleric cleric = new Cleric(null);
+        final Cleric cleric =
+                Cleric.CreateOrNull("");
 
         // then
-        assertNull(cleric.name);
+        assertNull(cleric);
     }
 
     @Test
-    @DisplayName("이름이 빈 문자열이면 정상적인 이름으로 저장되지 않는다")
-    void nameShouldNotAcceptEmptyString() {
+    @DisplayName("이름이 공백 한 칸이면 생성되지 않는다")
+    void singleBlankNameShouldReturnNull() {
         // when
-        final Cleric cleric = new Cleric("");
+        final Cleric cleric =
+                Cleric.CreateOrNull(" ");
 
         // then
-        assertNull(cleric.name);
+        assertNull(cleric);
     }
 
     @Test
-    @DisplayName("이름이 공백 한 칸이면 정상적인 이름으로 저장되지 않는다")
-    void nameShouldNotAcceptSingleBlank() {
+    @DisplayName("이름이 여러 공백이면 생성되지 않는다")
+    void multipleBlankNameShouldReturnNull() {
         // when
-        final Cleric cleric = new Cleric(" ");
+        final Cleric cleric =
+                Cleric.CreateOrNull("     ");
 
         // then
-        assertNull(cleric.name);
+        assertNull(cleric);
     }
 
     @Test
-    @DisplayName("이름이 여러 공백이면 정상적인 이름으로 저장되지 않는다")
-    void nameShouldNotAcceptMultipleBlanks() {
-        // when
-        final Cleric cleric = new Cleric("     ");
-
-        // then
-        assertNull(cleric.name);
-    }
-
-    @Test
-    @DisplayName("일반적인 이름은 정상적으로 저장된다 - 동등 분할")
+    @DisplayName("일반적인 이름은 정상적으로 저장된다")
     void validNameShouldBeStored() {
         // given
         final String name = "홍길동";
 
         // when
-        final Cleric cleric = new Cleric(name);
+        final Cleric cleric =
+                Cleric.CreateOrNull(name);
 
         // then
+        assertNotNull(cleric);
         assertEquals(name, cleric.name);
     }
 
-    @Test
-    @DisplayName("HP 최소 정상값 1은 저장된다")
-    void hpMinimumBoundary() {
-        // when
-        final Cleric cleric = new Cleric("홍길동", 1);
 
-        // then
-        assertEquals(1, cleric.hp);
-    }
+    // ==================================================
+    // CreateOrNull(String name, int hp)
+    // ==================================================
 
     @Test
-    @DisplayName("HP 0은 저장되지 않는다")
-    void hpZeroShouldNotBeAccepted() {
+    @DisplayName("이름과 HP만 입력하면 MP는 최대값으로 초기화된다")
+    void createWithNameAndHpShouldSetMaxMp() {
         // when
-        final Cleric cleric = new Cleric("홍길동", 0);
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30);
 
         // then
-        assertEquals(0, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 음수는 저장되지 않는다")
-    void negativeHpShouldNotBeAccepted() {
-        // when
-        final Cleric cleric = new Cleric("홍길동", -1);
-
-        // then
-        assertEquals(0, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최대값 바로 아래인 49는 저장된다")
-    void hpJustBelowMaximum() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", Cleric.MAX_HP - 1);
-
-        // then
-        assertEquals(49, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최대값 50을 입력할 수 있다")
-    void hpMaximumBoundary() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", Cleric.MAX_HP);
-
-        // then
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최대값보다 큰 값은 저장되지 않는다")
-    void hpOverMaximumShouldNotBeAccepted() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", Cleric.MAX_HP + 1);
-
-        // then
-        assertNotEquals(Cleric.MAX_HP + 1, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("MP 최소 정상값 1은 저장된다")
-    void mpMinimumBoundary() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", 30, 1);
-
-        // then
-        assertEquals(1, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 0은 저장되지 않는다")
-    void mpZeroShouldNotBeAccepted() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", 30, 0);
-
-        // then
-        assertEquals(0, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 음수는 저장되지 않는다")
-    void negativeMpShouldNotBeAccepted() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", 30, -1);
-
-        // then
-        assertEquals(0, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 최대값 바로 아래인 9는 저장된다")
-    void mpJustBelowMaximum() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", 30, Cleric.MAX_MP - 1);
-
-        // then
-        assertEquals(9, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 최대값 10을 입력할 수 있다")
-    void mpMaximumBoundary() {
-        // when
-        final Cleric cleric
-                = new Cleric("홍길동", 30, Cleric.MAX_MP);
-
-        // then
+        assertNotNull(cleric);
+        assertEquals("홍길동", cleric.name);
+        assertEquals(30, cleric.hp);
         assertEquals(Cleric.MAX_MP, cleric.mp);
     }
 
     @Test
-    @DisplayName("MP 최대값보다 큰 값은 저장되지 않는다")
-    void mpOverMaximumShouldNotBeAccepted() {
+    @DisplayName("HP 최소값은 정상적으로 저장된다")
+    void minimumHpShouldBeAccepted() {
         // when
-        final Cleric cleric
-                = new Cleric("홍길동", 30, Cleric.MAX_MP + 1);
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP);
 
         // then
-        assertNotEquals(Cleric.MAX_MP + 1, cleric.mp);
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_HP, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최소값 바로 위의 값은 정상적으로 저장된다")
+    void hpJustAboveMinimumShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP + 1);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_HP + 1, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값 바로 아래의 값은 정상적으로 저장된다")
+    void hpJustBelowMaximumShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP - 1);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_HP - 1, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값은 정상적으로 저장된다")
+    void maximumHpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최소값보다 작으면 생성되지 않는다")
+    void hpBelowMinimumShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP - 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("HP 최대값보다 크면 생성되지 않는다")
+    void hpAboveMaximumShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("이름이 잘못되고 HP가 정상이면 생성되지 않는다")
+    void invalidNameAndValidHpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("", 30);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("이름이 정상이고 HP가 잘못되면 생성되지 않는다")
+    void validNameAndInvalidHpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("이름과 HP가 모두 잘못되면 생성되지 않는다")
+    void invalidNameAndInvalidHpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("", Cleric.MAX_HP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+
+    // ==================================================
+    // CreateOrNull(String name, int hp, int mp)
+    // ==================================================
+
+    @Test
+    @DisplayName("정상적인 이름, HP, MP를 입력하면 Cleric이 생성된다")
+    void validNameHpAndMpShouldCreateCleric() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, 5);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals("홍길동", cleric.name);
+        assertEquals(30, cleric.hp);
+        assertEquals(5, cleric.mp);
+    }
+
+
+    // ==================================================
+    // HP 경계값
+    // ==================================================
+
+    @Test
+    @DisplayName("HP 최소값과 정상 MP를 입력하면 생성된다")
+    void minimumHpWithValidMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP, 5);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_HP, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값과 정상 MP를 입력하면 생성된다")
+    void maximumHpWithValidMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP, 5);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+    }
+
+    @Test
+    @DisplayName("HP 최소값보다 작으면 생성되지 않는다")
+    void hpBelowMinimumWithMpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP - 1, 5);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("HP 최대값보다 크면 생성되지 않는다")
+    void hpAboveMaximumWithMpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1, 5);
+
+        // then
+        assertNull(cleric);
+    }
+
+
+    // ==================================================
+    // MP 경계값
+    // ==================================================
+
+    @Test
+    @DisplayName("MP 최소값은 정상적으로 저장된다")
+    void minimumMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MIN_MP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최소값 바로 위의 값은 정상적으로 저장된다")
+    void mpJustAboveMinimumShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MIN_MP + 1);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_MP + 1, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최대값 바로 아래의 값은 정상적으로 저장된다")
+    void mpJustBelowMaximumShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP - 1);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_MP - 1, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최대값은 정상적으로 저장된다")
+    void maximumMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("MP 최소값보다 작으면 생성되지 않는다")
+    void mpBelowMinimumShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MIN_MP - 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("MP 최대값보다 크면 생성되지 않는다")
+    void mpAboveMaximumShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+
+    // ==================================================
+    // name / hp / mp 정상·비정상 조합
+    // ==================================================
+
+    @Test
+    @DisplayName("이름만 잘못되면 생성되지 않는다")
+    void invalidNameOnlyShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("", 30, 5);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("HP만 잘못되면 생성되지 않는다")
+    void invalidHpOnlyShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1, 5);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("MP만 잘못되면 생성되지 않는다")
+    void invalidMpOnlyShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("이름과 HP가 잘못되면 생성되지 않는다")
+    void invalidNameAndHpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("", Cleric.MAX_HP + 1, 5);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("이름과 MP가 잘못되면 생성되지 않는다")
+    void invalidNameAndMpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("", 30, Cleric.MAX_MP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("HP와 MP가 잘못되면 생성되지 않는다")
+    void invalidHpAndMpShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1, Cleric.MAX_MP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+    @Test
+    @DisplayName("이름, HP, MP가 모두 잘못되면 생성되지 않는다")
+    void allInvalidValuesShouldReturnNull() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("", Cleric.MAX_HP + 1, Cleric.MAX_MP + 1);
+
+        // then
+        assertNull(cleric);
+    }
+
+
+    // ==================================================
+    // 최소 / 최대 경계값 조합
+    // ==================================================
+
+    @Test
+    @DisplayName("HP와 MP가 모두 최소값이면 생성된다")
+    void minimumHpAndMinimumMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP, Cleric.MIN_MP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_HP, cleric.hp);
+        assertEquals(Cleric.MIN_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("HP와 MP가 모두 최대값이면 생성된다")
+    void maximumHpAndMaximumMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP, Cleric.MAX_MP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("HP 최소값과 MP 최대값이면 생성된다")
+    void minimumHpAndMaximumMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP, Cleric.MAX_MP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MIN_HP, cleric.hp);
+        assertEquals(Cleric.MAX_MP, cleric.mp);
+    }
+
+    @Test
+    @DisplayName("HP 최대값과 MP 최소값이면 생성된다")
+    void maximumHpAndMinimumMpShouldBeAccepted() {
+        // when
+        final Cleric cleric =
+                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP, Cleric.MIN_MP);
+
+        // then
+        assertNotNull(cleric);
+        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MIN_MP, cleric.mp);
     }
 }

@@ -8,42 +8,98 @@ public class Cleric {
     static final int MAX_CORRECTION_VALUE = 2;
     static final int MAX_HP = 50;
     static final int MAX_MP = 10;
+    static final int MIN_HP = 0;
+    static final int MIN_MP = 0;
 
     int hp;
     int mp;
     String name;
 
-    Cleric(String name, int hp, int mp) {
-        if (mp <= 0 || MAX_MP < mp) {
-            System.out.println("올바른 mp를 입력해 주세요");
-            return;
-        }
-
+    Cleric(final String name, final int hp, final int mp) {
         this.name = name;
         this.hp = hp;
         this.mp = mp;
     }
 
-    Cleric(String name, int hp) {
-        if (hp <= 0 || MAX_HP < hp) {
-            System.out.println("올바른 hp를 입력해 주세요");
-            return;
-        }
-
-        this.name = name;
-        this.hp = hp;
-        mp = MAX_MP;
+    Cleric(final String name, final int hp) {
+        this(name, hp, MAX_MP);
     }
 
-    Cleric(String name) {
-        if (name == null || name.isBlank()) {
-            System.out.println("잘못된 이름 형식입니다");
-            return;
+    Cleric(final String name) {
+        this(name, MAX_HP, MAX_MP);
+    }
+
+    static Cleric CreateOrNull(final String name) {
+        boolean hasInValidValue = false;
+
+        if (!isValidName(name)) {
+            System.out.println("올바른 이름을 넣어주세요");
+            hasInValidValue = true;
         }
 
-        this.name = name;
-        hp = MAX_HP;
-        mp = MAX_MP;
+        if (hasInValidValue) {
+            return null;
+        }
+
+        return new Cleric(name);
+    }
+
+    static Cleric CreateOrNull(final String name, final int hp) {
+        boolean hasInValidValue = false;
+
+        if (!isValidName(name)) {
+            System.out.println("올바른 이름을 넣어주세요");
+            hasInValidValue = true;
+        }
+
+        if (!isWithinRange(hp, MAX_HP, MIN_HP)) {
+            System.out.println("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
+            hasInValidValue = true;
+        }
+
+        if (hasInValidValue) {
+            return null;
+        }
+
+        return new Cleric(name, hp);
+    }
+
+    static Cleric CreateOrNull(final String name, final int hp, final int mp) {
+
+        boolean hasInValidValue = false;
+
+        if (!isValidName(name)) {
+            System.out.println("올바른 이름을 넣어주세요");
+            hasInValidValue = true;
+        }
+
+        if (!isWithinRange(hp, MAX_HP, MIN_HP)) {
+            System.out.println("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
+            hasInValidValue = true;
+        }
+
+        if (!isWithinRange(mp, MAX_MP, MIN_MP)) {
+            System.out.println("올바른 MP를 넣어주세요 MaxHp(" + MAX_MP + ") MinHp(" + MIN_MP + ")");
+            hasInValidValue = true;
+        }
+
+        if (hasInValidValue) {
+            return null;
+        }
+
+        return new Cleric(name, hp, mp);
+    }
+
+    static boolean isValidName(final String name) {
+        if (name == null || name.isBlank()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    static boolean isWithinRange(final int value, final int max, final int min) {
+        return min <= value && value <= max;
     }
 
     void selfAid() {
