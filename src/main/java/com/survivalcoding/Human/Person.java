@@ -33,7 +33,7 @@ public class Person {
         return LocalDate.now().getYear();
     }
     
-    private int getAge() {
+    public int getAge() {
         return getThisYear() - birthYear;
     }
 }
