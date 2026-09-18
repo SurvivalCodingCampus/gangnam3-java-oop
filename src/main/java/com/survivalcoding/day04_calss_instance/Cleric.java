@@ -26,15 +26,15 @@ class Cleric {
         this(name, MAX_HP, MAX_MP);
     }
     
-    void selfAid() {  // 셀프 에이드 마법 사용
+    public void selfAid() {  // 셀프 에이드 마법 사용
         if ((this.mp - SELF_AID_MP_COST) >= 0) {
             this.mp -= SELF_AID_MP_COST;
             this.hp = MAX_HP;
         }
     }
     
-    int pray(int sec) {
-        if (sec <= 0) {
+    public int pray(int sec) {
+        if ((sec <= 0) || (this.mp == MAX_MP)) {
             return 0;
         }
         
@@ -44,7 +44,6 @@ class Cleric {
         int recoveryAmount = Math.min(randomPoint + sec, MAX_MP - this.mp);
         
         this.mp += recoveryAmount;
-        
         return recoveryAmount;
     }
 }
