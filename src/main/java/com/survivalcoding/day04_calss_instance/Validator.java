@@ -21,4 +21,10 @@ public class Validator {
             throw new IllegalArgumentException("이름은 %d 글자 미만이어야 함".formatted(maxLength));
         }
     }
+    
+    public static void validateRangeInclusive(double value, double min, double max) {
+        if ((value < min) || (value > max)) {
+            throw new IllegalArgumentException("값의 범위는 %f 이상 %f 이하여야 함".formatted(min, max));
+        }
+    }
 }
