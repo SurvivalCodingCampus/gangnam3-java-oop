@@ -8,6 +8,11 @@ public class Hero {
     
     // 생성자
     Hero() {
+        this("김영웅");
+    }
+    
+    Hero(String name) {
+        this.name = name;
         this.hp = 100;
     }
     
