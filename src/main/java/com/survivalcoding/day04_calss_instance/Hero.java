@@ -31,6 +31,16 @@ public class Hero {
     }
     
     public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름은 null이 아니어야 함");
+        }
+        if (name.length() <= 1) {
+            throw new IllegalArgumentException("이름이 너무 짧음");
+        }
+        if (name.length() >= 8) {
+            throw new IllegalArgumentException("이름이 너무 긺");
+        }
+        
         this.name = name;
     }
     
