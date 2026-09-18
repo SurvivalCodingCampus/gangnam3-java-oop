@@ -4,7 +4,7 @@ public class Wizard {
     private String name;
     private int hp;
     private int mp;
-    Wand wand;
+    private Wand wand;
     
     // constructor
     public Wizard() {
@@ -16,8 +16,18 @@ public class Wizard {
     }
     
     public Wizard(String name, int hp) {
+        this(name, hp, 10, new Wand());
+    }
+    
+    public Wizard(String name, int hp, int mp) {
+        this(name, hp, mp, new Wand());
+    }
+    
+    public Wizard(String name, int hp, int mp, Wand wand) {
         this.name = name;
         this.hp = hp;
+        this.mp = mp;
+        this.wand = wand;
     }
     
     // getter/setter
@@ -43,6 +53,14 @@ public class Wizard {
     
     public void setMp(int mp) {
         this.mp = mp;
+    }
+    
+    public Wand getWand() {
+        return wand;
+    }
+    
+    public void setWand(Wand wand) {
+        this.wand = wand;
     }
     
     // method
