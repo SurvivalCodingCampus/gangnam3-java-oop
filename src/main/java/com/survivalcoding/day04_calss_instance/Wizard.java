@@ -13,9 +13,7 @@ public class Wizard {
     private String name;
     private Wand wand;
     
-    // ==========================================
     // constructor
-    // ==========================================
     public Wizard() {
         this("박마법", MAX_HP);
     }
@@ -39,9 +37,7 @@ public class Wizard {
         setWand(wand);
     }
     
-    // ==========================================
     // getter/setter
-    // ==========================================
     public String getName() {
         return name;
     }
@@ -84,9 +80,7 @@ public class Wizard {
         this.wand = wand;
     }
     
-    // ==========================================
     // method
-    // ==========================================
     private int ensureAtLeast(int value, int min) {  // 최솟값 보장
         return Math.max(value, min);
     }
