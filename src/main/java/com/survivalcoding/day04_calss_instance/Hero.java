@@ -6,6 +6,11 @@ public class Hero {
     int hp;
     Sword sword;
     
+    // 생성자
+    Hero() {
+        this.hp = 100;
+    }
+    
     // 기능(method)
     void attack() {
         System.out.printf("%s는 공격했다!%n", this.name);
