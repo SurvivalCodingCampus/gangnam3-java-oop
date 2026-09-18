@@ -27,4 +27,16 @@ public class Validator {
             throw new IllegalArgumentException("값의 범위는 %f 이상 %f 이하여야 함".formatted(min, max));
         }
     }
+    
+    public static void validateAtLeast(double value, double min) {  // min 이상인지 확인
+        if (value < min) {
+            throw new IllegalArgumentException("값은 %f 이상이어야 함".formatted(min));
+        }
+    }
+    
+    public static void validateAtMost(double value, double max) {  // max 이하인지 확인
+        if (value > max) {
+            throw new IllegalArgumentException("값은 %f 이하여야 함".formatted(max));
+        }
+    }
 }
