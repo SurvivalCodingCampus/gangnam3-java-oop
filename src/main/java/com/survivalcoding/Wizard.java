@@ -44,12 +44,12 @@ public class Wizard {
     }
 
     public void setMp(int mp) {
-        this.mp = mp;
         if (mp <= 0) {
             System.out.println("마나가 진짜로 부족합니다.");
             System.out.println("    ");
             throw new IllegalArgumentException("마나가 부족하여 스킬이 중단됩니다.");
         }
+        this.mp = mp;
     }
 
 }

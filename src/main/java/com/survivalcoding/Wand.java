@@ -23,8 +23,11 @@ public class Wand {
     }
 
     public void setPower(double power) {
-        if (power <= 0.5 && power <= 100) {
-            throw new IllegalArgumentException("완드이 파워는 0.5 미만이거나 100을 초과 할 수 없어요.");
+        if (power <= 0.5) {
+            throw new IllegalArgumentException("완드의 파워는 0.5 미만 일 수 없습니다.");
+        }
+        if (power >= 100) {
+            throw new IllegalArgumentException("완드의 파워는 100이상 일 수 없습니다.");
         }
         this.power = power;
     }
