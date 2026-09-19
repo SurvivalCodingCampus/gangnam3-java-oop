@@ -13,18 +13,17 @@ public class Hero {
 
     // constructor
     public Hero(String name) {
-        this.name = name;
-        this.hp = 100;
+        this(name, 100);
     }
 
     public Hero(String name, int hp) {
         this(name, hp, new Sword("불의 검", 10));
     }
 
-    public Hero(String name, int hp, Sword swrod) {
-        this.name = name;
+    public Hero(String name, int hp, Sword sword) {
+        setName(name);
         this.hp = hp;
-        this.sword = swrod;
+        this.sword = sword;
     }
 
     // method

@@ -58,4 +58,34 @@ public class HeroTest {
         // then
         assertEquals(errorMessage, error.getMessage());
     }
+
+    @Test
+    @DisplayName("생성자 호출 시 이름이 null이면 IllegalArgumentException이 발생한다")
+    void constructor_whenNameIsNull_throwIllegalArgumentException() {
+        // given
+        String name = null;
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> new Hero(name));
+    }
+
+    @Test
+    @DisplayName("생성자 호출 시 이름이 2글자 미만이면 IllegalArgumentException이 발생한다")
+    void constructor_whenNameLengthIsUnderTwo_throwIllegalArgumentException() {
+        // given
+        String name = "히";
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> new Hero(name));
+    }
+
+    @Test
+    @DisplayName("생성자 호출 시 이름이 8글자 이상이면 IllegalArgumentException이 발생한다")
+    void constructor_whenNameLengthIsAtLeastEight_throwIllegalArgumentException() {
+        // given
+        String name = "피카츄라이츄파이리꼬북이";
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> new Hero(name));
+    }
 }
