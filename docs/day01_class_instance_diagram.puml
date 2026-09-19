@@ -48,7 +48,7 @@ package "com.survivalcoding.day01_class_instance" {
         - String name
         - int birthYear
 
-        + int getAge()
+        + int getAge(LocalDate date)
     }
 
     ' Relationship line
