@@ -1,6 +1,7 @@
 package com.survivalcoding.day01_class_instance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -23,27 +24,27 @@ public class ClericTest {
     @DisplayName("selfAid를 하면 mp가 5만큼 감소한다")
     void selfAid_reduceMp() {
         // given
-        cleric.mp = 10;
-        int expectedMp = 5;
+        cleric.setMp(10);
+        int expected = 5;
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(expectedMp, cleric.mp);
+        assertEquals(expected, cleric.getMp());
     }
 
     @Test
-    @DisplayName("selfAid를 하면 현재 hp가 최대 체력(50)이 된다")
+    @DisplayName("selfAid를 하면 hp가 MAX_HP가 된다")
     void selfAid_hpShouldBeMax() {
         // given
-        cleric.hp = 0;
+        cleric.setHp(10);
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(Cleric.MAX_HP, cleric.hp);
+        assertEquals(Cleric.MAX_HP, cleric.getHp());
     }
 
     @Test
@@ -52,15 +53,15 @@ public class ClericTest {
         // given
         int beforeHp = 20;
         int beforeMp = 0;
-        cleric.hp = beforeHp;
-        cleric.mp = beforeMp;
+        cleric.setHp(beforeHp);
+        cleric.setMp(beforeMp);
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(beforeHp, cleric.hp);
-        assertEquals(beforeMp, cleric.mp);
+        assertEquals(beforeHp, cleric.getHp());
+        assertEquals(beforeMp, cleric.getMp());
     }
 
     @Test
@@ -69,15 +70,15 @@ public class ClericTest {
         // given
         int beforeHp = 20;
         int beforeMp = -1;
-        cleric.hp = beforeHp;
-        cleric.mp = beforeMp;
+        cleric.setHp(beforeHp);
+        cleric.setMp(beforeMp);
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(beforeHp, cleric.hp);
-        assertEquals(beforeMp, cleric.mp);
+        assertEquals(beforeHp, cleric.getHp());
+        assertEquals(beforeMp, cleric.getMp());
     }
 
     @Test
@@ -86,38 +87,38 @@ public class ClericTest {
         // given
         int beforeHp = 20;
         int beforeMp = Cleric.COST_MP - 1;
-        cleric.hp = beforeHp;
-        cleric.mp = beforeMp;
+        cleric.setHp(beforeHp);
+        cleric.setMp(beforeMp);
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(beforeHp, cleric.hp);
-        assertEquals(beforeMp, cleric.mp);
+        assertEquals(beforeHp, cleric.getHp());
+        assertEquals(beforeMp, cleric.getMp());
     }
 
     @Test
-    @DisplayName("mp가 COST_MP와 같으면 selfAid가 실행되어 mp가 0이 되고 hp가 최대 체력이 된다")
+    @DisplayName("mp가 COST_MP와 같으면 selfAid가 실행되어 mp가 0이 되고 hp가 MAX_HP가 된다")
     void selfAid_mpEqualsCost_executes() {
         // given
-        cleric.hp = 20;
-        cleric.mp = Cleric.COST_MP;
+        cleric.setHp(20);
+        cleric.setMp(Cleric.COST_MP);
         int expectedMp = 0;
 
         // when
         cleric.selfAid();
 
         // then
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-        assertEquals(expectedMp, cleric.mp);
+        assertEquals(Cleric.MAX_HP, cleric.getHp());
+        assertEquals(expectedMp, cleric.getMp());
     }
 
     @Test
-    @DisplayName("회복한 mp는 초에 랜덤하게 0 ~ 2를 보정한 양이다")
+    @DisplayName("mp 회복량은 초에 랜덤하게 0~2를 보정한 값이다")
     void pray_mpShouldBeAssignedRandomly() {
         // given
-        cleric.mp = 5;
+        cleric.setMp(5);
         int sec = 3;
         List<Integer> expected = List.of(8, 9, 10);
 
@@ -125,62 +126,77 @@ public class ClericTest {
         cleric.pray(sec);
 
         // then
-        assertTrue(expected.contains(cleric.mp));
+        assertTrue(expected.contains(cleric.getMp()));
     }
 
     @Test
-    @DisplayName("회복 후 현재 mp는 최대 마나(10)를 초과하지 않아야 한다")
+    @DisplayName("mp는 회복 시 MAX_MP를 초과하지 않아야 한다")
     void pray_mpShouldBeMax() {
         // given
-        cleric.mp = 5;
+        cleric.setMp(5);
         int sec = 4;
 
         // when
         cleric.pray(sec);
 
         // then
-        assertTrue(cleric.mp <= Cleric.MAX_MP);
+        assertTrue(cleric.getMp() <= Cleric.MAX_MP);
     }
 
     @Test
     @DisplayName("mp가 이미 MAX_MP이면 pray를 해도 MAX_MP를 유지한다")
     void pray_mpAlreadyMax_staysAtMax() {
         // given
-        cleric.mp = Cleric.MAX_MP;
+        cleric.setMp(Cleric.MAX_MP);
+        int sec = 1;
 
         // when
-        cleric.pray(0);
+        cleric.pray(sec);
 
         // then
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+        assertEquals(Cleric.MAX_MP, cleric.getMp());
     }
 
     @Test
     @DisplayName("mp와 heal의 합이 MAX_MP를 넘지 않으면 heal만큼 그대로 더해진다")
     void pray_amountNotExceedMax_addsHeal() {
         // given
-        cleric.mp = 6;
+        cleric.setMp(6);
         int sec = 2; // heal: 2~4, amount: 8~10 (MAX_MP를 넘지 않는 구간)
-        int beforeMp = cleric.mp;
+        int beforeMp = cleric.getMp();
 
         // when
         int heal = cleric.pray(sec);
 
         // then
-        assertEquals(beforeMp + heal, cleric.mp);
+        assertEquals(beforeMp + heal, cleric.getMp());
     }
 
     @Test
     @DisplayName("mp와 heal의 합이 MAX_MP를 넘으면 mp는 MAX_MP로 고정된다")
     void pray_amountExceedsMax_capsAtMax() {
         // given
-        cleric.mp = 9;
+        cleric.setMp(9);
         int sec = 2; // heal: 2~4, amount: 11~13 (항상 MAX_MP 초과)
 
         // when
         cleric.pray(sec);
 
         // then
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+        assertEquals(Cleric.MAX_MP, cleric.getMp());
+    }
+
+    @Test
+    @DisplayName("pray를 실행하려면 최소 1초 이상이 필요하다")
+    void pray_secShouldBeMoreThanOneSeconds() {
+        // given
+        int sec = 0;
+        String errorMessage = "sec(초)는 최소 1초 이상 요구됩니다";
+
+        // when
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class, () -> cleric.pray(sec));
+
+        // then
+        assertEquals(errorMessage, error.getMessage());
     }
 }
