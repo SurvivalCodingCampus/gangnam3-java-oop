@@ -3,17 +3,10 @@ package com.survivalcoding.day04.exam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.jupiter.params.provider.ValueSources;
+import org.junit.jupiter.params.provider.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,10 +18,7 @@ class WandTest {
         final Wand wand = new Wand();
 
         // when & then
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> wand.setName(null)
-        );
+        assertThrows(IllegalArgumentException.class, () -> wand.setName(null));
     }
 
     @ParameterizedTest
@@ -125,10 +115,7 @@ class WizardTest {
         final Wizard wizard = new Wizard();
 
         // when & then
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> wizard.setWand(null)
-        );
+        assertThrows(IllegalArgumentException.class, () -> wizard.setWand(null));
     }
 
     @Test
@@ -230,11 +217,11 @@ class PersonTest {
         );
     }
 
-    @Test
+    @ParameterizedTest
+    @NullAndEmptySource
     @DisplayName("이름이 null이면 예외가 발생한다")
-    void nameShouldNotBeNull() {
+    void nameShouldNotBeNull(final String name) {
         // given
-        final String name = null;
         final int birthYear = LocalDate.now().getYear();
 
         // when & then
@@ -242,7 +229,7 @@ class PersonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "", "   ", "\t" })
+    @ValueSource(strings = { " ", "  ", "\t" })
     @DisplayName("이름이 공란이면 예외가 발생한다")
     void nameShouldNotBeBlank(final String name) {
         // given
