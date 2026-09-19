@@ -58,7 +58,7 @@ public class Main {
 
         hero2.setName("아서스");
 
-        Wand wand = new Wand("나무", 10.0);
+        Wand wand = new Wand("나무지팡이", 10.0);
         Wizard wizard = new Wizard("제이나", 50, 10, wand);
 
         wizard.heal(hero1);

@@ -10,10 +10,10 @@ public class Wizard {
 
     // constructor
     public Wizard(String name, int hp, int mp, Wand wand) {
-        this.hp = hp;
-        this.mp = mp;
-        this.name = name;
-        this.wand = wand;
+        setName(name);
+        setHp(hp);
+        setMp(mp);
+        setWand(wand);
     }
 
     // method

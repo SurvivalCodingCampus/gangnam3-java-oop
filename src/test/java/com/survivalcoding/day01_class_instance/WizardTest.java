@@ -14,7 +14,7 @@ class WizardTest {
 
     @BeforeEach
     void setUp() {
-        Wand wand = new Wand("나무", 10.0);
+        Wand wand = new Wand("나무지팡이", 10.0);
         wizard = new Wizard("위저드", 50, 10, wand);
     }
 
