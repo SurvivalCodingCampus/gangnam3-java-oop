@@ -4,16 +4,20 @@ import java.util.Random;
 
 public class Cleric {
 
+    // constant
     public static final int MAX_HP = 50;
     public static final int MAX_MP = 10;
     public static final int COST_MP = 5;
-    public static final int RANDOM_BOUND = 3;
-    public static final Random RANDOM = new Random();
+    
+    private static final int RANDOM_BOUND = 3;
+    private static final Random RANDOM = new Random();
 
-    public String name;
-    public int hp = MAX_HP;
-    public int mp = MAX_MP;
+    // field
+    private String name;
+    private int hp = MAX_HP;
+    private int mp = MAX_MP;
 
+    // constructor
     public Cleric(String name) {
         this(name, MAX_HP, MAX_MP);
     }
@@ -28,6 +32,33 @@ public class Cleric {
         this.mp = mp;
     }
 
+    // getter
+    public String getName() {
+        return name;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    // setter
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void setMp(int mp) {
+        this.mp = mp;
+    }
+
+    // method
     public void selfAid() {
         if (COST_MP > this.mp) {
             System.out.println("MP가 부족합니다");
@@ -38,6 +69,10 @@ public class Cleric {
     }
 
     public int pray(int sec) {
+        if(sec <= 0) {
+            throw new IllegalArgumentException("sec(초)는 최소 1초 이상 요구됩니다");
+        }
+
         int heal = RANDOM.nextInt(RANDOM_BOUND) + sec;
         int amount = this.mp + heal;
 

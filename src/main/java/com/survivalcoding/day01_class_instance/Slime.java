@@ -2,11 +2,44 @@ package com.survivalcoding.day01_class_instance;
 
 public class Slime {
 
-    // field
-    public int hp;
-    public String suffix;
-    public final int level = 10;
+    // constant
+    private static final int LEVEL = 10;
 
+    // field
+    private String suffix;
+    private int hp;
+    private final int level;
+
+    // constructor
+    public Slime(String suffix, int hp) {
+        this.suffix = suffix;
+        this.hp = hp;
+        this.level = LEVEL;
+    }
+
+    // getter
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int level() {
+        return level;
+    }
+
+    // setter
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    // method
     public void run() {
         System.out.println("슬라임 " + this.suffix + "가 도망갔다");
     }
