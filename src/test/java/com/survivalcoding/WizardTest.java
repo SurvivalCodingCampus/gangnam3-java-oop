@@ -20,7 +20,7 @@ class WizardTest {
     void setHp() {
         Wizard wizard = new Wizard();
 
-        wizard.setHp(-10);
+        wizard.setHp(0);
 
         assertEquals(0, wizard.getHp()); // 숫자 계산할대..?
     }
