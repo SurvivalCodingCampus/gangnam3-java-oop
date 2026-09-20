@@ -1,6 +1,8 @@
 package com.survivalcoding.day04.exam;
 
 public class Wizard {
+    public static final int MIN_MP = 0;
+
     private int hp;
     private int mp;
     private String name;
@@ -31,12 +33,10 @@ public class Wizard {
     }
 
     public void setMp(final int mp) {
-        final int minMp = 0;
-
-        if (mp < minMp) {
+        if (mp < MIN_MP) {
             throw new IllegalArgumentException(
                 "%d 이상의 mp 입력"
-                    .formatted(minMp));
+                    .formatted(MIN_MP));
         }
 
         this.mp = mp;

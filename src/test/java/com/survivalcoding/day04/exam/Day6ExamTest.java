@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Day6_Exam_Test {
+public class Day6ExamTest {
     @Nested
     class WandTest {
         @Test
@@ -77,22 +77,23 @@ public class Day6_Exam_Test {
 
     @Nested
     class WizardTest {
-        @Test
+        @ParameterizedTest
+        @NullSource
         @DisplayName("마법사의 이름은 null일 수 없다")
-        void nameShouldNotBeNull() {
+        void nameShouldNotBeNull(final String name) {
             // given
             final Wizard wizard = new Wizard();
 
             // when & then
-            assertThrows(IllegalArgumentException.class, () -> wizard.setName(null));
+            assertThrows(IllegalArgumentException.class, () -> wizard.setName(name));
         }
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(strings = { "홍길", "홍" })
         @DisplayName("마법사의 이름이 3문자 미만이면 예외가 발생한다")
-        void nameShouldBeAtLeastThreeCharacters() {
+        void nameShouldBeAtLeastThreeCharacters(final String name) {
             // given
             final Wizard wizard = new Wizard();
-            final String name = "홍길"; // 경계 바로 아래: 2문자
 
             // when & then
             assertThrows(IllegalArgumentException.class, () -> wizard.setName(name));
@@ -112,14 +113,15 @@ public class Day6_Exam_Test {
             assertEquals(name, wizard.getName());
         }
 
-        @Test
+        @ParameterizedTest
+        @NullSource
         @DisplayName("마법사의 지팡이는 null일 수 없다")
-        void wandShouldNotBeNull() {
+        void wandShouldNotBeNull(final String name) {
             // given
-            final Wizard wizard = new Wizard();
+            final Wand wand = new Wand();
 
             // when & then
-            assertThrows(IllegalArgumentException.class, () -> wizard.setWand(null));
+            assertThrows(IllegalArgumentException.class, () -> wand.setName(name));
         }
 
         @Test
@@ -139,12 +141,12 @@ public class Day6_Exam_Test {
             assertSame(wand, wizard.getWand());
         }
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(ints = { -1 })
         @DisplayName("MP가 0보다 작으면 예외가 발생한다")
-        void negativeMpShouldThrowException() {
+        void negativeMpShouldThrowException(final int mp) {
             // given
             final Wizard wizard = new Wizard();
-            final int mp = -1; // 경계 바로 아래
 
             // when & then
             assertThrows(IllegalArgumentException.class, () -> wizard.setMp(mp));
@@ -223,7 +225,7 @@ public class Day6_Exam_Test {
         }
 
         @ParameterizedTest
-        @NullAndEmptySource
+        @NullSource
         @DisplayName("이름이 null이면 예외가 발생한다")
         void nameShouldNotBeNull(final String name) {
             // given
