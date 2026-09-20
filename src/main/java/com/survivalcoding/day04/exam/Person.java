@@ -8,12 +8,8 @@ public class Person {
     private final int thisYear = LocalDate.now().getYear();
 
     public Person(final String name, final int birthYear) {
-        if (name == null) {
-            throw new IllegalArgumentException("이름에 널 불가");
-        }
-
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("이름에 공란 불가");
+        if (!Utils.isValidName(name)) {
+            throw new IllegalArgumentException("이름에 널, 공란 불가");
         }
 
         if (birthYear > thisYear) {

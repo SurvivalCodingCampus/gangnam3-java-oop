@@ -1,440 +1,331 @@
 package com.survivalcoding.day04.exam;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClericTest {
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-    @Test
-    @DisplayName("heal을 하면 hp를 10 회복해야 한다")
-    void heal() {
-        // Given
-        final Cleric cleric = new Cleric("엄");
+@DisplayName("Cleric 테스트")
+public class ClericTest {
 
-        // mp소비 코스트보다 높은 값
-        final int enoughMp = Cleric.COST_FOR_SELF_AID;
-        cleric.mp = enoughMp;
-        final int beforeMp = cleric.mp;
+    @Nested
+    @DisplayName("selfAid 테스트")
+    class SelfAidTest {
 
-        // When
-        cleric.selfAid();
+        @Test
+        @DisplayName("MP가 충분하면 MP를 소비하고 HP를 최대로 회복한다")
+        void selfAidWithEnoughMp() {
+            // given
+            final Cleric cleric = new Cleric("엄", 30, Cleric.COST_FOR_SELF_AID);
 
-        // Then
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-        assertEquals(beforeMp - Cleric.COST_FOR_SELF_AID, cleric.mp);
+            final int beforeMp = cleric.getMp();
+
+            // when
+            cleric.selfAid();
+
+            // then
+            assertAll(
+                    () -> assertEquals(Cleric.MAX_HP, cleric.getHp()),
+                    () -> assertEquals(beforeMp - Cleric.COST_FOR_SELF_AID, cleric.getMp())
+            );
+        }
+
+        @Test
+        @DisplayName("MP가 부족하면 HP와 MP가 변하지 않는다")
+        void selfAidWithNotEnoughMp() {
+            // given
+            final Cleric cleric = new Cleric("엄", 30, Cleric.COST_FOR_SELF_AID - 1);
+
+            final int beforeHp = cleric.getHp();
+            final int beforeMp = cleric.getMp();
+
+            // when
+            cleric.selfAid();
+
+            // then
+            assertAll(
+                    () -> assertEquals(beforeHp, cleric.getHp()),
+                    () -> assertEquals(beforeMp, cleric.getMp())
+            );
+        }
     }
 
-    @Test
-    @DisplayName("MP가 부족하면 회복을 못 한다")
-    void heal2() {
-        // Given
-        final Cleric cleric = new Cleric("엄");
+    @Nested
+    @DisplayName("pray 테스트")
+    class PrayTest {
 
-        // 스킬 사용 불가한 costForSelfAid - 1 로 설정
-        final int notEnoughMp = Cleric.COST_FOR_SELF_AID - 1;
-        cleric.mp = notEnoughMp;
-        final int beforeHp = cleric.hp;
-        final int beforeMp = cleric.mp;
+        @Test
+        @DisplayName("MP가 최대값보다 작으면 기도 시간 + 보정치만큼 회복한다")
+        void prayShouldRestoreMp() {
+            // given
+            final Cleric cleric = new Cleric("엄", 10, Cleric.MIN_MP);
 
-        // When
-        cleric.selfAid();
+            final int beforeMp = cleric.getMp();
+            final int durationSecond = 3;
 
-        // Then
-        assertEquals(beforeHp, cleric.hp);
-        assertEquals(beforeMp, cleric.mp);
+            final int minRestoreAmount = durationSecond;
+            final int maxRestoreAmount =
+                    durationSecond + Cleric.MAX_CORRECTION_VALUE;
+
+            // when
+            final int restoreAmount = cleric.pray(durationSecond);
+
+            // then
+            assertAll(
+                    () -> assertTrue(
+                            minRestoreAmount <= restoreAmount
+                                    && restoreAmount <= maxRestoreAmount
+                    ),
+                    () -> assertEquals(beforeMp + restoreAmount, cleric.getMp())
+            );
+        }
+
+        @Test
+        @DisplayName("회복량이 MAX_MP를 초과하면 MAX_MP까지만 회복한다")
+        void prayShouldNotExceedMaxMp() {
+            // given
+            final Cleric cleric = new Cleric("엄", 10, Cleric.MAX_MP - 1);
+
+
+            final int beforeMp = cleric.getMp();
+            final int durationSecond = 3;
+
+            // when
+            final int restoreAmount = cleric.pray(durationSecond);
+
+            // then
+            assertAll(
+                    () -> assertEquals(
+                            Cleric.MAX_MP,
+                            beforeMp + restoreAmount
+                    ),
+                    () -> assertEquals(
+                            Cleric.MAX_MP,
+                            cleric.getMp()
+                    )
+            );
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {-10, -1, 0})
+        @DisplayName("기도 시간이 0 이하이면 -1을 반환하고 MP가 변하지 않는다")
+        void invalidDurationShouldReturnMinusOne(final int durationSecond) {
+            // given
+            final Cleric cleric = new Cleric("엄", 10, Cleric.MIN_MP);
+
+            // then
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> cleric.pray(durationSecond)
+            );
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {1, 5, 10})
+        @DisplayName("이미 최대 MP이면 기도 시간과 관계없이 0을 반환한다")
+        void maxMpShouldReturnZero(final int durationSecond) {
+            // given
+            final Cleric cleric = new Cleric("엄", Cleric.MAX_MP);
+
+            // when
+            final int restoreAmount = cleric.pray(durationSecond);
+
+            // then
+            assertAll(
+                    () -> assertEquals(0, restoreAmount),
+                    () -> assertEquals(Cleric.MAX_MP, cleric.getMp())
+            );
+        }
     }
 
-    @Test
-    @DisplayName("회복 마나가 최댓값보다 작을 때")
-    void restoreMp() {
-        // Given
-        final Cleric cleric = new Cleric("엄");
+    @Nested
+    @DisplayName("생성자 테스트")
+    class ConstructorTest {
 
-        // 최대값보다 작은 값
-        final int minMp = 0;
+        @Test
+        @DisplayName("이름만 입력하면 HP와 MP는 최대값으로 초기화된다")
+        void createWithName() {
+            // given
+            final String name = "홍길동";
 
-        cleric.mp = minMp;
-        final int beforeMp = cleric.mp;
-        final int durationSecond = 3;
+            // when
+            final Cleric cleric = new Cleric(name);
 
-        final int minMpRestoreAmount = beforeMp + durationSecond;
-        final int maxMpRestoreAmount = minMpRestoreAmount + Cleric.MAX_CORRECTION_VALUE;
+            // then
+            assertAll(
+                    () -> assertEquals(name, cleric.getName()),
+                    () -> assertEquals(Cleric.MAX_HP, cleric.getHp()),
+                    () -> assertEquals(Cleric.MAX_MP, cleric.getMp())
+            );
+        }
 
-        System.out.println(minMpRestoreAmount);
-        System.out.println(maxMpRestoreAmount);
-        // When
-        final int mpRestoreAmount = cleric.pray(durationSecond);
-        boolean isInRange = minMpRestoreAmount <= cleric.mp && cleric.mp <= maxMpRestoreAmount;
+        @Test
+        @DisplayName("이름과 HP만 입력하면 MP는 최대값으로 초기화된다")
+        void createWithNameAndHp() {
+            // given
+            final String name = "홍길동";
+            final int hp = 30;
 
+            // when
+            final Cleric cleric = new Cleric(name, hp);
 
-        System.out.println(cleric.mp);
-        // Then
-        assertTrue(isInRange);
-        assertEquals(beforeMp + mpRestoreAmount, cleric.mp);
+            // then
+            assertAll(
+                    () -> assertEquals(name, cleric.getName()),
+                    () -> assertEquals(hp, cleric.getHp()),
+                    () -> assertEquals(Cleric.MAX_MP, cleric.getMp())
+            );
+        }
+
+        @Test
+        @DisplayName("이름, HP, MP를 입력하면 해당 값으로 초기화된다")
+        void createWithNameHpAndMp() {
+            // given
+            final String name = "홍길동";
+            final int hp = 30;
+            final int mp = 5;
+
+            // when
+            final Cleric cleric = new Cleric(name, hp, mp);
+
+            // then
+            assertAll(
+                    () -> assertEquals(name, cleric.getName()),
+                    () -> assertEquals(hp, cleric.getHp()),
+                    () -> assertEquals(mp, cleric.getMp())
+            );
+        }
     }
 
-    @Test
-    @DisplayName("회복 마나가 maxMp를 넘길 때")
-    void restoreMp2() {
-        // Given
-        final Cleric cleric = new Cleric("엄");
+    @Nested
+    @DisplayName("이름 검증 테스트")
+    class NameValidationTest {
 
-        // mp 최대값에 가깝게
-        final int mpNearMax = cleric.MAX_MP - 1;
-        cleric.mp = mpNearMax;
-        final int beforeMp = cleric.mp;
-        final int durationSecond = 3;
+        @ParameterizedTest
+        @NullAndEmptySource
+        @ValueSource(strings = {" ", "     "})
+        @DisplayName("이름이 null, 빈 문자열 또는 공백이면 예외가 발생한다")
+        void invalidNameShouldThrowException(final String name) {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Cleric(name)
+            );
+        }
 
-        // When
-        final int mpRestoreAmount = cleric.pray(durationSecond);
+        @ParameterizedTest
+        @ValueSource(strings = {"홍길동", "엄", "Cleric"})
+        @DisplayName("유효한 이름은 정상적으로 저장된다")
+        void validNameShouldBeStored(final String name) {
+            // when
+            final Cleric cleric = new Cleric(name);
 
-        // Then
-        assertEquals(Cleric.MAX_MP, beforeMp + mpRestoreAmount);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+            // then
+            assertEquals(name, cleric.getName());
+        }
     }
 
-    @Test
-    @DisplayName("잘못된 기도 시간")
-    void restoreMp3() {
-        // Given
-        final int minMp = 0;
-        final Cleric cleric = new Cleric("엄");
-        cleric.mp = minMp;
-        final int invalidDurationSecond = -1;
-        final int invalidDurationErrCode = -1;
-        final int beforeMp = cleric.mp;
+    @Nested
+    @DisplayName("HP 경계값 테스트")
+    class HpValidationTest {
 
-        // When
-        final int mpRestoreAmount = cleric.pray(invalidDurationSecond);
+        @ParameterizedTest
+        @ValueSource(ints = {
+                Cleric.MIN_HP,
+                Cleric.MIN_HP + 1,
+                Cleric.MAX_HP - 1,
+                Cleric.MAX_HP
+        })
+        @DisplayName("HP가 허용 범위 안이면 정상적으로 생성된다")
+        void validHpShouldBeAccepted(final int hp) {
+            // when
+            final Cleric cleric =
+                    new Cleric("홍길동", hp);
 
-        // Then
-        assertEquals(invalidDurationErrCode, mpRestoreAmount);
-        assertEquals(beforeMp, cleric.mp);
+            // then
+            assertEquals(hp, cleric.getHp());
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {
+                Cleric.MIN_HP - 1,
+                Cleric.MAX_HP + 1
+        })
+        @DisplayName("HP가 허용 범위를 벗어나면 예외가 발생한다")
+        void invalidHpShouldThrowException(final int hp) {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Cleric("홍길동", hp)
+            );
+        }
     }
 
-    @Test
-    @DisplayName("최대 마나면 회복 불가")
-    void restoreMp4() {
-        // Given
-        final Cleric cleric = new Cleric("엄");
-        cleric.mp = Cleric.MAX_MP;
-        final int durationSecond = 5;
-        final int maxMpCode = 0;
-        final int beforeMp = cleric.mp;
+    @Nested
+    @DisplayName("MP 경계값 테스트")
+    class MpValidationTest {
 
-        // When
-        final int mpRestoreAmount = cleric.pray(durationSecond);
+        @ParameterizedTest
+        @ValueSource(ints = {
+                Cleric.MIN_MP,
+                Cleric.MIN_MP + 1,
+                Cleric.MAX_MP - 1,
+                Cleric.MAX_MP
+        })
+        @DisplayName("MP가 허용 범위 안이면 정상적으로 생성된다")
+        void validMpShouldBeAccepted(final int mp) {
+            // when
+            final Cleric cleric =
+                    new Cleric("홍길동", 30, mp);
 
-        // Then
-        assertEquals(maxMpCode, mpRestoreAmount);
-        assertEquals(beforeMp, cleric.mp);
-    }
-}
+            // then
+            assertEquals(mp, cleric.getMp());
+        }
 
-@DisplayName("생성 테스트")
-class ClericTestDay05 {
-
-    @Test
-    @DisplayName("이름만 입력하면 HP와 MP는 최대값으로 초기화된다")
-    void createWithNameShouldSetMaxHpAndMp() {
-        // given
-        final String name = "홍길동";
-
-        // when
-        final Cleric cleric = Cleric.CreateOrNull(name);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(name, cleric.name);
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
+        @ParameterizedTest
+        @ValueSource(ints = {
+                Cleric.MIN_MP - 1,
+                Cleric.MAX_MP + 1
+        })
+        @DisplayName("MP가 허용 범위를 벗어나면 예외가 발생한다")
+        void invalidMpShouldThrowException(final int mp) {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Cleric("홍길동", 30, mp)
+            );
+        }
     }
 
-    @Test
-    @DisplayName("이름과 HP만 입력하면 MP는 최대값으로 초기화된다")
-    void createWithNameAndHpShouldSetMaxMp() {
-        // given
-        final String name = "홍길동";
-        final int hp = 30;
+    @Nested
+    @DisplayName("복합 입력 검증 테스트")
+    class MultipleValidationTest {
 
-        // when
-        final Cleric cleric = Cleric.CreateOrNull(name, hp);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(name, cleric.name);
-        assertEquals(hp, cleric.hp);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("이름, HP, MP를 입력하면 해당 값으로 초기화된다")
-    void createWithNameHpAndMpShouldSetAllValues() {
-        // given
-        final String name = "홍길동";
-        final int hp = 30;
-        final int mp = 5;
-
-        // when
-        final Cleric cleric = Cleric.CreateOrNull(name, hp, mp);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(name, cleric.name);
-        assertEquals(hp, cleric.hp);
-        assertEquals(mp, cleric.mp);
-    }
-
-    // --------------------------------------------------
-    // 이름 테스트
-    // --------------------------------------------------
-
-    @Test
-    @DisplayName("이름이 null이면 Cleric을 생성하지 않는다")
-    void nameShouldNotAcceptNull() {
-        // when
-        final Cleric cleric = Cleric.CreateOrNull(null);
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("이름이 빈 문자열이면 Cleric을 생성하지 않는다")
-    void nameShouldNotAcceptEmptyString() {
-        // when
-        final Cleric cleric = Cleric.CreateOrNull("");
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("이름이 공백 한 칸이면 Cleric을 생성하지 않는다")
-    void nameShouldNotAcceptSingleBlank() {
-        // when
-        final Cleric cleric = Cleric.CreateOrNull(" ");
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("이름이 여러 공백이면 Cleric을 생성하지 않는다")
-    void nameShouldNotAcceptMultipleBlanks() {
-        // when
-        final Cleric cleric = Cleric.CreateOrNull("     ");
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("일반적인 이름은 정상적으로 저장된다 - 동등 분할")
-    void validNameShouldBeStored() {
-        // given
-        final String name = "홍길동";
-
-        // when
-        final Cleric cleric = Cleric.CreateOrNull(name);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(name, cleric.name);
-    }
-
-    // --------------------------------------------------
-    // HP 테스트
-    // 현재 허용 범위: 0 ~ MAX_HP
-    // --------------------------------------------------
-
-    @Test
-    @DisplayName("HP 최소값 0은 저장된다")
-    void hpMinimumBoundary() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(Cleric.MIN_HP, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최소값보다 작은 값은 허용되지 않는다")
-    void hpBelowMinimumShouldNotBeAccepted() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP - 1);
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("HP 최소값 바로 위인 1은 저장된다")
-    void hpJustAboveMinimum() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", Cleric.MIN_HP + 1);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(1, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최대값 바로 아래 값은 저장된다")
-    void hpJustBelowMaximum() {
-        // given
-        final int hp = Cleric.MAX_HP - 1;
-
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", hp);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(hp, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최대값은 저장된다")
-    void hpMaximumBoundary() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(Cleric.MAX_HP, cleric.hp);
-    }
-
-    @Test
-    @DisplayName("HP 최대값보다 큰 값은 허용되지 않는다")
-    void hpOverMaximumShouldNotBeAccepted() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1);
-
-        // then
-        assertNull(cleric);
-    }
-
-    // --------------------------------------------------
-    // MP 테스트
-    // 현재 허용 범위: 0 ~ MAX_MP
-    // --------------------------------------------------
-
-    @Test
-    @DisplayName("MP 최소값 0은 저장된다")
-    void mpMinimumBoundary() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, Cleric.MIN_MP);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(Cleric.MIN_MP, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 최소값보다 작은 값은 허용되지 않는다")
-    void mpBelowMinimumShouldNotBeAccepted() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, Cleric.MIN_MP - 1);
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("MP 최소값 바로 위인 1은 저장된다")
-    void mpJustAboveMinimum() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, Cleric.MIN_MP + 1);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(1, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 최대값 바로 아래 값은 저장된다")
-    void mpJustBelowMaximum() {
-        // given
-        final int mp = Cleric.MAX_MP - 1;
-
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, mp);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(mp, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 최대값은 저장된다")
-    void mpMaximumBoundary() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP);
-
-        // then
-        assertNotNull(cleric);
-        assertEquals(Cleric.MAX_MP, cleric.mp);
-    }
-
-    @Test
-    @DisplayName("MP 최대값보다 큰 값은 허용되지 않는다")
-    void mpOverMaximumShouldNotBeAccepted() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP + 1);
-
-        // then
-        assertNull(cleric);
-    }
-
-    // --------------------------------------------------
-    // 복합 잘못된 값 테스트
-    // --------------------------------------------------
-
-    @Test
-    @DisplayName("이름이 잘못되면 HP가 정상이어도 생성되지 않는다")
-    void invalidNameWithValidHpShouldReturnNull() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("", 30);
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("이름과 HP가 정상이어도 MP가 범위를 벗어나면 생성되지 않는다")
-    void invalidMpShouldReturnNull() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", 30, Cleric.MAX_MP + 1);
-
-        // then
-        assertNull(cleric);
-    }
-
-    @Test
-    @DisplayName("이름과 MP가 정상이어도 HP가 범위를 벗어나면 생성되지 않는다")
-    void invalidHpShouldReturnNull() {
-        // when
-        final Cleric cleric =
-                Cleric.CreateOrNull("홍길동", Cleric.MAX_HP + 1, 5);
-
-        // then
-        assertNull(cleric);
+        @ParameterizedTest
+        @CsvSource({
+                "'', 30, 5",
+                "' ', 30, 5",
+                "'홍길동', -1, 5",
+                "'홍길동', 51, 5",
+                "'홍길동', 30, -1",
+                "'홍길동', 30, 11",
+                "'', -1, 5",
+                "'', 30, 11",
+                "'홍길동', -1, 11",
+                "'', -1, 11"
+        })
+        @DisplayName("하나 이상의 입력값이 잘못되면 예외가 발생한다")
+        void invalidValuesShouldThrowException(
+            final String name,
+            final int hp,
+            final int mp
+        ) {
+            assertThrows(
+                IllegalArgumentException.class,
+                () -> new Cleric(name, hp, mp)
+            );
+        }
     }
 }
