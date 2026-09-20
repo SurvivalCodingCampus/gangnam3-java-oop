@@ -113,15 +113,14 @@ public class Day6ExamTest {
             assertEquals(name, wizard.getName());
         }
 
-        @ParameterizedTest
-        @NullSource
+        @Test
         @DisplayName("마법사의 지팡이는 null일 수 없다")
-        void wandShouldNotBeNull(final String name) {
+        void wandShouldNotBeNull() {
             // given
-            final Wand wand = new Wand();
+            final Wizard wizard = new Wizard();
 
             // when & then
-            assertThrows(IllegalArgumentException.class, () -> wand.setName(name));
+            assertThrows(IllegalArgumentException.class, () -> wizard.setWand(null));
         }
 
         @Test

@@ -92,5 +92,7 @@ public class Hero {
         if (name.length() >= 8) {
             throw new IllegalArgumentException("이름이 너무 긺");
         }
+
+        this.name = name;
     }
 }

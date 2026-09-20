@@ -130,7 +130,7 @@ public class ClericTest {
         @DisplayName("이미 최대 MP이면 기도 시간과 관계없이 0을 반환한다")
         void maxMpShouldReturnZero(final int durationSecond) {
             // given
-            final Cleric cleric = new Cleric("엄", Cleric.MAX_MP);
+            final Cleric cleric = new Cleric("엄", 10, Cleric.MAX_MP);
 
             // when
             final int restoreAmount = cleric.pray(durationSecond);

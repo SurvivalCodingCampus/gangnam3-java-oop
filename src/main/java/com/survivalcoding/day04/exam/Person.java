@@ -5,14 +5,13 @@ import java.time.LocalDate;
 public class Person {
     private final String name;
     private final int birthYear;
-    private final int thisYear = LocalDate.now().getYear();
 
     public Person(final String name, final int birthYear) {
         if (!Utils.isValidName(name)) {
             throw new IllegalArgumentException("이름에 널, 공란 불가");
         }
 
-        if (birthYear > thisYear) {
+        if (birthYear > LocalDate.now().getYear()) {
             throw new IllegalArgumentException("미래는 불가");
         }
 
@@ -21,7 +20,7 @@ public class Person {
     }
 
     public int getAge() {
-        int age = thisYear - birthYear;
+        int age = LocalDate.now().getYear() - birthYear;
 
         return age;
     }
