@@ -13,9 +13,9 @@ class Cleric {
     private String name;
     
     Cleric(String name, int hp, int mp) {
-        this.name = name;
-        this.hp = hp;
-        this.mp = mp;
+        setName(name);
+        setHp(hp);
+        setMp(mp);
     }
     
     Cleric(String name, int hp) {
