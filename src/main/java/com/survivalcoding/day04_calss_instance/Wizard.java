@@ -81,10 +81,6 @@ public class Wizard {
     }
     
     // method
-    private int ensureAtLeast(int value, int min) {  // 최솟값 보장
-        return Math.max(value, min);
-    }
-    
     private int preventNegativeValue(int value) {
         return Math.max(value, 0);
     }
