@@ -13,7 +13,7 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 이름 3글자 이상 정상 설정 (동등 분할)")
-    void wandNameValid() {
+    void nameValid() {
         Wand wand = new Wand();
         wand.setName("불의지팡이");
         assertEquals("불의지팡이", wand.getName());
@@ -21,7 +21,7 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 이름 3글자 경계값 정상 설정 (경계값 분석)")
-    void wandNameBoundaryValid() {
+    void nameBoundaryValid() {
         Wand wand = new Wand();
         wand.setName("나무지"); // 3글자 (MIN_NAME_LENGTH = 2 이므로 length() > 2 만족)
         assertEquals("나무지", wand.getName());
@@ -29,7 +29,7 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 이름 2글자 이하 예외 발생 (경계값 분석)")
-    void wandNameBoundaryInvalid() {
+    void nameBoundaryInvalid() {
         Wand wand = new Wand();
         assertThrows(IllegalArgumentException.class, () -> wand.setName("지팡")); // 2글자
         assertThrows(IllegalArgumentException.class, () -> wand.setName("봉")); // 1글자
@@ -37,14 +37,14 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 이름 null 예외 발생")
-    void wandNameNullInvalid() {
+    void nameNullInvalid() {
         Wand wand = new Wand();
         assertThrows(IllegalArgumentException.class, () -> wand.setName(null));
     }
     
     @Test
     @DisplayName("Wand: 마력(Power) 정상 범위 설정 (동등 분할)")
-    void wandPowerValid() {
+    void powerValid() {
         Wand wand = new Wand();
         wand.setPower(50.0); // 0.5 ~ 100.0 사이의 임의의 값
         assertEquals(50.0, wand.getPower());
@@ -52,7 +52,7 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 마력(Power) 하한 경계값 정상 설정 (경계값 분석)")
-    void wandPowerLowerBoundaryValid() {
+    void powerLowerBoundaryValid() {
         Wand wand = new Wand();
         wand.setPower(Wand.MIN_POWER); // 하한값
         assertEquals(Wand.MIN_POWER, wand.getPower());
@@ -60,7 +60,7 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 마력(Power) 상한 경계값 정상 설정 (경계값 분석)")
-    void wandPowerUpperBoundaryValid() {
+    void powerUpperBoundaryValid() {
         Wand wand = new Wand();
         wand.setPower(Wand.MAX_POWER); // 상한값
         assertEquals(Wand.MAX_POWER, wand.getPower());
@@ -68,14 +68,14 @@ class WizardWandTest {
     
     @Test
     @DisplayName("Wand: 마력(Power) 하한 미만 예외 발생 (경계값 분석)")
-    void wandPowerLowerBoundaryInvalid() {
+    void powerLowerBoundaryInvalid() {
         Wand wand = new Wand();
         assertThrows(IllegalArgumentException.class, () -> wand.setPower(0.49));
     }
     
     @Test
     @DisplayName("Wand: 마력(Power) 상한 초과 예외 발생 (경계값 분석)")
-    void wandPowerUpperBoundaryInvalid() {
+    void powerUpperBoundaryInvalid() {
         Wand wand = new Wand();
         assertThrows(IllegalArgumentException.class, () -> wand.setPower(100.01));
     }
