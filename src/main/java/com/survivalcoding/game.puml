@@ -7,13 +7,28 @@ class Cleric {
     int mp
 
     + void selfaid()
+    + pray
+
+}
+Wand --> Wizard
+
+class Wizard {
+- String name
+- int mp
+- int hp
+- Wand
+
 }
 
-class Hero {
-    - String name;
-    int hp
+class Wand{
+- String name
+- double power
 
-    + void run()
 }
+
+
+
+
+
 
 @enduml
