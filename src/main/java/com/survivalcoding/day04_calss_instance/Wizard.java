@@ -31,7 +31,7 @@ public class Wizard {
     }
     
     public Wizard(String name, int hp, int mp, Wand wand) {
-        this.name = name;
+        setName(name);
         setHp(hp);
         setMp(mp);
         setWand(wand);
