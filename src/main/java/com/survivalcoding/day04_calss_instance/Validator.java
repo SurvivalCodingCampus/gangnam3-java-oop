@@ -32,13 +32,13 @@ public class Validator {
     }
     
     public static void validateAtLeast(double value, double min) {  // min 이상인지 확인
-        if (value < min) {
+        if ((Double.isNaN(value)) || (value < min)) {
             throw new IllegalArgumentException("값은 %f 이상이어야 함".formatted(min));
         }
     }
     
     public static void validateAtMost(double value, double max) {  // max 이하인지 확인
-        if (value > max) {
+        if ((Double.isNaN(value)) || (value > max)) {
             throw new IllegalArgumentException("값은 %f 이하여야 함".formatted(max));
         }
     }
