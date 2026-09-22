@@ -1,12 +1,28 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Slime {
-    final int level = 10;
+    static final int LEVEL = 10;
     
-    int hp;
-    String suffix;
+    private int hp;
+    private String suffix;
+    
+    public int getHp() {
+        return hp;
+    }
+    
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+    
+    public String getSuffix() {
+        return suffix;
+    }
+    
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
     
     void run() {
-        System.out.printf("슬라임 %s가 도망갔다%n", this.suffix);
+        System.out.printf("슬라임 %s가 도망갔다%n", suffix);
     }
 }
