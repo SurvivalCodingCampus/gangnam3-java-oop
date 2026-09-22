@@ -65,7 +65,7 @@ class Hero {
 
 class Person {
 - name : String [final]
-- birthYear : String [final]
+- birthYear : int [final]
 - thisYear : int [final]
 + Person(name : String , birthYear : int)
 + getAge() int
@@ -85,17 +85,17 @@ class Cleric {
 + Cleric(name : String , hp : int )
 + Cleric(name : String )
 + selfAid() void
-+ pray(durationSecond : int) int
++ pray(durationSecond : int) mpRestoreAmount : int
 + getMp() int
 + getHp() int
 + getName() String
 }
 
 Wizard *-- Wand
-Wizard ..> Hero : 힐
-King ..> Hero : 부름
+Wizard ..> Hero
+King ..> Hero
 Hero *-- Sword
-Hero ..> Slime : 공격 
+Hero ..> Slime
 ```
 
 
