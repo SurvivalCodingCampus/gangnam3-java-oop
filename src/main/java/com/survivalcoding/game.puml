@@ -1,0 +1,109 @@
+@startuml
+' 현재 Person.java, Wand.java, Wizard.java의 선언을 기준으로 작성한다.
+' Hero는 heal()에서 사용하는 공개 메서드만 표시한다.
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+title 캡슐화 클래스 관계도
+class Person {
+    - {static} MIN_NAME_LENGTH : int = 2 {readOnly}
+    - {static} MIN_BIRTH_YEAR : int = 1 {readOnly}
+    --
+    - name : String {readOnly}
+    - birthYear : int {readOnly}
+    --
+    + Person(name : String, birthYear : int)
+    + getName() : String
+    + getBirthYear() : int
+    + getAge() : int
+    --
+    - validateName(name : String) : void
+    - validateBirthYear(birthYear : int) : void
+}
+class Wand {
+    - {static} MIN_NAME_LENGTH : int = 3 {readOnly}
+    - {static} MIN_POWER : double = 0.5 {readOnly}
+    - {static} MAX_POWER : double = 100.0 {readOnly}
+    --
+    - name : String
+    - power : double
+    --
+    + getName() : String
+    + setName(name : String) : void
+    + getPower() : double
+    + setPower(power : double) : void
+    --
+    - validateName(name : String) : void
+    - validatePower(power : double) : void
+}
+class Wizard {
+    - {static} MIN_NAME_LENGTH : int = 3 {readOnly}
+    - {static} MIN_HP : int = 0 {readOnly}
+    - {static} MIN_MP : int = 0 {readOnly}
+    - {static} BASE_POINT : int = 10 {readOnly}
+    --
+    - hp : int
+    - mp : int
+    - name : String
+    - wand : Wand
+    --
+    + heal(hero : Hero) : void
+    + getHp() : int
+    + setHp(hp : int) : void
+    + getMp() : int
+    + setMp(mp : int) : void
+    + getName() : String
+    + setName(name : String) : void
+    + getWand() : Wand
+    + setWand(wand : Wand) : void
+    --
+    - validateMp(mp : int) : void
+    - validateName(name : String) : void
+    - validateWand(wand : Wand) : void
+}
+class Hero <<일부 메서드만 표시>> {
+    + getName() : String
+    + getHp() : int
+    + setHp(hp : int) : void
+}
+' 필드로 참조를 보관하므로 단방향 연관이다.
+' 기본 생성 직후 wand는 null이며, 같은 Wand를 여러 Wizard가 공유할 수 있다.
+Wizard "0..*" --> "0..1" Wand : wand / 장착
+' 메서드 인수로 받아 사용하고 필드에 보관하지 않으므로 의존이다.
+Wizard ..> Hero : heal(hero) / 회복
+note bottom of Person
+    이름과 출생 연도는 생성 후 변경 불가
+    getAge() = 현재 연도 - birthYear
+    나이 필드와 setter는 없음
+    다른 게임 클래스와 직접적인 관계 없음
+end note
+note bottom of Wizard
+    heal()의 지역변수:
+    recovPoint = (int) (BASE_POINT * wand.getPower())
+    healedHp = Math.addExact(hero.getHp(), recovPoint)
+    hero.setHp(healedHp)
+    지역변수는 클래스 필드에 넣지 않음
+end note
+legend bottom
+    + : public / - : private
+    밑줄 : static / {readOnly} : final (재대입 불가)
+    실선 화살표 : 연관 (필드로 보관)
+    점선 화살표 : 의존 (메서드에서 사용)
+    0..1 : 없거나 하나 / 0..* : 없거나 여러 개
+    Wizard와 Wand의 암시적 기본 생성자는 생략
+    즉 기본적으로 생성되는 생성자 생략
+    EX)
+    Wand wand = new Wand();
+    Wizard wizard = new Wizard();
+
+    public Wand() {
+    }
+
+    public Wizard() {
+    }
+
+
+    Java 표준 라이브러리에 대한 의존은 생략
+endlegend
+@enduml
