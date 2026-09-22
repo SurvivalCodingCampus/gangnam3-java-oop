@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
+    static final int COUNTER_ATTACK_DAMAGE = 10;
+    static final int SLIP_DAMAGE = 5;
+    static final int MAX_HP = 100;
+    
     static int money = 100;
     
     private Sword sword;
@@ -42,7 +46,7 @@ public class Hero {
     }
     
     public void setHp(int hp) {
-        this.hp = hp;
+        this.hp = Math.min(MAX_HP, hp);
     }
     
     public Sword getSword() { return sword; }
@@ -63,34 +67,36 @@ public class Hero {
     
     public void counterattacked() {
         System.out.println("반격을 받았다");
-        hp -= 10;
+        setHp(hp - COUNTER_ATTACK_DAMAGE);
         if (hp < 1) {
             die();
         }
     }
     
     public void run() {
-        System.out.printf("%s는 도망쳤다!%n", this.name);
+        System.out.printf("%s는 도망쳤다!%n", name);
         System.out.println("GAME OVER!");
-        System.out.printf("최종 HP는 %d 입니다%n", this.hp);
+        System.out.printf("최종 HP는 %d 입니다%n", hp);
     }
     
     public void sit(int sec) {
-        this.hp += sec;  // 앉은 시간 만큼 HP 증가
+        setHp(hp + sec);
         
-        System.out.printf("%s는 %d초 앉았다%n", this.name, sec);
+        System.out.printf("%s는 %d초 앉았다%n", name, sec);
         System.out.printf("HP가 %d 포인트 회복되었다%n", sec);
     }
     
     public void slip() {
-        this.hp -= 5;
+        setHp(hp - SLIP_DAMAGE);
         
-        System.out.printf("%s는 넘어졌다!%n", this.name);
-        System.out.println("5의 데미지!");
+        System.out.printf("%s는 넘어졌다!%n", name);
+        System.out.printf("%s의 데미지!%n", SLIP_DAMAGE);
     }
     
     public void sleep() {
-        this.hp = 100;  // 100 = magic number. 이게 뭔데? 라고 물어볼 수 있음. max_hp 이런 식으로 따로 설정해줘야 함
+//        this.hp = 100;  // 100 = magic number. 이게 뭔데? 라고 물어볼 수 있음. max_hp 이런 식으로 따로 설정해줘야 함
+        setHp(MAX_HP);
+        
         System.out.printf("%s는 잠을 자고 회복했다!%n", this.name);
     }
     
