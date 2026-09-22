@@ -46,7 +46,10 @@ public class Hero {
     }
     
     public void setHp(int hp) {
-        this.hp = Math.min(MAX_HP, hp);
+//        this.hp = Math.min(MAX_HP, hp);
+        Validator.validateAtMost(hp, MAX_HP);
+        
+        this.hp = hp;
     }
     
     public Sword getSword() { return sword; }
