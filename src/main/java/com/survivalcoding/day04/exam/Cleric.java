@@ -14,28 +14,9 @@ public class Cleric {
 
     // 생성자를 바로 이용해서 생성하지 않음
     public Cleric(final String name, final int hp, final int mp) {
-
-        String validationErrorMsg = "";
-
-        if (!Utils.isValidName(name)) {
-            validationErrorMsg += "올바른 이름을 넣어주세요\n";
-        }
-
-        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
-            validationErrorMsg += "올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")\n";
-        }
-
-        if (!Utils.isWithinRange(mp, MAX_MP, MIN_MP)) {
-            validationErrorMsg += "올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + MIN_MP + ")\n";
-        }
-
-        if (!validationErrorMsg.isBlank()) {
-            throw new IllegalArgumentException(validationErrorMsg);
-        }
-
-        this.name = name;
-        this.hp = hp;
-        this.mp = mp;
+        setName(name);
+        setHp(hp);
+        setMp(mp);
     }
 
     // 생성자를 바로 이용해서 생성하지 않음
@@ -98,5 +79,29 @@ public class Cleric {
 
     public String getName() {
         return name;
+    }
+
+    public void setHp(final int hp) {
+        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
+            throw new IllegalArgumentException("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
+        }
+
+        this.hp = hp;
+    }
+
+    public void setMp(final int mp) {
+        if (!Utils.isWithinRange(mp, MAX_MP, MIN_MP)) {
+             throw new IllegalArgumentException("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + MIN_MP + ")");
+        }
+
+        this.mp = mp;
+    }
+
+    public void setName(final String name) {
+        if (!Utils.isValidName(name)) {
+            throw new IllegalArgumentException("올바른 이름을 넣어주세요");
+        }
+
+        this.name = name;
     }
 }
