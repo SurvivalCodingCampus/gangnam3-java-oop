@@ -1,0 +1,14 @@
+@startuml
+
+scale 2
+
+class Cleric {
+    - String name
+    - int hp
+    - int mp
+
+    + void selfAid()
+    + int pray(int seconds)
+}
+
+@enduml

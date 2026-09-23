@@ -2,8 +2,16 @@ package com.survivalcoding.day01_class_instance;
 
 public class Hero {
     // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
-    String name;
-    int hp;
+    private String name;
+    private int hp;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     // 기능 (method)
     void attack() {}
