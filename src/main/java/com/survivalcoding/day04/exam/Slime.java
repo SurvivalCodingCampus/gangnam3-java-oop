@@ -8,4 +8,12 @@ public class Slime {
     void run() {
         System.out.println("슬라임 " + suffix + "가 도망갔다");
     }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(final int hp) {
+        this.hp = hp;
+    }
 }

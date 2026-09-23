@@ -19,6 +19,11 @@ public class Hero {
         hp = MAX_HP;
     }
 
+    public Hero(String name, int hp) {
+        this.name = name;
+        this.hp = hp;
+    }
+
     public void setRandomMoney() {
         money = new Random().nextInt(1000);
     }
@@ -42,7 +47,7 @@ public class Hero {
     }
 
     public void attack(final Slime slime) {
-        System.out.println("반격을 받았다");
+        System.out.println(name + "이 공격했다");
         hp -= 10;
 
         if (hp < 1) {
@@ -51,9 +56,7 @@ public class Hero {
     }
 
     public void run() {
-        System.out.println(name + "는 도망쳤다!");
-        System.out.println("GAME OVER");
-        System.out.println("최종 HP는" + hp + " 입니다");
+        System.out.println(name + "이 도망쳤다!");
     }
 
     public void slip() {
