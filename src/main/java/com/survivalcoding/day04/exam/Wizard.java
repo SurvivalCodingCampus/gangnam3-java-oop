@@ -1,21 +1,25 @@
 package com.survivalcoding.day04.exam;
 
 public class Wizard {
-    public static final int MIN_MP = 0;
-    public static final int HEAL_HP_AMOUNT = 20;
-    public static final int COST_FOR_HEAL = 10;
+    private static final int MIN_MP = 0;
+    private static final int HEAL_HP_AMOUNT = 20;
+    private static final int COST_FOR_HEAL = 10;
 
-    private int hp;
-    private int mp;
-    private String name;
-    private Wand wand;
+    protected int hp;
+    protected int mp;
+    protected String name;
+    protected Wand wand;
 
     public Wizard() {
         mp = 100;
     }
 
-    private void heal(final Hero hero) {
-        if (mp - COST_FOR_HEAL < MIN_MP) {
+    public void heal(final Hero hero) {
+        heal(hero, COST_FOR_HEAL, HEAL_HP_AMOUNT, "힐을 시전했습니다.");
+    }
+
+    protected void heal(final Hero hero, int cost, int amount, String msg) {
+        if (mp - cost < MIN_MP) {
             System.out.println("마나가 부족합니다");
             return;
         }
@@ -27,10 +31,10 @@ public class Wizard {
             return;
         }
 
-        mp -= COST_FOR_HEAL;
-        hero.setHp(Math.min(Hero.MAX_HP, heroHp + HEAL_HP_AMOUNT));
+        mp -= cost;
+        hero.setHp(Math.min(Hero.MAX_HP, heroHp + amount));
 
-        System.out.println("힐을 시전했습니다. 대상 HP: " + hero.getHp());
+        System.out.println(msg + " 대상 HP: " + hero.getHp());
     }
 
     public int getHp() {
