@@ -11,10 +11,24 @@ public class Slime {
         setPower(power);
     }
 
-    void attack(final Hero hero) {
+    public void attack(final Hero hero) {
         System.out.println("슬라임 " + suffix + "이/가 공격했다");
         System.out.println(power + "의 데미지");
         hero.takeDamage(power);
+    }
+
+    public void takeDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("1보다 작은값은 불가 ");
+        }
+
+        if (hp - damage < 1) {
+            die();
+        }
+    }
+
+    private void die() {
+        System.out.println("슬라임" + suffix + "는 죽었다");
     }
 
     public int getHp() {
@@ -45,5 +59,9 @@ public class Slime {
 
     public int getPower() {
         return power;
+    }
+
+    public String getSuffix() {
+        return suffix;
     }
 }

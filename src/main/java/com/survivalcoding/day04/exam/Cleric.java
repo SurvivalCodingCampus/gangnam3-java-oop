@@ -5,8 +5,6 @@ public class Cleric {
     public static final int MAX_CORRECTION_VALUE = 2;
     public static final int MAX_HP = 50;
     public static final int MAX_MP = 10;
-    public static final int MIN_HP = 0;
-    public static final int MIN_MP = 0;
 
     private int hp;
     private int mp;
@@ -30,7 +28,7 @@ public class Cleric {
     }
 
     public void selfAid() {
-        if (mp - COST_FOR_SELF_AID < MIN_MP) {
+        if (mp - COST_FOR_SELF_AID < 0) {
             System.out.println("마나가 부족합니다");
         } else {
             mp -= COST_FOR_SELF_AID;
@@ -47,7 +45,7 @@ public class Cleric {
      *         이미 최대값인 경우 0 <br>
      *         범위를 벗어난 경우 -1
      */
-    public int pray(int durationSecond) {
+    public int pray(final int durationSecond) {
         if (mp == MAX_MP) {
             System.out.println("이미 최대 마나입니다");
             return 0;
@@ -82,16 +80,16 @@ public class Cleric {
     }
 
     public void setHp(final int hp) {
-        if (!Utils.isWithinRange(hp, MAX_HP, MIN_HP)) {
-            throw new IllegalArgumentException("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + MIN_HP + ")");
+        if (!Utils.isWithinRange(hp, MAX_HP, 0)) {
+            throw new IllegalArgumentException("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + 0 + ")");
         }
 
         this.hp = hp;
     }
 
     public void setMp(final int mp) {
-        if (!Utils.isWithinRange(mp, MAX_MP, MIN_MP)) {
-             throw new IllegalArgumentException("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + MIN_MP + ")");
+        if (!Utils.isWithinRange(mp, MAX_MP, 0)) {
+             throw new IllegalArgumentException("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + 0 + ")");
         }
 
         this.mp = mp;

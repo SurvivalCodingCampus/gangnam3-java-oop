@@ -18,8 +18,8 @@ public class SuperHero extends Hero {
         super.attack(slime);
 
         if (isFlying) {
-            slime.setHp(slime.getHp() - BONUS_DAMAGE);
-            System.out.println("5포인트의 추가 피해를 입혔다");
+            slime.takeDamage(BONUS_DAMAGE);
+            System.out.println(BONUS_DAMAGE + "포인트의 추가 피해를 입혔다");
         }
     }
 

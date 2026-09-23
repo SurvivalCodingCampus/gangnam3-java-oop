@@ -7,6 +7,8 @@ public class Hero {
     public static final int MAX_NAME_LENGTH = 8;
     public static final int MAX_RANDOM_MONEY = 1000;
     public static final int MAX_HP = 100;
+    private static final int SLIP_DAMAGE = 5;
+
     private static int money = 100;
 
     private String name;
@@ -19,13 +21,19 @@ public class Hero {
     }
 
     public Hero(final String name) {
-        this.name = name;
-        hp = MAX_HP;
+        this(name, MAX_HP);
     }
 
     public Hero(String name, int hp) {
-        this.name = name;
+        setName(name);
+        setHp(hp);
+    }
+
+    public Hero(Sword sword, int hp, String name) {
+        this.sword = sword;
         this.hp = hp;
+        this.name = name;
+        power = 10;
     }
 
     public void setRandomMoney() {
@@ -45,19 +53,9 @@ public class Hero {
         System.out.println(name +"는 잠을 자고 회복했다!");
     }
 
-    public void attack() {
-        System.out.println(name + "는 공격했다!");
-        System.out.println("적에게 5포인트 데미지를 주었다");
-    }
-
-
     public void attack(final Slime slime) {
         System.out.println(name + "이 공격했다");
-        hp -= slime.getPower();
-
-        if (hp < 1) {
-            die();
-        }
+        slime.takeDamage(slime.getPower());
     }
 
     public void run() {
@@ -65,9 +63,9 @@ public class Hero {
     }
 
     public void slip() {
-        hp -= 5;
         System.out.println(name + "는 넘어졌다!");
-        System.out.println("5의 데미지");
+        System.out.println(SLIP_DAMAGE + "의 데미지");
+        takeDamage(SLIP_DAMAGE);
     }
 
     public void sit(final int sec) {
@@ -84,17 +82,17 @@ public class Hero {
         this.hp = hp;
     }
 
-    public void takeDamage(int damage) {
-        if (damage < 0) {
+    public void takeDamage(final int amount) {
+        if (amount < 0) {
             throw new IllegalArgumentException("1보다 작은값은 불가 ");
         }
 
-        if (hp - damage < 1) {
+        if (hp - amount < 1) {
             die();
         }
     }
 
-    public void takeHeal(int amount) {
+    public void takeHeal(final int amount) {
         setHp(Math.min(Hero.MAX_HP, hp + amount));
     }
 
@@ -107,8 +105,8 @@ public class Hero {
     }
 
     public void setName(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("이름은 null이 아니어야함");
+        if (!Utils.isValidName(name)) {
+            throw new IllegalArgumentException("이름은 공란 불가");
         }
 
         if (name.length() <= MIN_NAME_LENGTH) {
@@ -120,5 +118,13 @@ public class Hero {
         }
 
         this.name = name;
+    }
+
+    public void setPower(final int power) {
+        if (power < 1) {
+            throw new IllegalArgumentException("파워는 1보다 커야 함");
+        }
+
+        this.power = power;
     }
 }

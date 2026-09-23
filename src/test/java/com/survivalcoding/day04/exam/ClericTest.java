@@ -63,7 +63,7 @@ public class ClericTest {
         @DisplayName("MP가 최대값보다 작으면 기도 시간 + 보정치만큼 회복한다")
         void prayShouldRestoreMp() {
             // given
-            final Cleric cleric = new Cleric("엄", 10, Cleric.MIN_MP);
+            final Cleric cleric = new Cleric("엄", 10, 0);
 
             final int beforeMp = cleric.getMp();
             final int durationSecond = 3;
@@ -116,7 +116,7 @@ public class ClericTest {
         @DisplayName("기도 시간이 0 이하이면 -1을 반환하고 MP가 변하지 않는다")
         void invalidDurationShouldReturnMinusOne(final int durationSecond) {
             // given
-            final Cleric cleric = new Cleric("엄", 10, Cleric.MIN_MP);
+            final Cleric cleric = new Cleric("엄", 10, 0);
 
             // then
             assertThrows(
@@ -235,8 +235,8 @@ public class ClericTest {
 
         @ParameterizedTest
         @ValueSource(ints = {
-                Cleric.MIN_HP,
-                Cleric.MIN_HP + 1,
+                0,
+                1,
                 Cleric.MAX_HP - 1,
                 Cleric.MAX_HP
         })
@@ -252,7 +252,7 @@ public class ClericTest {
 
         @ParameterizedTest
         @ValueSource(ints = {
-                Cleric.MIN_HP - 1,
+                -1,
                 Cleric.MAX_HP + 1
         })
         @DisplayName("HP가 허용 범위를 벗어나면 예외가 발생한다")
@@ -270,8 +270,8 @@ public class ClericTest {
 
         @ParameterizedTest
         @ValueSource(ints = {
-                Cleric.MIN_MP,
-                Cleric.MIN_MP + 1,
+                0,
+                1,
                 Cleric.MAX_MP - 1,
                 Cleric.MAX_MP
         })
@@ -287,7 +287,7 @@ public class ClericTest {
 
         @ParameterizedTest
         @ValueSource(ints = {
-                Cleric.MIN_MP - 1,
+                -1,
                 Cleric.MAX_MP + 1
         })
         @DisplayName("MP가 허용 범위를 벗어나면 예외가 발생한다")

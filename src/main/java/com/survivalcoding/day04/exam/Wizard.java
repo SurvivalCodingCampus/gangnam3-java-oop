@@ -1,27 +1,32 @@
 package com.survivalcoding.day04.exam;
 
 public class Wizard {
-    protected static final int MIN_MP = 0;
+    protected static final String HEAL_MSG = "힐을 시전했습니다.";
     private static final int MAX_MP = 100;
     private static final int HEAL_HP_AMOUNT = 20;
     private static final int COST_FOR_HEAL = 10;
     private static final int MIN_NAME_LENGTH = 3;
 
-    protected int hp;
-    protected int mp;
-    protected String name;
-    protected Wand wand;
+    private int hp;
+    private int mp;
+    private String name;
+    private Wand wand;
 
     public Wizard() {
         setMp(MAX_MP);
     }
 
     public void heal(final Hero hero) {
-        heal(hero, COST_FOR_HEAL, HEAL_HP_AMOUNT, "힐을 시전했습니다.");
+        heal(hero, COST_FOR_HEAL, HEAL_HP_AMOUNT, HEAL_MSG);
     }
 
-    protected void heal(final Hero hero, int cost, int amount, String msg) {
-        if (mp - cost < MIN_MP) {
+    protected void heal(
+            final Hero hero,
+            final int cost,
+            final int amount,
+            final String msg
+    ) {
+        if (mp - cost < 0) {
             System.out.println("마나가 부족합니다");
             return;
         }
@@ -58,10 +63,8 @@ public class Wizard {
     }
 
     public void setMp(final int mp) {
-        if (mp < MIN_MP) {
-            throw new IllegalArgumentException(
-                "%d 이상의 mp 입력"
-                    .formatted(MIN_MP));
+        if (mp < 0) {
+            throw new IllegalArgumentException("0이상의 mp 입력");
         }
 
         this.mp = mp;
