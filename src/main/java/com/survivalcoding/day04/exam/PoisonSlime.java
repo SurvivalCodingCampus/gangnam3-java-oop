@@ -8,25 +8,37 @@ public class PoisonSlime extends Slime {
 
     public PoisonSlime(final String suffix) {
         super(suffix);
-        poisonCount = MAX_POISON_COUNT;
+        setPoisonCount(MAX_POISON_COUNT);
     }
 
     @Override
     void attack(final Hero hero) {
+        if (hero == null) {
+            throw new IllegalArgumentException("hero 널 들어옴");
+        }
+
         super.attack(hero);
 
         if (poisonCount <= 0) {
             return;
         }
 
+        poisonCount--;
+
         System.out.println("추가로, 독 포자를 살포했다!");
 
         int curHeroHp = hero.getHp();
         int poisonDamage = curHeroHp / POISON_RATE;
-        hero.setHp(curHeroHp - poisonDamage);
+        hero.takeDamage(poisonDamage);
 
         System.out.println(poisonDamage + "포인트 데미지");
+    }
 
-        poisonCount--;
+    public void setPoisonCount(int poisonCount) {
+        if (poisonCount < 2) {
+            throw new IllegalArgumentException("poisonCount는 2이상을 입력");
+        }
+
+        this.poisonCount = poisonCount;
     }
 }

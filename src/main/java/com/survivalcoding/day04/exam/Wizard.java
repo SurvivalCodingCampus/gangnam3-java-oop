@@ -1,7 +1,7 @@
 package com.survivalcoding.day04.exam;
 
 public class Wizard {
-    private static final int MIN_MP = 0;
+    protected static final int MIN_MP = 0;
     private static final int MAX_MP = 100;
     private static final int HEAL_HP_AMOUNT = 20;
     private static final int COST_FOR_HEAL = 10;
@@ -13,7 +13,7 @@ public class Wizard {
     protected Wand wand;
 
     public Wizard() {
-        mp = MAX_MP;
+        setMp(MAX_MP);
     }
 
     public void heal(final Hero hero) {
@@ -34,7 +34,7 @@ public class Wizard {
         }
 
         mp -= cost;
-        hero.setHp(Math.min(Hero.MAX_HP, heroHp + amount));
+        hero.takeHeal(amount);
 
         System.out.println(msg + " 대상 HP: " + hero.getHp());
     }

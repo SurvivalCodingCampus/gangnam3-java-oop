@@ -50,10 +50,10 @@ public class Hero {
         System.out.println("적에게 5포인트 데미지를 주었다");
     }
 
+
     public void attack(final Slime slime) {
         System.out.println(name + "이 공격했다");
         hp -= slime.getPower();
-
 
         if (hp < 1) {
             die();
@@ -77,7 +77,25 @@ public class Hero {
     }
 
     public void setHp(final int hp) {
+        if (hp <= 0) {
+            throw new IllegalArgumentException("0보다 작은값은 불가 ");
+        }
+
         this.hp = hp;
+    }
+
+    public void takeDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("1보다 작은값은 불가 ");
+        }
+
+        if (hp - damage < 1) {
+            die();
+        }
+    }
+
+    public void takeHeal(int amount) {
+        setHp(Math.min(Hero.MAX_HP, hp + amount));
     }
 
     public int getHp() {

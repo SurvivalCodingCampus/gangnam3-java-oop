@@ -8,7 +8,7 @@ public class GreatWizard extends Wizard {
     private static final int HEAL_HP_AMOUNT = 25;
 
     public GreatWizard() {
-        mp = MAX_MP;
+        setMp(MAX_MP);
     }
 
     @Override
