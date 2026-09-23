@@ -2,16 +2,35 @@ package com.survivalcoding.day04.exam;
 
 public class Wizard {
     public static final int MIN_MP = 0;
+    public static final int HEAL_HP_AMOUNT = 20;
+    public static final int COST_FOR_HEAL = 10;
 
     private int hp;
     private int mp;
     private String name;
     private Wand wand;
 
+    public Wizard() {
+        mp = 100;
+    }
+
     private void heal(final Hero hero) {
-        int basePoint = 10; // 기본회복 포인트
-        int recovPoint = (int) (basePoint * wand.getPower()); // 지팡이에 의한 증폭
-        hero.setHp(hero.getHp() + recovPoint); // 용사의 HP 회복
+        if (mp - COST_FOR_HEAL < MIN_MP) {
+            System.out.println("마나가 부족합니다");
+            return;
+        }
+
+        int heroHp = hero.getHp();
+
+        if (Hero.MAX_HP <= heroHp) {
+            System.out.println("대상 체력이 MAX HP입니다");
+            return;
+        }
+
+        mp -= COST_FOR_HEAL;
+        hero.setHp(Math.min(Hero.MAX_HP, heroHp + HEAL_HP_AMOUNT));
+
+        System.out.println("힐을 시전했습니다. 대상 HP: " + hero.getHp());
     }
 
     public int getHp() {
