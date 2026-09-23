@@ -55,7 +55,7 @@ public class Hero {
 
     public void attack(final Slime slime) {
         System.out.println(name + "이 공격했다");
-        slime.takeDamage(slime.getPower());
+        slime.takeDamage(power);
     }
 
     public void run() {
