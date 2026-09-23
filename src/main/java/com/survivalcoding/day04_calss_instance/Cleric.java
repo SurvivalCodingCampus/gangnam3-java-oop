@@ -8,14 +8,14 @@ class Cleric {
     static final int SELF_AID_MP_COST = 5;
     static final int PRAY_RECOVERY_RANDOM_BOUND = 3;  // 0 이상 bound 미만
     
-    int hp;
-    int mp;
-    String name;
+    private int hp;
+    private int mp;
+    private String name;
     
     Cleric(String name, int hp, int mp) {
-        this.name = name;
-        this.hp = hp;
-        this.mp = mp;
+        setName(name);
+        setHp(hp);
+        setMp(mp);
     }
     
     Cleric(String name, int hp) {
@@ -26,15 +26,41 @@ class Cleric {
         this(name, MAX_HP, MAX_MP);
     }
     
-    void selfAid() {  // 셀프 에이드 마법 사용
+    public int getHp() {
+        return hp;
+    }
+    
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+    
+    public int getMp() {
+        return mp;
+    }
+    
+    public void setMp(int mp) {
+        this.mp = mp;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        Validator.validateNotNull(name);
+        
+        this.name = name;
+    }
+    
+    public void selfAid() {  // 셀프 에이드 마법 사용
         if ((this.mp - SELF_AID_MP_COST) >= 0) {
             this.mp -= SELF_AID_MP_COST;
             this.hp = MAX_HP;
         }
     }
     
-    int pray(int sec) {
-        if (sec <= 0) {
+    public int pray(int sec) {
+        if ((sec <= 0) || (this.mp == MAX_MP)) {
             return 0;
         }
         
@@ -44,7 +70,6 @@ class Cleric {
         int recoveryAmount = Math.min(randomPoint + sec, MAX_MP - this.mp);
         
         this.mp += recoveryAmount;
-        
         return recoveryAmount;
     }
 }
