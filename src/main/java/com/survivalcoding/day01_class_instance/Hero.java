@@ -14,10 +14,9 @@ public class Hero {
     private String name;
     int hp;
 
-    Hero() {
-        this("홍길동");
-        sleep();
-    }
+//    Hero() {
+//        System.out.println("1번");
+//    }
 
     Hero(String name) {
         hp = 100;
@@ -40,7 +39,9 @@ public class Hero {
     }
 
     // 기능 (method)
-    void attack() {}
+    void attack() {
+        System.out.println("Hero 의 공격");
+    }
     void run() {}
     void sit(int sec) {}
     void slip() {}

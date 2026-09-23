@@ -16,4 +16,10 @@ class Hero {
     + void run()
 }
 
+class SuperHero extends Hero {
+
+}
+
+'Hero <|-- SuperHero
+
 @enduml
