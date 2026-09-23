@@ -3,12 +3,16 @@ package com.survivalcoding.day04.exam;
 import java.util.Random;
 
 public class Hero {
+    public static final int MIN_NAME_LENGTH = 1;
+    public static final int MAX_NAME_LENGTH = 8;
+    public static final int MAX_RANDOM_MONEY = 1000;
     public static final int MAX_HP = 100;
     private static int money = 100;
 
     private String name;
     private int hp;
     private Sword sword;
+    private int power;
 
     public Hero() {
         this("김영웅");
@@ -25,7 +29,7 @@ public class Hero {
     }
 
     public void setRandomMoney() {
-        money = new Random().nextInt(1000);
+        money = new Random().nextInt(MAX_RANDOM_MONEY);
     }
 
     public void bye() {
@@ -48,7 +52,8 @@ public class Hero {
 
     public void attack(final Slime slime) {
         System.out.println(name + "이 공격했다");
-        hp -= 10;
+        hp -= slime.getPower();
+
 
         if (hp < 1) {
             die();
@@ -88,11 +93,11 @@ public class Hero {
             throw new IllegalArgumentException("이름은 null이 아니어야함");
         }
 
-        if (name.length() <= 1) {
+        if (name.length() <= MIN_NAME_LENGTH) {
             throw new IllegalArgumentException("이름이 너무 짧음");
         }
 
-        if (name.length() >= 8) {
+        if (name.length() >= MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("이름이 너무 긺");
         }
 

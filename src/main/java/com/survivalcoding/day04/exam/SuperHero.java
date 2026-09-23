@@ -2,6 +2,7 @@ package com.survivalcoding.day04.exam;
 
 public class SuperHero extends Hero {
     private boolean isFlying;
+    private static final int BONUS_DAMAGE = 5;
 
     public SuperHero(final String name, final int hp) {
         super(name, hp);
@@ -17,7 +18,7 @@ public class SuperHero extends Hero {
         super.attack(slime);
 
         if (isFlying) {
-            slime.setHp(slime.getHp() - 5);
+            slime.setHp(slime.getHp() - BONUS_DAMAGE);
             System.out.println("5포인트의 추가 피해를 입혔다");
         }
     }

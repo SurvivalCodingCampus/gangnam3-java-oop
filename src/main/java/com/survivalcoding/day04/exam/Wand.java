@@ -1,6 +1,7 @@
 package com.survivalcoding.day04.exam;
 
 public class Wand {
+    private static final int MIN_NAME_LENGTH = 3;
     private String name; // 지팡이의 이름
     private double power; // 지팡이의 마력
 
@@ -13,7 +14,7 @@ public class Wand {
             throw new IllegalArgumentException("이름은 null 금지");
         }
 
-        if (name.length() < 3) {
+        if (name.length() < MIN_NAME_LENGTH) {
             throw new IllegalArgumentException("이름은 3문자 이상");
         }
 

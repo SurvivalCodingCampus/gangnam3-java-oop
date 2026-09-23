@@ -49,7 +49,7 @@ public class Cleric {
     }
 
     public void selfAid() {
-        if (mp - COST_FOR_SELF_AID < 0) {
+        if (mp - COST_FOR_SELF_AID < MIN_MP) {
             System.out.println("마나가 부족합니다");
         } else {
             mp -= COST_FOR_SELF_AID;

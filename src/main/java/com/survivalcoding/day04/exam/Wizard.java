@@ -2,8 +2,10 @@ package com.survivalcoding.day04.exam;
 
 public class Wizard {
     private static final int MIN_MP = 0;
+    private static final int MAX_MP = 100;
     private static final int HEAL_HP_AMOUNT = 20;
     private static final int COST_FOR_HEAL = 10;
+    private static final int MIN_NAME_LENGTH = 3;
 
     protected int hp;
     protected int mp;
@@ -11,7 +13,7 @@ public class Wizard {
     protected Wand wand;
 
     public Wizard() {
-        mp = 100;
+        mp = MAX_MP;
     }
 
     public void heal(final Hero hero) {
@@ -74,7 +76,7 @@ public class Wizard {
             throw new IllegalArgumentException("이름은 null 금지");
         }
 
-        if (name.length() < 3) {
+        if (name.length() < MIN_NAME_LENGTH) {
             throw new IllegalArgumentException("이름은 3문자 이상");
         }
 
