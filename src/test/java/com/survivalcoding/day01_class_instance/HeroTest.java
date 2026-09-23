@@ -11,13 +11,13 @@ class HeroTest {
     void sleepTest2() {
         // given (준비)
         Hero hero = new Hero();
-        hero.hp = 50;
+        hero.getHp = 50;
 
         // when (실행)
         hero.sleep();
 
         // then (검증)
-        assertEquals(200, hero.hp);
+        assertEquals(200, hero.getHp);
     }
 
     @Test
@@ -25,12 +25,12 @@ class HeroTest {
     void sleepTest() {
         // given (준비)
         Hero hero = new Hero();
-        hero.hp = 50;
+        hero.getHp = 50;
 
         // when (실행)
         hero.sleep();
 
         // then (검증)
-        assertEquals(200, hero.hp);
+        assertEquals(200, hero.getHp);
     }
 }

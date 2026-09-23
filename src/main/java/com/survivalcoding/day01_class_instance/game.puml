@@ -1,0 +1,11 @@
+@startuml
+scale 1
+
+
+class Wizard {
+}
+
+class Wand {
+}
+
+@enduml
