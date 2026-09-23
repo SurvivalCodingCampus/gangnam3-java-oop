@@ -1,0 +1,62 @@
+@startuml day01_class_instance_diagram
+scale 1
+
+package "com.survivalcoding.day01_class_instance" {
+    
+    class Kinoko {
+        - String suffix
+    }
+
+    class Hero {
+        - String name
+        - int hp
+        - Sword sword
+
+        {static} + int money
+
+        + void bye()
+        - void die()
+        + void attack(Kinoko enemy)
+        + void run()
+        + void sit(int sec)
+        + void slip()
+        + void sleep()
+
+        {static} + void setRandomMoney()
+    }
+
+    class Sword {
+        - String name
+        - int damage
+    }
+
+    class Wizard {
+        - String name
+        - int hp
+        - int mp
+        - Wand wand
+
+        + void heal(Hero hero)
+    }
+
+    class Wand {
+        - String name
+        - double power
+    }
+
+    class Person {
+        - String name
+        - int birthYear
+
+        + int getAge(LocalDate date)
+    }
+
+    ' Relationship line
+    Hero --> Sword : Has-A
+    Wizard --> Wand : Has-A
+
+    Hero ..> Kinoko : Uses-A
+    Wizard ..> Hero : Uses-A
+}
+
+@enduml
