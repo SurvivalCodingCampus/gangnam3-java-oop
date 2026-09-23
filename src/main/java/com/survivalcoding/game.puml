@@ -1,0 +1,34 @@
+@startuml
+scale 2
+
+class Cleric {
+    - String name
+    int hp
+    int mp
+
+    + void selfaid()
+    + pray
+
+}
+Wand --> Wizard
+
+class Wizard {
+- String name
+- int mp
+- int hp
+- Wand
+
+}
+
+class Wand{
+- String name
+- double power
+
+}
+
+
+
+
+
+
+@enduml
