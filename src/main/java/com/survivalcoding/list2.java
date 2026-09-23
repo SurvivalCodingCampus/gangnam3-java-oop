@@ -1,4 +1,4 @@
-package com.survivalcoding;
+/*package com.survivalcoding;
 
 public class list2 {
     interface MyList<E> {
@@ -32,3 +32,5 @@ public class list2 {
 
     }
 }
+*/
+
