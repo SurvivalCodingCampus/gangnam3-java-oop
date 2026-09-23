@@ -8,21 +8,6 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HeroTest {
-    @Test
-    @DisplayName("sleep 은 hp 를 100으로 만들어야 한다")
-    void sleepTest2() {
-        Random random = new Random();
-        random.nextInt(3);
-        // given (준비)
-        Hero hero = new Hero();
-        hero.hp = 50;
-
-        // when (실행)
-        hero.sleep();
-
-        // then (검증)
-        assertEquals(200, hero.hp);
-    }
 
     @Test
     @DisplayName("sleep 은 hp 를 100으로 만들어야 한다")
@@ -30,6 +15,8 @@ class HeroTest {
         // given (준비)
         Hero hero = new Hero();
         hero.hp = 50;
+
+        hero = null;
 
         // when (실행)
         hero.sleep();
