@@ -2,7 +2,7 @@ package com.survivalcoding.day04.exam;
 
 public class Slime {
     private static final int MAX_HP = 20;
-    private static final int INIT_POWER = 10;
+    static final int INIT_POWER = 10;
     private String suffix;
     private int hp;
     private int power;
