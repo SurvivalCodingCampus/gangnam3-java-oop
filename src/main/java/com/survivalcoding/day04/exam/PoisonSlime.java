@@ -1,8 +1,11 @@
 package com.survivalcoding.day04.exam;
 
 public class PoisonSlime extends Slime {
-    private static final int POISON_RATE = 5;
-    private static final int MAX_POISON_COUNT = 5;
+    static final int POISON_RATE = 20;
+
+    // 0 들어오면 / by zero 예외
+    // 1이면 바로 죽으니깐 2이상 입력
+    static final int MAX_POISON_COUNT = 5;
 
     private int poisonCount;
 
@@ -13,11 +16,11 @@ public class PoisonSlime extends Slime {
 
     @Override
     public void attack(final Hero hero) {
-        if (hero == null) {
-            throw new IllegalArgumentException("hero 널 들어옴");
-        }
-
         super.attack(hero);
+
+        if (hero.isDead()) {
+            return;
+        }
 
         if (poisonCount <= 0) {
             return;
@@ -44,5 +47,9 @@ public class PoisonSlime extends Slime {
         }
 
         this.poisonCount = poisonCount;
+    }
+
+    public int getPoisonCount() {
+        return poisonCount;
     }
 }

@@ -15,9 +15,10 @@ public class Hero {
     private int hp;
     private Sword sword;
     private int power;
+    private boolean isDead;
 
     public Hero() {
-        this("김영웅");
+        this("김영웅", MAX_HP);
     }
 
     public Hero(final String name) {
@@ -45,6 +46,7 @@ public class Hero {
     }
 
     private void die() {
+        isDead = true;
         System.out.println(name + "는 죽었다");
     }
 
@@ -74,13 +76,16 @@ public class Hero {
         System.out.println("HP가 " + sec + "포인트 회복되었다");
     }
 
-    public void takeDamage(final int amount) {
-        if (amount < 0) {
+    public void takeDamage(final int damage) {
+        if (damage < 0) {
             throw new IllegalArgumentException("1보다 작은값은 불가 ");
         }
 
-        if (hp - amount < 1) {
+        hp -= damage;
+
+        if (hp - damage < 1) {
             die();
+            hp = 0;
         }
     }
 
@@ -126,5 +131,13 @@ public class Hero {
         }
 
         this.power = power;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 }
