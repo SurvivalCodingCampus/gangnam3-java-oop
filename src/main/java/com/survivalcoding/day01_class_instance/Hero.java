@@ -4,6 +4,9 @@ import java.util.Random;
 
 public class Hero {
 
+    // constant
+    public static final int DEFAULT_HP = 100;
+
     // field
     private String name;
     private int hp;
@@ -13,17 +16,14 @@ public class Hero {
 
     // constructor
     public Hero(String name) {
-        this(name, 100);
+        this(name, new Sword("불의 검", 10));
+        System.out.println("Hero 생성자 호출");
     }
 
-    public Hero(String name, int hp) {
-        this(name, hp, new Sword("불의 검", 10));
-    }
-
-    public Hero(String name, int hp, Sword sword) {
+    public Hero(String name, Sword sword) {
         setName(name);
-        this.hp = hp;
-        this.sword = sword;
+        setHp(DEFAULT_HP);
+        setSword(sword);
     }
 
     // method
@@ -44,11 +44,8 @@ public class Hero {
         System.out.println(this.name + "의 공격!");
         System.out.println("괴물 버섯" + enemy.getSuffix() + "로부터 2포인트의 반격을 받았다");
 
-        this.hp -= 2;
-
-        if (this.hp <= 0) {
-            this.die();
-        }
+        int returned = 2;
+        this.takeDamage(returned);
     };
 
     public void run() {
@@ -58,21 +55,26 @@ public class Hero {
     };
 
     public void sit(int sec) {
-        this.hp += sec;
+        this.setHp(this.hp + sec);
         System.out.println(this.name + "는 " + sec + "초 앉았다");
         System.out.println("HP가 " + sec + "포인트 회복되었다");
     };
 
     public void slip() {
-        this.hp -= 5;
+        int damage = 5;
+        setHp(this.hp - damage);
         System.out.println(this.name + "는 넘어졌다!");
         System.out.println("5의 데미지!");
     };
 
     public void sleep() {
-        this.hp = 100;
+        setHp(DEFAULT_HP);
         System.out.println(this.name + "는 잠을 자고 회복했다!");
     };
+
+    public void takeDamage(int damage) {
+        setHp(this.hp - damage);
+    }
 
     // getter
     public String getName() {
@@ -105,7 +107,10 @@ public class Hero {
     }
 
     public void setHp(int hp) {
-        this.hp = hp;
+        this.hp = Math.max(0, hp);
+        if (this.hp == 0) {
+            die();
+        }
     }
 
     public void setSword(Sword sword) {
