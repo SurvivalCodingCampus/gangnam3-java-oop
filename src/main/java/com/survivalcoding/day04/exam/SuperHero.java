@@ -2,7 +2,7 @@ package com.survivalcoding.day04.exam;
 
 public class SuperHero extends Hero {
     private boolean isFlying;
-    private static final int BONUS_DAMAGE = 5;
+    static final int BONUS_DAMAGE = 5;
 
     public SuperHero(final String name, final int hp) {
         super(name, hp);
@@ -14,8 +14,8 @@ public class SuperHero extends Hero {
     }
 
     @Override
-    public void attack(final Slime slime) {
-        super.attack(slime);
+    public void attack(final Slime slime, final int damage) {
+        super.attack(slime, damage);
 
         if (isFlying) {
             slime.takeDamage(BONUS_DAMAGE);

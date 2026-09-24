@@ -1,10 +1,10 @@
 package com.survivalcoding.day04.exam;
 
 public class Wizard {
-    protected static final String HEAL_SKILL_NAME = "힐";
+    static final String HEAL_SKILL_NAME = "힐";
     private static final int MAX_MP = 100;
-    private static final int HEAL_HP_AMOUNT = 20;
-    private static final int COST_FOR_HEAL = 10;
+    static final int HEAL_HP_AMOUNT = 20;
+    static final int COST_FOR_HEAL = 10;
     private static final int MIN_NAME_LENGTH = 3;
 
     private int hp;
@@ -16,13 +16,9 @@ public class Wizard {
         setMp(MAX_MP);
     }
 
-    public void heal(final Hero hero) {
-        heal(hero, COST_FOR_HEAL, HEAL_HP_AMOUNT, HEAL_SKILL_NAME);
-    }
-
     /**
      * 스킬 명 출력 : skillName을/를 시전했습니다 대상 HP: curHp"
-     *
+     * heal함수를 통해 대마법사 힐까지 사용
      * @param hero 대상
      * @param cost 마나소모량
      * @param amount - 힐량
@@ -49,7 +45,7 @@ public class Wizard {
         mp -= cost;
         hero.takeHeal(amount);
 
-        System.out.println(skillName + "을/를 시전했습니다 대상 HP: " + hero.getHp());
+        System.out.println(skillName + "을 시전했습니다 대상 HP: " + hero.getHp());
     }
 
     public int getHp() {

@@ -8,13 +8,14 @@ public class Hero {
     public static final int MAX_RANDOM_MONEY = 1000;
     public static final int MAX_HP = 100;
     private static final int SLIP_DAMAGE = 5;
+    private static final int INIT_POWER = 10;
 
     private static int money = 100;
 
     private String name;
     private int hp;
     private Sword sword;
-    private int power;
+    int power;
     private boolean isDead;
 
     public Hero() {
@@ -26,15 +27,14 @@ public class Hero {
     }
 
     public Hero(String name, int hp) {
-        setName(name);
-        setHp(hp);
+        this(new Sword(), hp, name);
     }
 
     public Hero(Sword sword, int hp, String name) {
-        this.sword = sword;
-        this.hp = hp;
-        this.name = name;
-        power = 10;
+        setSword(sword);
+        setHp(hp);
+        setName(name);
+        setPower(INIT_POWER);
     }
 
     public void setRandomMoney() {
@@ -55,9 +55,9 @@ public class Hero {
         System.out.println(name +"는 잠을 자고 회복했다!");
     }
 
-    public void attack(final Slime slime) {
+    public void attack(final Slime slime, final int damage) {
         System.out.println(name + "이 공격했다");
-        slime.takeDamage(power);
+        slime.takeDamage(damage);
     }
 
     public void run() {
@@ -77,20 +77,27 @@ public class Hero {
     }
 
     public void takeDamage(final int damage) {
-        if (damage < 0) {
-            throw new IllegalArgumentException("1보다 작은값은 불가 ");
+
+        if (damage <= 0) {
+            throw new IllegalArgumentException("1보다 작은값은 불가");
+        }
+
+        if (hp - damage <= 0) {
+            die();
+            hp = 0;
+            return;
         }
 
         hp -= damage;
-
-        if (hp - damage < 1) {
-            die();
-            hp = 0;
-        }
     }
 
     public void takeHeal(final int amount) {
-        setHp(Math.min(Hero.MAX_HP, hp + amount));
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("힐은 0보다 커야 함");
+        }
+
+        hp = Math.min(Hero.MAX_HP, hp + amount);
     }
 
     public int getHp() {
@@ -139,5 +146,18 @@ public class Hero {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public Sword getSword() {
+        return sword;
+    }
+
+    public void setSword(Sword sword) {
+
+        if (sword == null) {
+            throw new IllegalArgumentException("sword에 널");
+        }
+
+        this.sword = sword;
     }
 }

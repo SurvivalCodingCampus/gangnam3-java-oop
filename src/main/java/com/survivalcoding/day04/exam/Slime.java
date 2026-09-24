@@ -1,7 +1,7 @@
 package com.survivalcoding.day04.exam;
 
 public class Slime {
-    private static final int MAX_HP = 20;
+    static final int MAX_HP = 20;
     static final int INIT_POWER = 10;
     private String suffix;
     private int hp;
@@ -37,15 +37,17 @@ public class Slime {
             throw new IllegalArgumentException("1보다 작은값은 불가");
         }
 
-        hp -= damage;
-
-        if (hp - damage < 1) {
+        if (hp - damage <= 0) {
             die();
             hp = 0;
+            return;
         }
+
+        hp -= damage;
     }
 
     private void die() {
+        isDead = true;
         System.out.println("슬라임" + suffix + "는 죽었다");
     }
 
