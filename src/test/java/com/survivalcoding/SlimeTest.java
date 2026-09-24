@@ -1,9 +1,14 @@
 package com.survivalcoding;
+<<<<<<< HEAD
 import org.junit.jupiter.api.DisplayName;
+=======
+
+>>>>>>> be77039 (feat : 2026.09.23 박강원_ 8장)
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+<<<<<<< HEAD
 class SlimeTest {
     @Test
     @DisplayName("슬라임이 피혜를 입으면 남은 HP만큼 체력에 감소한다")
@@ -19,4 +24,94 @@ class SlimeTest {
         assertEquals(40, slime.hp);
     }
 
+=======
+public class SlimeTest {
+
+    @Test
+    void 슬라임_생성_테스트() {
+
+        // Given
+        String name = "슬라임A";
+
+        // When
+        Slime slime = new Slime(name);
+
+        // Then
+        assertNotNull(slime);
+        assertEquals("슬라임A", slime.getName());
+        assertEquals(100, slime.getHp());
+    }
+
+
+    @Test
+    void 슬라임_HP_변경_테스트() {
+
+        // Given
+        Slime slime = new Slime("슬라임A");
+
+        // When
+        slime.setHp(50);
+
+        // Then
+        assertEquals(50, slime.getHp());
+    }
+
+
+    @Test
+    void 슬라임이_영웅을_공격하면_HP가_10_감소한다() {
+
+        // Given
+        Hero hero = new Hero();
+        hero.setName("준석이");
+        hero.setHp(100);
+
+        Slime slime = new Slime("슬라임A");
+
+        // When
+        slime.attack(hero);
+
+        // Then
+        assertEquals(90, hero.getHp());
+    }
+
+
+    @Test
+    void 슬라임이_여러번_공격하면_HP가_공격횟수만큼_감소한다() {
+
+        // Given
+        Hero hero = new Hero();
+        hero.setName("준석이");
+        hero.setHp(100);
+
+        Slime slime = new Slime("슬라임A");
+
+        // When
+        slime.attack(hero);
+        slime.attack(hero);
+        slime.attack(hero);
+
+        // Then
+        assertEquals(70, hero.getHp());
+    }
+
+
+    @Test
+    void 영웅의_HP가_0이하로_내려갈수_있다() {
+
+        // Given
+        Hero hero = new Hero();
+        hero.setName("준석이");
+        hero.setHp(20);
+
+        Slime slime = new Slime("슬라임A");
+
+        // When
+        slime.attack(hero);
+        slime.attack(hero);
+        slime.attack(hero);
+
+        // Then
+        assertEquals(0, hero.getHp());
+    }
+>>>>>>> be77039 (feat : 2026.09.23 박강원_ 8장)
 }

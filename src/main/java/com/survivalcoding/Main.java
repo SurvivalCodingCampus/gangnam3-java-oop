@@ -48,8 +48,19 @@ public class Main {
         int i = 10;
         String name = "홍길동";
 
+<<<<<<< HEAD
         Hero hero = new Hero();
         Hero hero2 = new Hero();
 >>>>>>> 67a90eb (feat: 2026.09.24 박강원_Slime.java)
+=======
+        SuperHero superhero = new SuperHero("한석봉", 50);
+        superhero.run();
+
+    }
+
+    // 용사의 hp를 10 증가.
+    public  static void something(String name, int hp) {
+
+>>>>>>> be77039 (feat : 2026.09.23 박강원_ 8장)
     }
 }
