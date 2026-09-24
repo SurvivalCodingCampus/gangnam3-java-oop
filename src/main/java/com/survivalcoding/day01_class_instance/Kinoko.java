@@ -13,7 +13,7 @@ public class Kinoko {
     // constructor
     public Kinoko(String suffix, int hp) {
         this.suffix = suffix;
-        this.hp = hp;
+        this.hp = Math.max(0, hp);
         this.level = LEVEL;
     }
 

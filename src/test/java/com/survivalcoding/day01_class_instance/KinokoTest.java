@@ -57,4 +57,18 @@ class KinokoTest {
         // then
         assertEquals(expected, kinoko.getHp());
     }
+
+    @Test
+    @DisplayName("생성자에 음수 hp를 입력하면 0으로 보정되어야 한다")
+    void constructor_shouldClampHpToZero_whenNegativeValueGiven() {
+        // given
+        int hp = -5;
+        int expected = 0;
+
+        // when
+        Kinoko negative = new Kinoko("버섯", hp);
+
+        // then
+        assertEquals(expected, negative.getHp());
+    }
 }
