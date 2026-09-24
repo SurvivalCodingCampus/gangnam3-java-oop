@@ -21,7 +21,7 @@ classDiagram
     class Wizard {
         # HEAL_SKILL_NAME : String [final] $
         + heal(hero : Hero) void
-        # heal(hero : Hero, cost : int, amount : int, skillName : String) void
+        + heal(hero : Hero, cost : int, amount : int, skillName : String) void
     }
     
     class GreatWizard {

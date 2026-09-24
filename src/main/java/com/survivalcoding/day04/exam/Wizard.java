@@ -28,7 +28,7 @@ public class Wizard {
      * @param amount - 힐량
      * @param skillName - 스킬명
      */
-    protected void heal(
+    public void heal(
             final Hero hero,
             final int cost,
             final int amount,
