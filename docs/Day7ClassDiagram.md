@@ -2,42 +2,37 @@
 classDiagram
 
     class Slime {
-        - INIT_POWER : int [final] $
-        - power : int
+        - isDead : boolean
         + attack(hero : Hero) void
         + takeDamage(damage : int) void
         - die() void
     }
 
     class PoisonSlime {
-        + POISON_RATE : int [final] $
-        + MAX_POISON_COUNT : int [final] $
+        ~ POISON_RATE : int [final] $
+        ~ MAX_POISON_COUNT : int [final] $
         - poisonCount : int
-        + PoisonSlime(suffix : String [final])
         + attack(hero : Hero) void
-        + setPoisonCount(int) void
     }
 
     class Wizard {
         # HEAL_SKILL_NAME : String [final] $
-        + heal(hero : Hero) void
         + heal(hero : Hero, cost : int, amount : int, skillName : String) void
     }
     
     class GreatWizard {
-        - SUPER_HEAL_SKILL_NAME : String [final] $
+        ~ SUPER_HEAL_SKILL_NAME : String [final] $
         - MAX_MP : int [final] $
-        - COST_FOR_HEAL : int [final] $
-        - COST_FOR_SUPER_HEAL : int [final] $
-        - HEAL_HP_AMOUNT : int [final] $
-        + GreatWizard()
-        + heal(hero : Hero) void
-        + superHeal(hero : Hero) void
+        ~ COST_FOR_HEAL : int [final] $
+        ~ COST_FOR_SUPER_HEAL : int [final] $
+        ~ HEAL_HP_AMOUNT : int [final] $
     }
     
     class Hero {
+        - isDead : boolean
         + takeDamage(amount : int) void
         + takeHeal(amount : int) void
+        + attack(slime : Slime, damage : int)
     }
 
     class SuperHero {
@@ -45,7 +40,7 @@ classDiagram
         - BONUS_DAMAGE : int [final] $
         + SuperHero(name : String [final], hp : int [final])
         + run() void
-        + attack(slime : Slime) void
+        + attack(slime : Slime, int : damage) void
         + land() void
     }
 
