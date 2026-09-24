@@ -15,23 +15,52 @@ class WizardTest {
     @BeforeEach
     void setUp() {
         Wand wand = new Wand("나무지팡이", 10.0);
-        wizard = new Wizard("위저드", 50, 10, wand);
+        wizard = new Wizard("위저드", 50, wand);
     }
 
     @Test
-    @DisplayName("heal을 하면 `power * point`만큼 hp를 회복해야 한다")
-    void heal_shouldBeHp_powerTimesTen() {
+    @DisplayName("heal을 하면 20만큼 hp를 회복해야 한다")
+    void heal_shouldRecoverHp_by20() {
         // given
-        Hero hero = new Hero("히어로", 10);
-        double power = wizard.getWand().getPower();
-        int point = 10;
-        int expected = (int) (power * point) + hero.getHp();
+        Hero hero = new Hero("히어로");
+        int beforeHp = hero.getHp();
+        int expected = 20;
 
         // when
         wizard.heal(hero);
 
         // then
-        assertEquals(expected, hero.getHp());
+        assertEquals(expected, hero.getHp() - beforeHp);
+    }
+
+    @Test
+    @DisplayName("heal을 하면 mp가 10 소모되어야 한다")
+    void heal_shouldReduceMp_by10() {
+        // given
+        Hero hero = new Hero("히어로");
+        int beforeMp = wizard.getMp();
+        int expected = 10;
+
+        // when
+        wizard.heal(hero);
+
+        // then
+        assertEquals(expected, beforeMp - wizard.getMp());
+    }
+
+    @Test
+    @DisplayName("mp가 10 미만이면 heal을 해도 hp가 회복되지 않아야 한다")
+    void heal_whenMpIsInsufficient_shouldNotChangeHp() {
+        // given
+        wizard.setMp(5);
+        Hero hero = new Hero("히어로");
+        int beforeHp = hero.getHp();
+
+        // when
+        wizard.heal(hero);
+
+        // then
+        assertEquals(beforeHp, hero.getHp());
     }
 
     @Test
