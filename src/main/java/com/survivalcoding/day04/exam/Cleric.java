@@ -1,10 +1,10 @@
 package com.survivalcoding.day04.exam;
 
 public class Cleric {
-    public static final int COST_FOR_SELF_AID = 5;
-    public static final int MAX_CORRECTION_VALUE = 2;
-    public static final int MAX_HP = 50;
-    public static final int MAX_MP = 10;
+    static final int COST_FOR_SELF_AID = 5;
+    static final int MAX_CORRECTION_VALUE = 2;
+    static final int MAX_HP = 50;
+    static final int MAX_MP = 10;
 
     private int hp;
     private int mp;

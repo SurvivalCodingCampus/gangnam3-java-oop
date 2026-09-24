@@ -307,84 +307,83 @@ public class Day7ExamTest {
                 softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp);
             });
         }
+    }
 
-        @Nested
-        class GreatWizardTest {
+    @Nested
+    class GreatWizardTest {
 
-            @Test
-            void 힐하면_히어로체력을_25힐하고_위자드Mp를_5감소한다() {
+        @Test
+        void 힐하면_히어로체력을_25힐하고_위자드Mp를_5감소한다() {
 
-                GreatWizard greatWizard = new GreatWizard();
-                Hero hero = new Hero("영웅", 10);
+            GreatWizard greatWizard = new GreatWizard();
+            Hero hero = new Hero("영웅", 10);
 
-                int beforeMp = greatWizard.getMp();
-                int beforeHroHp = hero.getHp();
+            int beforeMp = greatWizard.getMp();
+            int beforeHroHp = hero.getHp();
 
-                greatWizard.heal(hero, GreatWizard.COST_FOR_HEAL, GreatWizard.HEAL_HP_AMOUNT, Wizard.HEAL_SKILL_NAME);
+            greatWizard.heal(hero, GreatWizard.COST_FOR_HEAL, GreatWizard.HEAL_HP_AMOUNT, Wizard.HEAL_SKILL_NAME);
 
-                // Assert
-                SoftAssertions.assertSoftly(softly -> {
-                    softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp - GreatWizard.COST_FOR_HEAL);
-                    softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp + GreatWizard.HEAL_HP_AMOUNT);
-                });
-            }
-
-            @Test
-            void mp없으면_힐불가() {
-
-                GreatWizard greatWizard = new GreatWizard();
-                greatWizard.setMp(1);
-                Hero hero = new Hero("영웅", 10);
-
-                int beforeMp = greatWizard.getMp();
-                int beforeHroHp = hero.getHp();
-
-                greatWizard.heal(hero, GreatWizard.COST_FOR_HEAL, GreatWizard.HEAL_HP_AMOUNT, GreatWizard.HEAL_SKILL_NAME);
-
-                // Assert
-                SoftAssertions.assertSoftly(softly -> {
-                    softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp);
-                    softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp);
-                });
-            }
-
-            @Test
-            void 슈퍼힐하면_히어로체력을_풀피로_힐하고_위자드Mp를_50감소한다() {
-
-                GreatWizard greatWizard = new GreatWizard();
-                Hero hero = new Hero("영웅", 10);
-
-                int beforeMp = greatWizard.getMp();
-                int beforeHroHp = hero.getHp();
-
-                greatWizard.heal(hero, GreatWizard.COST_FOR_SUPER_HEAL, Hero.MAX_HP, GreatWizard.SUPER_HEAL_SKILL_NAME);
-
-                // Assert
-                SoftAssertions.assertSoftly(softly -> {
-                    softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp - GreatWizard.COST_FOR_SUPER_HEAL);
-                    softly.assertThat(hero.getHp()).isEqualTo(Hero.MAX_HP);
-                });
-            }
-
-            @Test
-            void mp없으면_슈퍼힐불가() {
-
-                GreatWizard greatWizard = new GreatWizard();
-                greatWizard.setMp(1);
-                Hero hero = new Hero("영웅", 10);
-
-                int beforeMp = greatWizard.getMp();
-                int beforeHroHp = hero.getHp();
-
-                greatWizard.heal(hero, GreatWizard.COST_FOR_SUPER_HEAL, Hero.MAX_HP, GreatWizard.SUPER_HEAL_SKILL_NAME);
-
-                // Assert
-                SoftAssertions.assertSoftly(softly -> {
-                    softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp);
-                    softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp);
-                });
-            }
+            // Assert
+            SoftAssertions.assertSoftly(softly -> {
+                softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp - GreatWizard.COST_FOR_HEAL);
+                softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp + GreatWizard.HEAL_HP_AMOUNT);
+            });
         }
 
+        @Test
+        void mp없으면_힐불가() {
+
+            GreatWizard greatWizard = new GreatWizard();
+            greatWizard.setMp(1);
+            Hero hero = new Hero("영웅", 10);
+
+            int beforeMp = greatWizard.getMp();
+            int beforeHroHp = hero.getHp();
+
+            greatWizard.heal(hero, GreatWizard.COST_FOR_HEAL, GreatWizard.HEAL_HP_AMOUNT, GreatWizard.HEAL_SKILL_NAME);
+
+            // Assert
+            SoftAssertions.assertSoftly(softly -> {
+                softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp);
+                softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp);
+            });
+        }
+
+        @Test
+        void 슈퍼힐하면_히어로체력을_풀피로_힐하고_위자드Mp를_50감소한다() {
+
+            GreatWizard greatWizard = new GreatWizard();
+            Hero hero = new Hero("영웅", 10);
+
+            int beforeMp = greatWizard.getMp();
+            int beforeHroHp = hero.getHp();
+
+            greatWizard.heal(hero, GreatWizard.COST_FOR_SUPER_HEAL, Hero.MAX_HP, GreatWizard.SUPER_HEAL_SKILL_NAME);
+
+            // Assert
+            SoftAssertions.assertSoftly(softly -> {
+                softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp - GreatWizard.COST_FOR_SUPER_HEAL);
+                softly.assertThat(hero.getHp()).isEqualTo(Hero.MAX_HP);
+            });
+        }
+
+        @Test
+        void mp없으면_슈퍼힐불가() {
+
+            GreatWizard greatWizard = new GreatWizard();
+            greatWizard.setMp(1);
+            Hero hero = new Hero("영웅", 10);
+
+            int beforeMp = greatWizard.getMp();
+            int beforeHroHp = hero.getHp();
+
+            greatWizard.heal(hero, GreatWizard.COST_FOR_SUPER_HEAL, Hero.MAX_HP, GreatWizard.SUPER_HEAL_SKILL_NAME);
+
+            // Assert
+            SoftAssertions.assertSoftly(softly -> {
+                softly.assertThat(greatWizard.getMp()).isEqualTo(beforeMp);
+                softly.assertThat(hero.getHp()).isEqualTo(beforeHroHp);
+            });
+        }
     }
 }

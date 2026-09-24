@@ -3,10 +3,10 @@ package com.survivalcoding.day04.exam;
 import java.util.Random;
 
 public class Hero {
-    public static final int MIN_NAME_LENGTH = 1;
-    public static final int MAX_NAME_LENGTH = 8;
-    public static final int MAX_RANDOM_MONEY = 1000;
-    public static final int MAX_HP = 100;
+    private static final int MIN_NAME_LENGTH = 1;
+    private static final int MAX_NAME_LENGTH = 8;
+    private static final int MAX_RANDOM_MONEY = 1000;
+    static final int MAX_HP = 100;
     private static final int SLIP_DAMAGE = 5;
     private static final int INIT_POWER = 10;
 
