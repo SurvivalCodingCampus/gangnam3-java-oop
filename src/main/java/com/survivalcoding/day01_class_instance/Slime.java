@@ -17,6 +17,27 @@ public class Slime {
         this.level = LEVEL;
     }
 
+    // method
+    public void attack(Hero hero) {
+        System.out.println("슬라임" + this.suffix + "이/가 공격했다!");
+        System.out.println("10의 데미지");
+
+        int damage = 10;
+        hero.takeDamage(damage);
+    }
+
+    public void run() {
+        System.out.println("슬라임 " + this.suffix + "가 도망갔다");
+    }
+
+    // 테스트 코드 실습용 메서드
+    void takeDamage(int damage) {
+        this.hp -= damage;
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
+    }
+
     // getter
     public String getSuffix() {
         return suffix;
@@ -37,18 +58,5 @@ public class Slime {
 
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    // method
-    public void run() {
-        System.out.println("슬라임 " + this.suffix + "가 도망갔다");
-    }
-
-    // 테스트 코드 실습용 메서드
-    void takeDamage(int damage) {
-        this.hp -= damage;
-        if (this.hp < 0) {
-            this.hp = 0;
-        }
     }
 }
