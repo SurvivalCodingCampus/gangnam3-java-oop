@@ -6,11 +6,7 @@ import org.junit.jupiter.api.Test;
 public class Day7ExamTest {
 
     @Nested
-    class PoisonSlimeTest {
+    class SlimeTest {
 
-        @Test
-        void Div() {
-            
-        }
     }
 }

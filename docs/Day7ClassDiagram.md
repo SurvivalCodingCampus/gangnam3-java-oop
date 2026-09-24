@@ -52,9 +52,12 @@ classDiagram
     Hero <|-- SuperHero
     Wizard <|-- GreatWizard
     Slime <|-- PoisonSlime
-    GreatWizard ..> Hero : 힐
-    Wizard ..> Hero : 힐
+    Hero ..> Slime : 공격
+    SuperHero ..> Slime : 공격
     Slime ..> Hero : 공격
+    PoisonSlime ..> Hero : 공격 / 독 포자
+    Wizard ..> Hero : 힐
+    GreatWizard ..> Hero : 힐 / 슈퍼 힐
 
 ```
 
