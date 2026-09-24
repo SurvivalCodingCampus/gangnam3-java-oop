@@ -24,7 +24,6 @@ public class Kinoko {
 
      private void die() {
         System.out.println(this.suffix + "는 죽었다");
-        System.out.println("Game Over");
     }
 
     // getter

@@ -42,7 +42,6 @@ public class PoisonSlime extends Slime {
     @Override
     public void run() {
         System.out.println(this.getSuffix() + "는 도망쳤다!");
-        System.out.println("GAME OVER");
         System.out.println("최종 HP는 " + this.getHp() + "입니다");
     }
 
