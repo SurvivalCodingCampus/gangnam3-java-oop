@@ -74,14 +74,6 @@ public class Hero {
         System.out.println("HP가 " + sec + "포인트 회복되었다");
     }
 
-    public void setHp(final int hp) {
-        if (hp <= 0) {
-            throw new IllegalArgumentException("0보다 작은값은 불가 ");
-        }
-
-        this.hp = hp;
-    }
-
     public void takeDamage(final int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("1보다 작은값은 불가 ");
@@ -98,6 +90,14 @@ public class Hero {
 
     public int getHp() {
         return hp;
+    }
+
+    public void setHp(final int hp) {
+        if (hp <= 0) {
+            throw new IllegalArgumentException("0보다 작은값은 불가 ");
+        }
+
+        this.hp = hp;
     }
 
     public String getName() {
