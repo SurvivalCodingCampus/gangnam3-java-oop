@@ -61,7 +61,7 @@ public class Hero {
 
     public void slip() {
         int damage = 5;
-        setHp(this.hp - damage);
+        takeDamage(damage);
         System.out.println(this.name + "는 넘어졌다!");
         System.out.println("5의 데미지!");
     };
@@ -72,7 +72,11 @@ public class Hero {
     };
 
     public void takeDamage(int damage) {
+        int beforeHp = this.hp;
         setHp(this.hp - damage);
+        if (beforeHp > 0 && this.hp == 0) {
+            die();
+        }
     }
 
     // getter
@@ -107,9 +111,6 @@ public class Hero {
 
     public void setHp(int hp) {
         this.hp = Math.max(0, hp);
-        if (this.hp == 0) {
-            die();
-        }
     }
 
     public void setSword(Sword sword) {
