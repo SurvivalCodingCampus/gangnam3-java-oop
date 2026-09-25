@@ -67,4 +67,22 @@ class PoisonSlimeTest {
         // then
         assertEquals(expected, poisonSlime.getPoisonCount());
     }
+
+    @Test
+    @DisplayName("기본 공격으로 hero의 hp가 0이 되면 독 공격을 하지 않고 poisonCount도 유지되어야 한다")
+    void attack_shouldSkipPoisonAttack_whenHeroIsDefeatedByBaseDamage() {
+        // given
+        PoisonSlime poisonSlime = new PoisonSlime("독슬라임");
+        Hero hero = new Hero("히어로");
+        hero.setHp(10);
+        int expectedHeroHp = 0;
+        int expectedPoisonCount = 5;
+
+        // when
+        poisonSlime.attack(hero);
+
+        // then
+        assertEquals(expectedHeroHp, hero.getHp());
+        assertEquals(expectedPoisonCount, poisonSlime.getPoisonCount());
+    }
 }
