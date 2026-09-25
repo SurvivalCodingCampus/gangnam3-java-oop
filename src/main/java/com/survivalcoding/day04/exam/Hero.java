@@ -78,17 +78,21 @@ public class Hero {
 
     public void takeDamage(final int damage) {
 
-        if (damage <= 0) {
-            throw new IllegalArgumentException("1보다 작은값은 불가");
-        }
-
-        if (hp - damage <= 0) {
-            die();
-            hp = 0;
+        if (isDead) {
+            System.out.println("이미 죽음");
             return;
         }
 
+        if (damage < 1) {
+            throw new IllegalArgumentException("1보다 작은값은 불가");
+        }
+
         hp -= damage;
+
+        if (hp <= 0) {
+            hp = 0;
+            die();
+        }
     }
 
     public void takeHeal(final int amount) {
@@ -105,8 +109,8 @@ public class Hero {
     }
 
     public void setHp(final int hp) {
-        if (hp <= 0) {
-            throw new IllegalArgumentException("0보다 작은값은 불가 ");
+        if (!Utils.isWithinRange(hp, MAX_HP, 1)) {
+            throw new IllegalArgumentException("1이상 " + MAX_HP + "이하 입력");
         }
 
         this.hp = hp;

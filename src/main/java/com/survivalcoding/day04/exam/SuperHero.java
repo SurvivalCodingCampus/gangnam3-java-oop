@@ -17,6 +17,10 @@ public class SuperHero extends Hero {
     public void attack(final Slime slime, final int damage) {
         super.attack(slime, damage);
 
+        if (slime.isDead()) {
+            return;
+        }
+
         if (isFlying) {
             slime.takeDamage(BONUS_DAMAGE);
             System.out.println(BONUS_DAMAGE + "포인트의 추가 피해를 입혔다");

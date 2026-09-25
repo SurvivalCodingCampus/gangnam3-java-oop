@@ -27,23 +27,32 @@ public class Slime {
             throw new IllegalArgumentException("데미지는 1이상이어야 함");
         }
 
+        if (hero.isDead()) {
+            return;
+        }
+
         System.out.println("슬라임 " + suffix + "이/가 공격했다");
         System.out.println(damage + "의 데미지");
         hero.takeDamage(damage);
     }
 
     public void takeDamage(final int damage) {
+
+        if (isDead) {
+            System.out.println("이미 죽음");
+            return;
+        }
+
         if (damage < 1) {
             throw new IllegalArgumentException("1보다 작은값은 불가");
         }
 
-        if (hp - damage <= 0) {
-            die();
-            hp = 0;
-            return;
-        }
-
         hp -= damage;
+
+        if (hp <= 0) {
+            hp = 0;
+            die();
+        }
     }
 
     private void die() {
