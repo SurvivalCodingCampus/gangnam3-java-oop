@@ -36,13 +36,13 @@ public class Hero {
     }
 
     private void die() {
-        System.out.println(this.name + "는 죽었다");
+        System.out.println(this.name + "은/는 죽었다");
         System.out.println("Game Over");
     }
 
     public void attack(Kinoko enemy) {
         System.out.println(this.name + "의 공격!");
-        System.out.println("괴물 버섯" + enemy.getSuffix() + "로부터 2포인트의 반격을 받았다");
+        System.out.println(enemy.getSuffix() + "으로부터 2포인트의 반격을 받았다");
 
         int returned = 2;
         this.takeDamage(returned);
