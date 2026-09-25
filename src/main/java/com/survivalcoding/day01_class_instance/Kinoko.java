@@ -13,16 +13,20 @@ public class Kinoko {
     // constructor
     public Kinoko(String suffix, int hp) {
         this.suffix = suffix;
-        this.hp = Math.max(0, hp);
+        setHp(hp);
         this.level = LEVEL;
     }
 
     // method
-     public void takeDamage(int damage) {
+    public void takeDamage(int damage) {
+        int beforeHp = this.hp;
         setHp(this.hp - damage);
+        if (beforeHp > 0 && this.hp == 0) {
+            die();
+        }
     }
 
-     private void die() {
+    private void die() {
         System.out.println(this.suffix + "는 죽었다");
     }
 
@@ -46,8 +50,5 @@ public class Kinoko {
 
     public void setHp(int hp) {
         this.hp = Math.max(0, hp);
-        if (this.hp == 0) {
-            die();
-        }
     }
 }
