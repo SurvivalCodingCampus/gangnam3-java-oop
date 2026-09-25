@@ -32,6 +32,7 @@ package "com.survivalcoding.day01_class_instance" {
 
         + void attack(Hero hero)
         + void run()
+        - void poisonAttack(Hero hero)
     }
 
     class Hero {
