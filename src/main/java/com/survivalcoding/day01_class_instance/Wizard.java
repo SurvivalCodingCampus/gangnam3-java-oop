@@ -2,6 +2,9 @@ package com.survivalcoding.day01_class_instance;
 
 public class Wizard {
 
+    // constant
+    private static final int DEFAULT_MP = 100;
+
     // field
     private String name;
     private int hp;
@@ -9,19 +12,30 @@ public class Wizard {
     private Wand wand;
 
     // constructor
-    public Wizard(String name, int hp, int mp, Wand wand) {
+    protected Wizard(String name, int hp, int mp, Wand wand) {
         setName(name);
         setHp(hp);
         setMp(mp);
         setWand(wand);
     }
 
+    public Wizard(String name, int hp, Wand wand) {
+        this(name, hp, DEFAULT_MP, wand);
+    }
+
     // method
     public void heal(Hero hero) {
-        int basePoint = 10;
-        int recovPoint = (int) (basePoint * this.wand.getPower());
+        int mpCost = 10;
+        if (mp < 10) {
+            System.out.println("마나가 부족합니다");
+            return;
+        }
 
+        int recovPoint = 20;
         hero.setHp(hero.getHp() + recovPoint);
+        this.setMp(this.getMp() - mpCost);
+
+        System.out.println("힐을 시전했습니다. 대상 HP: " + hero.getHp());
     }
 
     // getter

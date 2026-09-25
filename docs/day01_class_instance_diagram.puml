@@ -2,12 +2,42 @@
 scale 1
 
 package "com.survivalcoding.day01_class_instance" {
-    
+
     class Kinoko {
+        {static} - int LEVEL
         - String suffix
+        - int hp
+        - int level
+
+        + void takeDamage(int damage)
+        - void die()
+    }
+
+    class Slime {
+        {static} - int LEVEL
+
+        - String suffix
+        - int hp
+        - int level
+
+        + void attack(Hero hero)
+        + void run()
+        ~ void takeDamage(int damage)
+    }
+
+    class PoisonSlime {
+        {static} - int POISON_COUNT
+
+        - int poisonCount
+
+        + void attack(Hero hero)
+        + void run()
+        - void poisonAttack(Hero hero)
     }
 
     class Hero {
+        {static} + int DEFAULT_HP
+
         - String name
         - int hp
         - Sword sword
@@ -21,8 +51,18 @@ package "com.survivalcoding.day01_class_instance" {
         + void sit(int sec)
         + void slip()
         + void sleep()
+        + void takeDamage(int damage)
 
         {static} + void setRandomMoney()
+    }
+
+    class SuperHero {
+        - boolean isFlying
+
+        + void fly()
+        + void land()
+        + void attack(Kinoko enemy)
+        + void run()
     }
 
     class Sword {
@@ -31,12 +71,21 @@ package "com.survivalcoding.day01_class_instance" {
     }
 
     class Wizard {
+        {static} - int DEFAULT_MP
+
         - String name
         - int hp
         - int mp
         - Wand wand
 
         + void heal(Hero hero)
+    }
+
+    class GreatWizard {
+        {static} - int DEFAULT_MP
+
+        + void heal(Hero hero)
+        + void superHeal(Hero hero)
     }
 
     class Wand {
@@ -57,6 +106,10 @@ package "com.survivalcoding.day01_class_instance" {
 
     Hero ..> Kinoko : Uses-A
     Wizard ..> Hero : Uses-A
+
+    SuperHero --|> Hero : Is-A
+    GreatWizard --|> Wizard : Is-A
+    PoisonSlime --|> Slime : Is-A
 }
 
 @enduml
