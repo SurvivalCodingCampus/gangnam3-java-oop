@@ -3,8 +3,7 @@ package com.survivalcoding.day04.exam;
 public class Wizard {
     static final int HEAL_HP_AMOUNT = 20;
     static final int COST_FOR_HEAL = 10;
-    static final String HEAL_SKILL_NAME = "힐";
-
+    protected static final String HEAL_SKILL_NAME = "힐";
     private static final int MAX_MP = 100;
     private static final int MAX_HP = 100;
     private static final String DEFAULT_NAME = "마법사";
