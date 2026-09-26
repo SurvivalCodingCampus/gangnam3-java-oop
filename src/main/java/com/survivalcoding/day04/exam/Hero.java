@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Hero {
     static final int MAX_HP = 100;
-
     private static final int MIN_NAME_LENGTH = 1;
     private static final int MAX_NAME_LENGTH = 8;
     private static final int MAX_RANDOM_MONEY = 1000;
@@ -20,12 +19,35 @@ public class Hero {
     private int power;
     private boolean isDead;
 
-    // Builder를 통해서만 객체 생성 가능
     protected Hero(Builder builder) {
-        setName(builder.name);
-        setHp(builder.hp);
-        setSword(builder.sword);
-        setPower(builder.power);
+        if (!Utils.isValidName(builder.name)) {
+            throw new IllegalArgumentException("이름은 공란 불가");
+        }
+
+        if (builder.name.length() <= MIN_NAME_LENGTH) {
+            throw new IllegalArgumentException("이름이 너무 짧음");
+        }
+
+        if (builder.name.length() >= MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("이름이 너무 긺");
+        }
+
+        if (!Utils.isWithinRange(builder.hp, MAX_HP, 1)) {
+            throw new IllegalArgumentException("1이상 " + MAX_HP + "이하 입력");
+        }
+
+        if (builder.sword == null) {
+            throw new IllegalArgumentException("sword에 널");
+        }
+
+        if (builder.power < 1) {
+            throw new IllegalArgumentException("파워는 1보다 커야 함");
+        }
+
+        name = builder.name;
+        hp = builder.hp;
+        sword = builder.sword;
+        power = builder.power;
         money = new java.util.Random().nextInt(MAX_RANDOM_MONEY);
         isDead = false;
     }
@@ -99,47 +121,7 @@ public class Hero {
 
     // endregion Func
 
-    // region Getter Setter
-
-    private void setHp(final int hp) {
-        if (!Utils.isWithinRange(hp, MAX_HP, 1)) {
-            throw new IllegalArgumentException("1이상 " + MAX_HP + "이하 입력");
-        }
-
-        this.hp = hp;
-    }
-
-    private void setName(final String name) {
-        if (!Utils.isValidName(name)) {
-            throw new IllegalArgumentException("이름은 공란 불가");
-        }
-
-        if (name.length() <= MIN_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름이 너무 짧음");
-        }
-
-        if (name.length() >= MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름이 너무 긺");
-        }
-
-        this.name = name;
-    }
-
-    private void setPower(final int power) {
-        if (power < 1) {
-            throw new IllegalArgumentException("파워는 1보다 커야 함");
-        }
-
-        this.power = power;
-    }
-
-    private void setSword(Sword sword) {
-        if (sword == null) {
-            throw new IllegalArgumentException("sword에 널");
-        }
-
-        this.sword = sword;
-    }
+    // region Getter
 
     public int getHp() {
         return hp;

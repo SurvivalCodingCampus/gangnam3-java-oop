@@ -14,12 +14,32 @@ public class Wizard {
     private String name;
     private Wand wand;
 
-    // Builder를 통해서만 객체 생성 가능
     protected Wizard(final Builder builder) {
-        setHp(builder.hp);
-        setMp(builder.mp);
-        setName(builder.name);
-        setWand(builder.wand);
+        if (builder.hp < 0) {
+            hp = 0;
+            System.out.println("음수여서 0으로 설정함");
+        } else {
+            hp = builder.hp;
+        }
+
+        if (builder.mp < 0) {
+            throw new IllegalArgumentException("0이상의 mp 입력");
+        }
+
+        if (builder.name == null) {
+            throw new IllegalArgumentException("이름은 null 금지");
+        }
+        if (builder.name.length() < MIN_NAME_LENGTH) {
+            throw new IllegalArgumentException("이름은 3문자 이상");
+        }
+
+        if (builder.wand == null) {
+            throw new IllegalArgumentException("null 금지");
+        }
+
+        name = builder.name;
+        mp = builder.mp;
+        wand = builder.wand;
     }
 
     // region Func
@@ -53,7 +73,7 @@ public class Wizard {
 
     // endregion Func
 
-    // region Getter Setter
+    // region Getter
 
     public int getHp() {
         return hp;
@@ -69,39 +89,6 @@ public class Wizard {
 
     public Wand getWand() {
         return wand;
-    }
-
-    private void setHp(final int hp) {
-        if (hp < 0) {
-            this.hp = 0;
-            System.out.println("음수여서 0으로 설정함");
-            return;
-        }
-        this.hp = hp;
-    }
-
-    private void setMp(final int mp) {
-        if (mp < 0) {
-            throw new IllegalArgumentException("0이상의 mp 입력");
-        }
-        this.mp = mp;
-    }
-
-    private void setName(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("이름은 null 금지");
-        }
-        if (name.length() < MIN_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름은 3문자 이상");
-        }
-        this.name = name;
-    }
-
-    private void setWand(final Wand wand) {
-        if (wand == null) {
-            throw new IllegalArgumentException("null 금지");
-        }
-        this.wand = wand;
     }
 
     // endregion

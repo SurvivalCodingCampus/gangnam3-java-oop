@@ -8,7 +8,6 @@ public class GreatWizard extends Wizard {
 
     private static final int MAX_MP = 150;
 
-    // Builder를 통해서만 생성 가능
     private GreatWizard(Builder builder) {
         super(builder);
     }

@@ -5,7 +5,6 @@ public class SuperHero extends Hero {
 
     private boolean isFlying;
 
-    // Builder를 통해서만 생성 가능
     private SuperHero(Builder builder) {
         super(builder);
         isFlying = builder.isFlying;
@@ -42,7 +41,7 @@ public class SuperHero extends Hero {
 
     // endregion
 
-    // region Getter Setter
+    // region Getter
 
     public boolean isFlying() {
         return isFlying;

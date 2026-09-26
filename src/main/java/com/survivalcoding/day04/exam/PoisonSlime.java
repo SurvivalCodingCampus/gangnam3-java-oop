@@ -1,15 +1,18 @@
 package com.survivalcoding.day04.exam;
 
 public class PoisonSlime extends Slime {
-
     private static final int POISON_RATE = 5;
     private static final int MAX_POISON_COUNT = 5;
     private int poisonCount;
 
-    // Builder를 통해서만 객체 생성 가능
     private PoisonSlime(Builder builder) {
-        super(builder); // 부모 Slime의 빌더 전용 생성자 호출
-        setPoisonCount(builder.poisonCount);
+        super(builder);
+
+        if (builder.poisonCount < 0) {
+            throw new IllegalArgumentException("0보다 작습니다");
+        }
+
+        poisonCount = builder.poisonCount;
     }
 
     // region Func
@@ -38,19 +41,12 @@ public class PoisonSlime extends Slime {
 
     // endregion Func
 
-    // region Getter Setter
+    // region Getter
 
     public int getPoisonCount() {
         return poisonCount;
     }
 
-    private void setPoisonCount(int poisonCount) {
-        if (poisonCount < 0) {
-            throw new IllegalArgumentException("0보다 작습니다");
-        }
-
-        this.poisonCount = poisonCount;
-    }
 
     // endregion
 

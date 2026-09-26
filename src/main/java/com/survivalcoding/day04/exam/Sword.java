@@ -7,13 +7,20 @@ public class Sword {
     private String name;
     private int damage;
 
-    // Builder를 통해서만 객체 생성 가능
     private Sword(Builder builder) {
-        setName(builder.name);
-        setDamage(builder.damage);
+        if (!Utils.isValidName(builder.name)) {
+            throw new IllegalArgumentException("이름은 널 공란 금지");
+        }
+
+        if (builder.damage <= 0) {
+            throw new IllegalArgumentException("데미지는 1이상");
+        }
+
+        name = builder.name;
+        damage = builder.damage;
     }
 
-    // region Getter Setter
+    // region Getter
 
     public String getName() {
         return name;
@@ -21,20 +28,6 @@ public class Sword {
 
     public int getDamage() {
         return damage;
-    }
-
-    private void setName(String name) {
-        if (!Utils.isValidName(name)) {
-            throw new IllegalArgumentException("이름은 널 공란 금지");
-        }
-        this.name = name;
-    }
-
-    private void setDamage(int damage) {
-        if (damage <= 0) {
-            throw new IllegalArgumentException("데미지는 1이상");
-        }
-        this.damage = damage;
     }
 
     // endregion

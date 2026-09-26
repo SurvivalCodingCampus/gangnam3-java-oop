@@ -10,13 +10,27 @@ public class Wand {
     private String name;
     private double power;
 
-    // Builder를 통해서만 객체 생성 가능
     private Wand(Builder builder) {
-        setName(builder.name);
-        setPower(builder.power);
+        if (builder.name == null) {
+            throw new IllegalArgumentException("이름은 null 금지");
+        }
+
+        if (builder.name.length() < MIN_NAME_LENGTH) {
+            throw new IllegalArgumentException("이름은 3문자 이상");
+        }
+
+        if (!Utils.isWithinRange(builder.power, MAX_POWER, MIN_POWER)) {
+            throw new IllegalArgumentException(
+                    "유효한 범위를 입력해 주세용 max(%f) min(%.1f)"
+                            .formatted(MAX_POWER, MIN_POWER)
+            );
+        }
+
+        name = builder.name;
+        power = builder.power;
     }
 
-    // region Getter Setter
+    // region Getter
 
     public String getName() {
         return name;
@@ -24,32 +38,6 @@ public class Wand {
 
     public double getPower() {
         return power;
-    }
-
-    private void setName(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("이름은 null 금지");
-        }
-
-        if (name.length() < MIN_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름은 3문자 이상");
-        }
-
-        this.name = name;
-    }
-
-    /**
-     * 유효범위 max 100 min 0.5
-     */
-    private void setPower(final double power) {
-        if (!Utils.isWithinRange(power, MAX_POWER, MIN_POWER)) {
-            throw new IllegalArgumentException(
-                    "유효한 범위를 입력해 주세용 max(%f) min(%.1f)"
-                            .formatted(MAX_POWER, MIN_POWER)
-            );
-        }
-
-        this.power = power;
     }
 
     // endregion

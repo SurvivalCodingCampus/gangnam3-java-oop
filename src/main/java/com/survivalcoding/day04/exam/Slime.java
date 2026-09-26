@@ -2,7 +2,6 @@ package com.survivalcoding.day04.exam;
 
 public class Slime {
     static final int MAX_HP = 20;
-
     private static final int DEFAULT_POWER = 10;
     private static final String DEFAULT_SUFFIX = "A";
 
@@ -11,12 +10,23 @@ public class Slime {
     private int power;
     private boolean isDead;
 
-    // Builder를 통해서만 객체 생성 가능
     protected Slime(Builder builder) {
-        setSuffix(builder.suffix);
-        setHp(builder.hp);
-        setPower(builder.power);
-        this.isDead = false;
+        if (!Utils.isValidName(builder.suffix)) {
+            throw new IllegalArgumentException("이름에 널, 공란 불가");
+        }
+
+        if (builder.hp < 0) {
+            throw new IllegalArgumentException("0보다 커야함");
+        }
+
+        if (builder.power <= 0) {
+            throw new IllegalArgumentException("1보다 커야함");
+        }
+
+        suffix = builder.suffix;
+        hp = builder.hp;
+        power = builder.power;
+        isDead = false;
     }
 
     // region Func
@@ -30,12 +40,12 @@ public class Slime {
             throw new IllegalArgumentException("히어로 널");
         }
 
-        if (hero.isDead()) {
-            return;
-        }
-
         if (damage < 1) {
             throw new IllegalArgumentException("데미지는 1이상이어야 함");
+        }
+
+        if (hero.isDead()) {
+            return;
         }
 
         System.out.println("슬라임 " + suffix + "이/가 공격했다");
@@ -68,31 +78,7 @@ public class Slime {
 
     // endregion Func
 
-    // region Getter Setter
-
-    private void setHp(final int hp) {
-        if (hp < 0) {
-            throw new IllegalArgumentException("0보다 커야함");
-        }
-
-        this.hp = hp;
-    }
-
-    private void setPower(final int power) {
-        if (power <= 0) {
-            throw new IllegalArgumentException("1보다 커야함");
-        }
-
-        this.power = power;
-    }
-
-    private void setSuffix(final String suffix) {
-        if (!Utils.isValidName(suffix)) {
-            throw new IllegalArgumentException("이름에 널, 공란 불가");
-        }
-
-        this.suffix = suffix;
-    }
+    // region Getter
 
     public int getHp() {
         return hp;
@@ -110,7 +96,7 @@ public class Slime {
         return isDead;
     }
 
-    // endregion Getter Setter
+    // endregion
 
     public static class Builder {
         protected String suffix = DEFAULT_SUFFIX;
