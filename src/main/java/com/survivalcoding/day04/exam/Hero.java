@@ -3,43 +3,34 @@ package com.survivalcoding.day04.exam;
 import java.util.Random;
 
 public class Hero {
+    static final int MAX_HP = 100;
+
     private static final int MIN_NAME_LENGTH = 1;
     private static final int MAX_NAME_LENGTH = 8;
     private static final int MAX_RANDOM_MONEY = 1000;
-    static final int MAX_HP = 100;
     private static final int SLIP_DAMAGE = 5;
-    private static final int INIT_POWER = 10;
+    private static final int DEFAULT_POWER = 10;
+    private static final String DEFAULT_NAME = "김영웅";
 
-    private static int money = 100;
+    private static int money;
 
     private String name;
     private int hp;
     private Sword sword;
-    int power;
+    private int power;
     private boolean isDead;
 
-    public Hero() {
-        this("김영웅", MAX_HP);
+    // Builder를 통해서만 객체 생성 가능
+    protected Hero(Builder builder) {
+        setName(builder.name);
+        setHp(builder.hp);
+        setSword(builder.sword);
+        setPower(builder.power);
+        money = new java.util.Random().nextInt(MAX_RANDOM_MONEY);
+        isDead = false;
     }
 
-    public Hero(final String name) {
-        this(name, MAX_HP);
-    }
-
-    public Hero(String name, int hp) {
-        this(new Sword(), hp, name);
-    }
-
-    public Hero(Sword sword, int hp, String name) {
-        setSword(sword);
-        setHp(hp);
-        setName(name);
-        setPower(INIT_POWER);
-    }
-
-    public void setRandomMoney() {
-        money = new Random().nextInt(MAX_RANDOM_MONEY);
-    }
+    // region Func
 
     public void bye() {
         System.out.println("용자는 이별을 고했다");
@@ -52,10 +43,14 @@ public class Hero {
 
     public void sleep() {
         hp = MAX_HP;
-        System.out.println(name +"는 잠을 자고 회복했다!");
+        System.out.println(name + "는 잠을 자고 회복했다!");
     }
 
-    public void attack(final Slime slime, final int damage) {
+    public void attack(final Slime slime) {
+        attack(slime, power);
+    }
+
+    private void attack(final Slime slime, final int damage) {
         System.out.println(name + "이 공격했다");
         slime.takeDamage(damage);
     }
@@ -77,7 +72,6 @@ public class Hero {
     }
 
     public void takeDamage(final int damage) {
-
         if (isDead) {
             System.out.println("이미 죽음");
             return;
@@ -96,7 +90,6 @@ public class Hero {
     }
 
     public void takeHeal(final int amount) {
-
         if (amount <= 0) {
             throw new IllegalArgumentException("힐은 0보다 커야 함");
         }
@@ -104,11 +97,11 @@ public class Hero {
         hp = Math.min(Hero.MAX_HP, hp + amount);
     }
 
-    public int getHp() {
-        return hp;
-    }
+    // endregion Func
 
-    public void setHp(final int hp) {
+    // region Getter Setter
+
+    private void setHp(final int hp) {
         if (!Utils.isWithinRange(hp, MAX_HP, 1)) {
             throw new IllegalArgumentException("1이상 " + MAX_HP + "이하 입력");
         }
@@ -116,11 +109,7 @@ public class Hero {
         this.hp = hp;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
+    private void setName(final String name) {
         if (!Utils.isValidName(name)) {
             throw new IllegalArgumentException("이름은 공란 불가");
         }
@@ -136,7 +125,7 @@ public class Hero {
         this.name = name;
     }
 
-    public void setPower(final int power) {
+    private void setPower(final int power) {
         if (power < 1) {
             throw new IllegalArgumentException("파워는 1보다 커야 함");
         }
@@ -144,24 +133,68 @@ public class Hero {
         this.power = power;
     }
 
-    public boolean isDead() {
-        return isDead;
+    private void setSword(Sword sword) {
+        if (sword == null) {
+            throw new IllegalArgumentException("sword에 널");
+        }
+
+        this.sword = sword;
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
+    public int getHp() {
+        return hp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     public Sword getSword() {
         return sword;
     }
 
-    public void setSword(Sword sword) {
+    public int getPower() {
+        return power;
+    }
 
-        if (sword == null) {
-            throw new IllegalArgumentException("sword에 널");
+    public static int getMoney() {
+        return money;
+    }
+
+    // endregion
+
+    public static class Builder {
+        protected String name = DEFAULT_NAME;
+        protected int hp = MAX_HP;
+        protected Sword sword = new Sword.Builder().build();
+        protected int power = DEFAULT_POWER;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
         }
 
-        this.sword = sword;
+        public Builder hp(int hp) {
+            this.hp = hp;
+            return this;
+        }
+
+        public Builder sword(Sword sword) {
+            this.sword = sword;
+            return this;
+        }
+
+        public Builder power(int power) {
+            this.power = power;
+            return this;
+        }
+
+        public Hero build() {
+            return new Hero(this);
+        }
     }
 }

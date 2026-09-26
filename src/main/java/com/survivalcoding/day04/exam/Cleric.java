@@ -10,22 +10,14 @@ public class Cleric {
     private int mp;
     private String name;
 
-    // 생성자를 바로 이용해서 생성하지 않음
-    public Cleric(final String name, final int hp, final int mp) {
-        setName(name);
-        setHp(hp);
-        setMp(mp);
+    // Builder를 통해서만 객체 생성 가능
+    private Cleric(Builder builder) {
+        setName(builder.name);
+        setHp(builder.hp);
+        setMp(builder.mp);
     }
 
-    // 생성자를 바로 이용해서 생성하지 않음
-    public Cleric(final String name, final int hp) {
-        this(name, hp, MAX_MP);
-    }
-
-    // 생성자를 바로 이용해서 생성하지 않음
-    public Cleric(final String name) {
-        this(name, MAX_HP, MAX_MP);
-    }
+    // region Func
 
     public void selfAid() {
         if (mp - COST_FOR_SELF_AID < 0) {
@@ -42,8 +34,8 @@ public class Cleric {
      *
      * @param durationSecond 기도 시간
      * @return 정상 처리 시 회복량 <br>
-     *         이미 최대값인 경우 0 <br>
-     *         범위를 벗어난 경우 -1
+     * 이미 최대값인 경우 0 <br>
+     * 범위를 벗어난 경우 -1
      */
     public int pray(final int durationSecond) {
         if (mp == MAX_MP) {
@@ -67,6 +59,31 @@ public class Cleric {
         return mpRestoreAmount;
     }
 
+    // endregion Func
+
+    // region Getter Setter
+
+    private void setHp(final int hp) {
+        if (!Utils.isWithinRange(hp, MAX_HP, 0)) {
+            throw new IllegalArgumentException("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + 0 + ")");
+        }
+        this.hp = hp;
+    }
+
+    private void setMp(final int mp) {
+        if (!Utils.isWithinRange(mp, MAX_MP, 0)) {
+            throw new IllegalArgumentException("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinHp(" + 0 + ")");
+        }
+        this.mp = mp;
+    }
+
+    private void setName(final String name) {
+        if (!Utils.isValidName(name)) {
+            throw new IllegalArgumentException("올바른 이름을 넣어주세요");
+        }
+        this.name = name;
+    }
+
     public int getMp() {
         return mp;
     }
@@ -79,27 +96,30 @@ public class Cleric {
         return name;
     }
 
-    public void setHp(final int hp) {
-        if (!Utils.isWithinRange(hp, MAX_HP, 0)) {
-            throw new IllegalArgumentException("올바른 HP를 넣어주세요 MaxHp(" + MAX_HP + ") MinHp(" + 0 + ")");
+    // endregion
+
+    public static class Builder {
+        private String name;
+        private int hp = MAX_HP;
+        private int mp = MAX_MP;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
         }
 
-        this.hp = hp;
-    }
-
-    public void setMp(final int mp) {
-        if (!Utils.isWithinRange(mp, MAX_MP, 0)) {
-             throw new IllegalArgumentException("올바른 MP를 넣어주세요 MaxMp(" + MAX_MP + ") MinMp(" + 0 + ")");
+        public Builder hp(int hp) {
+            this.hp = hp;
+            return this;
         }
 
-        this.mp = mp;
-    }
-
-    public void setName(final String name) {
-        if (!Utils.isValidName(name)) {
-            throw new IllegalArgumentException("올바른 이름을 넣어주세요");
+        public Builder mp(int mp) {
+            this.mp = mp;
+            return this;
         }
 
-        this.name = name;
+        public Cleric build() {
+            return new Cleric(this);
+        }
     }
 }

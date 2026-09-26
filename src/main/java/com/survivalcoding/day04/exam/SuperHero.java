@@ -1,12 +1,17 @@
 package com.survivalcoding.day04.exam;
 
 public class SuperHero extends Hero {
-    private boolean isFlying;
     static final int BONUS_DAMAGE = 5;
 
-    public SuperHero(final String name, final int hp) {
-        super(name, hp);
+    private boolean isFlying;
+
+    // Builder를 통해서만 생성 가능
+    private SuperHero(Builder builder) {
+        super(builder);
+        isFlying = builder.isFlying;
     }
+
+    // region Func
 
     @Override
     public void run() {
@@ -14,8 +19,8 @@ public class SuperHero extends Hero {
     }
 
     @Override
-    public void attack(final Slime slime, final int damage) {
-        super.attack(slime, damage);
+    public void attack(final Slime slime) {
+        super.attack(slime);
 
         if (slime.isDead()) {
             return;
@@ -31,11 +36,55 @@ public class SuperHero extends Hero {
         isFlying = false;
     }
 
+    public void fly() {
+        isFlying = true;
+    }
+
+    // endregion
+
+    // region Getter Setter
+
     public boolean isFlying() {
         return isFlying;
     }
 
-    public void setFlying(final boolean flying) {
-        isFlying = flying;
+    // endregion
+
+    public static class Builder extends Hero.Builder {
+        private boolean isFlying = false;
+
+        @Override
+        public Builder name(String name) {
+            super.name(name);
+            return this;
+        }
+
+        @Override
+        public Builder hp(int hp) {
+            super.hp(hp);
+            return this;
+        }
+
+        @Override
+        public Builder sword(Sword sword) {
+            super.sword(sword);
+            return this;
+        }
+
+        @Override
+        public Builder power(int power) {
+            super.power(power);
+            return this;
+        }
+
+        public Builder isFlying(boolean isFlying) {
+            this.isFlying = isFlying;
+            return this;
+        }
+
+        @Override
+        public SuperHero build() {
+            return new SuperHero(this);
+        }
     }
 }

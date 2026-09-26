@@ -12,38 +12,34 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Day6ExamTest {
+
     @Nested
     class WandTest {
         @Test
         @DisplayName("지팡이 이름은 null일 수 없다")
         void nameShouldNotBeNull() {
-            // given
-            final Wand wand = new Wand();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wand.setName(null));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wand.Builder().name(null).build()
+            );
         }
 
         @ParameterizedTest
         @ValueSource(strings = {"가나", "가"})
         @DisplayName("지팡이 이름이 3문자 미만이면 예외가 발생한다")
         void nameShouldBeAtLeastThreeCharacters(final String name) {
-            // given
-            final Wand wand = new Wand();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wand.setName(name));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wand.Builder().name(name).build()
+            );
         }
 
         @ParameterizedTest
         @ValueSource(strings = {"가나다", "가나다라"})
         @DisplayName("지팡이 이름이 3문자 이상이면 설정된다")
         void validNameShouldBeSet(final String name) {
-            // given
-            final Wand wand = new Wand();
-
-            // when
-            wand.setName(name);
+            // given & when
+            final Wand wand = new Wand.Builder().name(name).build();
 
             // then
             assertEquals(name, wand.getName());
@@ -53,22 +49,18 @@ public class Day6ExamTest {
         @ValueSource(doubles = {0.4, 100.1})
         @DisplayName("지팡이 마력이 0.5 미만 또는 100.0 초과이면 예외가 발생한다")
         void invalidPowerShouldThrowException(final double power) {
-            // given
-            final Wand wand = new Wand();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wand.setPower(power));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wand.Builder().power(power).build()
+            );
         }
 
         @ParameterizedTest
-        @ValueSource(doubles = {0.5, 0.51, 99.9, 100})
+        @ValueSource(doubles = {0.5, 0.51, 99.9, 100.0})
         @DisplayName("지팡이 마력이 0.5 이상 100.0 이하이면 설정된다")
         void validPowerShouldBeSet(final double power) {
-            // given
-            final Wand wand = new Wand();
-
-            // when
-            wand.setPower(power);
+            // given & when
+            final Wand wand = new Wand.Builder().power(power).build();
 
             // then
             assertEquals(power, wand.getPower());
@@ -81,33 +73,28 @@ public class Day6ExamTest {
         @NullSource
         @DisplayName("마법사의 이름은 null일 수 없다")
         void nameShouldNotBeNull(final String name) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wizard.setName(name));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wizard.Builder().name(name).build()
+            );
         }
 
         @ParameterizedTest
         @ValueSource(strings = { "홍길", "홍" })
         @DisplayName("마법사의 이름이 3문자 미만이면 예외가 발생한다")
         void nameShouldBeAtLeastThreeCharacters(final String name) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wizard.setName(name));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wizard.Builder().name(name).build()
+            );
         }
 
         @ParameterizedTest
         @ValueSource(strings = { "홍길동", "홍길동님" })
         @DisplayName("마법사의 이름이 3문자 이상이면 설정할 수 있다")
         void validNameShouldBeSet(final String name) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when
-            wizard.setName(name);
+            // given & when
+            final Wizard wizard = new Wizard.Builder().name(name).build();
 
             // then
             assertEquals(name, wizard.getName());
@@ -116,25 +103,25 @@ public class Day6ExamTest {
         @Test
         @DisplayName("마법사의 지팡이는 null일 수 없다")
         void wandShouldNotBeNull() {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wizard.setWand(null));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wizard.Builder().wand(null).build()
+            );
         }
 
         @Test
         @DisplayName("마법사에게 유효한 지팡이를 설정할 수 있다")
         void validWandShouldBeSet() {
             // given
-            final Wizard wizard = new Wizard();
-            final Wand wand = new Wand();
-
-            wand.setName("불꽃봉");
-            wand.setPower(50.0);
+            final Wand wand = new Wand.Builder()
+                    .name("불꽃봉")
+                    .power(50.0)
+                    .build();
 
             // when
-            wizard.setWand(wand);
+            final Wizard wizard = new Wizard.Builder()
+                    .wand(wand)
+                    .build();
 
             // then
             assertSame(wand, wizard.getWand());
@@ -144,22 +131,18 @@ public class Day6ExamTest {
         @ValueSource(ints = { -1 })
         @DisplayName("MP가 0보다 작으면 예외가 발생한다")
         void negativeMpShouldThrowException(final int mp) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when & then
-            assertThrows(IllegalArgumentException.class, () -> wizard.setMp(mp));
+            // given & when & then
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Wizard.Builder().mp(mp).build()
+            );
         }
 
         @ParameterizedTest
         @ValueSource(ints = { 0, 1 })
         @DisplayName("MP가 0 이상이면 설정할 수 있다")
         void validMpShouldBeSet(final int mp) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when
-            wizard.setMp(mp);
+            // given & when
+            final Wizard wizard = new Wizard.Builder().mp(mp).build();
 
             // then
             assertEquals(mp, wizard.getMp());
@@ -169,11 +152,8 @@ public class Day6ExamTest {
         @ValueSource(ints = { -1, -100 })
         @DisplayName("HP가 음수이면 0으로 설정된다")
         void negativeHpShouldBeSetToZero(final int hp) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when
-            wizard.setHp(hp);
+            // given & when
+            final Wizard wizard = new Wizard.Builder().hp(hp).build();
 
             // then
             assertEquals(0, wizard.getHp());
@@ -183,11 +163,8 @@ public class Day6ExamTest {
         @ValueSource(ints = { 0, 1 })
         @DisplayName("HP가 0 이상이면 입력한 값으로 설정된다")
         void validHpShouldBeSet(final int hp) {
-            // given
-            final Wizard wizard = new Wizard();
-
-            // when
-            wizard.setHp(hp);
+            // given & when
+            final Wizard wizard = new Wizard.Builder().hp(hp).build();
 
             // then
             assertEquals(hp, wizard.getHp());
@@ -203,23 +180,22 @@ public class Day6ExamTest {
                 final int birthYear,
                 final int expectedAge
         ) {
-            // given
+            // given & when
             final Person person = new Person("홍길동", birthYear);
 
-            // when
             final int age = person.getAge();
 
             // then
             assertEquals(expectedAge, age);
         }
 
-        static List<Arguments> provideBirthYears() {
+        static List provideBirthYears() {
             final int thisYear = LocalDate.now().getYear();
 
             return List.of(
-                    Arguments.of(thisYear, 0),       // 경계값
-                    Arguments.of(thisYear - 1, 1),   // 경계 바로 옆
-                    Arguments.of(thisYear - 20, 20)  // 일반값
+                    Arguments.of(thisYear, 0),
+                    Arguments.of(thisYear - 1, 1),
+                    Arguments.of(thisYear - 20, 20)
             );
         }
 
@@ -231,7 +207,9 @@ public class Day6ExamTest {
             final int birthYear = LocalDate.now().getYear();
 
             // when & then
-            assertThrows(IllegalArgumentException.class, () -> new Person(name, birthYear));
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Person(name, birthYear)
+            );
         }
 
         @ParameterizedTest
@@ -242,7 +220,9 @@ public class Day6ExamTest {
             final int birthYear = LocalDate.now().getYear();
 
             // when & then
-            assertThrows(IllegalArgumentException.class, () -> new Person(name, birthYear));
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Person(name, birthYear)
+            );
         }
 
         @Test
@@ -254,7 +234,9 @@ public class Day6ExamTest {
             final int birthYear = thisYear + 1; // 경계 바로 위
 
             // when & then
-            assertThrows(IllegalArgumentException.class, () -> new Person(name, birthYear));
+            assertThrows(IllegalArgumentException.class, () ->
+                    new Person(name, birthYear)
+            );
         }
     }
 }
