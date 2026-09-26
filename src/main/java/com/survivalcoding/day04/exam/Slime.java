@@ -15,7 +15,7 @@ public class Slime {
             throw new IllegalArgumentException("이름에 널, 공란 불가");
         }
 
-        if (builder.hp < 0) {
+        if (builder.hp <= 0) {
             throw new IllegalArgumentException("0보다 커야함");
         }
 
