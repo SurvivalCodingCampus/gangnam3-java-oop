@@ -30,12 +30,10 @@ public class PoisonSlime extends Slime {
         }
 
         poisonCount--;
+        int poisonDamage = Math.max(1, hero.getHp() / POISON_RATE);
+        hero.takeDamage(poisonDamage);
 
         System.out.println("추가로, 독 포자를 살포했다!");
-
-        int curHeroHp = hero.getHp();
-        int poisonDamage = Math.max(1, curHeroHp / POISON_RATE);
-        hero.takeDamage(poisonDamage);
         System.out.println(poisonDamage + "포인트 데미지");
     }
 

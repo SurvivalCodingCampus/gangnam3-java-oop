@@ -54,9 +54,7 @@ public class Wizard {
             return;
         }
 
-        int heroHp = hero.getHp();
-
-        if (Hero.MAX_HP <= heroHp) {
+        if (Hero.MAX_HP <= hero.getHp()) {
             System.out.println("대상 체력이 MAX HP입니다");
             return;
         }
