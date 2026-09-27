@@ -33,13 +33,9 @@ public class Wizard {
             throw new IllegalArgumentException("이름은 3문자 이상");
         }
 
-        if (builder.wand == null) {
-            throw new IllegalArgumentException("null 금지");
-        }
-
         name = builder.name;
         mp = builder.mp;
-        wand = builder.wand;
+        wand = builder.getWandInstance();
     }
 
     // region Func
@@ -95,7 +91,7 @@ public class Wizard {
         protected int hp = MAX_HP;
         protected int mp = MAX_MP;
         protected String name = DEFAULT_NAME;
-        protected Wand wand = new Wand.Builder().build();
+        protected Wand wand;
 
         public Builder hp(int hp) {
             this.hp = hp;
@@ -115,6 +111,14 @@ public class Wizard {
         public Builder wand(Wand wand) {
             this.wand = wand;
             return this;
+        }
+
+        Wand getWandInstance() {
+            if (wand == null) {
+                wand = new Wand.Builder().build();
+            }
+
+            return wand;
         }
 
         public Wizard build() {

@@ -101,15 +101,6 @@ public class Day6ExamTest {
         }
 
         @Test
-        @DisplayName("마법사의 지팡이는 null일 수 없다")
-        void wandShouldNotBeNull() {
-            // given & when & then
-            assertThrows(IllegalArgumentException.class, () ->
-                    new Wizard.Builder().wand(null).build()
-            );
-        }
-
-        @Test
         @DisplayName("마법사에게 유효한 지팡이를 설정할 수 있다")
         void validWandShouldBeSet() {
             // given

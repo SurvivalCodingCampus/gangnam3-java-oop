@@ -36,17 +36,13 @@ public class Hero {
             throw new IllegalArgumentException("1이상 " + MAX_HP + "이하 입력");
         }
 
-        if (builder.sword == null) {
-            throw new IllegalArgumentException("sword에 널");
-        }
-
         if (builder.power < 1) {
             throw new IllegalArgumentException("파워는 1보다 커야 함");
         }
 
         name = builder.name;
         hp = builder.hp;
-        sword = builder.sword;
+        sword = builder.getSwordInstance();
         power = builder.power;
         money = new java.util.Random().nextInt(MAX_RANDOM_MONEY);
         isDead = false;
@@ -173,6 +169,14 @@ public class Hero {
         public Builder power(int power) {
             this.power = power;
             return this;
+        }
+
+        Sword getSwordInstance() {
+            if (sword == null) {
+                sword = new Sword.Builder().build();
+            }
+
+            return sword;
         }
 
         public Hero build() {
