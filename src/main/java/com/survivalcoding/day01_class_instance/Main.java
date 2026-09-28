@@ -1,14 +1,15 @@
 package com.survivalcoding.day01_class_instance;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+class Main {
     public static void main(String[] args) {
-        int i = 10;
-        String name = "홍길동";
+        // 메인 메서드 = 실행 버튼
 
         Hero hero = new Hero();
-        Hero hero2 = new Hero();
 
+        Slime slime = new Slime();
+        slime.setHp();
+
+        SuperHero superHero = new SuperHero();
+        superHero.attack();
     }
 }
