@@ -39,6 +39,22 @@ public class Hero {
         this.name = name;
     }
 
+    public static int getMoney() {
+        return money;
+    }
+
+    public static void setMoney(int money) {
+        Hero.money = money;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     // 기능 (method)
     void attack() {
         System.out.println("Hero 의 공격");

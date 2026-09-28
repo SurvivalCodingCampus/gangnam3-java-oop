@@ -14,6 +14,7 @@ class HeroTest {
     void sleepTest() {
         // given (준비)
         Hero hero = new Hero();
+
         hero.hp = 50;
 
         hero = null;
