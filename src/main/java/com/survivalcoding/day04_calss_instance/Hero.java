@@ -63,7 +63,7 @@ public class Hero {
     
     public void attack(Slime slime) {
         System.out.printf("%s는 공격했다!%n", this.name);
-        setHp(hp - ATTACK_DAMAGE);
+        setHp(slime.getHp() - ATTACK_DAMAGE);
     }
     
     public void counterattacked() {
