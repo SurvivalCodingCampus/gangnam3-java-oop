@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class hero {
+ - String name;
+ - int hp;
+ - int mp;
+}
+
+class Slime {
+    - String name;
+    - int hp;
+
+    + void attack
+}
+Slime --> hero
+
+class PoisonSlime {
+    - super name;
+    - super hp;
+    - PoisonCount = 5;
+
+    + super void attack
+
+}
+PoisonSlime --> hero
+
+class Wizard {
+    - int hp;
+    - int mp;
+    - Wand wand;
+    - String name;
+
+    + void heal
+}
+Wizard --> hero
+
+class GreatWizard {
+    - super name;
+    - super int hp;
+    - int mp;
+    this.mp = 150;
+
+    + void heal
+    + void SuperHeal;
+}
+    GreatWizard --> hero
+
+@enduml
