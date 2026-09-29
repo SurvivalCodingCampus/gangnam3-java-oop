@@ -16,12 +16,11 @@ public class PoisonSlime extends Slime {
 
             int poisonDamage = hero.getHp() / 5;
             hero.setHp(hero.getHp() - poisonDamage);
-
             System.out.println(poisonDamage + "포인트 데미지");
 
             poisonCount--;
         }
-        
+
 
     }
 }
