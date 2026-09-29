@@ -25,7 +25,7 @@ public class Hero {
     
     public Hero(String name, int hp) {
         setName(name);
-        this.hp = hp;
+        setHp(hp);
     }
     
     public String getName() {
