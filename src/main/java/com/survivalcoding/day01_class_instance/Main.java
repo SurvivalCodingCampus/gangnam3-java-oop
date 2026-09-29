@@ -9,7 +9,16 @@ class Main {
         Slime slime = new Slime();
         slime.setHp();
 
+        PoisonSlime poisonSlime = new PoisonSlime("A");
+
         SuperHero superHero = new SuperHero();
         superHero.attack();
+
+        Wizard wizard = new Wizard();
+
+        GreatWizard greatWizard = new GreatWizard();
+
+        Wand wand = new Wand();
+
     }
 }

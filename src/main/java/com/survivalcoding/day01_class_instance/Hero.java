@@ -13,6 +13,15 @@ public class Hero {
     // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
     private String name;
     private int hp;
+    private int MaxHp = 100;
+
+    public int getMaxHp() {
+        return MaxHp;
+    }
+
+    public void setMaxHp(int MaxHp) {
+        this.MaxHp = MaxHp;
+    }
 
     // 생성자
     Hero() {
