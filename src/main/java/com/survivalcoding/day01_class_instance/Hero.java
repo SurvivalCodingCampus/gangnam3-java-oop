@@ -3,6 +3,8 @@ package com.survivalcoding.day01_class_instance;
 import java.util.Random;
 
 public class Hero {
+    public static final int MAX_HP = 100;
+
     // 컴파일 타임 상수 : static 이면서 뒤에 값이 절대 안 변해
     public static final int money = 100;
 

@@ -16,8 +16,9 @@ PoisonSlime : - int poisonCount
 PoisonSlime : PoisonSlime(String suffix)
 PoisonSlime : void attack(Hero hero)
 
+Wizard : String name
 Wizard : int hp
-Wizard : int mp
+Wizard : int mp = 100
 Wizard : void heal(Hero hero)
 
 Wizard <|-- GreatWizard
