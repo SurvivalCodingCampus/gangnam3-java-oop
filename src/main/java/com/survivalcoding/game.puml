@@ -1,19 +1,12 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-    class Cleric {
-        String name
-        int hp
-        int mp
-        void selfAid()
+class Cleric {
+    - String name
+    - int hp
+    - int mp
 
-    }
-    class Hero {
-        String name
-        int hp
-
-        void run()
-
-    }
+    + void selfAid()
+    + int pray(int seconds)
+}
 
 @enduml

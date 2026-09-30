@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.survivalcoding;
 
 public class Cleric {
@@ -49,3 +50,78 @@ public class Cleric {
         return mp - beforeMp;
     }
 }
+=======
+package com.survivalcoding;
+
+public class Cleric {
+
+    public static void main(String[] args) {
+        Cleric cleric = new Cleric("홍길동");
+        System.out.println(cleric.name);
+        System.out.println(cleric.hp);
+        System.out.println(cleric.mp);
+
+
+
+    final int MAX_HP = 50;
+    final int MAX_MP = 10;
+    final int SELF_AID_COST = 5;
+
+    String name;
+    int hp = MAX_HP;
+    int mp = MAX_MP;
+
+    public Cleric(String name) {
+        this.name = name;
+    }
+}
+
+
+    public void selfAid() {
+        // 회복 행동을 작성합니다.
+        if (mp <5) {
+            return;
+        }
+        // 원래 해야할 일
+        hp = 100;
+        mp = 100;
+    }
+    public int pray(int seconds) {
+        return 0;
+    }
+    public Cleric(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return  name + "킹왕짱";
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getHp() {
+        return  hp;
+    }
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+    public int getMp() {
+        return  mp;
+    }
+    public void setMp(int mp) {
+        this.mp = mp;
+    }
+    public static void something(String name, int hp, int mp) {
+
+    }
+    private  static void something(int hp, int mp) {
+    }
+    private   static void something() {
+    }
+
+    public static void main() {
+
+    }
+
+
+}
+>>>>>>> be77039 (feat : 2026.09.23 박강원_ 8장)
