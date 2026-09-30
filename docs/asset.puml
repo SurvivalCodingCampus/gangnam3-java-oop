@@ -22,4 +22,8 @@ abstract class IntangibleAsset extends Asset {
 class Patent extends IntangibleAsset {
 }
 
+interface Thing {
+double weight
+}
+
 @enduml
