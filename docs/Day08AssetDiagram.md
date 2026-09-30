@@ -36,7 +36,7 @@ classDiagram
     
     class Thing {
         <<Interface>>
-        getWeight() void *
+        getWeight() double *
         setWeight(weight : double) void *
     }
 
