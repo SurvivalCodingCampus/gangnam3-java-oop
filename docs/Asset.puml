@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-Abstract class Asset implements Thing {
+Abstract class Asset {
     String name
     int price
 }
@@ -14,11 +14,11 @@ Abstract class IntangibleAsset extends Asset {
     String right
 }
 
-class Computer extends TangibleAsset implements Thing{
+class Computer extends TangibleAsset{
     String makerName
 }
 
-class Book extends TangibleAsset implements Thing {
+class Book extends TangibleAsset {
     String isbn
 }
 
