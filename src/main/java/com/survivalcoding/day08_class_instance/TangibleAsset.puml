@@ -16,7 +16,10 @@ abstract class TangibleAsset {
   setWeight(weight : double) : void
 }
 
-abstract class IntangibleAsset
+abstract class IntangibleAsset {
+  name : String
+  right : String
+}
 class Book {
   isbn : String
 }
