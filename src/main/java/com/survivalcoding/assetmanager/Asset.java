@@ -1,7 +1,8 @@
 package com.survivalcoding.assetmanager;
 
 public abstract class Asset {
-    private String name;
+    protected String name;
+    protected int price;
     
     public Asset(String name) {
         this.name = name;
