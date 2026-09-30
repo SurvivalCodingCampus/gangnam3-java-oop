@@ -1,4 +1,4 @@
-package com.survivalcoding.game;
+package com.survivalcoding.Human;
 
 public interface Creature {
     void run();
