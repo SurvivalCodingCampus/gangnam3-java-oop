@@ -1,6 +1,6 @@
 package com.survivalcoding.Human;
 
-import com.survivalcoding.day04_calss_instance.Validator;
+import com.survivalcoding.game.Validator;
 
 import java.time.LocalDate;
 

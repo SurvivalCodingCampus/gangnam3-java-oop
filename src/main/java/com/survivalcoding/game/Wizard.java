@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class Wizard {
     static final int MIN_HP = 0;
@@ -10,7 +10,6 @@ public class Wizard {
     static final int MIN_NAME_LENGTH = 2;
     
     private int mp;
-    
     private int hp;
     private String name;
     private Wand wand;

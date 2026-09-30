@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class Wand {
     static final double MIN_POWER = 0.5;

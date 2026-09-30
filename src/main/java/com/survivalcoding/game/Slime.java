@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class Slime {
     static final int MAX_HP = 20;

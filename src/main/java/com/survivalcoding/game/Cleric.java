@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 import java.util.Random;
 

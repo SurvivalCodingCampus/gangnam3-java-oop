@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class Inn {
     static final int INN_FEE_HP = 100;

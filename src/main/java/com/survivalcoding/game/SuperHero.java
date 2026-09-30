@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class SuperHero extends Hero {
     static final int FLYING_ATTACK_DAMAGE = 5;
