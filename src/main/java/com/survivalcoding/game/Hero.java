@@ -2,7 +2,7 @@ package com.survivalcoding.game;
 
 import java.util.Random;
 
-public class Hero {
+public class Hero implements Attackable {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static final int COUNTER_ATTACK_DAMAGE = 10;
     static final int ATTACK_DAMAGE = 10;
@@ -61,6 +61,7 @@ public class Hero {
         money = new Random().nextInt(1000);
     }
     
+    @Override
     public void attack(Slime slime) {
         System.out.printf("%s는 공격했다!%n", this.name);
         setHp(slime.getHp() - ATTACK_DAMAGE);
