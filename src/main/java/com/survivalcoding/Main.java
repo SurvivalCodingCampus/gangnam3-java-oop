@@ -3,9 +3,13 @@ package com.survivalcoding;
 import java.time.LocalDate;
 
 import com.survivalcoding.day01_class_instance.Cleric;
+import com.survivalcoding.day01_class_instance.GreatWizard;
 import com.survivalcoding.day01_class_instance.Hero;
+import com.survivalcoding.day01_class_instance.Kinoko;
 import com.survivalcoding.day01_class_instance.Person;
+import com.survivalcoding.day01_class_instance.PoisonSlime;
 import com.survivalcoding.day01_class_instance.Slime;
+import com.survivalcoding.day01_class_instance.SuperHero;
 import com.survivalcoding.day01_class_instance.Sword;
 import com.survivalcoding.day01_class_instance.Wand;
 import com.survivalcoding.day01_class_instance.Wizard;
@@ -59,7 +63,7 @@ public class Main {
         hero2.setName("아서스");
 
         Wand wand = new Wand("나무지팡이", 10.0);
-        Wizard wizard = new Wizard("제이나", 50, 10, wand);
+        Wizard wizard = new Wizard("제이나", 50, wand);
 
         wizard.heal(hero1);
         wizard.heal(hero2);
@@ -80,5 +84,25 @@ public class Main {
         System.out.println(person.getName());
         System.out.println(person.getBirthYear());
         System.out.println(person.getAge(LocalDate.now()));
+
+        SuperHero superHero = new SuperHero("홍길동", sword, true);
+        Kinoko kinoko = new Kinoko("괴물 버섯", 10);
+        PoisonSlime poisonSlime = new PoisonSlime("A");
+
+        superHero.run();
+        superHero.attack(kinoko);
+
+        poisonSlime.run();
+
+        for (int i = 0; i < 6; i++) {
+            poisonSlime.attack(superHero);
+        }
+
+        System.out.println("현재 용사 HP: " + superHero.getHp());
+
+        GreatWizard greatWizard = new GreatWizard();
+
+        greatWizard.heal(superHero);
+        greatWizard.superHeal(superHero);
     }
 }

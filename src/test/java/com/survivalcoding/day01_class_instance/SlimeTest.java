@@ -37,4 +37,19 @@ public class SlimeTest {
         // then
         assertEquals(expected, slime.getHp());
     }
+
+    @Test
+    @DisplayName("attack을 하면 상대방 hero의 hp가 10 감소해야 한다")
+    void attack_shouldReduceHeroHp_byTen() {
+        // given
+        Slime slime = new Slime("슬라임A", 50);
+        Hero hero = new Hero("히어로");
+        int expected = 90;
+
+        // when
+        slime.attack(hero);
+
+        // then
+        assertEquals(expected, hero.getHp());
+    }
 }
