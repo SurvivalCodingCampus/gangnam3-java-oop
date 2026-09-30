@@ -1,25 +1,40 @@
 @startuml
 scale 2
 
-class Cleric {
-    - String name
-    int hp
-    int mp
+Hero : int hp
+Hero : void attack()
 
-    + void selfAid()
-}
+Cleric : int hp
+Cleric : int mp
 
-class Hero {
-    String name
-    int hp
+Slime <|-- PoisonSlime
+Slime : String suffix
+Slime : int hp
+Slime : void attack(Hero hero)
 
-    + void run()
-}
+PoisonSlime : - int poisonCount
+PoisonSlime : PoisonSlime(String suffix)
+PoisonSlime : void attack(Hero hero)
 
-class SuperHero extends Hero {
+Wizard : int hp
+Wizard : int mp
+Wizard : void heal(Hero hero)
 
-}
+Wizard <|-- GreatWizard
+GreatWizard : void heal(Hero hero)
 
-'Hero <|-- SuperHero
+
+
+'SuperHero : bool isFlying
+'SuperHero : void fly()
+'SuperHero : void land()
+'
+'Character <|-- Hero
+'Character <|-- Cleric
+'Character <|-- Wizard
+'Wizard : int mp
+'Wizard : void heal(Hero hero)
+'
+'Wizard <|-- GreatWizard
 
 @enduml
