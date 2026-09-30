@@ -1,9 +1,8 @@
 package com.survivalcoding.assetmanager;
 
 public abstract class TangibleAsset extends Asset implements Thing {
-    private int price;
-    private String color;
-    private double weight;
+    protected String color;
+    protected double weight;
     
     public TangibleAsset(String name) {
         super(name);
