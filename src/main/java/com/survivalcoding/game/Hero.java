@@ -2,7 +2,7 @@ package com.survivalcoding.game;
 
 import java.util.Random;
 
-public class Hero implements Attackable {
+public class Hero extends Character implements Attackable {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static final int COUNTER_ATTACK_DAMAGE = 10;
     static final int ATTACK_DAMAGE = 10;
@@ -12,8 +12,6 @@ public class Hero implements Attackable {
     static int money = 100;
     
     private Sword sword;
-    private String name;
-    private int hp;
     
     public Hero() {
         this("김영웅", 100);
@@ -28,10 +26,7 @@ public class Hero implements Attackable {
         setHp(hp);
     }
     
-    public String getName() {
-        return name;
-    }
-    
+    @Override
     public void setName(String name) {
         Validator.validateNotNull(name);
         Validator.validateMinLength(name, 1);
@@ -40,10 +35,7 @@ public class Hero implements Attackable {
         this.name = name;
     }
     
-    public int getHp() {
-        return hp;
-    }
-    
+    @Override
     public void setHp(int hp) {
 //        this.hp = Math.min(MAX_HP, hp);
         Validator.validateAtMost(hp, MAX_HP);
