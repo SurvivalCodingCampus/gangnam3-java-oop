@@ -3,13 +3,14 @@ classDiagram
 
     class Asset {
         <<abstract>>
+        # status : String
+        # name : String
+        # price : int
     }
     
     class TangibleAsset {
         <<abstract>>
-        # weight : double
-        # name : String
-        # price : int
+        - weight : double
         # color : String
         
         + getWeight() weight : double 
@@ -26,10 +27,11 @@ classDiagram
     
     class IntangibleAsset {
         <<abstract>>
+        # inventorOrDeveloper : String
     }
     
     class Patent {
-        
+        - validity : boolean
     }
     
     class Thing {
