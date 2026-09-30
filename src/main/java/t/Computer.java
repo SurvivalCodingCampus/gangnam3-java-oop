@@ -5,5 +5,6 @@ public class Computer extends TangibleAssest {
     int price;
     String color;
     String makerName;
+    //i need to fiiiiiiiiiiiiiiiiiiiiiiiiiiiiix
 
 }
