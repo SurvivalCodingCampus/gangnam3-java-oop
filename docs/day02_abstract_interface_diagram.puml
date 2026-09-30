@@ -1,0 +1,52 @@
+@startuml day02_abstract_interface_diagram
+scale 1
+
+package "com.survivalcoding.day02_abstract_interface" {
+
+    abstract class Asset {
+        + String name
+        + int price
+    }
+
+    abstract class TangibleAsset {
+        + String color
+        + double weight
+    }
+
+    abstract class IntangibleAsset {
+        + LocalDate expiryDate
+    }
+
+    class Computer {
+        + String makerName
+    }
+
+    class Book {
+        + String isbn
+    }
+
+    class Patent {
+        + String number
+    }
+
+    interface Thing {
+        {static} + double MIN_WEIGHT
+        {static} + double MAX_WEIGHT
+
+        + double getWeight()
+        + void setWeight()
+    }
+
+    ' 상속 관계
+    Asset <|-- TangibleAsset
+    Asset <|-- IntangibleAsset
+
+    Thing <|.. TangibleAsset
+
+    TangibleAsset <|-- Computer
+    TangibleAsset <|-- Book
+
+    IntangibleAsset <|-- Patent
+}
+
+@enduml
