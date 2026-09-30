@@ -7,14 +7,17 @@ classDiagram
     
     class TangibleAsset {
         <<abstract>>
+        - name : String
+        - price : int
+        - color : String
     }
         
     class Computer {
-        
+        - makerName : String
     }
     
     class Book {
-        
+        - isbn : String
     }
     
     class IntangibleAsset {

@@ -1,7 +1,7 @@
 package com.survivalcoding.day08.asset;
 
 public abstract class TangibleAsset {
-    String name;
-    int price;
-    String color;
+    private String name;
+    private int price;
+    private String color;
 }
