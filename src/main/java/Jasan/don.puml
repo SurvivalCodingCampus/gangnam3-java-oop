@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class TangibleAsset {
+abstract class TangibleAsset {
 String name
 int price
 - String color
@@ -22,12 +22,12 @@ String color
 -String isbn
 }
 
-class Asset {
+interface Asset {
 - String name
 - int price
 }
 
-class IntangibleAsset {
+abstract class IntangibleAsset {
 String name
 int price
 }
@@ -37,7 +37,7 @@ String name
 int price
 }
 
-class Thing {
+interface Thing {
 getweight
 setweight
 }
