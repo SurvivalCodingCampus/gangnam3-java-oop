@@ -1,6 +1,6 @@
 package Jasan;
 
-public class Computer extends TangibleAsset {
+public abstract class Computer extends TangibleAsset {
     private String makername;
 
 

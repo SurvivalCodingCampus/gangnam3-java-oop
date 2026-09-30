@@ -1,6 +1,6 @@
 package Jasan;
 
-public class Book extends TangibleAsset {
+public abstract class Book extends TangibleAsset {
     private String isbn;
 
     public void setIsbn(String isbn) {

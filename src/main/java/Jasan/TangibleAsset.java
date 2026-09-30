@@ -1,6 +1,6 @@
 package Jasan;
 
-public abstract class TangibleAsset {
+public abstract class TangibleAsset implements Asset {
     private String name;
     private int price;
     private String color;
@@ -28,6 +28,6 @@ public abstract class TangibleAsset {
     public void setColor(String color) {
         this.color = color;
     }
-    
+
 }
 
