@@ -15,6 +15,11 @@ public abstract class TangibleAsset extends Asset
 
     @Override
     public void setWeight(double weight) {
+
+        if (weight <= 0) {
+            throw new IllegalArgumentException("무게는 0초과 해야 함");
+        }
+
         this.weight = weight;
     }
 }
