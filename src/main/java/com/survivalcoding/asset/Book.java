@@ -1,9 +1,10 @@
 package com.survivalcoding.asset;
 
 public class Book extends TangibleAsset {
-    String isbn;
+    private String isbn;
 
-    public Book(String isbn) {
+    public Book(String name, int price, String color, double weight, String isbn) {
+        super(name, price, color, weight);
         this.isbn = isbn;
     }
 
@@ -14,6 +15,4 @@ public class Book extends TangibleAsset {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
-
-
 }

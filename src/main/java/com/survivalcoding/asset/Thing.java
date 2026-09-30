@@ -2,7 +2,7 @@ package com.survivalcoding.asset;
 
 public interface Thing {
 
-    Double getWeight();
+    double getWeight();
 
-    Double setWeight(Double weight);
+    void setWeight(double weight);
 }
