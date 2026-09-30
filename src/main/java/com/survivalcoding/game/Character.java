@@ -1,8 +1,8 @@
 package com.survivalcoding.game;
 
 public abstract class Character {
-    private String name;
-    private int hp;
+    protected String name;
+    protected int hp;
     
     public String getName() {
         return name;
@@ -23,6 +23,4 @@ public abstract class Character {
     public void run() {
         System.out.println(name + "은 도망쳤다!");
     }
-    
-    public abstract void attack(Slime slime);
 }
