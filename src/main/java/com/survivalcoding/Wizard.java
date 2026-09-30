@@ -2,7 +2,7 @@ package com.survivalcoding;
 
 public class Wizard {
     private int hp;
-    private int mp;
+    private int mp = 100;
     private Wand wand;
     private String name;
 
@@ -17,7 +17,20 @@ public class Wizard {
         this.name = name;
     }
 
+    public void heal(Hero hero) {
+        if (this.getMp() < 10) {
+            System.out.println("마나가 부족합니다");
+            return;
+        }
+
+        hero.setHp(hero.getHp() + 20);
+        this.setMp(this.getMp() - 10);
+
+        System.out.println("힐을 시전했습니다. 대상 HP: " + hero.getHp());
+    }
+
     public int getHp() {
+
         return hp;
     }
 
@@ -29,6 +42,7 @@ public class Wizard {
     }
 
     public Wand getWand() {
+
         return wand;
     }
 
@@ -40,6 +54,7 @@ public class Wizard {
     }
 
     public int getMp() {
+
         return mp;
     }
 
