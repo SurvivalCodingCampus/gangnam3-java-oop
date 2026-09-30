@@ -37,6 +37,15 @@ String name
 int price
 }
 
+class Thing {
+getweight
+setweight
+}
+
+
+Thing <|..Book
+Thing <|..computer
+Thing <|..TangibleAsset
 IntangibleAsset <|.. Patent
 Asset <|..IntangibleAsset
 Asset <|..TangibleAsset
