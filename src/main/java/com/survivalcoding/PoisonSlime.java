@@ -24,7 +24,7 @@ public class PoisonSlime extends Slime {
             System.out.println("추가로, 독 포자를 살포했다!");
 
             // 4. 독 데미지 = 용사 HP / 5
-            int poisonDamage = hero.getHp() / 5;
+            final int poisonDamage = hero.getHp() / 5;
 
             // 용사의 HP 감소
             hero.setHp(hero.getHp() - poisonDamage);

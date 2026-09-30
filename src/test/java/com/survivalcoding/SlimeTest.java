@@ -1,14 +1,11 @@
 package com.survivalcoding;
-<<<<<<< HEAD
-import org.junit.jupiter.api.DisplayName;
-=======
 
->>>>>>> be77039 (feat : 2026.09.23 박강원_ 8장)
+import org.junit.jupiter.api.DisplayName;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-<<<<<<< HEAD
 class SlimeTest {
     @Test
     @DisplayName("슬라임이 피혜를 입으면 남은 HP만큼 체력에 감소한다")
