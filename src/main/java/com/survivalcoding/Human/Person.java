@@ -11,7 +11,7 @@ public class Person {
     private final String name;
     private final int birthYear;
     
-    Person(String name, int birthYear) {
+    public Person(String name, int birthYear) {
         Validator.validateNotNull(name);
         Validator.validateMinLength(name, MIN_NAME_LENGTH);
 //        Validator.validateAtLeast(birthYear, MIN_BIRTH_YEAR);

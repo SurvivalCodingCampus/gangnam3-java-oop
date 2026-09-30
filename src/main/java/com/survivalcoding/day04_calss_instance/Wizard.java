@@ -4,12 +4,14 @@ public class Wizard {
     static final int MIN_HP = 0;
     static final int MAX_HP = 50;
     static final int MIN_MP = 0;
-    static final int MAX_MP = 10;
-    static final int BASE_HEAL_POINT = 10;  // 기본 회복 포인트
+    static final int MAX_MP = 100;
+    static final int BASE_HEAL_POINT = 20;  // 기본 회복 포인트
+    static final int HEAL_MP_COST = 10;
     static final int MIN_NAME_LENGTH = 2;
     
-    private int hp;
     private int mp;
+    
+    private int hp;
     private String name;
     private Wand wand;
     
@@ -63,11 +65,15 @@ public class Wizard {
         return mp;
     }
     
+    public int getMaxMp() {
+        return MAX_MP;
+    }
+    
     public void setMp(int mp) {
-        Validator.validateAtMost(mp, MAX_MP);
+        Validator.validateAtMost(mp, getMaxMp());
         Validator.validateAtLeast(mp, MIN_MP);
         
-        this.mp = mp;
+        this.mp = preventNegativeValue(mp);
     }
     
     public Wand getWand() {
@@ -80,19 +86,35 @@ public class Wizard {
         this.wand = wand;
     }
     
+    public int getBaseHealPoint() {
+        return BASE_HEAL_POINT;
+    }
+    
+    public int getHealMpCost() {
+        return HEAL_MP_COST;
+    }
+    
     // method
     private int preventNegativeValue(int value) {
         return Math.max(value, 0);
     }
     
+    public boolean hasEnoughMp(int mp) {
+        if (mp < getHealMpCost()) {
+            System.out.printf("마나가 부족합니다. 현재 MP: %d%n", mp);
+            return false;
+        }
+        return true;
+    }
+    
     public void heal(Hero hero) {
-        int recovPoint = (int) (BASE_HEAL_POINT * this.wand.getPower());
-        int previousHp = hero.getHp();
+        if (!hasEnoughMp(mp)) {
+            return;
+        }
         
-        hero.setHp(previousHp + recovPoint);
+        hero.setHp(hero.getHp() + getBaseHealPoint());
+        setMp(mp - getHealMpCost());
         
-        int actualHealPoint = hero.getHp() - previousHp;
-        
-        System.out.printf("%s의 HP %d을 회복했다!%n", hero.getName(), actualHealPoint);
+        System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
     }
 }

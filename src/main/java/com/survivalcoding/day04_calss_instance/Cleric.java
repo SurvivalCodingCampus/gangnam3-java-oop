@@ -12,17 +12,17 @@ class Cleric {
     private int mp;
     private String name;
     
-    Cleric(String name, int hp, int mp) {
+    public Cleric(String name, int hp, int mp) {
         setName(name);
         setHp(hp);
         setMp(mp);
     }
     
-    Cleric(String name, int hp) {
+    public Cleric(String name, int hp) {
         this(name, hp, MAX_MP);
     }
     
-    Cleric(String name) {
+    public Cleric(String name) {
         this(name, MAX_HP, MAX_MP);
     }
     

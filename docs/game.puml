@@ -1,102 +1,121 @@
 @startuml
 
 class Cleric {
-~ static final int MAX_HP
-~ static final int MAX_MP
-~ static final int SELF_AID_MP_COST
-~ static final int PRAY_RECOVERY_RANDOM_BOUND
+static final int MAX_HP
+static final int MAX_MP
+static final int SELF_AID_MP_COST
+static final int PRAY_RECOVERY_RANDOM_BOUND
 
-~ int hp
-~ int mp
-~ String name
+int hp
+int mp
+String name
 
-+ void selfAid()
-+ int pray(int sec)
-
-
+void selfAid()
+int pray(int sec)
 }
 
 class Hero {
-~ static int money
+static final int COUNTER_ATTACK_DAMAGE
+static final int ATTACK_DAMAGE
+static final int SLIP_DAMAGE
+static final int MAX_HP
+static int money
 
-- Sword sword
-- String name
-- int hp
+Sword sword
+String name
+int hp
 
-+ static void setRandomMoney()
-+ void attack()
-+ void counterattacked()
-+ void run()
-+ void sit(int sec)
-+ void slip()
-+ void sleep()
-+ void bye()
+void attack(Slime slime)
+void counterattacked()
+void run()
+void sit(int sec)
+void slip()
+void sleep()
+void bye()
 - void die()
+}
 
+class SuperHero extends Hero {
+static final int FLYING_ATTACK_DAMAGE
 
+boolean isFlying
+
+- void applyFlyAttack(Slime slime)
+void attack(Slime slime)
+void run()
 }
 
 class Inn {
-~ void checkIn(Hero hero)
+static final int INN_FEE_HP
+
+void checkIn(Hero hero)
 }
 
 class King {
-+ void talk(Hero hero)
-+ void callHero(Hero hero)
+void talk(Hero hero)
+void callHero(Hero hero)
 }
 
 class Slime {
-~ final int level
-~ int hp
-~ String suffix
+static final int MAX_HP
+static final int LEVEL
+- static final int ATTACK_DAMAGE
 
-~ void run()
+final String suffix
+int hp
 
+void attack(Hero hero)
+void run()
+}
 
+class PoisonSlime extends Slime {
+static final int POISON_DAMAGE_DIVISOR
+int poisonCount
+
+- int calculatePoisonDamage(int hp)
+- void applyPoisonDamage(Hero hero)
+void attack(Hero hero)
 }
 
 class Sword {
-~ String name
-~ int damage
+String name
+int damage
 }
 
 class Wand {
-~ static final double MIN_POWER
-~ static final double MAX_POWER
-~ static final int MIN_NAME_LENGTH
+static final double MIN_POWER
+static final double MAX_POWER
+static final int MIN_NAME_LENGTH
 
-- double power
-- String name
-
-
+double power
+String name
 }
 
 class Wizard {
-~ static final int MIN_HP
-~ static final int MAX_HP
-~ static final int MIN_MP
-~ static final int MAX_MP
-~ static final int BASE_HEAL_POINT
-~ static final int MIN_NAME_LENGTH
+static final int MIN_HP
+static final int MAX_HP
+static final int MIN_MP
+static final int MAX_MP
+static final int BASE_HEAL_POINT
+static final int HEAL_MP_COST
+static final int MIN_NAME_LENGTH
 
-- int hp
-- int mp
-- String name
-- Wand wand
+int hp
+int mp
+String name
+Wand wand
 
 - int preventNegativeValue(int value)
-+ void heal(Hero hero)
-
-
+boolean hasEnoughMp(int mp)
+void heal(Hero hero)
 }
 
-' 1. 연관 관계 (Association) : 멤버 변수(필드)로 객체를 지속적으로 가지고 있는 관계 (실선)
-Hero --> Sword : has
-Wizard --> Wand : has
+class GreatWizard extends Wizard {
+static final int MAX_MP
+static final int BASE_HEAL_POINT
+static final int HEAL_MP_COST
 
-' 2. 의존 관계 (Dependency) : 메서드의 매개변수로 받아 일시적으로 사용하는 관계 (점선)
-Wizard ..> Hero : heals
-Inn ..> Hero : checks in
-King ..> Hero : interacts
+void superHeal(Hero hero)
+}
 
 @enduml

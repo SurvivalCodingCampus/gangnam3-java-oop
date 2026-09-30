@@ -5,6 +5,7 @@ import java.util.Random;
 public class Hero {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static final int COUNTER_ATTACK_DAMAGE = 10;
+    static final int ATTACK_DAMAGE = 10;
     static final int SLIP_DAMAGE = 5;
     static final int MAX_HP = 100;
     
@@ -14,21 +15,19 @@ public class Hero {
     private String name;
     private int hp;
     
-    // 생성자
-    Hero() {
+    public Hero() {
         this("김영웅", 100);
     }
     
-    Hero(String name) {
+    public Hero(String name) {
         this(name, 100);
     }
     
-    Hero(String name, int hp) {
+    public Hero(String name, int hp) {
         setName(name);
         this.hp = hp;
     }
     
-    // getter / setter
     public String getName() {
         return name;
     }
@@ -58,14 +57,13 @@ public class Hero {
         this.sword = sword;
     }
     
-    // 기능(method)
     public static void setRandomMoney() {
         money = new Random().nextInt(1000);
     }
     
-    public void attack() {
+    public void attack(Slime slime) {
         System.out.printf("%s는 공격했다!%n", this.name);
-        System.out.println("적에게 5 포인트의 데미지를 주었다!");
+        setHp(hp - ATTACK_DAMAGE);
     }
     
     public void counterattacked() {
@@ -97,7 +95,6 @@ public class Hero {
     }
     
     public void sleep() {
-//        this.hp = 100;  // 100 = magic number. 이게 뭔데? 라고 물어볼 수 있음. max_hp 이런 식으로 따로 설정해줘야 함
         setHp(MAX_HP);
         
         System.out.printf("%s는 잠을 자고 회복했다!%n", this.name);
