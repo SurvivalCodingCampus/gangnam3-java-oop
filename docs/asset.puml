@@ -1,11 +1,16 @@
 @startuml
 
-abstract class Asset {}
-
-abstract class TangibleAsset extends Asset {
+abstract class Asset {
 String name
 int price
+}
+
+abstract class TangibleAsset extends Asset implements Thing {
 String color
+double weight
+
+double getWeight()
+void setWeight(double weight)
 }
 
 class Book extends TangibleAsset {
@@ -20,10 +25,12 @@ abstract class IntangibleAsset extends Asset {
 }
 
 class Patent extends IntangibleAsset {
+String patentNumber
 }
 
 interface Thing {
-double weight
+double getWeight()
+void setWeight(double weight)
 }
 
 @enduml
