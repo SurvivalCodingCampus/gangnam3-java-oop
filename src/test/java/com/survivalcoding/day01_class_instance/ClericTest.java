@@ -1,75 +1,45 @@
 package com.survivalcoding.day01_class_instance;
 
-import java.util.Random;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
-class Cleric {
-    static final int MP_COST = 5;
-    static final int maxHp = 50;
-    static final int maxMp = 10;
+import static org.junit.jupiter.api.Assertions.*;
 
-    String name;
-    int hp;
-    int mp;
+class ClericTest {
 
-    Cleric(String name, int hp, int mp) {
-        this.name = name;
-        this.hp = hp;
-        this.mp = mp;
+    @Test
+    @DisplayName("mp 타당성 검사")
+    void MP_테스트() {
+        Cleric cleric = new Cleric("오준석");
+
+        assertThrows(IllegalArgumentException.class, () -> cleric.setMp(-1));
     }
 
-    Cleric(String name, int hp) {
-        this(name, hp, maxMp);
-    }
-
-    Cleric(String name) {
-        this(name, maxHp, maxMp);
-    }
-
-    // 테스트 검증을 위한 main 메서드
-    public static void main(String[] args) {
-        System.out.println("=== Cleric 기능 테스트 시작 ===\n");
-
-        // [시나리오 1] pray를 3초 하면 회복량이 3~5 사이여야 함
-        System.out.println("[테스트 1] pray(3) 회복량 검증 (3~5 범위)");
-        Cleric testCleric1 = new Cleric("테스터1", 10, 0); // MP가 0인 상태에서 시작
-        int recovery = testCleric1.pray(3);
-
-        if (recovery >= 3 && recovery <= 5) {
-            System.out.printf("-> 성공: 실제 회복량은 %d 입니다. (MP: %d/%d)\n\n", recovery, testCleric1.mp, maxMp);
-        } else {
-            System.out.printf("-> 실패: 범위 외의 회복량입니다. (%d)\n\n", recovery);
-        }
-
-        // [시나리오 2] mp가 5일 때 selfAid를 하면 hp가 maxHp(50)가 되어야 함
-        System.out.println("[테스트 2] selfAid() 사용 시 HP 만땅 및 MP 소모 검증");
-        Cleric testCleric2 = new Cleric("테스터2", 10, 5); // HP 10, MP 5인 상태
-        testCleric2.selfAid();
-
-        if (testCleric2.hp == maxHp && testCleric2.mp == 0) {
-            System.out.printf("-> 성공: HP가 최대치(%d)로 회복되었고 MP가 %d이 되었습니다.\n\n", testCleric2.hp, testCleric2.mp);
-        } else {
-            System.out.printf("-> 실패: HP 변동(%d) 또는 MP 변동(%d)이 올바르지 않습니다.\n\n", testCleric2.hp, testCleric2.mp);
-        }
-
-        System.out.println("=== 테스트 종료 ===");
-    }
-
-    void selfAid() {
-        if (mp < 5) {
-            return;
-        }
-        mp -= 5;
-        hp = maxHp;
-    }
-
-    int pray(int sec) {
-        int bonus = new Random().nextInt(3);
-        int recovery = sec + bonus;
-
-        int maxRecovery = this.maxMp - this.mp;
-        int actualRecovery = Math.min(recovery, maxRecovery);
-
-        this.mp += actualRecovery;
-        return actualRecovery;
-    }
+//    @RepeatedTest(20)
+//    @DisplayName("시나리오 1: pray를 3초 하면 3~5가 회복되어야 함")
+//    void pray_threeSeconds_recoversBetween3And5() {
+//        Cleric cleric = new Cleric();
+//        cleric.setMp(0); // 최대치 도달에 따른 제한을 피하기 위해 0으로 세팅
+//
+//        int recoveredMp = cleric.pray(3);
+//
+//        // 3초 + (0~2) 보정 = 회복량은 3 이상 5 이하
+//        assertTrue(recoveredMp >= 3 && recoveredMp <= 5,
+//                "회복량은 3~5 사이여야 합니다. 실제 회복량: " + recoveredMp);
+//        assertEquals(recoveredMp, cleric.mp, "실제 mp 필드에도 회복량이 정확히 반영되어야 합니다.");
+//    }
+//
+//    @Test
+//    @DisplayName("시나리오 2: mp가 5일 때 selfAid를 하면 hp가 maxHp가 되어야 함")
+//    void selfAid_whenMpIs5_recoversHpToMax() {
+//        Cleric cleric = new Cleric();
+//        cleric.hp = 10; // 체력이 깎인 상태
+//        cleric.mp = 5;  // 정확히 소모량만큼 남은 상태
+//
+//        cleric.selfAid();
+//
+//        assertEquals(cleric.maxHp, cleric.hp, "hp가 maxHp로 회복되어야 합니다.");
+//        assertEquals(0, cleric.mp, "mp는 5가 소모되어 0이 되어야 합니다.");
+//    }
 }

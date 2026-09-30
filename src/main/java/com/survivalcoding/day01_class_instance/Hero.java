@@ -1,21 +1,60 @@
 package com.survivalcoding.day01_class_instance;
 
-public class Hero {
+import java.util.Random;
 
-    public int getHp;
-    // name 캡슐화
+public class Hero {
+    static int money = 100;
+
+    static void setRandomMoney() {
+        Random random = new Random();
+        money = random.nextInt(1000); // 0~999
+    }
+
+    // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
     private String name;
+    private int hp;
+    private int MaxHp = 100;
+
+    public int getMaxHp() {
+        return MaxHp;
+    }
+
+    public void setMaxHp(int MaxHp) {
+        this.MaxHp = MaxHp;
+    }
+
+    // 생성자
+    Hero() {
+        System.out.println("1번");
+    }
+
+    Hero(String name) {
+        hp = 100;
+        this.name = name;
+    }
+
+    Hero(int hp) {
+        this.hp = hp;
+    }
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름이 null이면 안 됨");
+        }
         this.name = name;
     }
 
-    // hp 캡슐화
-    private int hp;
+    public static int getMoney() {
+        return money;
+    }
+
+    public static void setMoney(int money) {
+        Hero.money = money;
+    }
 
     public int getHp() {
         return hp;
@@ -26,12 +65,13 @@ public class Hero {
     }
 
     // 기능 (method)
-
-    void attack() {}
+    void attack() {
+        System.out.println("Hero 의 공격");
+    }
     void run() {}
     void sit(int sec) {}
     void slip() {}
     void sleep() {
-        hp = 200;
+        hp = 100;
     }
 }

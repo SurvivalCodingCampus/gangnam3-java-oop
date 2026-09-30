@@ -5,10 +5,13 @@ public class Wand {
     double power;   // 지팡이의 마력
 
     // 생성자
-    Wand (String name, double power) {
+    public Wand (String name, double power) {
         this.name = name;
         this.power = power;
     }
+
+    public Wand() {}
+
 
     // 캡슐화 (getter & setter)
     public String getName() {

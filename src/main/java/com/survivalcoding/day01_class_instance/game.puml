@@ -1,11 +1,25 @@
 @startuml
-scale 1
+scale 2
 
+class Cleric {
+    - String name
+    int hp
+    int mp
 
-class Wizard {
+    + void selfAid()
 }
 
-class Wand {
+class Hero {
+    String name
+    int hp
+
+    + void run()
 }
+
+class SuperHero extends Hero {
+
+}
+
+'Hero <|-- SuperHero
 
 @enduml

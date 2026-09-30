@@ -2,7 +2,7 @@ package com.survivalcoding.day01_class_instance;
 
 public class Wizard {
     private int hp;
-    private int mp;
+    private int mp=100;
     private String name;
     private Wand wand;
 
@@ -18,13 +18,12 @@ public class Wizard {
         this.hp = hp;
     }
 
-
     public int getMp() {
         return mp;
     }
 
     public void setMp(int mp) {
-        if (mp <= 0) {
+        if (mp < 0) {
             throw new IllegalArgumentException("MP가 0입니다. 물약을 드세용");
         }
         this.mp = mp;
@@ -51,14 +50,24 @@ public class Wizard {
     public void setWand(Wand wand) {
         if (wand == null) {
             throw new IllegalArgumentException("지팡이 없는 법사가 법사냐!?");
-            this.wand = wand;
         }
+        this.wand = wand;
     }
 
     // 스킬 heal --> hero
     void heal(Hero hero) {
-        int basePoint = 10;     // 기본회복 포인트
-        int recovPoint = (int) (basePoint * this.wand.power);       // 지팡이에 의한 증폭
-        hero.setHp(hero.getHp() + recovPoint);                      // 용사의 HP를 회복
+
+        if (getMp() < 10) {
+            throw new IllegalStateException("마나가 부족합니다");
+        }
+
+        int basePoint = 20;     // 기본회복 포인트
+        int recoverPoint = (int) (basePoint * this.wand.power);       // 지팡이에 의한 증폭
+
+        hero.setHp(hero.getHp() + recoverPoint);                      // 용사의 HP를 회복
+        setMp(getMp() - 10);                                        // 마나 소모
+        System.out.println("힐을 시전했습니다. 대상 HP: " + hero.getHp());     // 현재 값을 읽는 것이므로 getter 사용
+
     }
 }
+
