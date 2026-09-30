@@ -5,6 +5,10 @@ public abstract class TangibleAsset extends Asset implements Thing {
     private String color;
     private double weight;
     
+    public TangibleAsset(String name) {
+        super(name);
+    }
+    
     public int getPrice() {
         return price;
     }
