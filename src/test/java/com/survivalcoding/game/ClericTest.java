@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
