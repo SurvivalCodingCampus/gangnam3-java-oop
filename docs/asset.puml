@@ -1,6 +1,8 @@
 @startuml
 
-abstract class TangibleAsset {
+abstract class Asset {}
+
+abstract class TangibleAsset extends Asset {
 String name
 int price
 String color
@@ -12,6 +14,12 @@ String isbn
 
 class Computer extends TangibleAsset {
 String makerName
+}
+
+abstract class IntangibleAsset extends Asset {
+}
+
+class Patent extends IntangibleAsset {
 }
 
 @enduml
