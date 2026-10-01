@@ -1,53 +1,68 @@
 @startuml
 title 별들의 전쟁 - 다형성 설계
 
+'공통 Unit
 abstract class Unit {
     move()
 }
 
+'공통 Structure
 abstract class Structure {
 }
 
-
+'생물 / 기계 구분
 interface Bionic
 interface Mechanic
 
-
+'공격 가능한 유닛
 interface Attackable {
     attack()
 }
 
+'Medic이 치료
 interface Healer {
     heal(target : Healable)
 }
 
+'Medic에게 치료받을 수 있는 대상
+'SCV는 Mechanic이지만 예외적으로 치료 가능
+'ZergStructure는 Bionic이지만 치료 불가능
 interface Healable
 
 'SCV를 위해서 만듦
+'수리하는 역할
 interface Repairer {
     repair(target : Repairable)
 }
 
+'SCV에게 수리받을 수 있는 대상
 interface Repairable
+
 'SCV 광부
 interface Mineable {
     mine()
 }
+
 '자체회복 저그
 interface SelfAidable {
     selfAid()
 }
+
 '자체 방어막 회복 프로토스
 interface Shieldable {
     shield()
 }
 
 
+'Terran Unit
+
 class Marine extends Unit implements Bionic, Attackable, Healable {
     move() <<Override>>
     attack() <<Override>>
 }
 
+'Medic은 공격 불가능
+'Bionic 및 Healable 대상 치료 가능
 class Medic extends Unit implements Bionic, Healer {
     move() <<Override>>
     heal(target : Healable) <<Override>>
@@ -63,13 +78,26 @@ class Vulture extends Unit implements Mechanic, Attackable, Repairable {
     attack() <<Override>>
 }
 
+'SCV는 Mechanic
+'광맥 자원 채취 가능
+'기계 수리 가능
+'예외적으로 Medic 치료 가능
 class SCV extends Unit implements Mechanic, Mineable, Repairer, Repairable, Healable {
     move() <<Override>>
     mine() <<Override>>
     repair(target : Repairable) <<Override>>
 }
 
+'Terran 건물
+'과제에서 구체적인 Bionic / Mechanic 조건은 제시되지 않음
+class TerranStructure extends Structure {
+}
 
+
+'Zerg Unit
+
+'Zerg는 Bionic
+'피해를 입어도 시간이 지나면 자체 회복
 class Zergling extends Unit implements Bionic, Attackable, Healable, SelfAidable {
     move() <<Override>>
     attack() <<Override>>
@@ -82,34 +110,49 @@ class Hydra extends Unit implements Bionic, Attackable, Healable, SelfAidable {
     selfAid() <<Override>>
 }
 
+'Zerg 건물도 Bionic이며 자체 회복
+'하지만 Medic의 치료 대상은 아님
 class ZergStructure extends Structure implements Bionic, SelfAidable {
     selfAid() <<Override>>
 }
 
 
+'Protoss Unit
+
+'Zealot은 Bionic
+'Medic 치료 가능
+'Protoss이므로 방어막 회복
 class Zealot extends Unit implements Bionic, Attackable, Healable, Shieldable {
     move() <<Override>>
     attack() <<Override>>
     shield() <<Override>>
 }
 
+'Dragun은 Mechanic
+'Protoss이므로 방어막 회복
 class Dragun extends Unit implements Mechanic, Attackable, Repairable, Shieldable {
     move() <<Override>>
     attack() <<Override>>
     shield() <<Override>>
 }
 
+'Protoss의 모든 건물에도 방어막 존재
 class ProtossStructure extends Structure implements Shieldable {
     shield() <<Override>>
 }
 
 
+'여러 Unit을 하나의 그룹으로 관리
+'Unit 타입을 이용하여 서로 다른 유닛을 함께 이동
+'Attackable 타입을 이용하여 공격 가능한 유닛을 함께 공격
 class GroupManager {
     group(List<Unit>)
     move(List<Unit>)
     attack(List<Attackable>)
 }
 
+
+'extends - IS-A 관계
 
 Unit <|-- Marine
 Unit <|-- Medic
@@ -123,9 +166,12 @@ Unit <|-- Hydra
 Unit <|-- Zealot
 Unit <|-- Dragun
 
+Structure <|-- TerranStructure
 Structure <|-- ZergStructure
 Structure <|-- ProtossStructure
 
+
+'implements - Terran
 
 Bionic <|.. Marine
 Attackable <|.. Marine
@@ -149,6 +195,8 @@ Repairable <|.. SCV
 Healable <|.. SCV
 
 
+'implements - Zerg
+
 Bionic <|.. Zergling
 Attackable <|.. Zergling
 Healable <|.. Zergling
@@ -163,6 +211,8 @@ Bionic <|.. ZergStructure
 SelfAidable <|.. ZergStructure
 
 
+'implements - Protoss
+
 Bionic <|.. Zealot
 Attackable <|.. Zealot
 Healable <|.. Zealot
@@ -175,6 +225,10 @@ Shieldable <|.. Dragun
 
 Shieldable <|.. ProtossStructure
 
+
+'polymorphism
+'서로 다른 Unit을 Unit 타입으로 묶어서 이동
+'공격 가능한 객체는 Attackable 타입으로 묶어서 공격
 
 GroupManager ..> Unit
 GroupManager ..> Attackable
