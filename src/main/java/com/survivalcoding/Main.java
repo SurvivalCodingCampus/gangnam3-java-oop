@@ -1,14 +1,29 @@
 package com.survivalcoding;
 
-<<<<<<< HEAD
+/**
+ * 모험 게임의 진행 과정을 직접 실행해 보는 실행용 클래스.
+ * <p>
+ * 게임이 아니라, "게임을 조종하는 사람"의 역할이다.
+ * 객체 생성 → 값 설정 → 행동 지시 순서로 게임이 진행되는 과정을 보여 준다.
+ */
 public class Main {
+
+    /**
+     * 프로그램의 시작점.
+     * <p>
+     * 컴파일러가 가장 먼저 찾는 시작 지점이며,
+     * {@code public static void main(String[] args)} 라는 고정된 시그니처여야 한다.
+     *
+     * @param args 실행할 때 전달되는 명령줄 인자. 이 예제에서는 사용하지 않는다.
+     */
     public static void main(String[] args) {
 
         // 가상 세계에 용사를 생성
         Hero hero = new Hero();
 
         // 생성된 용사에게 최초의 HP와 이름을 설정
-        hero.setName("준석");
+        // 이름은 Hero#setName 의 검증(3글자 이상)을 통과해야 하므로 3글자로 지정한다.
+        hero.setName("준석이");
         hero.setHp(100);
 
         System.out.println(
@@ -38,29 +53,5 @@ public class Main {
 
         // 모험의 시작
         hero.slip();
-=======
-import com.survivalcoding.day01_class_instance.Hero;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        int i = 10;
-        String name = "홍길동";
-
-<<<<<<< HEAD
-        Hero hero = new Hero();
-        Hero hero2 = new Hero();
->>>>>>> 67a90eb (feat: 2026.09.24 박강원_Slime.java)
-=======
-        SuperHero superhero = new SuperHero("한석봉", 50);
-        superhero.run();
-
-    }
-
-    // 용사의 hp를 10 증가.
-    public  static void something(String name, int hp) {
-
->>>>>>> be77039 (feat : 2026.09.23 박강원_ 8장)
     }
 }

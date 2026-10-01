@@ -1,0 +1,92 @@
+@startuml
+' https://plantuml.com/class-diagram
+' ==========================================================
+' 12장 연습문제 3, 4 최종 클래스 다이어그램
+' ==========================================================
+' 연습문제 1 : TangibleAsset(유형자산) 추상 클래스를 만들고
+'             Computer / Book 이 그 부모를 쓰도록 수정
+' 연습문제 2 : Asset(가) / IntangibleAsset 를 추가하여
+'             TangibleAsset 의 부모를 Asset 으로 변경
+' 연습문제 3 : Thing 인터페이스(무게 getter/setter)를 추가하고
+'             위 계층에 걸쳐 배치   ◀── 이 다이어그램의 새로움
+' 연습문제 4 : TangibleAsset 가 Asset 상속 + Thing 구현을 동시에 하도록 수정
+'
+' 두 축은 서로 독립적이다.
+'   extends 축 (is-a)     : "무엇인가"      ── 위에서 아래로 계층
+'   implements 축 (Can-Do): "무게를 잴 수 있는가" ── 옆으로 구획
+' Patent 는 Asset 축에는 있지만 Thing 축에는 없다.
+' ==========================================================
+
+' ---------- implements 축 : 연습문제 3 이 추가한 인터페이스 ----------
+interface Thing {
+  + double getWeight()
+  + void setWeight(double weight)
+}
+
+' ---------- extends 축 ----------
+abstract class Asset {
+  - String name
+  + Asset(name : String)
+  + String getName() : String
+  + {abstract} int getPrice() : int
+}
+
+abstract class TangibleAsset {
+  - double weight
+  + TangibleAsset(name : String, weight : double)
+  + double getWeight() : double
+  + void setWeight(weight : double)
+  + void printInfo() : void
+}
+
+abstract class IntangibleAsset {
+  + IntangibleAsset(name : String)
+}
+
+class Computer {
+  - int price
+  + Computer(name : String, weight : double, price : int)
+  + int getPrice() : int
+}
+
+class Book {
+  - int pageCount
+  - int pricePerPage
+  + Book(name : String, weight : double, pageCount : int, pricePerPage : int)
+  + int getPrice() : int
+  + int getPageCount() : int
+}
+
+class Patent {
+  - int value
+  + Patent(name : String, value : int)
+  + int getPrice() : int
+}
+
+' ---------- extends 관계 (is-a 계층) ----------
+Asset        <|-- TangibleAsset
+Asset        <|-- IntangibleAsset
+TangibleAsset <|-- Computer
+TangibleAsset <|-- Book
+IntangibleAsset <|-- Patent
+
+' ---------- implements 관계 (Can-Do) ----------
+' ※ 연습문제 4 의 핵심.
+'   TangibleAsset 한 곳에서 implements 하면
+'   Computer / Book 이 자동으로 물려받으므로 중복이 없다.
+' ※ Patent 는 implements 하지 않는다. 무게를 잴 수 없기 때문이다.
+Thing <|.. TangibleAsset
+
+' ---------- 범례 ----------
+legend right
+  |= 계층 |= 의미 |
+  | <|--  | is-a (extends) : "~이다" |
+  | <|..  | Can-Do (implements) : "~할 수 있다 / 속성이 있다" |
+
+  연습문제 3 의 핵심:
+  자산인지 아닌지 따지지 않고
+  "무게가 있는 것"만 따로 모으는
+  독립적인 두 번째 축을 추가했다.
+endlegend
+
+@enduml

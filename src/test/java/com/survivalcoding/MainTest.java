@@ -5,6 +5,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * {@link Hero} · {@link Wand} · {@link Wizard} 필드 검증의 테스트.
+ * <p>
+ * 세 클래스는 모두 "private 필드 + getter/setter + setter 에서 값 검증" 구조를 공유한다.
+ * 이 테스트는 그 검증 규칙이 각 클래스에서 제대로 지켜지는지 확인한다.
+ * <ul>
+ *     <li>{@code Hero#setName} : null 불가, 3글자 이상</li>
+ *     <li>{@code Hero#setHp} : 음수이면 0 으로 보정</li>
+ *     <li>{@code Wand#setName} : null 불가, 3글자 이상</li>
+ *     <li>{@code Wand#setPower} : 0.5 이상 100.0 이하</li>
+ *     <li>{@code Wizard#setMp} : 음수이면 예외</li>
+ *     <li>{@code Wizard#setWand} : null 이면 예외</li>
+ * </ul>
+ * <p>
+ * "조용히 고치는 방식"(HP 를 0 으로 보정)과 "에러로 알리는 방식"(MP 를 음수로 두지 않음)을
+ * 구분해서 사용하는 이유를 여기서 비교해 볼 수 있다.
+ */
 public class MainTest {
 
     // ==============================
