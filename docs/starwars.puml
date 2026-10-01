@@ -83,7 +83,6 @@ interface Shieldable {
 
 ' 공격
 interface Attackable {
-    int attackDamage
     void attack(Entity target)
 }
 
