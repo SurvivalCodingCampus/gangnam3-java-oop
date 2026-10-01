@@ -76,7 +76,8 @@ interface Moveable {
 }
 
 interface Barrierable {
-    void setBarrier(int amount);
+    public void setBarrier(int amount);
+    public getBarrier();
 }
 
 interface SmoothlyHealing {
