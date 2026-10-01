@@ -1,17 +1,13 @@
 @startuml
 
-interface Terran {
-}
+' 시나리오
+'
+' 사장님이 좋아하는 설계로 짬
+' 건물 짓고 1cm 옮길 수 있을 정도의 구조
+' 완전 MVP 작업을 하는 중
 
-interface Zerg extends Bionic, smoothlyHealing {
-
-}
-
-interface Protoss extends Barrierable, smoothlyHealingBarrier {
-}
-
-interface Unit extends Moveable {
-}
+' 아무 기능도 없지만 다른 추가 기능이 들어올 수 있으니...
+' 단순히 타입만 나타내는 거면 변수가 좋겠죠?
 
 interface Structure {
 }
@@ -19,80 +15,149 @@ interface Structure {
 interface Bionic {
 }
 
-interface Mechanic {
+interface Terran {
 }
 
-interface Ore {
+interface Zerg extends SmoothlyHealing {
 }
 
-interface TakeHealable {
-    void takeHeal(amount)
+interface Protoss extends SmoothlyHealingBarrier, Barrierable {
 }
 
-interface Healable {
-    void heal(TakeHealable)
+interface Mechanic extends Repairable {
 }
 
-interface TakeRepairable {
-    void takeRepair(amount)
-}
-
-interface Repairable {
-    void repair(TakeRepairable)
-}
-
-interface Damageable {
-    void takeDamage(amount)
-}
-
-interface Attackable {
-    void attack(Damageable)
-}
-
-interface Moveable {
-    void move(direction)
-}
-
-interface Barrierable {
-    void setBarrier(amount)
-}
-
-interface Buildable {
-    Unit build()
+interface Unit extends Moveable {
 }
 
 interface Mineable {
-    void Mine(Ore)
+    int extract();
+}
+
+interface Miner {
+    void harvest(Mineable mineable);
+}
+
+interface Producer {
+    void produce(Producible);
+}
+
+interface Producible {
+    Unit spawn()
+}
+
+interface TakeHealable {
+    void takeHeal(int amount);
+}
+
+interface Healable {
+    void heal(TakeHealable takeHealable);
+}
+
+interface Repairable {
+    void repair(TakeRepairable takeRepairable);
+}
+
+interface TakeRepairable {
+    void takeRepair(int amount);
+}
+
+interface Attackable {
+    void attack(Damageable damageable);
+}
+
+
+interface Damageable {
+    void takeDamage(int amount);
+}
+
+interface Moveable {
+    void move(Vector2 direction);
+}
+
+interface Barrierable {
+    void setBarrier(int amount);
 }
 
 interface SmoothlyHealing {
-    void smoothlyHealing()
+    void smoothlyHealing();
 }
 
 interface SmoothlyHealingBarrier {
-    void smoothlyHealingBarrier()
+    void smoothlyHealingBarrier();
 }
 
-class Marine implements Attackable, TakeHealable, Unit, Bionic
+class player {
+    static int oreAmount = 0;
+}
 
-class Medic implements Healable, Unit, Bionic
+class Ore implements Mineable {
+    int amount;
+}
 
-class Tank implements Unit, Mechanic
+' 테란
 
-class Vulture
+class Marine implements Attackable, TakeHealable, Unit, Bionic, Damageable, Producible, Terran {
+    int hp;
+}
 
-class SCV
+class Medic implements Healable, Unit, Bionic, TakeHealable, Damageable, Producible, Terran {
+    int hp;
+}
 
-class Zergling
+class Tank implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
+    int hp;
+}
 
-class Hydra
+class Vulture implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
+    int hp;
+}
 
-class ZergStructure
+class SCV implements Unit, TakeRepairable, Miner, Damageable, Repairable, Producible, Terran {
+    int hp;
+}
 
-class Zealot
 
-class Dragun
+' 저그
 
-class Group
+class Zergling implements Unit, Bionic, TakeHealable, Damageable, Attackable, Producible, Zerg {
+    int hp;
+}
+
+class Hydra implements Unit, Bionic, TakeHealable, Damageable, Attackable, Producible, Zerg {
+    int hp;
+}
+
+abstract class ZergStructure implements Unit, Bionic, Structure, Damageable, Zerg {
+    int hp;
+}
+
+' 프로토스
+
+class Zealot implements Unit, TakeHealable, Damageable, Attackable, Producible, Protoss {
+    int barrierAmount;
+    int hp;
+}
+
+class Dragun implements Unit, Damageable, Attackable, Producible, Protoss {
+    int barrierAmount;
+    int hp;
+}
+
+class GroupManager {
+    void group(Set<Unit> units);
+    void attack(Set<Attackable> attackables);
+    void move(Set<Unit> units);
+}
+
+GroupManager ..> Unit
+GroupManager ..> Attackable
+
+Miner ..> Mineable
+Healable ..> TakeHealable
+Repairable ..> TakeRepairable
+Attackable ..> Damageable
+
+Producer ..> Unit
 
 @enduml
