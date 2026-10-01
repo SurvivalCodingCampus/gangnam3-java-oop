@@ -1,12 +1,20 @@
 ```mermaid
 classDiagram
     
-    class Marine
+    class Terran
+    
+    %% 저그 건물만 불가능
+    class Zerg
+    
+    class Protoss
+    
+    class Marine 
     class Medic
     class Tank
     class Vulture
     class SCV
      
+    class ZergStructure
     class Zergling
     class Hydra
      
@@ -15,90 +23,121 @@ classDiagram
 
     class Human
     class Alien
-    class Bionic
-    class Mechanic
-
+    
+    class UnitBionic
+    class UnitMechanic
+    class StuctureBionic
+    class StructureMechanic
+    
     class Unit
     class Structure
  
-    class Attackable
-    class Curable
-    class Healable
-    class SelfAidable
-    class Produceable
-    class Mineable
-    class Repairable
-    class UnAttackable
-    class Shieldable
+    class Attackable {
+        <<Interface>>
+    }
     
-    Marine <|-- Human 
-    Marine <|-- Bionic 
-    Marine <|-- Attackable 
+    class Curable {
+        <<Interface>>
+    }
+    
+    class Healable {
+        <<Interface>>
+    }
+    
+    class SelfAidable {
+        <<Interface>>
+    }
+    
+    class Produceable {
+        <<Interface>>
+    }
+    
+    class Mineable {
+        <<Interface>>
+    }
+    
+    class Repairable {
+        <<Interface>>
+    }
+    
+    class Shieldable {
+        <<Interface>>
+    }
+    
+    Terran <|-- Human 
+    
+    Protoss <|-- Shieldable
+    
+    Zerg <|-- SelfAidable
+
+    Unit <|-- Produceable
+    
+    UnitBionic <|-- Healable
+    
+    UnitAttackable
+    
+    Marine <|-- UnitBionic 
+    Marine <|-- Attackable
     Marine <|-- Produceable 
     Marine <|-- Healable 
     Marine <|-- Unit
+    Marine <|-- Terran 
     
-    Medic <|-- Human 
-    Medic <|-- Bionic 
+    Medic <|-- UnitBionic 
     Medic <|-- Produceable 
     Medic <|-- Unit
+    Medic <|-- Terran
+    Medic <|-- Curable
     
-    Tank <|-- Human 
-    Tank <|-- Mechanic 
+    Tank <|-- UnitMechanic 
     Tank  <|-- Unit
     Tank <|-- Attackable 
     Tank <|-- Produceable
     Tank <|-- Unit 
+    Tank <|-- Terran 
     
-    Vulture <|-- Human 
     Vulture  <|-- Mechanic 
-    Vulture <|-- Unit 
-    Vulture <|-- Attackable 
+    Vulture <|-- UnitMechanic 
+    Vulture <|-- Attackable
     Vulture <|-- Produceable
+    Vulture <|-- Terran 
     
-    SCV <|-- Human 
-    SCV  <|-- Mechanic 
-    SCV  <|-- UnAttackable 
+    SCV  <|-- UnitMechanic 
     SCV <|-- Healable 
     SCV <|-- Produceable 
     SCV <-- Unit
     SCV <|-- Repairable 
     SCV <|-- Mineable 
+    SCV <|-- Terran 
     
     Zergling <|-- Alien 
-    Zergling <|-- Bionic 
+    Zergling <|-- UnitBionic 
     Zergling <|-- Attackable 
-    Zergling <|-- Produceable 
+    Zergling <|-- Produceable
     Zergling <|-- Unit 
-    Zergling <|-- SelfAidable 
+    Zergling <|-- Zerg 
     
     Hydra <|-- Alien 
-    Hydra <|-- Bionic 
+    Hydra <|-- UnitBionic 
     Hydra <|-- Attackable 
     Hydra <|-- Produceable 
     Hydra <|-- Unit 
-    Hydra <|-- SelfAidable 
+    Hydra <|-- Zerg 
     
     Zealot <|-- Produceable 
-    Zealot <|-- Bionic 
+    Zealot <|-- UnitBionic 
     Zealot <|-- Healable 
     Zealot <|-- Alien 
     Zealot <|-- Unit 
     Zealot <|-- Attackable 
-    Zealot <|-- Shieldable 
+    Zealot <|-- Protoss 
     
-    Dragun <|-- Mechanic 
+    Dragun <|-- UnitMechanic 
     Dragun <|-- Produceable 
     Dragun <|-- Alien 
     Dragun <|-- Unit 
     Dragun <|-- Attackable 
-    Dragun <|-- Shieldable
-    
-    Unit <|-- Produceable 
-    
-    Medic <|-- Curable
-    Zerg <|-- SelfAidable
-    
+    Dragun <|-- Protoss
 
     class GroupManager {
         group(List<Unit>)
