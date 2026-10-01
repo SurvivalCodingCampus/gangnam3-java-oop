@@ -1,6 +1,13 @@
 package com.survivalcoding;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.survivalcoding.day01_class_instance.Cleric;
 import com.survivalcoding.day01_class_instance.GreatWizard;
@@ -104,5 +111,84 @@ public class Main {
 
         greatWizard.heal(superHero);
         greatWizard.superHeal(superHero);
+
+        // 배열 생성
+        // String[] names = new String[3];
+
+        // 3인 추가
+        // names[0] = "홍길동";
+        // names[1] = "한석봉";
+        // names[2] = "신사임당";
+
+        // System.out.println(names[1]);
+
+        // ArrayList 생성
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Integer> numbers = new ArrayList<>();
+
+        // 3인 추가
+        names.add("홍길동");
+        names.add("한석봉");
+        names.add("신사임당");
+
+        numbers.add(10);
+        numbers.add(20);
+        numbers.add(30);
+
+        System.out.println(names.get(1));
+        System.out.println(numbers.get(1));
+
+        // for (int i = 0; i < names.size(); i++) {
+        // System.out.println(names.get(i));
+        // }
+
+        for (String n : names) {
+            System.out.println(n);
+        }
+
+        Iterator<String> iterator = names.iterator();
+
+        while (iterator.hasNext()) {
+            String it = iterator.next();
+            System.out.println(it);
+        }
+
+        Set<String> colors = new HashSet<>();
+
+        colors.add("red");
+        colors.add("green");
+        colors.add("blue");
+
+        colors.add("red");
+
+        System.out.println(colors.size());
+
+        Map<String, Integer> cities = new HashMap<>();
+
+        cities.put("서울시", 977);
+        cities.put("수원시", 124);
+        cities.put("부산시", 342);
+
+        int seoul = cities.get("서울시");
+
+        System.out.println("서울시 인구는 " + seoul + "만");
+        cities.remove("서울시");
+        cities.put("수원시", 130);
+        System.out.println("수원시 인구는 " + cities.get("수원시") + "만");
+
+        for (String key : cities.keySet()) {
+            int value = cities.get(key);
+            System.out.println(key + " 인구는 " + value + "만");
+        }
+
+        Hero hero3 = new Hero("김영웅3");
+        hero3.setName("홍길동");
+
+        List<Hero> heroList = new ArrayList<>();
+
+        heroList.add(hero3);
+        hero3.setName("한석봉");
+
+        System.out.println(heroList.get(0).getName());
     }
 }
