@@ -9,7 +9,7 @@
 ' 아무 기능도 없지만 다른 추가 기능이 들어올 수 있으니...
 ' 단순히 타입만 나타내는 거면 변수가 좋겠죠?
 
-interface Structure {
+abstract Structure extends baseEntity {
 }
 
 interface Bionic {
@@ -27,7 +27,7 @@ interface Protoss extends SmoothlyHealingBarrier, Barrierable {
 interface Mechanic extends Repairable {
 }
 
-interface Unit extends Moveable {
+abstract Unit extends baseEntity implements Moveable {
 }
 
 interface Mineable {
@@ -87,6 +87,10 @@ interface SmoothlyHealingBarrier {
     void smoothlyHealingBarrier();
 }
 
+abstract baseEntity {
+    Vector2 pos
+}
+
 class player {
     static int oreAmount = 0;
 }
@@ -128,7 +132,7 @@ class Hydra implements Unit, Bionic, TakeHealable, Damageable, Attackable, Produ
     int hp;
 }
 
-abstract class ZergStructure implements Unit, Bionic, Structure, Damageable, Zerg {
+abstract class ZergStructure extends Structure implements Unit, Bionic, Damageable, Zerg {
     int hp;
 }
 
