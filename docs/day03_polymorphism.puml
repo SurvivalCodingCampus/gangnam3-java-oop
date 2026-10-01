@@ -1,0 +1,131 @@
+@startuml day03_polymorphism
+scale 1
+
+package "com.survivalcoding.day03_polymorphism" {
+
+    class BorderStyle {
+        {static} + int DASHED
+        {static} + int DOTTED
+    }
+
+    class Car {
+        - String brand
+        - Color color
+        - int speed
+    }
+
+    abstract class Character {
+        - String name
+        - int hp
+
+        + abstract void attack(Slime slime)
+    }
+
+    class Dancer {
+        - String name
+        - int hp
+
+        + void dance()
+    }
+
+    class Dog {
+        - String name
+        - int age
+    }
+
+    interface Drawable {
+        + void draw()
+    }
+
+    class Goblin {
+
+    }
+
+    class Hero {
+
+    }
+
+    class House {
+        - String address
+        - int area
+        - Color color
+    }
+
+    interface Human {
+        + void speak()
+    }
+
+    class KingSlime {
+
+    }
+
+    abstract class Monster {
+        + void run()
+    }
+
+    interface Moveable {
+        + void move(int seconds)
+    }
+
+    class Rectangle {
+        - int width
+        - int height
+        - Color color
+        - int borderStyle
+    }
+
+    class Sword {
+
+    }
+
+    class Tree {
+        - double height
+    }
+
+    class Wand {
+        - String name
+        - int power
+
+        + void fireball(Slime slime)
+    }
+
+    class A {
+        + void c()
+    }
+
+    class B {
+        + void c()
+    }
+
+    abstract class Y {
+        + abstract void a()
+        + abstract void b()
+    }
+
+    interface X {
+        + void a()
+    }
+
+    ' Relationship line
+    Drawable <|.. Car
+    Drawable <|.. Dog
+    Drawable <|.. House
+    Drawable <|.. Rectangle
+    Drawable <|.. Tree
+
+    Moveable <|.. Car
+
+    Human <|.. Dancer
+
+    Monster <|-- Goblin
+    Monster <|-- KingSlime
+
+    Character <|-- Hero
+
+    Y <|-- A
+    Y <|-- B
+
+    X <|.. Y
+}
+
+@enduml
