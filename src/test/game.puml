@@ -1,21 +1,12 @@
 @startuml
-class 상속{
-상속할때 메서드는 오버라이드 된다
-변수는 오버라이드 아니다
-super는 부모 호출자를 부르고 자식 생성자 맨 첫줄 위에 있어야한다
-호출된 시점에서 this는 가장 가까운 시점에서 선언을 찾고 없으면 error 반환
-자식 부모 구조는 부모 안에 자식이 있다고 생각하면 된다.
-예를 들어서 set mp가 자식에 있고 부모에 없고 자식 부모 둘다 mp 가 있으면 set mp 하면 부모것이 아니라 자식이 뜬다.
-부모가 생성될려면 기본적으로 자식이 있어야하고 자식이 기본생성자가 있을떄 그걸로 카운트된다.
-
-}
-class 테스트_코드
-{
-모든 메서드 생성자마다 테스트한다.
-메서드 전후마다 예상 변수 후보들도 보이는것도 좋다.
-모든 변수의 범위를 체크한다 +1 0 -1. 음수가 가능한지 상한 하한등이 있다.
-만약 A가 B를 호출하면 A B 모든걸 확인한다.
-}
-
-
+abstract class Asset{}
+abstract class TangibleAsset{}
+abstract class IntangibleAsset{}
+interface Thing{}
+Asset<|--TangibleAsset
+Asset<|--IntangibleAsset
+Thing<|--TangibleAsset
+TangibleAsset<|--Book
+TangibleAsset<|--Computer
+IntangibleAsset<|--Program
 @enduml

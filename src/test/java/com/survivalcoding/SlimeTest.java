@@ -30,14 +30,17 @@ class SlimeTest {
     void init() {
         hero = new Hero();//포인터 null 이 띈다 객체는 객체 자체가 아니라
         //this(a,b,c,d)가 된다.
+        wizard = new Wizard();//method 무조건 public 필드는 항상 private
         poisonSlime = new PoisonSlime();
-        wizard = new Wizard();
         GWizard = new GreatWizard();
+
     }
+
 
     @Test
     @DisplayName("독 슬라임 공격 ")
     void poisontest() {
+
         int Bhero = hero.getHp();
         poisonSlime.attack(hero);
         assertTrue(hero.getHp() <= Bhero - 10);
