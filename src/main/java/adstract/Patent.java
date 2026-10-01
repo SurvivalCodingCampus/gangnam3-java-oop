@@ -1,0 +1,2 @@
+class Patent extends IntangibleAsset {
+}
