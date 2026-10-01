@@ -30,6 +30,13 @@ public class Slime {
         System.out.println("슬라임 " + this.suffix + "가 도망갔다");
     }
 
+    public void damage(int damage) {
+        this.hp -= damage;
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
+    }
+
     // 테스트 코드 실습용 메서드
     void takeDamage(int damage) {
         this.hp -= damage;
