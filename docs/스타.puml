@@ -1,0 +1,98 @@
+@startuml
+
+interface Terran {
+}
+
+interface Zerg extends Bionic, smoothlyHealing {
+
+}
+
+interface Protoss extends Barrierable, smoothlyHealingBarrier {
+}
+
+interface Unit extends Moveable {
+}
+
+interface Structure {
+}
+
+interface Bionic {
+}
+
+interface Mechanic {
+}
+
+interface Ore {
+}
+
+interface TakeHealable {
+    void takeHeal(amount)
+}
+
+interface Healable {
+    void heal(TakeHealable)
+}
+
+interface TakeRepairable {
+    void takeRepair(amount)
+}
+
+interface Repairable {
+    void repair(TakeRepairable)
+}
+
+interface Damageable {
+    void takeDamage(amount)
+}
+
+interface Attackable {
+    void attack(Damageable)
+}
+
+interface Moveable {
+    void move(direction)
+}
+
+interface Barrierable {
+    void setBarrier(amount)
+}
+
+interface Buildable {
+    Unit build()
+}
+
+interface Mineable {
+    void Mine(Ore)
+}
+
+interface SmoothlyHealing {
+    void smoothlyHealing()
+}
+
+interface SmoothlyHealingBarrier {
+    void smoothlyHealingBarrier()
+}
+
+class Marine implements Attackable, TakeHealable, Unit, Bionic
+
+class Medic implements Healable, Unit, Bionic
+
+class Tank implements Unit, Mechanic
+
+class Vulture
+
+class SCV
+
+class Zergling
+
+class Hydra
+
+class ZergStructure
+
+class Zealot
+
+class Dragun
+
+class Group
+
+@enduml

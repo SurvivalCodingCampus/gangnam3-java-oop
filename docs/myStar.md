@@ -1,16 +1,20 @@
 ```mermaid
 classDiagram
-
-    class 종족
     
-    class 테란
+    class 테란 {
+        <<Interface>>
+    }
     
     %% 모든 유닛과 건물이 생물
     %% 피해를 입어도 회복
-    class 저그
+    class 저그 {
+        <<Interface>>
+    }
     
     %% 서서히 벙어막 회복
-    class 프로토스
+    class 프로토스 {
+        <<Interface>>
+    }
     
     %% 테란 유닛 생물
     
@@ -60,14 +64,64 @@ classDiagram
         <<Interface>>
     }
     
-    %% 기능
-    힐받기가능()
-    수리받기가능()
-    공격가능()
-    움직이기가능()
-    서서히뭘한다()
-    방어막이존재()
-    유닛생산()
-    광맥채취()
+    class 광맥 {
+        <<Interface>>
+    }
+    
+    class 힐받기가능 {
+        <<Interface>>
+        void takeHeal(amount)
+    }
 
+    class 힐가능 {
+        <<Interface>>
+        void heal(힐받기가능)
+    }
+    
+    class 수리받기가능 {
+        <<Interface>>
+        void takeRepair(amount)
+    }
+    
+    class 수리가능 {
+        <<Interface>>
+        void repair(수리받기가능)
+    }
+
+    class 데미지받기가능 {
+        <<Interface>>
+        void takeDamage(amount)
+    }
+
+    class 어택가능 {
+        <<Interface>>
+        void attack(데미지받기가능)
+    }
+    
+    class 움직이기가능 {
+        <<Interface>>
+        void move(direction)
+    }
+    
+    class 방어막가능 {
+        <<Interface>>
+        void setBarrier(amount)
+    }
+    
+    class 유닛생산 {
+        <<Interface>>
+        유닛 build()
+    }
+    
+    
+    class 광맥채취가능 {
+        <<Interface>>
+        void Mine(광맥)
+    }
+    
+    %% 기능
+    class 서서히뭘한다 {
+        <<Interface>>
+        void DoSomthing()
+    }
 ```
