@@ -89,6 +89,7 @@ interface SmoothlyHealingBarrier {
 
 abstract baseEntity {
     Vector2 pos
+    int hp;
 }
 
 class player {
@@ -102,50 +103,50 @@ class Ore implements Mineable {
 ' 테란
 
 class Marine implements Attackable, TakeHealable, Unit, Bionic, Damageable, Producible, Terran {
-    int hp;
+
 }
 
 class Medic implements Healable, Unit, Bionic, TakeHealable, Damageable, Producible, Terran {
-    int hp;
+
 }
 
 class Tank implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
-    int hp;
+
 }
 
 class Vulture implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
-    int hp;
+
 }
 
 class SCV implements Unit, TakeRepairable, Miner, Damageable, Repairable, Producible, Terran {
-    int hp;
+
 }
 
 
 ' 저그
 
 class Zergling implements Unit, Bionic, TakeHealable, Damageable, Attackable, Producible, Zerg {
-    int hp;
+
 }
 
 class Hydra implements Unit, Bionic, TakeHealable, Damageable, Attackable, Producible, Zerg {
-    int hp;
+
 }
 
 abstract class ZergStructure extends Structure implements Unit, Bionic, Damageable, Zerg {
-    int hp;
+
 }
 
 ' 프로토스
 
 class Zealot implements Unit, TakeHealable, Damageable, Attackable, Producible, Protoss {
     int barrierAmount;
-    int hp;
+
 }
 
 class Dragun implements Unit, Damageable, Attackable, Producible, Protoss {
     int barrierAmount;
-    int hp;
+
 }
 
 class GroupManager {
