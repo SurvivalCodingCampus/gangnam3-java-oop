@@ -151,7 +151,7 @@ class Dragun implements Unit, Damageable, Attackable, Producible, Protoss {
 class GroupManager {
     void group(Set<Unit> units);
     void attack(Set<Attackable> attackables);
-    void move(Set<Unit> units);
+    void move(Set<Moveable> moveables);
 }
 
 GroupManager ..> Unit
