@@ -72,6 +72,8 @@ class PoisonSlime extends Slime {
 static final int POISON_DAMAGE_DIVISOR
 int poisonCount
 
+PoisonSlime(String suffix)
+
 - int calculatePoisonDamage(int hp)
 - void applyPoisonDamage(Hero hero)
 void attack(Hero hero)

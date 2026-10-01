@@ -1,9 +1,9 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class PoisonSlime extends Slime {
     private static final int POISON_DAMAGE_DIVISOR = 5;
     
-    private int poisonCount = 5;
+    private int poisonCount = 5;  // 이렇게 초기화하는 것도 매직넘버래. 선생님 코드는 이 값도 static으로 빼냄. 그게 우아함
     
     public PoisonSlime(String suffix) {
         super(suffix);

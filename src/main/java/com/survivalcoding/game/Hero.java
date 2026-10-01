@@ -1,8 +1,8 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 import java.util.Random;
 
-public class Hero {
+public class Hero extends Character implements Attackable {
     // 필드(field), 멤버변수(member variable), 속성(property), 전역변수,
     static final int COUNTER_ATTACK_DAMAGE = 10;
     static final int ATTACK_DAMAGE = 10;
@@ -12,8 +12,6 @@ public class Hero {
     static int money = 100;
     
     private Sword sword;
-    private String name;
-    private int hp;
     
     public Hero() {
         this("김영웅", 100);
@@ -25,13 +23,10 @@ public class Hero {
     
     public Hero(String name, int hp) {
         setName(name);
-        this.hp = hp;
+        setHp(hp);
     }
     
-    public String getName() {
-        return name;
-    }
-    
+    @Override
     public void setName(String name) {
         Validator.validateNotNull(name);
         Validator.validateMinLength(name, 1);
@@ -40,10 +35,7 @@ public class Hero {
         this.name = name;
     }
     
-    public int getHp() {
-        return hp;
-    }
-    
+    @Override
     public void setHp(int hp) {
 //        this.hp = Math.min(MAX_HP, hp);
         Validator.validateAtMost(hp, MAX_HP);
@@ -61,9 +53,10 @@ public class Hero {
         money = new Random().nextInt(1000);
     }
     
+    @Override
     public void attack(Slime slime) {
         System.out.printf("%s는 공격했다!%n", this.name);
-        setHp(hp - ATTACK_DAMAGE);
+        slime.setHp(slime.getHp() - ATTACK_DAMAGE);
     }
     
     public void counterattacked() {

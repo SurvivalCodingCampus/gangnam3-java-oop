@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class Slime {
     static final int MAX_HP = 20;
@@ -8,15 +8,15 @@ public class Slime {
     private final String suffix;
     private int hp;
     
-    Slime() {
+    public Slime() {
         this("Z", MAX_HP);
     }
     
-    Slime(String suffix) {
+    public Slime(String suffix) {
         this(suffix, MAX_HP);
     }
     
-    Slime(String suffix, int hp) {
+    public Slime(String suffix, int hp) {
         Validator.validateNotNull(suffix);
         
         this.suffix = suffix;

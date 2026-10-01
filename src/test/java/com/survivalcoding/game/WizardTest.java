@@ -1,11 +1,30 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WizardTest {
+    private Wizard wizard;
+    
+    @BeforeEach
+    void setUp() {
+        wizard = new Wizard();
+    }
+    
+    @ParameterizedTest(name = "값 {0}일 때 통과")
+    @CsvSource({
+            ""
+    })
+    @DisplayName("hasEnoughMp: ")
+    void healMpValid() {
+    
+    }
+    
     @Test
     @DisplayName("Wizard: 이름 3글자 이상 정상 설정 (동등 분할)")
     void nameValid() {

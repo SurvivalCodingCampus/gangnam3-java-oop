@@ -1,0 +1,28 @@
+package com.survivalcoding.assetmanager;
+
+public abstract class TangibleAsset extends Asset implements Thing {
+    protected String color;
+    protected double weight;
+    
+    public TangibleAsset(String name) {
+        super(name);
+    }
+    
+    public String getColor() {
+        return color;
+    }
+    
+    public void setColor(String color) {
+        this.color = color;
+    }
+    
+    @Override
+    public double getWeight() {
+        return weight;
+    }
+    
+    @Override
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+}

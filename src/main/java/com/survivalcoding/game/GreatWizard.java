@@ -1,4 +1,4 @@
-package com.survivalcoding.day04_calss_instance;
+package com.survivalcoding.game;
 
 public class GreatWizard extends Wizard {
     static final int MAX_MP = 150;
