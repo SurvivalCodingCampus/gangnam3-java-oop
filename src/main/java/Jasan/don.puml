@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class TangibleAsset {
+String name
+int price
+- String color
+}
+
+class computer {
+String name
+int price
+String color
+- String makername
+
+}
+
+class Book {
+String name
+int price
+String color
+-String isbn
+}
+
+interface Asset {
+- String name
+- int price
+}
+
+abstract class IntangibleAsset {
+String name
+int price
+}
+
+class Patent {
+String name
+int price
+}
+
+interface Thing {
+getweight
+setweight
+}
+
+
+Thing <|..Book
+Thing <|..computer
+Thing <|..TangibleAsset
+IntangibleAsset <|.. Patent
+Asset <|..IntangibleAsset
+Asset <|..TangibleAsset
+TangibleAsset <|..Book
+TangibleAsset <|.. computer
+
+@enduml

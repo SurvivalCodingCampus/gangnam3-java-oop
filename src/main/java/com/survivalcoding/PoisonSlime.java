@@ -21,6 +21,8 @@ public class PoisonSlime extends Slime {
             poisonCount--;
         }
 
+        // 안녕하세요.
+
 
     }
 }
