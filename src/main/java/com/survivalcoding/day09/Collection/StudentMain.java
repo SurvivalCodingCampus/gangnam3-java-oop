@@ -23,6 +23,8 @@ public class StudentMain {
             System.out.println(student.getName());
         }
 
+        System.out.println();
+
         // 연습문제 3
         Map<Integer, Student> studentMap = new HashMap<>(initCapacity);
 
@@ -33,7 +35,9 @@ public class StudentMain {
         studentMap.put(hanAge, han);
 
         for (int key: studentMap.keySet()) {
-            int value = studentMap.get(key);
+            Student student = studentMap.get(key);
+
+            System.out.printf("%s의 나이는 %d살 \n", student.getName(), key);
         }
     }
 }
