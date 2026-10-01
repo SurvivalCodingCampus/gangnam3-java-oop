@@ -34,7 +34,7 @@ package "com.survivalcoding.day02_abstract_interface" {
         {static} + double MAX_WEIGHT
 
         + double getWeight()
-        + void setWeight()
+        + void setWeight(double weight)
     }
 
     ' 상속 관계
