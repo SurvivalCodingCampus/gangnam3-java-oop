@@ -1,0 +1,182 @@
+@startuml
+title 별들의 전쟁 - 다형성 설계
+
+abstract class Unit {
+    move()
+}
+
+abstract class Structure {
+}
+
+
+interface Bionic
+interface Mechanic
+
+
+interface Attackable {
+    attack()
+}
+
+interface Healer {
+    heal(target : Healable)
+}
+
+interface Healable
+
+'SCV를 위해서 만듦
+interface Repairer {
+    repair(target : Repairable)
+}
+
+interface Repairable
+'SCV 광부
+interface Mineable {
+    mine()
+}
+'자체회복 저그
+interface SelfAidable {
+    selfAid()
+}
+'자체 방어막 회복 프로토스
+interface Shieldable {
+    shield()
+}
+
+
+class Marine extends Unit implements Bionic, Attackable, Healable {
+    move() <<Override>>
+    attack() <<Override>>
+}
+
+class Medic extends Unit implements Bionic, Healer {
+    move() <<Override>>
+    heal(target : Healable) <<Override>>
+}
+
+class Tank extends Unit implements Mechanic, Attackable, Repairable {
+    move() <<Override>>
+    attack() <<Override>>
+}
+
+class Vulture extends Unit implements Mechanic, Attackable, Repairable {
+    move() <<Override>>
+    attack() <<Override>>
+}
+
+class SCV extends Unit implements Mechanic, Mineable, Repairer, Repairable, Healable {
+    move() <<Override>>
+    mine() <<Override>>
+    repair(target : Repairable) <<Override>>
+}
+
+
+class Zergling extends Unit implements Bionic, Attackable, Healable, SelfAidable {
+    move() <<Override>>
+    attack() <<Override>>
+    selfAid() <<Override>>
+}
+
+class Hydra extends Unit implements Bionic, Attackable, Healable, SelfAidable {
+    move() <<Override>>
+    attack() <<Override>>
+    selfAid() <<Override>>
+}
+
+class ZergStructure extends Structure implements Bionic, SelfAidable {
+    selfAid() <<Override>>
+}
+
+
+class Zealot extends Unit implements Bionic, Attackable, Healable, Shieldable {
+    move() <<Override>>
+    attack() <<Override>>
+    shield() <<Override>>
+}
+
+class Dragun extends Unit implements Mechanic, Attackable, Repairable, Shieldable {
+    move() <<Override>>
+    attack() <<Override>>
+    shield() <<Override>>
+}
+
+class ProtossStructure extends Structure implements Shieldable {
+    shield() <<Override>>
+}
+
+
+class GroupManager {
+    group(List<Unit>)
+    move(List<Unit>)
+    attack(List<Attackable>)
+}
+
+
+Unit <|-- Marine
+Unit <|-- Medic
+Unit <|-- Tank
+Unit <|-- Vulture
+Unit <|-- SCV
+
+Unit <|-- Zergling
+Unit <|-- Hydra
+
+Unit <|-- Zealot
+Unit <|-- Dragun
+
+Structure <|-- ZergStructure
+Structure <|-- ProtossStructure
+
+
+Bionic <|.. Marine
+Attackable <|.. Marine
+Healable <|.. Marine
+
+Bionic <|.. Medic
+Healer <|.. Medic
+
+Mechanic <|.. Tank
+Attackable <|.. Tank
+Repairable <|.. Tank
+
+Mechanic <|.. Vulture
+Attackable <|.. Vulture
+Repairable <|.. Vulture
+
+Mechanic <|.. SCV
+Mineable <|.. SCV
+Repairer <|.. SCV
+Repairable <|.. SCV
+Healable <|.. SCV
+
+
+Bionic <|.. Zergling
+Attackable <|.. Zergling
+Healable <|.. Zergling
+SelfAidable <|.. Zergling
+
+Bionic <|.. Hydra
+Attackable <|.. Hydra
+Healable <|.. Hydra
+SelfAidable <|.. Hydra
+
+Bionic <|.. ZergStructure
+SelfAidable <|.. ZergStructure
+
+
+Bionic <|.. Zealot
+Attackable <|.. Zealot
+Healable <|.. Zealot
+Shieldable <|.. Zealot
+
+Mechanic <|.. Dragun
+Attackable <|.. Dragun
+Repairable <|.. Dragun
+Shieldable <|.. Dragun
+
+Shieldable <|.. ProtossStructure
+
+
+GroupManager ..> Unit
+GroupManager ..> Attackable
+
+@enduml
