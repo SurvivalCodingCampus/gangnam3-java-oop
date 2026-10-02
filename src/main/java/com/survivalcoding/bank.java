@@ -1,4 +1,4 @@
-package com.survivalcoding;
+/*package com.survivalcoding;
 
 public class bank {
     void noValue(double x) {
@@ -59,4 +59,6 @@ public class bank {
 
 
 }
+*/
+
 
