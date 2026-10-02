@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.survivalcoding'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:6.0.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // 소스에 포함된 한글이 플랫폼 기본 인코딩(예: Windows CP949)에 관계없이 유지되도록 고정한다.
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'file.encoding', 'UTF-8'
+}

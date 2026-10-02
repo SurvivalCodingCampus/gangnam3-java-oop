@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'com.survivalcoding'
@@ -13,8 +14,41 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:6.0.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // JSON for configuration
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // JavaFX 네이티브 라이브러리는 OS·아키텍처마다 다르므로 실행 환경에 맞는 classifier 를 고른다.
+    // (예: linux 네이티브로 빌드한 뒤 Windows 에서 실행하면 UnsatisfiedLinkError 가 발생한다.)
+    def osName = System.getProperty('os.name').toLowerCase()
+    def osArch = System.getProperty('os.arch').toLowerCase()
+    def arm64 = osArch.contains('aarch64') || osArch.contains('arm64')
+    def javafxPlatform = osName.contains('win') ? 'win'
+            : osName.contains('mac') ? (arm64 ? 'mac-aarch64' : 'mac')
+            : (arm64 ? 'linux-aarch64' : 'linux')
+    implementation "org.openjfx:javafx-controls:21.0.2:$javafxPlatform"
+    implementation "org.openjfx:javafx-graphics:21.0.2:$javafxPlatform"
+    implementation "org.openjfx:javafx-fxml:21.0.2:$javafxPlatform"
+    implementation "org.openjfx:javafx-media:21.0.2:$javafxPlatform"
+    implementation "org.openjfx:javafx-base:21.0.2:$javafxPlatform"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // 소스에 포함된 한글이 플랫폼 기본 인코딩(예: Windows CP949)에 관계없이 유지되도록 고정한다.
+    options.encoding = 'UTF-8'
 }
 
 test {
     useJUnitPlatform()
+    systemProperty 'file.encoding', 'UTF-8'
+}
+
+application {
+    mainClass = 'com.survivalcoding.game.MonsterArenaGame'
+    
+    // JavaFX module path from the downloaded dependencies
+    applicationDefaultJvmArgs = [
+        '--module-path', "${configurations.runtimeClasspath.files.collect { it.absolutePath }.join(File.pathSeparator)}",
+        '--add-modules', 'javafx.controls,javafx.graphics,javafx.fxml,javafx.media'
+    ]
 }
