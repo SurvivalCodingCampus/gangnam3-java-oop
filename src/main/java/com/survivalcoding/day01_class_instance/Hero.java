@@ -3,28 +3,33 @@ package com.survivalcoding.day01_class_instance;
 import java.util.Random;
 
 public class Hero {
-    static int money = 100;
+    public static final int MAX_HP = 100;
+
+    // 컴파일 타임 상수 : static 이면서 뒤에 값이 절대 안 변해
+    public static final int money = 100;
+
+    // 뒤에 있는게 new 가 있다던지 런타임에 실행되는 코드라면 이건 런타임
+    public static final int randomInt = new Random().nextInt();
 
     static void setRandomMoney() {
         Random random = new Random();
-        money = random.nextInt(1000); // 0~999
+//        money = random.nextInt(1000); // 0~999
     }
 
     // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
     private String name;
-    int hp;
+    private int hp;
 
-    Hero() {
-        this("홍길동");
-        sleep();
-    }
+//    Hero() {
+//        System.out.println("1번");
+//    }
 
-    Hero(String name) {
+    public Hero(String name) {
         hp = 100;
         this.name = name;
     }
 
-    Hero(int hp) {
+    public Hero(int hp) {
         this.hp = hp;
     }
 
@@ -39,8 +44,18 @@ public class Hero {
         this.name = name;
     }
 
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     // 기능 (method)
-    void attack() {}
+    void attack() {
+        System.out.println("Hero 의 공격");
+    }
     void run() {}
     void sit(int sec) {}
     void slip() {}

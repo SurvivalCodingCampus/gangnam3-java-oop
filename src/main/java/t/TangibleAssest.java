@@ -3,6 +3,9 @@ package t;
 
 public abstract class TangibleAssest extends Asset implements Thing {
     double weight;
+    String name;
+    int price;
+    String color;
 
     @Override
     public double getWeight() {
@@ -10,8 +13,8 @@ public abstract class TangibleAssest extends Asset implements Thing {
     }
 
     @Override
-     public void setWeight(double weight) {
-        this.weight=weight;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
 
