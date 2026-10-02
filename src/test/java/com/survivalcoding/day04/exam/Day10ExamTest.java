@@ -15,6 +15,14 @@ import static org.assertj.core.api.Assertions.*;
 public class Day10ExamTest {
 
     @ParameterizedTest
+    @ValueSource(strings = { "2019-08-11-33", "2026-07-11-22" })
+    @DisplayName("정상 날짜 통과")
+    void test2(String dateStr) {
+        assertThatNoException()
+                .isThrownBy(() -> new Book("책", dateStr, "책입니다"));
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {
             "-111-11-22-20",
             "0-11-22-20",
@@ -33,14 +41,6 @@ public class Day10ExamTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "2019-08-11-33", "2026-07-11-22" })
-    @DisplayName("정상 날짜 통과")
-    void test2(String dateStr) {
-        assertThatNoException()
-                .isThrownBy(() -> new Book("책", dateStr, "책입니다"));
-    }
-
-    @ParameterizedTest
     @CsvSource({
             "2019-08-11-20, 2019-08-11-30",
             "2026-07-11-10, 2026-07-11-50"
@@ -50,6 +50,36 @@ public class Day10ExamTest {
         Book book1 = new Book("책", dateStr1, "책입니다");
         Book book2 = new Book("책", dateStr2, "책입니다");
 
-        assertThat(book1).isEqualTo(book2);
+        assertThat(book1)
+                .isEqualTo(book2);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2019-08-11-20, 2019-08-11-30",
+            "2026-07-11-10, 2026-07-11-50"
+    })
+    @DisplayName("같은 yyyy-MM까지만 같음")
+    void test4(String dateStr1, String dateStr2) {
+        Book book1 = new Book("책", dateStr1, "책입니다");
+        Book book2 = new Book("책", dateStr2, "책입니다");
+
+        assertThat(book1)
+                .isEqualTo(book2);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2019-08-11-20, 2019-08-20-20",
+            "2026-07-11-20, 2026-07-12-20"
+    })
+    @DisplayName("같은 yyyy-MM까지만 같으면 틀림")
+    void test5(String dateStr1, String dateStr2) {
+        Book book1 = new Book("책", dateStr1, "책입니다");
+        Book book2 = new Book("책", dateStr2, "책입니다");
+
+        assertThat(book1)
+                .isNotEqualTo(book2);
+    }
+
 }
