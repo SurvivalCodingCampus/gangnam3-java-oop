@@ -1,9 +1,11 @@
 package com.survivalcoding.day01_class_instance;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 import java.util.Random;
 
-public class Hero {
+public class Hero implements Comparable<Hero>, Cloneable {
     public static final int MAX_HP = 100;
 
     // 컴파일 타임 상수 : static 이면서 뒤에 값이 절대 안 변해
@@ -20,6 +22,7 @@ public class Hero {
     // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
     private String name;
     private int hp;
+    private Sword sword;
 
 //    Hero() {
 //        System.out.println("1번");
@@ -28,6 +31,17 @@ public class Hero {
     public Hero(String name) {
         hp = 100;
         this.name = name;
+    }
+
+    public Hero(String name, int hp) {
+        this.name = name;
+        this.hp = hp;
+    }
+
+    public Hero(String name, int hp, Sword sword) {
+        this.name = name;
+        this.hp = hp;
+        this.sword = sword;
     }
 
     public Hero(int hp) {
@@ -84,5 +98,16 @@ public class Hero {
                 "name='" + name + '\'' +
                 ", hp=" + hp +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull Hero o) {
+        return this.name.compareTo(o.name);
+    }
+
+    @Override
+    public Hero clone() {
+        Hero newHero = new Hero(name, hp, sword);
+        return newHero;
     }
 }
