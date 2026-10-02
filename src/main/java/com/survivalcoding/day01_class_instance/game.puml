@@ -1,19 +1,72 @@
 @startuml
-scale 2
+scale 1
 
-class Cleric {
-    - String name
-    int hp
-    int mp
+Hero : int hp
+Hero : void attack()
 
-    + void selfAid()
+Cleric : int hp
+Cleric : int mp
+
+Slime <|-- PoisonSlime
+Slime : String suffix
+Slime : int hp
+Slime : void attack(Hero hero)
+
+PoisonSlime : - int poisonCount
+PoisonSlime : PoisonSlime(String suffix)
+PoisonSlime : void attack(Hero hero)
+
+Wizard : String name
+Wizard : int hp
+Wizard : int mp = 100
+Wizard : void heal(Hero hero)
+
+Wizard <|-- GreatWizard
+GreatWizard : void heal(Hero hero)
+
+
+
+'SuperHero : bool isFlying
+'SuperHero : void fly()
+'SuperHero : void land()
+'
+'Character <|-- Hero
+'Character <|-- Cleric
+'Character <|-- Wizard
+'Wizard : int mp
+'Wizard : void heal(Hero hero)
+'
+'Wizard <|-- GreatWizard
+
+abstract class Character
+
+Character : String name
+Character : int hp
+'Character : {abstract} void attack(Slime slime)
+
+Character <|-- Hero
+Character <|-- Cleric
+Character <|-- Wizard
+Character <|-- Slime
+
+interface Attackable {
+    void attack(Slime slime)
 }
 
-class Hero {
-    String name
-    int hp
-
-    + void run()
+interface Moveable {
+    void move(int distance)
 }
+
+interface Healable {
+    void heal(Hero hero)
+}
+
+class Character implements Attackable, Moveable {}
+
+class Tank implements Attackable {}
+
+Healable <|.. Cleric
+Healable <|.. Wizard
+
 
 @enduml
