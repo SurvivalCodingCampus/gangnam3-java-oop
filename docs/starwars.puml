@@ -1,0 +1,151 @@
+@startuml
+
+' ##### 개체 #####
+interface Entity
+
+' 유닛 Unit, 건물 Structure / 생물 Bionic, 기계 Mechanic
+interface Unit extends Entity
+interface Structure extends Entity
+interface Bionic extends Entity
+interface Mechanic extends Entity
+
+interface UnitBionic extends Unit, Bionic
+interface UnitMechanic extends Unit, Mechanic
+
+interface StructureBionic extends Structure, Bionic
+interface StructureMechanic extends Structure, Mechanic
+
+interface Bionics extends UnitBionic, StructureBionic
+interface Mechanics extends UnitMechanic, StructureMechanic
+
+' 종족
+abstract class Species {
+    int MAX_HP
+
+    String name
+    int hp
+}
+
+interface Origin
+interface Human extends Origin
+interface Alien extends Origin
+
+' 광맥
+class Mine {
+    int amount
+}
+
+' 방어막
+class Barrier implements Shieldable, SelfHealable {
+    int MAX_BP
+    int currentBarrierPoint
+
+    {override} void shield()
+    {override} void autoHeal()
+}
+
+'Medic의 치료 대상인 객체들
+interface MedicCurable
+
+
+
+' ##### 기능 #####
+' 치료
+interface Healable
+interface TargetHealable extends Healable {
+    void heal(MedicCurable target)
+}
+interface SelfHealable extends Healable {
+    void autoHeal()
+'    - 저그의 모든 유닛과 건물은 자체 힐 됨
+'    - 프로토스의 방어막도 자체 힐 됨
+}
+
+' 광맥 자원 채취
+interface Mineable {
+    void mine(Mine mine)
+}
+
+' 기계 유닛 수리
+interface Repairable {
+    void repair(UnitMechanic mechanic)
+}
+
+' 유닛 생산
+interface Producible {
+    Unit produce()
+}
+
+' 방어
+interface Shieldable {
+    void shield()
+}
+
+' 공격
+interface Attackable {
+    void attack(Entity target)
+}
+
+
+
+' ##### 테란 #####
+class Terran extends Species implements Human
+
+class Marine extends Terran implements UnitBionic, Attackable, MedicCurable {
+    {override} void attack(Entity target)
+}
+
+class Medic extends Terran implements UnitBionic, TargetHealable, MedicCurable {
+    int BASE_HEAL_POINT
+
+    {override} void heal(MedicCurable target)
+}
+
+class Tank extends Terran implements UnitMechanic, Attackable {
+    {override} void attack(Entity target)
+}
+
+class Vulture extends Terran implements UnitMechanic, Attackable {
+    {override} void attack(Entity target)
+}
+
+class Scv extends Terran implements UnitMechanic, Mineable, Repairable, Attackable, MedicCurable {
+    '- Minable : 광맥 자원 채취
+    '- Repairable : 기계 유닛 수리
+    '- MedicCurable : 기계 유닛이지만 Medic의 치료 대상이 될 수 있다
+    {override} void mine(Mine mine)
+    {override} void repair(UnitMechanic mechanic)
+    {override} void attack(Entity target)
+}
+
+
+' ##### 저그 #####
+class Zerg extends Species implements Alien, SelfHealable {
+    {override} void autoHeal()
+}
+
+class Zergling extends Zerg implements UnitBionic, Attackable {
+    {override} void attack(Entity target)
+}
+
+class Hydra extends Zerg implements UnitBionic, Attackable {
+    {override} void attack(Entity target)
+}
+
+class ZergStructure extends Zerg implements StructureBionic
+
+
+' ##### 프로토스 #####
+class Protoss extends Species implements Alien {
+    Barrier barrier
+}
+
+class Zealot extends Protoss implements UnitBionic, Attackable, MedicCurable {
+    {override} void attack(Entity target)
+}
+
+class Dragun extends Protoss implements UnitMechanic, Attackable {
+    {override} void attack(Entity target)
+}
+
+@enduml
