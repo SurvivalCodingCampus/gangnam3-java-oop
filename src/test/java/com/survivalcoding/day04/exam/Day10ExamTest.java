@@ -1,15 +1,13 @@
 package com.survivalcoding.day04.exam;
 
 import com.survivalcoding.day10.exam.Book;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.jupiter.params.provider.ValueSources;
-
-import java.text.ParseException;
 import java.util.*;
 import java.util.Collections;
 import static org.assertj.core.api.Assertions.*;
@@ -245,5 +243,17 @@ public class Day10ExamTest {
                         Comparator.reverseOrder()
                 )
         );
+    }
+
+    @Test
+    @DisplayName("책을 클론하면 깊은 복사로 된다")
+    void test2123312() {
+        Book originalBook = new Book("책", "2019-08-11-20", "책입니다");
+        Book copiedBook = originalBook.clone();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(copiedBook).isNotSameAs(originalBook);
+            softly.assertThat(copiedBook.getPublishDate()).isNotSameAs(originalBook.getPublishDate());
+        });
     }
 }
