@@ -1,19 +1,10 @@
 @startuml
 
 ' 시나리오
-'
-' 사장님이 좋아하는 설계로 짬
-' 건물 짓고 1cm 옮길 수 있을 정도의 구조
-' 완전 MVP 작업을 하는 중
 
 ' 아무 기능도 없지만 다른 추가 기능이 들어올 수 있으니...
 ' 단순히 타입만 나타내는 거면 변수가 좋겠죠?
-
-interface Bionic {
-}
-
-interface Terran {
-}
+' 명세랑 같이 봐서 말이 가능한건 가능
 
 interface Zerg extends SmoothlyHealing {
 }
@@ -111,11 +102,11 @@ class Medic implements Healable, Unit, Bionic, TakeHealable, Damageable, Produci
 
 }
 
-class Tank implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
+class Tank implements Mechanic, Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
 
 }
 
-class Vulture implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
+class Vulture implements Mechanic, Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
 
 }
 
@@ -138,8 +129,8 @@ abstract class ZergStructure extends Structure implements Unit, Bionic, Damageab
 
 }
 
-' 프로토스
-
+'' 프로토스
+'
 class Zealot implements Unit, TakeHealable, Damageable, Attackable, Producible, Protoss {
     int barrierAmount;
 
@@ -149,7 +140,7 @@ class Dragun implements Unit, Damageable, Attackable, Producible, Protoss {
     int barrierAmount;
 
 }
-
+'
 class GroupManager {
     void group(Set<Unit> units);
     void attack(Set<Attackable> attackables);

@@ -1,5 +1,8 @@
 package com.survivalcoding.day04.exam;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class Wizard {
     static final int HEAL_HP_AMOUNT = 20;
     static final int COST_FOR_HEAL = 10;
@@ -15,6 +18,7 @@ public class Wizard {
     private Wand wand;
 
     protected Wizard(final Builder builder) {
+
         if (builder.hp < 0) {
             hp = 0;
             System.out.println("음수여서 0으로 설정함");
