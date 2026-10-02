@@ -41,15 +41,15 @@ public class Book implements Comparable<Book>, Cloneable {
         return Objects.equals(title, book.title) &&
                 publishDate.getYear() == targetPublishDate.getYear() &&
                 publishDate.getMonth() == targetPublishDate.getMonth() &&
-                publishDate.getDay() == targetPublishDate.getDay();
+                publishDate.getDate() == targetPublishDate.getDate();
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(title);
+        int result = Objects.hash(title);
         result = 31 * result * publishDate.getYear();
         result = 31 * result * publishDate.getMonth();
-        result = 31 * result * publishDate.getDay();
+        result = 31 * result * publishDate.getDate();
 
         return result;
     }
