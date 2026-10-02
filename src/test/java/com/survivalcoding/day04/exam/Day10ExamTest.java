@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.ValueSources;
 
 import java.text.ParseException;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -54,22 +55,7 @@ public class Day10ExamTest {
             Book book1 = new Book("책", dateStr1, "책입니다");
             Book book2 = new Book("책", dateStr2, "책입니다");
 
-            assertThat(book1)
-                    .isEqualTo(book2);
-        }
-
-        @ParameterizedTest
-        @CsvSource({
-                "2019-08-11-20, 2019-08-11-30",
-                "2026-07-11-10, 2026-07-11-50"
-        })
-        @DisplayName("같은 yyyy-MM까지만 같음")
-        void test4(String dateStr1, String dateStr2) {
-            Book book1 = new Book("책", dateStr1, "책입니다");
-            Book book2 = new Book("책", dateStr2, "책입니다");
-
-            assertThat(book1)
-                    .isEqualTo(book2);
+            assertThat(book1).isEqualTo(book2);
         }
 
         @ParameterizedTest
@@ -82,8 +68,91 @@ public class Day10ExamTest {
             Book book1 = new Book("책", dateStr1, "책입니다");
             Book book2 = new Book("책", dateStr2, "책입니다");
 
-            assertThat(book1)
-                    .isNotEqualTo(book2);
+            assertThat(book1).isNotEqualTo(book2);
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "2019-08-11-20, 2019-08-11-30",
+                "2026-07-11-10, 2026-07-11-50"
+        })
+        @DisplayName("같은 yyyy-MM-dd까지만 같으면 같음(hashcode)")
+        void test13(String dateStr1, String dateStr2) {
+            Book book1 = new Book("책", dateStr1, "책입니다");
+            Book book2 = new Book("책", dateStr2, "책입니다");
+
+            assertThat(book1.hashCode()).isEqualTo(book2.hashCode());
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "2019-08-11-20, 2019-08-12-30",
+                "2026-07-11-10, 2026-07-12-50"
+        })
+        @DisplayName("같은 yyyy-MM까지만 같으면 틀림(hashCode)")
+        void test22(String dateStr1, String dateStr2) {
+            Book book1 = new Book("책", dateStr1, "책입니다");
+            Book book2 = new Book("책", dateStr2, "책입니다");
+
+            assertThat(book1.hashCode()).isNotEqualTo(book2.hashCode());
+        }
+    }
+
+    @Nested
+    @DisplayName("북 자료구조 테스트")
+    class BookCollectionTest {
+        @ParameterizedTest
+        @CsvSource({
+                "2019-08-11-20, 2019-08-11-11",
+                "2026-07-11-20, 2026-07-11-02"
+        })
+        @DisplayName("동등하면 리스트에서 삭제가 가능")
+        void test5(String dateStr1, String dateStr2) {
+            Book book1 = new Book("책", dateStr1, "책입니다");
+            Book book2 = new Book("책", dateStr2, "책입니다");
+
+            List<Book> books = new ArrayList<>();
+            books.add(book1);
+
+            books.remove(book2);
+
+            assertThat(books).isEmpty();
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "2019-08-11-22, 2019-08-11-13",
+                "2026-07-11-43, 2026-07-11-02"
+        })
+        @DisplayName("동등하면 셋에서 삭제가 가능")
+        void test6(String dateStr1, String dateStr2) {
+            Book book1 = new Book("책", dateStr1, "책입니다");
+            Book book2 = new Book("책", dateStr2, "책입니다");
+
+            Set<Book> books = new HashSet<>();
+            books.add(book1);
+
+            books.remove(book2);
+
+            assertThat(books).isEmpty();
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "2019-08-11-42, 2019-08-11-11",
+                "2026-07-11-32, 2026-07-11-22"
+        })
+        @DisplayName("동등하면 맵에서 삭제가 가능")
+        void test7(String dateStr1, String dateStr2) {
+            Book book1 = new Book("책", dateStr1, "책입니다");
+            Book book2 = new Book("책", dateStr2, "책입니다");
+
+            Map<Book, String> bookMap = new HashMap<>();
+            bookMap.put(book1, "재고 있음");
+
+            bookMap.remove(book2);
+
+            assertThat(bookMap).isEmpty();
         }
     }
 
