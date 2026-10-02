@@ -1,0 +1,169 @@
+@startuml
+
+' 시나리오
+'
+' 사장님이 좋아하는 설계로 짬
+' 건물 짓고 1cm 옮길 수 있을 정도의 구조
+' 완전 MVP 작업을 하는 중
+
+' 아무 기능도 없지만 다른 추가 기능이 들어올 수 있으니...
+' 단순히 타입만 나타내는 거면 변수가 좋겠죠?
+
+interface Bionic {
+}
+
+interface Terran {
+}
+
+interface Zerg extends SmoothlyHealing {
+}
+
+interface Protoss extends SmoothlyHealingBarrier, Barrierable {
+}
+
+interface Mechanic extends Repairable {
+}
+
+abstract Unit extends baseEntity implements Moveable {
+}
+
+interface Mineable {
+    int extract();
+}
+
+interface Miner {
+    void harvest(Mineable mineable);
+}
+
+interface Producer {
+    void produce(Producible);
+}
+
+interface Producible {
+    Unit spawn()
+}
+
+interface TakeHealable {
+    void takeHeal(int amount);
+}
+
+interface Healable {
+    void heal(TakeHealable takeHealable);
+}
+
+interface Repairable {
+    void repair(TakeRepairable takeRepairable);
+}
+
+interface TakeRepairable {
+    void takeRepair(int amount);
+}
+
+interface Attackable {
+    void attack(Damageable damageable);
+}
+
+
+interface Damageable {
+    void takeDamage(int amount);
+}
+
+interface Moveable {
+    void move(Vector2 direction);
+}
+
+interface Barrierable {
+    public void setBarrier(int amount);
+    public getBarrier();
+}
+
+interface SmoothlyHealing {
+    void smoothlyHealing();
+}
+
+interface SmoothlyHealingBarrier {
+    void smoothlyHealingBarrier();
+}
+
+abstract baseEntity {
+    Vector2 pos
+    int hp;
+}
+
+class player {
+    static int oreAmount = 0;
+}
+
+class Ore implements Mineable {
+    int amount;
+}
+
+abstract Structure extends baseEntity {
+}
+
+' 테란
+
+class Marine implements Attackable, TakeHealable, Unit, Bionic, Damageable, Producible, Terran {
+
+}
+
+class Medic implements Healable, Unit, Bionic, TakeHealable, Damageable, Producible, Terran {
+
+}
+
+class Tank implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
+
+}
+
+class Vulture implements Unit, TakeRepairable, Damageable, Attackable, Producible, Terran {
+
+}
+
+class SCV implements Unit, TakeRepairable, Miner, Damageable, Repairable, Producible, Terran {
+
+}
+
+
+' 저그
+
+class Zergling implements Unit, Bionic, TakeHealable, Damageable, Attackable, Producible, Zerg {
+
+}
+
+class Hydra implements Unit, Bionic, TakeHealable, Damageable, Attackable, Producible, Zerg {
+
+}
+
+abstract class ZergStructure extends Structure implements Unit, Bionic, Damageable, Zerg {
+
+}
+
+' 프로토스
+
+class Zealot implements Unit, TakeHealable, Damageable, Attackable, Producible, Protoss {
+    int barrierAmount;
+
+}
+
+class Dragun implements Unit, Damageable, Attackable, Producible, Protoss {
+    int barrierAmount;
+
+}
+
+class GroupManager {
+    void group(Set<Unit> units);
+    void attack(Set<Attackable> attackables);
+    void move(Set<Moveable> moveables);
+}
+
+GroupManager ..> Unit
+GroupManager ..> Attackable
+
+Miner ..> Mineable
+Healable ..> TakeHealable
+Repairable ..> TakeRepairable
+Attackable ..> Damageable
+
+Producer ..> Unit
+
+@enduml
