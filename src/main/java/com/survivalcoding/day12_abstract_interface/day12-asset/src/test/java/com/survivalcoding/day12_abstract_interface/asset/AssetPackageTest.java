@@ -3,6 +3,7 @@ package com.survivalcoding.day12_abstract_interface.asset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -54,10 +55,7 @@ class AssetPackageTest {
     @Test
     @DisplayName("Asset is abstract class")
     void assetIsAbstract() {
-        assertTrue(java.lang.reflect.Modifier.isAbstract(java.lang.reflect.Modifier
-                .class.getDeclaredMethod("getModifiers").invoke(java.lang.Class.class.cast(null))));
-        // Actually use simpler check:
-        assertTrue(java.lang.reflect.Modifier.isAbstract(Asset.class.getModifiers()));
+        assertTrue(Modifier.isAbstract(Asset.class.getModifiers()));
     }
 
     /**
@@ -65,10 +63,10 @@ class AssetPackageTest {
      */
     @Test
     @DisplayName("Asset.name field is private and final")
-    void assetNameFieldIsPrivateAndFinal() throws java.lang.reflect.FieldNotFoundException {
-        java.lang.reflect.Field f = Asset.class.getDeclaredField("name");
-        assertTrue(java.lang.reflect.Modifier.isPrivate(f.getModifiers()));
-        assertTrue(java.lang.reflect.Modifier.isFinal(f.getModifiers()));
+    void assetNameFieldIsPrivateAndFinal() throws NoSuchFieldException {
+        Field f = Asset.class.getDeclaredField("name");
+        assertTrue(Modifier.isPrivate(f.getModifiers()));
+        assertTrue(Modifier.isFinal(f.getModifiers()));
     }
 
     /**
@@ -127,7 +125,7 @@ class AssetPackageTest {
      */
     @Test
     @DisplayName("Patent does not implement Thing")
-    patentDoesNotImplementThing() {
+    void patentDoesNotImplementThing() {
         assertTrue(!(Patent.class.isAssignableFrom(Thing.class)));
     }
 
