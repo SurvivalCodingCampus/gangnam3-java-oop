@@ -152,78 +152,7 @@ class GroupManager {
 }
 
 
-'extends - IS-A 관계
 
-Unit <|-- Marine
-Unit <|-- Medic
-Unit <|-- Tank
-Unit <|-- Vulture
-Unit <|-- SCV
-
-Unit <|-- Zergling
-Unit <|-- Hydra
-
-Unit <|-- Zealot
-Unit <|-- Dragun
-
-Structure <|-- TerranStructure
-Structure <|-- ZergStructure
-Structure <|-- ProtossStructure
-
-
-'implements - Terran
-
-Bionic <|.. Marine
-Attackable <|.. Marine
-Healable <|.. Marine
-
-Bionic <|.. Medic
-Healer <|.. Medic
-
-Mechanic <|.. Tank
-Attackable <|.. Tank
-Repairable <|.. Tank
-
-Mechanic <|.. Vulture
-Attackable <|.. Vulture
-Repairable <|.. Vulture
-
-Mechanic <|.. SCV
-Mineable <|.. SCV
-Repairer <|.. SCV
-Repairable <|.. SCV
-Healable <|.. SCV
-
-
-'implements - Zerg
-
-Bionic <|.. Zergling
-Attackable <|.. Zergling
-Healable <|.. Zergling
-SelfAidable <|.. Zergling
-
-Bionic <|.. Hydra
-Attackable <|.. Hydra
-Healable <|.. Hydra
-SelfAidable <|.. Hydra
-
-Bionic <|.. ZergStructure
-SelfAidable <|.. ZergStructure
-
-
-'implements - Protoss
-
-Bionic <|.. Zealot
-Attackable <|.. Zealot
-Healable <|.. Zealot
-Shieldable <|.. Zealot
-
-Mechanic <|.. Dragun
-Attackable <|.. Dragun
-Repairable <|.. Dragun
-Shieldable <|.. Dragun
-
-Shieldable <|.. ProtossStructure
 
 
 'polymorphism
