@@ -19,6 +19,6 @@ public class Student {
         Map.put("한석봉", 25);
         Map.forEach((a, b) -> System.out.println(a + " 나이는" + " " + b + "살"));
     }
-    //for each 순회가능 iterable 에 가능.... ..
+    //for each 순회가능 iterable 에 가능.... .. .
 }
 
