@@ -11,11 +11,10 @@ import org.junit.jupiter.params.provider.ValueSources;
 
 import java.text.ParseException;
 import java.util.*;
-
+import java.util.Collections;
 import static org.assertj.core.api.Assertions.*;
 
 public class Day10ExamTest {
-
     @Nested
     @DisplayName("날짜 포맷 테스트")
     class DateFormatTest {
@@ -46,7 +45,11 @@ public class Day10ExamTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("올바른 날짜 포맷을 넣어주세요");
         }
+    }
 
+    @Nested
+    @DisplayName("동등성 테스트")
+    class EqualTest {
         @ParameterizedTest
         @CsvSource({
                 "책, 2019-08-11-20, 책, 2019-08-11-30",
@@ -104,8 +107,9 @@ public class Day10ExamTest {
         }
     }
 
+
     @Nested
-    @DisplayName("북 자료구조 테스트")
+    @DisplayName("자료구조 테스트")
     class BookCollectionTest {
         @ParameterizedTest
         @CsvSource({
@@ -220,5 +224,26 @@ public class Day10ExamTest {
 
             assertThat(bookMap).isNotEmpty();
         }
+    }
+
+    @Test
+    @DisplayName("신상순서로 정렬된다")
+    void test2() {
+        List<Book> books = Arrays.asList(
+                new Book("책", "2026-10-11-30", "책입니다"),
+                new Book("책", "2026-10-13-50", "책입니다"),
+                new Book("책", "2026-10-12-20", "책입니다"),
+                new Book("책", "2026-10-11-20", "책입니다")
+        );
+
+        Collections.sort(books);
+
+        // getPublishDate를 기준으로 정렬됬는지 확인
+        assertThat(books).isSortedAccordingTo(
+                Comparator.comparing(
+                        Book::getPublishDate,
+                        Comparator.reverseOrder()
+                )
+        );
     }
 }

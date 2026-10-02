@@ -71,7 +71,6 @@ public class Book implements Comparable<Book>, Cloneable {
     @Override
     public String toString() {
         return "Book{" +
-                "formatter=" + formatter +
                 ", title='" + title + '\'' +
                 ", publishDate=" + publishDate +
                 ", comment='" + comment + '\'' +
@@ -82,7 +81,7 @@ public class Book implements Comparable<Book>, Cloneable {
 
     @Override
     public int compareTo(Book o) {
-        return publishDate.compareTo(o.publishDate);
+        return publishDate.compareTo(o.publishDate) * -1;
     }
 
     @Override
