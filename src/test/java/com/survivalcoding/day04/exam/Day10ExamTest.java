@@ -238,7 +238,7 @@ public class Day10ExamTest {
 
         Collections.sort(books);
 
-        // getPublishDate를 기준으로 정렬됬는지 확인
+        // getPublishDate를 기준으로 정렬됐는지 확인
         assertThat(books).isSortedAccordingTo(
                 Comparator.comparing(
                         Book::getPublishDate,
