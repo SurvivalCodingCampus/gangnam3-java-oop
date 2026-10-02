@@ -1,6 +1,6 @@
 package com.survivalcoding.day01_class_instance;
 
-public class Slime {
+public class Slime extends Monster {
     private final String suffix;
     private int hp;
 
@@ -30,5 +30,10 @@ public class Slime {
         System.out.println("10의 데미지");
 
         hero.setHp(hero.getHp() - 10);
+    }
+
+    @Override
+    public void run() {
+        System.out.println("2");
     }
 }

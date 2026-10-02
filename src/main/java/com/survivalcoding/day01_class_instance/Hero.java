@@ -1,5 +1,6 @@
 package com.survivalcoding.day01_class_instance;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Hero {
@@ -61,5 +62,27 @@ public class Hero {
     void slip() {}
     void sleep() {
         hp = 100;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Hero hero)) return false;
+
+        return hp == hero.hp && Objects.equals(name, hero.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(name);
+        result = 31 * result + hp;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Hero{" +
+                "name='" + name + '\'' +
+                ", hp=" + hp +
+                '}';
     }
 }
