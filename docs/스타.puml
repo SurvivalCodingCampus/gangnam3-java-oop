@@ -9,9 +9,6 @@
 ' 아무 기능도 없지만 다른 추가 기능이 들어올 수 있으니...
 ' 단순히 타입만 나타내는 거면 변수가 좋겠죠?
 
-abstract Structure extends baseEntity {
-}
-
 interface Bionic {
 }
 
@@ -99,6 +96,9 @@ class player {
 
 class Ore implements Mineable {
     int amount;
+}
+
+abstract Structure extends baseEntity {
 }
 
 ' 테란
