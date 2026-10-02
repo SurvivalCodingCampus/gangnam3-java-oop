@@ -4,7 +4,7 @@ scale 1
 left to right direction
 hide empty members
 
-interface Unit extends Attackable {
+interface Unit extends Attackable, Movable {
 
 }
 
@@ -145,7 +145,7 @@ package "Protoss" #FFFFCC {
     }
 }
 
-class UnitGroup implements Attackable, Movable {
+class UnitGroup implements Attacker, Movable {
     - List<Unit> units
 
     + void add(Unit unit)
