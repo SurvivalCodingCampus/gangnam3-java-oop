@@ -18,7 +18,7 @@ package "com.survivalcoding.day03_polymorphism" {
         - String name
         - int hp
 
-        + abstract void attack(Slime slime)
+        ~ abstract void attack(Slime slime)
     }
 
     class Dancer {
@@ -82,11 +82,16 @@ package "com.survivalcoding.day03_polymorphism" {
         - double height
     }
 
+    class Wizard {
+        - Wand wand
+        - int mp
+
+        + void fireball(Slime slime)
+    }
+
     class Wand {
         - String name
         - int power
-
-        + void fireball(Slime slime)
     }
 
     class A {
@@ -121,6 +126,9 @@ package "com.survivalcoding.day03_polymorphism" {
     Monster <|-- KingSlime
 
     Character <|-- Hero
+    Character <|-- Wizard
+
+    Wizard --> Wand
 
     Y <|-- A
     Y <|-- B
