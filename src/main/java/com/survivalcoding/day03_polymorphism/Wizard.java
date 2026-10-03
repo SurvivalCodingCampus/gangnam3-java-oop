@@ -4,6 +4,9 @@ import com.survivalcoding.day01_class_instance.Slime;
 
 public class Wizard extends Character {
 
+    // constant
+    private static final int ATTACK_DAMAGE = 5;
+
     // field
     private Wand wand;
     private int mp = 100;
@@ -18,6 +21,7 @@ public class Wizard extends Character {
     @Override
     void attack(Slime slime) {
         System.out.println(this.getName() + "이 " + slime.getSuffix() + "을 공격했다.");
+        slime.takeDamage(ATTACK_DAMAGE);
     }
 
     public void fireball(Slime slime) {
