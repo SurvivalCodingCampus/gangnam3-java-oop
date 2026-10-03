@@ -1,0 +1,12 @@
+@startuml day03_collection
+scale 1
+
+package "com.survivalcoding.day03_collection" {
+
+    class Student {
+        - String name
+        - int age
+    }
+}
+
+@enduml

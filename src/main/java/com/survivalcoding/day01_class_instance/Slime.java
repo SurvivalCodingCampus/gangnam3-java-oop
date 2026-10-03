@@ -13,7 +13,7 @@ public class Slime {
     // constructor
     public Slime(String suffix, int hp) {
         this.suffix = suffix;
-        this.hp = hp;
+        setHp(hp);
         this.level = LEVEL;
     }
 
@@ -30,12 +30,11 @@ public class Slime {
         System.out.println("슬라임 " + this.suffix + "가 도망갔다");
     }
 
-    // 테스트 코드 실습용 메서드
-    void takeDamage(int damage) {
-        this.hp -= damage;
-        if (this.hp < 0) {
-            this.hp = 0;
+    public void takeDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("피해량은 0 이상이어야 합니다");
         }
+        setHp(this.hp - damage);
     }
 
     // getter
@@ -57,6 +56,6 @@ public class Slime {
     }
 
     public void setHp(int hp) {
-        this.hp = hp;
+        this.hp = Math.max(0, hp);
     }
 }

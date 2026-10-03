@@ -1,0 +1,155 @@
+@startuml day03_stars_war
+scale 1
+' top to bottom direction
+left to right direction
+hide empty members
+
+interface Unit extends Attackable, Movable {
+
+}
+
+interface Structure extends Attackable {
+
+}
+
+interface Bionic {
+
+}
+
+interface Mechanic {
+
+}
+
+interface Movable {
+    + void move(double x, double y)
+}
+
+interface Attackable {
+    + void takeDamage(int amount)
+}
+
+interface Attacker {
+    + void attack(Attackable target)
+}
+
+interface Gatherable {
+    + int extract(int amount)
+}
+
+interface Gatherer {
+    + void gather(Gatherable target)
+}
+
+interface Repairable {
+    + void takeRepair(int amount)
+}
+
+interface Repairer {
+    + void repair(Repairable target)
+}
+
+interface Healable {
+    + void takeHeal(int amount)
+}
+
+interface Healer {
+    + void heal(Healable target)
+}
+
+interface Regenerator {
+    + void regenerate(int amount)
+}
+
+interface ShieldRegenerator {
+    + void regenerate(int amount)
+}
+
+abstract class Human {
+
+}
+
+abstract class Alien {
+
+}
+
+abstract class Terran extends Human {
+
+}
+
+abstract class Zerg extends Alien implements Bionic, Regenerator {
+
+}
+
+abstract class Protoss extends Alien implements ShieldRegenerator {
+
+}
+
+package "Terran" #DDEEFF {
+
+    class Marine extends Terran implements Unit, Bionic, Attacker, Healable {
+
+    }
+
+    class Medic extends Terran implements Unit, Bionic, Healer, Healable {
+
+    }
+
+    class Tank extends Terran implements Unit, Mechanic, Attacker, Repairable {
+
+    }
+
+    class Vulture extends Terran implements Unit, Mechanic, Attacker, Repairable {
+
+    }
+
+    class Scv extends Terran implements Unit, Mechanic, Attacker, Repairer, Gatherer, Repairable, Healable {
+
+    }
+
+    class CommandCenter extends Terran implements Structure, Mechanic {
+
+    }
+
+    class Mineral implements Gatherable {
+
+    }
+}
+
+package "Zerg" #FFDDDD {
+
+    class Zergling extends Zerg implements Unit, Attacker {
+
+    }
+
+    class Hydra extends Zerg implements Unit, Attacker {
+
+    }
+
+    class Hatchery extends Zerg implements Structure {
+
+    }
+}
+
+package "Protoss" #FFFFCC {
+
+    class Zealot extends Protoss implements Unit, Bionic, Attacker, Healable {
+
+    }
+
+    class Dragun extends Protoss implements Unit, Mechanic, Attacker {
+
+    }
+
+    class Nexus extends Protoss implements Structure, Mechanic {
+
+    }
+}
+
+class UnitGroup implements Attacker, Movable {
+    - List<Unit> units
+
+    + void add(Unit unit)
+    + void remove(Unit unit)
+}
+
+@enduml

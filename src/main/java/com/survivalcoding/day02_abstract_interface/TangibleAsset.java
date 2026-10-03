@@ -16,6 +16,7 @@ public abstract class TangibleAsset extends Asset implements Thing {
     }
 
     public TangibleAsset(String color, double weight) {
+        validateWeight(weight);
         this.color = color;
         this.weight = weight;
     }
@@ -28,10 +29,14 @@ public abstract class TangibleAsset extends Asset implements Thing {
 
     @Override
     public void setWeight(double weight) {
-        if (weight < MIN_WEIGHT || weight > MAX_WEIGHT) {
+        validateWeight(weight);
+        this.weight = weight;
+    }
+
+    private static void validateWeight(double weight) {
+        if (Double.isNaN(weight) || weight < MIN_WEIGHT || weight > MAX_WEIGHT) {
             throw new IllegalArgumentException("설정할 무게는 " + MIN_WEIGHT + " 이상 " + MAX_WEIGHT + " 이하입니다");
         }
-        this.weight = weight;
     }
 
     // getter

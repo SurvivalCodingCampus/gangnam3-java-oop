@@ -1,6 +1,7 @@
 package com.survivalcoding.day01_class_instance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -138,5 +139,16 @@ class KinokoTest {
         // then
         assertEquals(expectedHp, kinoko.getHp());
         assertEquals(expectedCount, countDieMessage());
+    }
+
+    @Test
+    @DisplayName("음수 피해량을 받으면 IllegalArgumentException 예외가 발생하고 hp는 변하지 않아야 한다")
+    void takeDamage_shouldThrowException_whenDamageIsNegative() {
+        // given
+        Kinoko kinoko = new Kinoko("버섯", 10);
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> kinoko.takeDamage(-5));
+        assertEquals(10, kinoko.getHp());
     }
 }

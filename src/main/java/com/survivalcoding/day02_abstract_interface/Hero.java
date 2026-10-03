@@ -4,9 +4,6 @@ import com.survivalcoding.day01_class_instance.Slime;
 
 public class Hero extends Character implements Attackable, Moveable {
 
-    protected String name;
-    protected int hp;
-
     public Hero() {
         this("김영웅", 100);
     }

@@ -19,6 +19,9 @@ public class Kinoko {
 
     // method
     public void takeDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("피해량은 0 이상이어야 합니다");
+        }
         int beforeHp = this.hp;
         setHp(this.hp - damage);
         if (beforeHp > 0 && this.hp == 0) {
