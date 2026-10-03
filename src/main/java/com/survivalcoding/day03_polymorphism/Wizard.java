@@ -23,7 +23,7 @@ public class Wizard extends Character {
     public void fireball(Slime slime) {
         if (this.mp >= 20) {
             System.out.println(this.getName() + "이 파이어볼을 쏘았다.");
-            slime.damage(50);
+            slime.takeDamage(50);
             this.mp -= 20;
         } else {
             System.out.println("MP가 부족하여 파이어볼을 사용할 수 없습니다.");
