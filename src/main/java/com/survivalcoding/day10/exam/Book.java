@@ -47,8 +47,8 @@ public class Book implements Comparable<Book>, Cloneable {
     @Override
     public int hashCode() {
         int result = Objects.hash(title);
-        result = 31 * result * publishDate.getYear();
-        result = 31 * result * publishDate.getMonth() + 1; // 1월은 0출력
+        result = 31 * result * (publishDate.getYear() + 1);
+        result = 31 * result * (publishDate.getMonth() + 1); // 1월은 0출력
         result = 31 * result * publishDate.getDate();
 
         return result;
