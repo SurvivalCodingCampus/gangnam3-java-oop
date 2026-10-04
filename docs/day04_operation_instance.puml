@@ -19,9 +19,9 @@ package "com.survivalcoding.day04_operation_instance" {
     }
 
     class Book implements Comparable, Cloneable {
-        - String title;
-        - Date publishDate;
-        - String comment;
+        - String title
+        - Date publishDate
+        - String comment
     }
 
     class DateUtil {
