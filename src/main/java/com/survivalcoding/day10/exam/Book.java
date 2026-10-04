@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Book implements Comparable<Book>, Cloneable {
-    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-ss");
     private final String title;
     private final Date publishDate;
     private final String comment;
 
     // 생성
     public Book(String title, String publishDate, String comment) {
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-ss");
         formatter.setLenient(false);
 
         try {
