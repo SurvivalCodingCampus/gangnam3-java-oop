@@ -37,7 +37,7 @@ public class Book implements Comparable<Book>, Cloneable {
         if (!(o instanceof Book book)) return false;
 
         Date targetPublishDate = book.getPublishDate();
-        System.out.println("이쿨스");
+        
         return Objects.equals(title, book.title) &&
                 publishDate.getYear() == targetPublishDate.getYear() &&
                 publishDate.getMonth() == targetPublishDate.getMonth() &&
@@ -46,8 +46,6 @@ public class Book implements Comparable<Book>, Cloneable {
 
     @Override
     public int hashCode() {
-        System.out.println("해시코드");
-
         int result = Objects.hash(title);
         result = 31 * result * publishDate.getYear();
         result = 31 * result * publishDate.getMonth();
