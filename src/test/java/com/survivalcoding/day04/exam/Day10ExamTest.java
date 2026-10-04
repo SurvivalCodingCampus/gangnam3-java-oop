@@ -73,6 +73,8 @@ public class Day10ExamTest {
             Book book1 = new Book(title1, dateStr1, "책입니다");
             Book book2 = new Book(title2, dateStr2, "책입니다");
 
+            // equals() 검증 대칭성 포함
+            assertThat(book1).isNotEqualTo(book2);
             assertThat(book1).isNotEqualTo(book2);
         }
 
@@ -86,7 +88,25 @@ public class Day10ExamTest {
             Book book1 = new Book(title1, dateStr1, "책입니다");
             Book book2 = new Book(title2, dateStr2, "책입니다");
 
+            // equals() 검증 대칭성 포함
+            assertThat(book1).isEqualTo(book2);
+            assertThat(book2).isEqualTo(book1);
+
+            // equals가 true이면 hashCode도 반드시 같아야 함
             assertThat(book1.hashCode()).isEqualTo(book2.hashCode());
+        }
+
+        @Test
+        @DisplayName("equals의 기본 규약 검증")
+        void testEqualsContract() {
+            Book book = new Book("책", "2026-07-11-10", "책입니다");
+
+            // 자기 자신과의 비교
+            assertThat(book).isEqualTo(book);
+
+            // null 또는 다른 객체와의 비교 시 false 반환 (NPE 없이 안전해야 함)
+            assertThat(book).isNotEqualTo(null);
+            assertThat(book).isNotEqualTo("String Object");
         }
 
         @ParameterizedTest
