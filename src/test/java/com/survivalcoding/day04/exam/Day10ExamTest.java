@@ -75,7 +75,7 @@ public class Day10ExamTest {
 
             // equals() 검증 대칭성 포함
             assertThat(book1).isNotEqualTo(book2);
-            assertThat(book1).isNotEqualTo(book2);
+            assertThat(book2).isNotEqualTo(book1);
         }
 
         @ParameterizedTest
