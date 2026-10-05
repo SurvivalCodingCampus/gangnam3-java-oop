@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -114,5 +115,40 @@ public class BookTest {
         assertFalse(book == bookCopy);
         assertEquals(book, bookCopy);
         assertEquals(DateUtil.toDate("2024-02-01"), bookCopy.getPublishDate());
+    }
+
+    @Test
+    @DisplayName("생성자에 전달한 Date를 변경해도 출판일과 해시 컬렉션 검색이 유지되어야 한다")
+    void constructor_whenInputDateChanged_shouldKeepPublishDate() throws ParseException {
+        // given
+        Date inputDate = DateUtil.toDate("2024-02-01");
+        Book book = new Book("혼자 공부하는 자바", inputDate, "혼자 공부하는 자바");
+        Set<Book> bookSet = new HashSet<>(List.of(book));
+        Map<Book, String> bookMap = new HashMap<>(Map.of(book, book.getComment()));
+
+        // when
+        inputDate.setTime(0);
+
+        // then
+        assertEquals(DateUtil.toDate("2024-02-01"), book.getPublishDate());
+        assertTrue(bookSet.contains(book));
+        assertTrue(bookMap.containsKey(book));
+    }
+
+    @Test
+    @DisplayName("getter가 반환한 Date를 변경해도 출판일과 해시 컬렉션 검색이 유지되어야 한다")
+    void getPublishDate_whenReturnedDateChanged_shouldKeepPublishDate() throws ParseException {
+        // given
+        Book book = new Book("혼자 공부하는 자바", DateUtil.toDate("2024-02-01"), "혼자 공부하는 자바");
+        Set<Book> bookSet = new HashSet<>(List.of(book));
+        Map<Book, String> bookMap = new HashMap<>(Map.of(book, book.getComment()));
+
+        // when
+        book.getPublishDate().setTime(0);
+
+        // then
+        assertEquals(DateUtil.toDate("2024-02-01"), book.getPublishDate());
+        assertTrue(bookSet.contains(book));
+        assertTrue(bookMap.containsKey(book));
     }
 }
