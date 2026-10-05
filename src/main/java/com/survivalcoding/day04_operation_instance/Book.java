@@ -6,15 +6,15 @@ import java.util.Objects;
 public final class Book implements Comparable<Book>, Cloneable {
 
     // field
-    private String title;
-    private Date publishDate;
+    private final String title;
+    private final Date publishDate;
     private String comment;
 
     // constructor
     public Book(String title, Date publishDate, String comment) {
-        setTitle(title);
-        setPublishDate(publishDate);
-        setComment(comment);
+        this.title = Objects.requireNonNull(title, "title(제목)은 필수입니다");
+        this.publishDate = Objects.requireNonNull((Date) publishDate.clone(), "publishDate(출판일)은 필수입니다");
+        this.comment = comment;
     }
 
     @Override
@@ -65,29 +65,10 @@ public final class Book implements Comparable<Book>, Cloneable {
     }
 
     public Date getPublishDate() {
-        return publishDate;
+        return (Date) publishDate.clone();
     }
 
     public String getComment() {
         return comment;
-    }
-
-    // setter
-    public void setTitle(String title) {
-        if (title == null) {
-            throw new IllegalArgumentException("title(제목)은 null이 아니어야 합니다");
-        }
-        this.title = title;
-    }
-
-    public void setPublishDate(Date publishDate) {
-        if (publishDate == null) {
-            throw new IllegalArgumentException("publishDate(출판일)은 null이 아니어야 합니다");
-        }
-        this.publishDate = publishDate;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 }
