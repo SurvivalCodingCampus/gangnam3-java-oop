@@ -266,4 +266,15 @@ public class HeroTest {
         assertEquals(expectedHp, hero.getHp());
         assertEquals(expectedCount, countDieMessage());
     }
+
+    @Test
+    @DisplayName("음수 피해량을 받으면 IllegalArgumentException 예외가 발생하고 hp는 변하지 않아야 한다")
+    void takeDamage_shouldThrowException_whenDamageIsNegative() {
+        // given
+        Hero hero = new Hero("히어로");
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> hero.takeDamage(-5));
+        assertEquals(Hero.DEFAULT_HP, hero.getHp());
+    }
 }
