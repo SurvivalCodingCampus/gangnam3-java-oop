@@ -1,0 +1,26 @@
+@startuml
+
+interface Comparable<Book> {
++ compareTo(o: Book): int
+}
+
+interface Cloneable {
+}
+
+class Book {
+- title: String {readOnly}
+- publishDate: Date {readOnly}
+- comment: String {readOnly}
++ Book(title: String, publishDate: String, comment: String)
+- Book(title: String, publishDate: Date, comment: String)
++ equals(o: Object): boolean
++ hashCode(): int
++ toString(): String
++ compareTo(o: Book): int
++ clone(): Book
+}
+
+Comparable <|.. Book
+Cloneable <|.. Book
+
+@enduml
