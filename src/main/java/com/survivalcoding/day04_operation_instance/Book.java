@@ -13,7 +13,7 @@ public final class Book implements Comparable<Book>, Cloneable {
     // constructor
     public Book(String title, Date publishDate, String comment) {
         this.title = Objects.requireNonNull(title, "title(제목)은 필수입니다");
-        this.publishDate = Objects.requireNonNull((Date) publishDate.clone(), "publishDate(출판일)은 필수입니다");
+        this.publishDate = (Date) Objects.requireNonNull(publishDate, "publishDate(출판일)은 필수입니다").clone();
         this.comment = comment;
     }
 
