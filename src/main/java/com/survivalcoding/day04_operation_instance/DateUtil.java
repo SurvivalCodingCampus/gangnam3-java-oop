@@ -8,12 +8,17 @@ import java.util.Date;
 public final class DateUtil {
 
     private static final String PATTERN = "yyyy-MM-dd";
+    private static final String PATTERN_REGEX = "\\d{4}-\\d{2}-\\d{2}";
 
     private DateUtil() {
         throw new UnsupportedOperationException("인스턴스를 생성할 수 없습니다.");
     }
 
     public static Date toDate(String source) throws ParseException {
+        if (!source.matches(PATTERN_REGEX)) {
+            throw new ParseException("잘못된 날짜 형식입니다: " + source, 0);
+        }
+
         SimpleDateFormat formatter = new SimpleDateFormat(PATTERN);
         formatter.setLenient(false);
 
