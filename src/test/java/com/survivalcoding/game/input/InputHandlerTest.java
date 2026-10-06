@@ -19,8 +19,8 @@ class InputHandlerTest {
 
     private InputHandler handler;
 
-    private static Method keyPressed;
-    private static Method keyReleased;
+    private static final Method keyPressed;
+    private static final Method keyReleased;
 
     static {
         try {

@@ -37,12 +37,12 @@ public class Projectile extends GameEntity {
     
     private final Type type;
     private double lifeTime = 0;
-    private double maxLifeTime = 3.0;
+    private final double maxLifeTime = 3.0;
     private double rotation = 0;
     private double rotationSpeed = 0;
     private boolean hasHit = false;
     private final Random random = new Random();
-    private int attackDamage;
+    private final int attackDamage;
     
     public Projectile(double x, double y, double velX, double velY, 
                       int damage, int width, int height, Color color, Type type) {

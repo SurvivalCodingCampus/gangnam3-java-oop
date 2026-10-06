@@ -22,7 +22,7 @@ class HeroTest {
 
     private static final double DT = 1.0 / 60.0;
 
-    private static Method keyPressed;
+    private static final Method keyPressed;
 
     static {
         try {

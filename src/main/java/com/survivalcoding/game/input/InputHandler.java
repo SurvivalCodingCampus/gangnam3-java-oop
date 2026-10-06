@@ -39,6 +39,8 @@ public class InputHandler {
     private KeyCode keyAction = KeyCode.ENTER;
     private static final KeyCode KEY_FPS_TOGGLE = KeyCode.F3;
     private static final KeyCode KEY_MUTE_TOGGLE = KeyCode.F4;
+    private static final KeyCode KEY_VOLUME_DOWN = KeyCode.F5;
+    private static final KeyCode KEY_VOLUME_UP = KeyCode.F6;
     
     public void initialize(Scene scene) {
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -159,6 +161,14 @@ public class InputHandler {
     
     public boolean isMuteTogglePressed() {
         return justPressedKeys.contains(KEY_MUTE_TOGGLE);
+    }
+
+    public boolean isVolumeDownPressed() {
+        return justPressedKeys.contains(KEY_VOLUME_DOWN);
+    }
+
+    public boolean isVolumeUpPressed() {
+        return justPressedKeys.contains(KEY_VOLUME_UP);
     }
     
     // Generic key queries

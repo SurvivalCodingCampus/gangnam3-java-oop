@@ -1,5 +1,6 @@
 package com.survivalcoding.game.entity;
 
+import com.survivalcoding.game.GameConfig;
 import com.survivalcoding.game.engine.GameState;
 import com.survivalcoding.game.input.InputHandler;
 import com.survivalcoding.game.animation.Animation;
@@ -48,15 +49,12 @@ public class Monster extends GameEntity {
     private final Random random = new Random();
     
     // AI
-    private double aiTimer = 0;
+    private final double aiTimer = 0;
     private double attackCooldown = 0;
     private double wanderTimer = 0;
     private double wanderAngle = 0;
     private boolean isAttacking = false;
     private double attackWindup = 0;
-    private static final double ATTACK_COOLDOWN = 1.5;
-    private static final double ATTACK_WINDUP_TIME = 0.5;
-    private static final double ATTACK_RANGE = 50;
     
     // Visual
     private Animation idleAnimation;
@@ -71,8 +69,6 @@ public class Monster extends GameEntity {
     // Attack damage (from type)
     private int attackDamage;
     
-    private static final double HEALTH_GROWTH_PER_WAVE = 0.15;
-    private static final double DAMAGE_GROWTH_PER_WAVE = 0.10;
     
     public Monster(String name, int hp, int attackDamage, double x, double y, MonsterType type) {
         super(x, y, getWidthForType(type), getHeightForType(type), hp);
@@ -91,8 +87,8 @@ public class Monster extends GameEntity {
     
     public void scaleForDifficulty(int wave) {
         int effectiveWave = Math.max(1, wave);
-        double healthMultiplier = 1.0 + (effectiveWave - 1) * HEALTH_GROWTH_PER_WAVE;
-        double damageMultiplier = 1.0 + (effectiveWave - 1) * DAMAGE_GROWTH_PER_WAVE;
+        double healthMultiplier = 1.0 + (effectiveWave - 1) * GameConfig.MONSTER_HEALTH_GROWTH_PER_WAVE;
+        double damageMultiplier = 1.0 + (effectiveWave - 1) * GameConfig.MONSTER_DAMAGE_GROWTH_PER_WAVE;
         
         maxHp = Math.max(1, (int) Math.round(type.baseHp * healthMultiplier));
         hp = maxHp;
@@ -132,7 +128,16 @@ public class Monster extends GameEntity {
         // Update cooldowns
         if (attackCooldown > 0) attackCooldown -= deltaTime;
         if (attackWindup > 0) attackWindup -= deltaTime;
-        
+
+        if (isStunned()) {
+            velocityX = 0;
+            velocityY = 0;
+            updatePosition(deltaTime, gameState);
+            currentAnimation.update(deltaTime);
+            updateAnimation(deltaTime);
+            return;
+        }
+
         // Update animations
         currentAnimation.update(deltaTime);
         currentFrame = currentAnimation.getCurrentFrame();
@@ -161,7 +166,7 @@ public class Monster extends GameEntity {
         }
         
         // Attack if in range
-        if (distanceToHero <= ATTACK_RANGE + width / 2 && attackCooldown <= 0) {
+        if (distanceToHero <= GameConfig.MONSTER_ATTACK_RANGE + width / 2 && attackCooldown <= 0) {
             startAttack(hero, gameState);
         }
         
@@ -219,8 +224,8 @@ public class Monster extends GameEntity {
     
     private void startAttack(Hero hero, GameState gameState) {
         isAttacking = true;
-        attackWindup = ATTACK_WINDUP_TIME;
-        attackCooldown = ATTACK_COOLDOWN;
+        attackWindup = GameConfig.MONSTER_ATTACK_WINDUP_SECONDS;
+        attackCooldown = GameConfig.MONSTER_ATTACK_COOLDOWN_SECONDS;
         currentAnimation = attackAnimation;
         currentAnimation.reset();
         
@@ -244,9 +249,11 @@ public class Monster extends GameEntity {
         isAttacking = false;
         
         double distance = distanceTo(hero);
-        if (distance <= ATTACK_RANGE + width / 2 + hero.getWidth() / 2) {
+        if (distance <= GameConfig.MONSTER_ATTACK_RANGE + width / 2 + hero.getWidth() / 2) {
             hero.takeDamage(attackDamage);
             gameState.shakeCamera(0.4);
+            gameState.addFloatingText(new com.survivalcoding.game.animation.FloatingText(
+                hero.getX(), hero.getY() - 20, "-" + attackDamage, Color.RED));
             
             // Knockback hero
             double angle = angleTo(hero);
@@ -255,7 +262,7 @@ public class Monster extends GameEntity {
             // Special effects based on type
             switch (type) {
                 case POISON_SLIME -> {
-                    // Poison effect (could add DoT)
+                    hero.addStatusEffect(new StatusEffect(StatusEffect.Type.POISON, GameConfig.POISON_DURATION_SECONDS, GameConfig.POISON_DAMAGE_PER_TICK, GameConfig.POISON_TICK_INTERVAL_SECONDS));
                     gameState.addParticle(new ParticleEffect(
                         hero.getX(), hero.getY(),
                         ParticleEffect.ParticleType.POISON,
@@ -270,6 +277,9 @@ public class Monster extends GameEntity {
                     // King slime spawns mini slimes
                     if (random.nextDouble() < 0.3) {
                         spawnMiniSlime(gameState);
+                    }
+                    if (random.nextDouble() < 0.1) {
+                        hero.addStatusEffect(new StatusEffect(StatusEffect.Type.STUN, GameConfig.STUN_DURATION_SECONDS, 0, GameConfig.POISON_TICK_INTERVAL_SECONDS));
                     }
                 }
             }

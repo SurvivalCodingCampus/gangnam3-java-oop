@@ -2,8 +2,11 @@ package com.survivalcoding.game.battle;
 
 import com.survivalcoding.game.entity.Hero;
 import com.survivalcoding.game.entity.Monster;
+import com.survivalcoding.game.entity.StatusEffect;
 import com.survivalcoding.game.engine.GameState;
+import com.survivalcoding.game.GameConfig;
 import com.survivalcoding.game.animation.ParticleEffect;
+import com.survivalcoding.game.animation.FloatingText;
 import com.survivalcoding.game.audio.SoundManager;
 
 import javafx.scene.paint.Color;
@@ -19,9 +22,6 @@ public class BattleSystem {
     private final Random random;
     
     // Combat constants
-    private static final double CRIT_CHANCE = 0.1;
-    private static final double CRIT_MULTIPLIER = 2.0;
-    private static final double DODGE_CHANCE = 0.05;
     
     public BattleSystem(GameState gameState) {
         this(gameState, new Random());
@@ -51,9 +51,9 @@ public class BattleSystem {
         int damage = calculateDamage(baseDamage, hero.getLevel(), monster.getType());
         
         // Check critical hit
-        boolean isCritical = random.nextDouble() < CRIT_CHANCE + hero.getLevel() * 0.005;
+        boolean isCritical = random.nextDouble() < GameConfig.CRIT_CHANCE + hero.getLevel() * GameConfig.CRIT_CHANCE_PER_HERO_LEVEL;
         if (isCritical) {
-            damage = (int)(damage * CRIT_MULTIPLIER);
+            damage = (int)(damage * GameConfig.CRIT_MULTIPLIER);
             showCriticalHit(monster, damage);
         } else {
             showDamageNumber(monster, damage);
@@ -98,9 +98,9 @@ public class BattleSystem {
         int damage = calculateDamage(baseDamage, hero.getLevel(), monster.getType());
         damage = (int)(damage * 1.5); // Magic does more damage
         
-        boolean isCritical = random.nextDouble() < CRIT_CHANCE * 2;
+        boolean isCritical = random.nextDouble() < GameConfig.CRIT_CHANCE * 2;
         if (isCritical) {
-            damage = (int)(damage * CRIT_MULTIPLIER);
+            damage = (int)(damage * GameConfig.CRIT_MULTIPLIER);
             showCriticalHit(monster, damage);
         }
         
@@ -136,7 +136,7 @@ public class BattleSystem {
         }
         
         // Check hero dodge (based on level)
-        double heroDodge = Math.min(0.15, hero.getLevel() * 0.01);
+        double heroDodge = Math.min(GameConfig.HERO_DODGE_CHANCE_CAP, hero.getLevel() * GameConfig.HERO_DODGE_CHANCE_PER_LEVEL);
         if (random.nextDouble() < heroDodge) {
             showDodge(hero);
             return false;
@@ -145,8 +145,8 @@ public class BattleSystem {
         int damage = monster.getAttackDamage();
         
         // Critical hit chance for monsters
-        if (random.nextDouble() < 0.05) {
-            damage = (int)(damage * 1.5);
+        if (random.nextDouble() < GameConfig.MONSTER_CRIT_CHANCE) {
+            damage = (int)(damage * GameConfig.MONSTER_CRIT_MULTIPLIER);
             showCriticalHit(hero, damage);
         }
         
@@ -221,7 +221,7 @@ public class BattleSystem {
     private void applyMonsterEffect(Monster monster, Hero hero) {
         switch (monster.getType()) {
             case POISON_SLIME -> {
-                // Poison effect - could add DoT status
+                hero.addStatusEffect(new StatusEffect(StatusEffect.Type.POISON, GameConfig.POISON_DURATION_SECONDS, GameConfig.POISON_DAMAGE_PER_TICK, GameConfig.POISON_TICK_INTERVAL_SECONDS));
                 gameState.addParticle(new ParticleEffect(
                     hero.getX(), hero.getY(),
                     ParticleEffect.ParticleType.POISON,
@@ -233,9 +233,8 @@ public class BattleSystem {
                 monster.heal(2);
             }
             case KING_SLIME -> {
-                // Stun chance
-                if (random.nextDouble() < 0.1) {
-                    // Could add stun status effect
+                if (random.nextDouble() < GameConfig.STUN_CHANCE) {
+                    hero.addStatusEffect(new StatusEffect(StatusEffect.Type.STUN, GameConfig.STUN_DURATION_SECONDS, 0, GameConfig.POISON_TICK_INTERVAL_SECONDS));
                 }
             }
         }
@@ -270,15 +269,15 @@ public class BattleSystem {
     }
     
     private void showDamageNumber(Monster monster, int damage) {
-        // Visual feedback handled in renderer
+        gameState.addFloatingText(new FloatingText(monster.getX(), monster.getY() - 20, "-" + damage, Color.RED));
     }
-    
+
     private void showDamageNumber(Hero hero, int damage) {
-        // Visual feedback handled in renderer
+        gameState.addFloatingText(new FloatingText(hero.getX(), hero.getY() - 20, "-" + damage, Color.RED));
     }
     
     private void showCriticalHit(Monster monster, int damage) {
-        // Critical hit particles
+        gameState.addFloatingText(new FloatingText(monster.getX(), monster.getY() - 32, "-" + damage + " CRIT", Color.YELLOW));
         for (int i = 0; i < 10; i++) {
             gameState.addParticle(new ParticleEffect(
                 monster.getX(), monster.getY(),
@@ -289,6 +288,7 @@ public class BattleSystem {
     }
     
     private void showCriticalHit(Hero hero, int damage) {
+        gameState.addFloatingText(new FloatingText(hero.getX(), hero.getY() - 32, "-" + damage + " CRIT", Color.YELLOW));
         for (int i = 0; i < 8; i++) {
             gameState.addParticle(new ParticleEffect(
                 hero.getX(), hero.getY(),
@@ -299,7 +299,7 @@ public class BattleSystem {
     }
     
     private void showMiss(Monster monster) {
-        // Miss particles
+        gameState.addFloatingText(new FloatingText(monster.getX(), monster.getY() - 20, "MISS", Color.WHITE));
         gameState.addParticle(new ParticleEffect(
             monster.getX(), monster.getY() - 20,
             ParticleEffect.ParticleType.WARNING,
@@ -308,6 +308,7 @@ public class BattleSystem {
     }
     
     private void showDodge(Hero hero) {
+        gameState.addFloatingText(new FloatingText(hero.getX(), hero.getY() - 30, "DODGE", Color.CYAN));
         gameState.addParticle(new ParticleEffect(
             hero.getX(), hero.getY() - 30,
             ParticleEffect.ParticleType.WARNING,

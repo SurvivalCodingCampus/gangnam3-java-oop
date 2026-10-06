@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * {@link Cleric} 클래스의 테스트.
@@ -92,7 +93,7 @@ class ClericTest {
         int gained = cleric.pray(3);
 
         // Then
-        assertEquals(true, gained >= 3 && gained <= 5);
+        assertTrue(gained >= 3 && gained <= 5);
         assertEquals(gained, cleric.mp);
     }
 

@@ -38,6 +38,16 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+// day12-asset 는 src/main/java 안에 중첩된 별도 Gradle 프로젝트다.
+// 제외하지 않으면 부모 빌드가 그 프로젝트의 테스트 소스까지 main 소스로 컴파일해 빌드가 실패한다.
+sourceSets {
+    main {
+        java {
+            exclude 'com/survivalcoding/day12_abstract_interface/day12-asset/**'
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
     systemProperty 'file.encoding', 'UTF-8'

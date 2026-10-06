@@ -95,8 +95,7 @@ public class SuperHero extends Hero {
      * 다만 오타를 잡아 주는 역할을 하므로 되도록 명시한다.
      */
     @Override
-    public void run() {
-        System.out.println("멋지게 퇴각했다");
+    public void run() {System.out.println("멋지게 퇴각했다");
     }
 
     // ==================== 비행 ====================

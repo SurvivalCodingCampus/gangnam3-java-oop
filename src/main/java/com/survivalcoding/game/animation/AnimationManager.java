@@ -13,28 +13,9 @@ import java.util.Map;
 public class AnimationManager {
     
     private final Map<String, AnimationData> animations = new HashMap<>();
-    
-    public static class AnimationData {
-        public final Image spriteSheet;
-        public final int frameWidth;
-        public final int frameHeight;
-        public final int frameCount;
-        public final int rows;
-        public final int cols;
-        public final double frameDuration;
-        public final boolean loop;
-        
-        public AnimationData(Image spriteSheet, int frameWidth, int frameHeight, 
-                           int frameCount, int rows, int cols, double frameDuration, boolean loop) {
-            this.spriteSheet = spriteSheet;
-            this.frameWidth = frameWidth;
-            this.frameHeight = frameHeight;
-            this.frameCount = frameCount;
-            this.rows = rows;
-            this.cols = cols;
-            this.frameDuration = frameDuration;
-            this.loop = loop;
-        }
+
+    public record AnimationData(Image spriteSheet, int frameWidth, int frameHeight, int frameCount, int rows, int cols,
+                                double frameDuration, boolean loop) {
     }
     
     /**

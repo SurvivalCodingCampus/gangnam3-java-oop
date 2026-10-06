@@ -19,7 +19,7 @@ public class Main {
      *
      * @param args 명령줄 인자. 이 예제에서는 사용하지 않는다.
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
 
         // 성직자를 생성한다. 이름을만 주면 HP, MP 는 각각 최대치로 초기화된다.
         Cleric cleric = new Cleric("세라핌");

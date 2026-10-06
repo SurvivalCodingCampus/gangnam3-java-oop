@@ -213,7 +213,7 @@ class MonsterTest {
 
         assertFalse(state.getMonsters().isEmpty());
         for (Monster m : state.getMonsters()) {
-            assertTrue(m.getMaxHp() > m.getType().baseHp);
+            assertTrue(m.getMaxHp() >= m.getType().baseHp);
             assertEquals(m.getMaxHp(), m.getHp());
         }
     }

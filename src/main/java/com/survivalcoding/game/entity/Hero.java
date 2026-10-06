@@ -1,5 +1,6 @@
 package com.survivalcoding.game.entity;
 
+import com.survivalcoding.game.GameConfig;
 import com.survivalcoding.game.engine.GameState;
 import com.survivalcoding.game.input.InputHandler;
 import com.survivalcoding.game.animation.Animation;
@@ -34,12 +35,6 @@ public class Hero extends GameEntity {
     private double dashCooldown = 0;
     private double itemCooldown = 0;
     
-    private static final double ATTACK_COOLDOWN_MAX = 0.4;
-    private static final double MAGIC_COOLDOWN_MAX = 2.0;
-    private static final double DASH_COOLDOWN_MAX = 1.5;
-    private static final double ITEM_COOLDOWN_MAX = 1.0;
-    private static final double DASH_DURATION = 0.2;
-    private static final double DASH_SPEED_MULTIPLIER = 3.0;
     
     // State
     private boolean isDashing = false;
@@ -83,7 +78,15 @@ public class Hero extends GameEntity {
     public void update(double deltaTime, InputHandler input, GameState gameState) {
         // Update cooldowns
         updateCooldowns(deltaTime);
-        
+
+        if (isStunned()) {
+            velocityX = 0;
+            velocityY = 0;
+            updatePosition(deltaTime, gameState);
+            updateAnimation(deltaTime);
+            return;
+        }
+
         // Handle dash state
         updateDash(deltaTime);
         
@@ -111,7 +114,7 @@ public class Hero extends GameEntity {
         
         // Regenerate MP slowly
         if (mp < maxMp) {
-            mp = Math.min(mp + (int)(deltaTime * 5), maxMp);
+            mp = Math.min(mp + (int)(deltaTime * GameConfig.HERO_MP_REGEN_PER_SECOND), maxMp);
         }
     }
     
@@ -127,8 +130,8 @@ public class Hero extends GameEntity {
             dashTimer -= deltaTime;
             
             // Apply dash velocity
-            velocityX = dashDirectionX * speed * DASH_SPEED_MULTIPLIER;
-            velocityY = dashDirectionY * speed * DASH_SPEED_MULTIPLIER;
+            velocityX = dashDirectionX * speed * GameConfig.HERO_DASH_SPEED_MULTIPLIER;
+            velocityY = dashDirectionY * speed * GameConfig.HERO_DASH_SPEED_MULTIPLIER;
             
             // Invincibility during dash
             hitFlashTimer = Math.max(hitFlashTimer, 0.01);
@@ -170,7 +173,7 @@ public class Hero extends GameEntity {
         }
         
         // Magic (M)
-        if (input.isMagicPressed() && magicCooldown <= 0 && mp >= 15) {
+        if (input.isMagicPressed() && magicCooldown <= 0 && mp >= GameConfig.HERO_MAGIC_COST) {
             performMagic(gameState);
         }
         
@@ -186,7 +189,7 @@ public class Hero extends GameEntity {
     }
     
     private void performAttack(GameState gameState) {
-        attackCooldown = ATTACK_COOLDOWN_MAX;
+        attackCooldown = GameConfig.HERO_ATTACK_COOLDOWN_SECONDS;
         isAttacking = true;
         swordSwingTimer = 0.3;
         swordSwingAngle = facingRight ? -Math.PI / 2 : Math.PI / 2;
@@ -195,7 +198,7 @@ public class Hero extends GameEntity {
         currentAnimation.reset();
         
         // Create attack hitbox
-        double range = 80;
+        double range = GameConfig.HERO_ATTACK_RANGE;
         double attackX = x + (facingRight ? range / 2 : -range / 2);
         double attackY = y;
         
@@ -209,6 +212,9 @@ public class Hero extends GameEntity {
                 if (dist < range / 2 + monster.getWidth() / 2) {
                     monster.takeDamage(attackDamage);
                     gameState.addScore(10);
+                    gameState.addFloatingText(new com.survivalcoding.game.animation.FloatingText(
+                        monster.getX(), monster.getY() - 20,
+                        "-" + attackDamage, Color.RED));
                     
                     // Knockback
                     double kbAngle = Math.atan2(monster.getY() - y, monster.getX() - x);
@@ -251,8 +257,8 @@ public class Hero extends GameEntity {
     }
     
     private void performMagic(GameState gameState) {
-        magicCooldown = MAGIC_COOLDOWN_MAX;
-        mp -= 15;
+        magicCooldown = GameConfig.HERO_MAGIC_COOLDOWN_SECONDS;
+        mp -= GameConfig.HERO_MAGIC_COST;
         
         // Fireball projectile
         double angle = facingRight ? 0 : Math.PI;
@@ -261,7 +267,8 @@ public class Hero extends GameEntity {
         
         Projectile fireball = new Projectile(
             startX, startY,
-            Math.cos(angle) * 500, Math.sin(angle) * 500,
+            Math.cos(angle) * GameConfig.HERO_MAGIC_PROJECTILE_SPEED,
+            Math.sin(angle) * GameConfig.HERO_MAGIC_PROJECTILE_SPEED,
             magicDamage, 16, 16, Color.ORANGE, Projectile.Type.FIREBALL
         );
         gameState.addProjectile(fireball);
@@ -279,9 +286,9 @@ public class Hero extends GameEntity {
     }
     
     private void performDash(InputHandler input) {
-        dashCooldown = DASH_COOLDOWN_MAX;
+        dashCooldown = GameConfig.HERO_DASH_COOLDOWN_SECONDS;
         isDashing = true;
-        dashTimer = DASH_DURATION;
+        dashTimer = GameConfig.HERO_DASH_DURATION_SECONDS;
         
         double moveX = input.getMoveX();
         double moveY = input.getMoveY();
@@ -301,15 +308,17 @@ public class Hero extends GameEntity {
     }
     
     private void useItem(GameState gameState) {
-        itemCooldown = ITEM_COOLDOWN_MAX;
+        itemCooldown = GameConfig.HERO_ITEM_COOLDOWN_SECONDS;
         
         // Heal potion
-        int healAmount = 30;
+        int healAmount = GameConfig.HERO_POTION_HEAL;
         int oldHp = hp;
         heal(healAmount);
         int actualHeal = hp - oldHp;
         
         if (actualHeal > 0) {
+            gameState.addFloatingText(new com.survivalcoding.game.animation.FloatingText(
+                x, y - 20, "+" + actualHeal, Color.LIGHTGREEN));
             // Heal particles
             for (int i = 0; i < 10; i++) {
                 gameState.addParticle(new ParticleEffect(

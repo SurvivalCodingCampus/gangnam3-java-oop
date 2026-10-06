@@ -22,14 +22,14 @@ public class Hero {
     // 기능 (method)
     // 메서드가 요구사항을 아직 정의하지 않은 상태이므로 빈 몸체만 둔다.
     void attack() {
+        System.out.println(name + " 이 공격했다");
+        hp -= 10;
     }
-
     void run() {
+        System.out.println(name + " 이 도망쳤다");
     }
-
-    void sit(int sec) {
+        void sit(int sec) {
     }
-
     void slip() {
     }
 

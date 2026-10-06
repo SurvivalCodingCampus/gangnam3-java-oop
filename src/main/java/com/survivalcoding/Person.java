@@ -10,14 +10,11 @@ import java.time.LocalDate;
  * 생성 시 한 번만 정해지고 이후에는 변경할 수 없다.
  * <p>
  * 변경 불가능한 값에는 getter 만 제공하고 setter 를 만들지 않는 것이 일반적이다.
+ *
+ * @param name      사람의 이름. final 이므로 생성 후 변경할 수 없다.
+ * @param birthYear 사람의 출생 연도. final 이므로 생성 후 변경할 수 없다.
  */
-public class Person {
-
-    /** 사람의 이름. final 이므로 생성 후 변경할 수 없다. */
-    private final String name;
-
-    /** 사람의 출생 연도. final 이므로 생성 후 변경할 수 없다. */
-    private final int birthYear;
+public record Person(String name, int birthYear) {
 
     /**
      * 이름과 출생연도를 지정하는 생성자.
@@ -25,22 +22,22 @@ public class Person {
      * @param name      사람의 이름
      * @param birthYear 사람의 출생 연도
      */
-    public Person(String name, int birthYear) {
-        this.name = name;
-        this.birthYear = birthYear;
+    public Person {
     }
 
     /**
      * @return 사람의 이름
      */
-    public String getName() {
+    @Override
+    public String name() {
         return name;
     }
 
     /**
      * @return 사람의 출생 연도
      */
-    public int getBirthYear() {
+    @Override
+    public int birthYear() {
         return birthYear;
     }
 

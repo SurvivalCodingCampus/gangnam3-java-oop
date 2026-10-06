@@ -1,0 +1,5 @@
+allprojects { p ->
+    p.plugins.withId('java') {
+        p.sourceSets.main.java.exclude 'com/survivalcoding/day12_abstract_interface/day12-asset/**'
+    }
+}
