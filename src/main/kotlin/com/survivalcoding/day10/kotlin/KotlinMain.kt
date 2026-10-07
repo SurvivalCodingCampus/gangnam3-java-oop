@@ -43,13 +43,13 @@ interface Thing {
     val weight: Double
 }
 
-open class Asset(
+abstract class Asset(
     val status: String,
     val name: String,
     val price: Int,
 )
 
-open class TangibleAsset(
+abstract class TangibleAsset(
     status: String = "ㅇㅅㅇ",
     name: String = "이름 없음",
     price: Int = 0,
