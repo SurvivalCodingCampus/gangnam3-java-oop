@@ -29,7 +29,7 @@ public class Hero implements Comparable<Hero>, Cloneable {
 //    }
 
     public Hero(String name) {
-        hp = 100;
+        hp = MAX_HP;
         this.name = name;
     }
 
