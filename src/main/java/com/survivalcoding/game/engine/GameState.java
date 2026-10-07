@@ -1,9 +1,12 @@
 package com.survivalcoding.game.engine;
 
+import com.survivalcoding.game.GameConfig;
+import com.survivalcoding.game.battle.BattleSystem;
 import com.survivalcoding.game.entity.GameEntity;
 import com.survivalcoding.game.entity.Hero;
 import com.survivalcoding.game.entity.Monster;
 import com.survivalcoding.game.animation.ParticleEffect;
+import com.survivalcoding.game.animation.FloatingText;
 import com.survivalcoding.game.audio.SoundManager;
 import com.survivalcoding.game.input.InputHandler;
 import javafx.geometry.Point2D;
@@ -33,6 +36,13 @@ public class GameState {
     private final List<GameEntity> entities = new ArrayList<>();
     private final List<GameEntity> projectiles = new ArrayList<>();
     private final List<ParticleEffect> particles = new ArrayList<>();
+    private final List<FloatingText> floatingTexts = new ArrayList<>();
+
+    private int bestScore;
+    private final ScoreStore scoreStore;
+
+    // 생성자에서 this 를 넘기면 GameState 초기화 순서에 의존하게 되므로 지연 초기화한다.
+    private BattleSystem battleSystem;
     
     // Camera
     private Point2D cameraPosition = new Point2D(0, 0);
@@ -59,8 +69,14 @@ public class GameState {
     
     // Random for effects
     private final Random random = new Random();
-    
+
     public GameState() {
+        this(new ScoreStore());
+    }
+
+    public GameState(ScoreStore scoreStore) {
+        this.scoreStore = scoreStore;
+        this.bestScore = scoreStore.load();
         initializeHero();
     }
     
@@ -81,6 +97,14 @@ public class GameState {
         if (input.isMuteTogglePressed()) {
             SoundManager.get().toggleMute();
         }
+
+        if (input.isVolumeDownPressed()) {
+            SoundManager.get().setVolume(SoundManager.get().getVolume() - 0.1);
+        }
+
+        if (input.isVolumeUpPressed()) {
+            SoundManager.get().setVolume(SoundManager.get().getVolume() + 0.1);
+        }
         
         // Handle camera shake
         if (cameraShakeTimer > 0) {
@@ -97,7 +121,15 @@ public class GameState {
         
         // Update camera to follow hero
         updateCamera(deltaTime);
-        
+
+        for (int i = floatingTexts.size() - 1; i >= 0; i--) {
+            FloatingText text = floatingTexts.get(i);
+            text.update(deltaTime);
+            if (text.isDead()) {
+                floatingTexts.remove(i);
+            }
+        }
+
         // Clean up dead entities
         cleanupEntities();
     }
@@ -111,18 +143,20 @@ public class GameState {
         
         // Update hero
         if (hero != null && hero.isAlive()) {
+            hero.updateStatusEffects(deltaTime, this);
             hero.update(deltaTime, input, this);
         }
-        
+
         // Update monsters
-        for (Monster monster : monsters) {
+        for (Monster monster : new ArrayList<>(monsters)) {
             if (monster.isAlive()) {
+                monster.updateStatusEffects(deltaTime, this);
                 monster.update(deltaTime, input, this);
             }
         }
-        
+
         // Update projectiles
-        for (GameEntity projectile : projectiles) {
+        for (GameEntity projectile : new ArrayList<>(projectiles)) {
             projectile.update(deltaTime, input, this);
         }
         
@@ -136,8 +170,9 @@ public class GameState {
         }
         
         // Check win condition
-        if (wave > 10 && monsters.isEmpty()) {
+        if (wave > GameConfig.FINAL_WAVE && monsters.isEmpty()) {
             currentMode = GameMode.VICTORY;
+            saveBestScore();
             return;
         }
         
@@ -149,14 +184,14 @@ public class GameState {
         // Check lose condition
         if (hero != null && !hero.isAlive()) {
             currentMode = GameMode.GAME_OVER;
+            saveBestScore();
         }
     }
     
     private void updateMenu(InputHandler input) {
         if (input.isActionPressed()) {
             SoundManager.get().play(SoundManager.Effect.MENU);
-            currentMode = GameMode.PLAYING;
-            resetGame();
+            resetGame(GameMode.PLAYING);
         }
     }
     
@@ -169,8 +204,7 @@ public class GameState {
     
     private void updateGameOver(InputHandler input) {
         if (input.isActionPressed()) {
-            currentMode = GameMode.MAIN_MENU;
-            resetGame();
+            resetGame(GameMode.MAIN_MENU);
         }
     }
     
@@ -197,8 +231,8 @@ public class GameState {
     }
     
     private void spawnWave() {
-        wave++;
-        int monsterCount = Math.min(3 + wave, 15);
+        int currentWave = Math.max(1, wave);
+        int monsterCount = Math.min(3 + currentWave, GameConfig.MAX_MONSTERS_PER_WAVE);
         
         for (int i = 0; i < monsterCount; i++) {
             double angle = random.nextDouble() * Math.PI * 2;
@@ -211,10 +245,11 @@ public class GameState {
             spawnY = Math.max(50, Math.min(spawnY, worldHeight - 50));
             
             Monster monster = createRandomMonster(spawnX, spawnY);
-            monster.scaleForDifficulty(wave);
+            monster.scaleForDifficulty(currentWave);
             monsters.add(monster);
             entities.add(monster);
         }
+        wave = currentWave + 1;
     }
     
     private Monster createRandomMonster(double x, double y) {
@@ -235,18 +270,27 @@ public class GameState {
     }
     
     public void resetGame() {
+        resetGame(GameMode.PLAYING);
+    }
+
+    public void resetGame(GameMode nextMode) {
         monsters.clear();
         projectiles.clear();
         particles.clear();
+        floatingTexts.clear();
         entities.clear();
-        
+
         score = 0;
         wave = 1;
         monstersKilled = 0;
         gameTime = 0;
-        
+
+        cameraPosition = new Point2D(0, 0);
+        cameraShake = 0;
+        cameraShakeTimer = 0;
+
         initializeHero();
-        currentMode = GameMode.PLAYING;
+        currentMode = nextMode;
     }
     
     public void addParticle(ParticleEffect particle) {
@@ -291,6 +335,26 @@ public class GameState {
     public int getScore() { return score; }
     public int getWave() { return wave; }
     public int getMonstersKilled() { return monstersKilled; }
+    public int getBestScore() { return bestScore; }
+    public List<FloatingText> getFloatingTexts() { return new ArrayList<>(floatingTexts); }
+    public void addFloatingText(FloatingText text) { floatingTexts.add(text); }
+    public void saveBestScore() {
+        if (score > bestScore) {
+            bestScore = score;
+            scoreStore.save(bestScore);
+        }
+    }
+
+    public BattleSystem getBattleSystem() {
+        if (battleSystem == null) {
+            battleSystem = new BattleSystem(this);
+        }
+        return battleSystem;
+    }
+
+    public void setBattleSystem(BattleSystem battleSystem) {
+        this.battleSystem = battleSystem;
+    }
     public double getGameTime() { return gameTime; }
     public double getScreenWidth() { return screenWidth; }
     public double getScreenHeight() { return screenHeight; }

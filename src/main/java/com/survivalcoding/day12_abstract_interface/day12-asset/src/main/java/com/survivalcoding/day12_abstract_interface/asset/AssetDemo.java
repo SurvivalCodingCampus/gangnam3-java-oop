@@ -28,7 +28,7 @@ public class AssetDemo {
      *
      * @param args 실행 인자. 사용하지 않는다.
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         // ==================== 준비 ====================
         Computer computer = new Computer("회사 노트북", 2.5, 1_500_000);
         Book book = new Book("클린 코드", 0.8, 464, 3_000);

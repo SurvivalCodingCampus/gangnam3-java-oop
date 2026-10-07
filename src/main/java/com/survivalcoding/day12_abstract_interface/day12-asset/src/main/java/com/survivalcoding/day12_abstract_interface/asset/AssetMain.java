@@ -1,7 +1,15 @@
 package com.survivalcoding.day12_abstract_interface.asset;
 
 public class AssetMain {
-    public static void main(String[] args){
+    @Override
+    public String toString() {
+        return "AssetMain{}";
+    }
+
+    static void main(String[] args){
+        // Book
+
+
 
     }
 }

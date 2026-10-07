@@ -30,8 +30,8 @@ class GameStateTest {
     private GameState state;
     private InputHandler input;
 
-    private static java.lang.reflect.Method keyPressed;
-    private static java.lang.reflect.Method keyReleased;
+    private static final java.lang.reflect.Method keyPressed;
+    private static final java.lang.reflect.Method keyReleased;
 
     static {
         try {
@@ -258,6 +258,21 @@ class GameStateTest {
         state.resetGame();
         assertDoesNotThrow(() -> {
             for (int i = 0; i < 300; i++) {
+                state.update(DT, input);
+            }
+        });
+    }
+
+    @Test
+    @DisplayName("King slime이 공격 중 미니 슬라임을 소환해도 업데이트가 중단되지 않는다")
+    void kingSlimeSpawnDuringUpdateDoesNotBreakIteration() {
+        state.resetGame();
+        Hero h = state.getHero();
+        Monster king = new Monster("킹 슬라임", 500, 5, h.getX() + 30, h.getY(), Monster.MonsterType.KING_SLIME);
+        state.addMonster(king);
+
+        assertDoesNotThrow(() -> {
+            for (int i = 0; i < 600; i++) {
                 state.update(DT, input);
             }
         });

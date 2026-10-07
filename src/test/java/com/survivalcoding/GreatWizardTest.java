@@ -101,7 +101,7 @@ class GreatWizardTest {
         String output = captureOutput(() -> greatWizard.heal(hero));
 
         // Then
-        assertTrue(output.strip().equals(NOT_ENOUGH_MP));
+        assertEquals(NOT_ENOUGH_MP, output.strip());
         assertEquals(100, hero.getHp());
         assertEquals(4, greatWizard.getMp());
     }
@@ -134,7 +134,7 @@ class GreatWizardTest {
         String output = captureOutput(() -> greatWizard.superHeal(hero));
 
         // Then
-        assertTrue(output.strip().equals(NOT_ENOUGH_MP));
+        assertEquals(NOT_ENOUGH_MP, output.strip());
         assertEquals(30, hero.getHp());
         assertEquals(49, greatWizard.getMp());
     }

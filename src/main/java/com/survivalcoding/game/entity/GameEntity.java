@@ -4,6 +4,9 @@ import com.survivalcoding.game.engine.GameState;
 import com.survivalcoding.game.input.InputHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Base class for all game entities.
@@ -27,6 +30,8 @@ public abstract class GameEntity {
     // Visual effects
     protected double hitFlashTimer = 0;
     protected static final double HIT_FLASH_DURATION = 0.1;
+
+    private final List<StatusEffect> statusEffects = new ArrayList<>();
     
     public GameEntity(double x, double y, double width, double height, int hp) {
         this.x = x;
@@ -56,6 +61,30 @@ public abstract class GameEntity {
         }
     }
     
+    public void addStatusEffect(StatusEffect effect) {
+        statusEffects.removeIf(existing -> existing.getType() == effect.getType());
+        statusEffects.add(effect);
+    }
+
+    public void updateStatusEffects(double deltaTime, GameState gameState) {
+        Iterator<StatusEffect> iterator = statusEffects.iterator();
+        while (iterator.hasNext()) {
+            StatusEffect effect = iterator.next();
+            effect.update(deltaTime, this, gameState);
+            if (effect.isExpired()) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public boolean hasStatus(StatusEffect.Type type) {
+        return statusEffects.stream().anyMatch(effect -> effect.getType() == type && !effect.isExpired());
+    }
+
+    public boolean isStunned() {
+        return hasStatus(StatusEffect.Type.STUN);
+    }
+
     /**
      * Heal entity.
      */

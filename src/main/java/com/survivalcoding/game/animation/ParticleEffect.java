@@ -24,9 +24,11 @@ public class ParticleEffect {
         EXP_ORB        // Experience orb
     }
     
-    private double x, y;
+    private final double x;
+    private final double y;
     private double velocityX, velocityY;
-    private double life, maxLife;
+    private double life;
+    private final double maxLife;
     private final Color color;
     private final ParticleType type;
     private final int particleCount;
@@ -144,7 +146,7 @@ public class ParticleEffect {
                     p.vx = (random.nextDouble() - 0.5) * 30;
                     p.vy = -20 - random.nextDouble() * 50;
                     p.size = 3 + random.nextDouble() * 3;
-                    p.life = 1.0 + random.nextDouble() * 1.0;
+                    p.life = 1.0 + random.nextDouble();
                 }
                 case LEVEL_UP -> {
                     double angle = random.nextDouble() * Math.PI * 2;
@@ -152,7 +154,7 @@ public class ParticleEffect {
                     p.vx = Math.cos(angle) * speed;
                     p.vy = Math.sin(angle) * speed;
                     p.size = 5 + random.nextDouble() * 5;
-                    p.life = 1.0 + random.nextDouble() * 1.0;
+                    p.life = 1.0 + random.nextDouble();
                     p.rotationSpeed = (random.nextDouble() - 0.5) * 8;
                 }
                 case DASH -> {

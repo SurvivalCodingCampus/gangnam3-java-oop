@@ -3,7 +3,6 @@ package com.survivalcoding.game.engine;
 import com.survivalcoding.game.input.InputHandler;
 import com.survivalcoding.game.renderer.GameRenderer;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 
 /**
  * Core game engine with fixed timestep game loop.
@@ -70,9 +69,10 @@ public class GameEngine {
                 
                 // Render with interpolation
                 double alpha = accumulator / (TARGET_FRAME_TIME / NANOS_PER_SECOND);
-                // Expose current FPS to renderer via game state for optional on-screen display
                 gameState.setFps(currentFps);
-                render(alpha);
+                if (renderer != null) {
+                    renderer.render(gameState, alpha);
+                }
                 
                 // Update FPS counter
                 if (fpsTimer >= 1.0) {
@@ -104,15 +104,6 @@ public class GameEngine {
         gameState.update(deltaTime, inputHandler);
 
         inputHandler.update();
-    }
-    
-    /**
-     * Renders the game with interpolation.
-     */
-    private void render(double alpha) {
-        Platform.runLater(() -> {
-            renderer.render(gameState, alpha);
-        });
     }
     
     public double getCurrentFps() {

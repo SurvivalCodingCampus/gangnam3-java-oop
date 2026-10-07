@@ -1,5 +1,7 @@
 package com.survivalcoding.game.renderer;
 
+import com.survivalcoding.game.GameConfig;
+
 import com.survivalcoding.game.engine.GameState;
 import com.survivalcoding.game.entity.GameEntity;
 import com.survivalcoding.game.entity.Hero;
@@ -26,8 +28,8 @@ public class GameRenderer {
     private final Random random = new Random();
     
     // Background
-    private double backgroundOffsetX = 0;
-    private double backgroundOffsetY = 0;
+    private final double backgroundOffsetX = 0;
+    private final double backgroundOffsetY = 0;
     private final double[] starX = new double[100];
     private final double[] starY = new double[100];
     private final double[] starSpeed = new double[100];
@@ -140,7 +142,11 @@ public class GameRenderer {
         for (ParticleEffect particle : gameState.getParticles()) {
             particle.render(gc, camX, camY);
         }
-        
+
+        for (com.survivalcoding.game.animation.FloatingText text : gameState.getFloatingTexts()) {
+            text.render(gc, camX, camY);
+        }
+
         // 6. UI overlay
         renderGameUI(gameState, width, height);
         
@@ -264,8 +270,12 @@ public class GameRenderer {
         // Score & Wave
         gc.setFont(uiFont);
         gc.fillText("점수: " + gameState.getScore(), width - 20, 35);
-        gc.fillText("웨이브: " + gameState.getWave() + "/10", width - 20, 55);
-        gc.fillText("처치: " + gameState.getMonstersKilled(), width - 20, 75);
+        gc.fillText("처치: " + gameState.getMonstersKilled(), width - 20, 95);
+        boolean muted = com.survivalcoding.game.audio.SoundManager.get().isMuted();
+        int volumePercent = (int) Math.round(com.survivalcoding.game.audio.SoundManager.get().getVolume() * 100);
+        gc.fillText("사운드: " + (muted ? "끔" : "켜짐") + " " + volumePercent + "%", width - 20, 115);
+        gc.fillText("최고: " + gameState.getBestScore(), width - 20, 55);
+        gc.fillText("웨이브: " + gameState.getWave() + "/" + GameConfig.FINAL_WAVE, width - 20, 75);
     }
     
     private void renderBottomHUD(Hero hero, double width, double height) {
@@ -277,9 +287,9 @@ public class GameRenderer {
         // Skill slots
         String[] skills = {"공격 [SPACE]", "마법 [M]", "대시 [SHIFT]", "아이템 [E]"};
         double[] cooldowns = {
-            hero.getAttackCooldown() / 0.4,
-            hero.getMagicCooldown() / 2.0,
-            hero.getDashCooldown() / 1.5,
+            hero.getAttackCooldown() / GameConfig.HERO_ATTACK_COOLDOWN_SECONDS,
+            hero.getMagicCooldown() / GameConfig.HERO_MAGIC_COOLDOWN_SECONDS,
+            hero.getDashCooldown() / GameConfig.HERO_DASH_COOLDOWN_SECONDS,
             0 // item cooldown not tracked simply
         };
         Color[] colors = {
@@ -488,10 +498,8 @@ public class GameRenderer {
         gc.fillText("이동: WASD / 방향키    공격: SPACE    마법: M    대시: SHIFT    회복: E", width/2, height/2 + 100);
         gc.fillText("웨이브 10을 클리어하면 승리!", width/2, height/2 + 130);
         
-        // High score (could be persisted)
-        gc.setFill(Color.web("#FFD700", 0.8));
         gc.setFont(uiFont);
-        gc.fillText("최고 점수: 0", width/2, height - 50);
+        gc.fillText("최고 점수: " + gameState.getBestScore(), width/2, height - 50);
     }
     
     private void renderMenuBackground(double width, double height) {

@@ -25,8 +25,8 @@ public class PersonTest {
 
         Person person = new Person("홍길동", 1971);
 
-        assertEquals("홍길동", person.getName());
-        assertEquals(1971, person.getBirthYear());
+        assertEquals("홍길동", person.name());
+        assertEquals(1971, person.birthYear());
         assertEquals(55, person.getAge());
     }
 }

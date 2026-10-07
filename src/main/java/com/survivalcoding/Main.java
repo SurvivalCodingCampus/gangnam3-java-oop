@@ -25,7 +25,7 @@ public class Main {
     // 게임 상태 플래그 (고도화: 키보드 입력을 위한 플래그)
     private static boolean isPlaying = true;
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         // 스캐너로 키보드 입력을 받기 위한 초기화 (고도화: 플레이어 컨트롤 지원)
         Scanner scanner = new Scanner(System.in);
 

@@ -7,8 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link King} 클래스의 테스트.
@@ -80,7 +79,7 @@ class KingTest {
 
         captureOutput(() -> king.callHero(hero));
 
-        assertTrue(hero.getHp() == 100);
+        assertEquals(100, hero.getHp());
     }
 
     @Test

@@ -106,7 +106,7 @@ class AssetPackageTest {
     void computerGetPriceOverrides() throws NoSuchMethodException {
         Method m = Computer.class.getDeclaredMethod("getPrice");
         assertTrue(java.lang.reflect.Modifier.isPublic(m.getModifiers()));
-        assertTrue(java.lang.reflect.Modifier.isAbstract(m.getModifiers()) == false);
+        assertTrue(!Modifier.isAbstract(m.getModifiers()));
     }
 
     /**

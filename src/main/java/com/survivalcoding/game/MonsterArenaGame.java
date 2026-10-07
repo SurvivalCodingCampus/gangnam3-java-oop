@@ -7,7 +7,6 @@ import com.survivalcoding.game.renderer.GameFonts;
 import com.survivalcoding.game.renderer.GameRenderer;
 import com.survivalcoding.game.battle.BattleSystem;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -41,9 +40,7 @@ public class MonsterArenaGame extends Application {
     private Stage primaryStage;
     private Scene scene;
     
-    // Game loop
-    private AnimationTimer renderLoop;
-    private long lastFrameTime = 0;
+    
     
     @Override
     public void start(Stage primaryStage) {
@@ -77,7 +74,7 @@ GameFonts.load();
         
         inputHandler = new InputHandler();
         gameRenderer = new GameRenderer(canvas);
-        battleSystem = new BattleSystem(gameState);
+        battleSystem = gameState.getBattleSystem();
         gameEngine = new GameEngine(gameRenderer, inputHandler, gameState);
         
         // Set canvas reference in renderer for size access
@@ -117,30 +114,6 @@ GameFonts.load();
     private void startGame() {
         // Start game engine (fixed timestep update loop)
         gameEngine.start();
-        
-        // Start render loop (separate from game engine for smooth rendering)
-        startRenderLoop();
-    }
-    
-    private void startRenderLoop() {
-        renderLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (lastFrameTime == 0) {
-                    lastFrameTime = now;
-                    return;
-                }
-                
-                // Render at vsync rate (typically 60Hz)
-                double alpha = (now - lastFrameTime) / 1_000_000_000.0;
-                lastFrameTime = now;
-                
-                // Render current game state
-                gameRenderer.render(gameState, alpha);
-            }
-        };
-        
-        renderLoop.start();
     }
     
     private void shutdown() {
@@ -148,10 +121,11 @@ GameFonts.load();
         if (gameEngine != null) {
             gameEngine.stop();
         }
-        if (renderLoop != null) {
-            renderLoop.stop();
+
+        if (gameState != null) {
+            gameState.saveBestScore();
         }
-        
+
         // Exit
         Platform.exit();
         System.exit(0);
@@ -160,7 +134,7 @@ GameFonts.load();
     /**
      * Main entry point.
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         // JavaFX requires this to be called on the FX Application Thread
         launch(args);
     }
