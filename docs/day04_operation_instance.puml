@@ -1,0 +1,43 @@
+@startuml day04_operation_instance
+scale 1
+hide empty members
+
+package "com.survivalcoding.day04_operation_instance" {
+
+    class Account implements Comparable {
+        - int number
+    }
+
+    class Hero implements Cloneable {
+        - String name
+        - int hp
+        - Sword sword
+    }
+
+    class Sword implements Cloneable {
+
+    }
+
+    class Book implements Comparable, Cloneable {
+        - String title
+        - Date publishDate
+        - String comment
+    }
+
+    class DateUtil {
+        {static} - String PATTERN
+
+        {static} + Date toDate(String source)
+        {static} + String toString(Date date)
+    }
+
+    interface Comparable {
+        + int compareTo(T o)
+    }
+
+    interface Cloneable {
+
+    }
+}
+
+@enduml
