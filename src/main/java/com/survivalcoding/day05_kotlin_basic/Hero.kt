@@ -16,6 +16,12 @@ open class Hero(
     val isAlive: Boolean
         get() = hp > 0
 
+    init {
+        require(hp in 0..MAX_HP) {
+            "HP는 0부터 $MAX_HP 사이여야 합니다: $hp"
+        }
+    }
+
     fun damage(amount: Int = 10) {
         if (amount <= 0) {
             return
