@@ -1,5 +1,38 @@
 package com.survivalcoding.day10.kotlin
 
 fun main() {
-    println("das")
+    val pc = Computer()
+    println(pc)
+}
+
+interface Thing {
+    val weight: Double;
+}
+
+open class Asset(
+    val status: String,
+    val name: String,
+    val price: Int,
+)
+
+open class TangibleAsset(
+    status: String = "ㅇㅅㅇ",
+    name: String = "이름 없음",
+    price: Int = 0,
+    val color: String = "무색",
+    override val weight: Double = 0.0,
+) : Asset(status, name, price),
+    Thing
+
+data class Computer (
+    val makerName: String = "없음"
+) : TangibleAsset() {
+    override fun toString(): String {
+        return "Computer(status='$status', " +
+                "name='$name', " +
+                "price=$price, " +
+                "color='$color', " +
+                "weight=$weight, " +
+                "makerName='$makerName')"
+    }
 }
