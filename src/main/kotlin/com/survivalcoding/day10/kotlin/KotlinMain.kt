@@ -40,7 +40,7 @@ fun main() {
 }
 
 interface Thing {
-    val weight: Double;
+    val weight: Double
 }
 
 open class Asset(
