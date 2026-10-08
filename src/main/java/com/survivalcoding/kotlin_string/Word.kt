@@ -1,0 +1,14 @@
+package com.survivalcoding.kotlin_string
+
+class Word(var word: String) {
+	private val vowel = listOf(
+		'A', 'E', 'I', 'O', 'U',
+		'a', 'e', 'i', 'o', 'u'
+	)
+	
+	fun isAlphabet(c: Char) = c in 'a'..'z' || c in 'A'..'Z'
+	
+	fun isVowel(i: Int): Boolean = isAlphabet(word[i]) && word[i] in vowel
+	
+	fun isConsonant(i: Int): Boolean = isAlphabet(word[i]) && word[i] !in vowel
+}
