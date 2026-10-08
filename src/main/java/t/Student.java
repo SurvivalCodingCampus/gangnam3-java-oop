@@ -7,7 +7,7 @@ public class Student {
     static List<String> List = new ArrayList<>();
     static Map<String, Integer> Map = new HashMap<>();
     Set<String> Set = new HashSet<>();
-cd
+
     //add get remove 등이 있음
     public static void main(String[] args) {
         List.add("홍길동");
