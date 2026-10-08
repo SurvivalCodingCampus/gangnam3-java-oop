@@ -1,4 +1,4 @@
-package com.survivalcoding.generic_enum
+package com.survivalcoding.generic_enum_string
 
 class Pocket<E> {
     private var _data: E? = null
