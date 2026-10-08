@@ -1,0 +1,76 @@
+@startuml day06_generic
+scale 1
+hide empty members
+
+package "com.survivalcoding.day06_generic" {
+
+    abstract class Asset {
+        + name: String
+        + color: String
+        + price: Int
+    }
+
+    abstract class TangibleAsset {
+        + <<Create>> TangibleAsset(name: String, color: String, price: Int, weight: Double)
+    }
+
+    interface Thing {
+        {static} + MIN_WEIGHT: Double
+        {static} + MAX_WEIGHT: Double
+
+        + weight: Double
+    }
+
+    enum AuthState {
+        AUTHENTICATED
+        UNAUTHENTICATED
+        UNKNOWN
+    }
+
+    enum KeyType {
+        PADLOCK(limit = 1_024)
+        BUTTON(limit = 10_000)
+        DIAL(limit = 30_000)
+        FINGER(limit = 1_000_000)
+
+        + limit: Int
+    }
+
+    class Book {
+        + isbn: String
+
+        + <<Create>> Book(isbn: String, name: String, color: String, price: Int, weight: Double)
+    }
+
+    class Pocket<E> {
+        - _data: E?
+
+        + put(data: E)
+        + get(): E?
+    }
+
+    class StrongBox<T : KeyType> {
+        + data: T?
+        + count: Int
+
+        + put(data: T?)
+        + get(): T?
+    }
+
+    class Word {
+        + word : String
+        + letter: (Int) -> String
+        - vowel : Set<String>
+
+        + isVowel(i: Int): Boolean
+        + isConsonant(i: Int): Boolean
+    }
+
+    Asset <|-- TangibleAsset
+    Thing <|.. TangibleAsset
+    TangibleAsset <|-- Book
+
+    StrongBox ..> KeyType
+}
+
+@enduml
