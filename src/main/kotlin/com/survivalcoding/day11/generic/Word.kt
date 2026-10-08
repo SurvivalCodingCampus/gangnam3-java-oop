@@ -2,7 +2,7 @@ package com.survivalcoding.day11.generic
 
 class Word(word: String) {
     companion object {
-        val VOWELS = charArrayOf('a', 'e', 'i', 'o', 'u')
+        private val VOWELS = charArrayOf('a', 'e', 'i', 'o', 'u')
     }
 
     private val _word = word
