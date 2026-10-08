@@ -5,6 +5,14 @@ class Word(word: String) {
         private val VOWELS = charArrayOf('a', 'e', 'i', 'o', 'u')
     }
 
+    init {
+        word.forEach {
+            require (it in 'A'.. 'Z' || it in 'a'..'z') {
+                "영문자만 입력 가능"
+            }
+        }
+    }
+
     private val _word = word
 
     fun isVowel(i: Int): Boolean {
