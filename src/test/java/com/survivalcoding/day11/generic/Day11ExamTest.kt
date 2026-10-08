@@ -7,11 +7,12 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.util.stream.Stream
+
 
 class `11일차 테스트` {
     @Nested
@@ -44,21 +45,17 @@ class `11일차 테스트` {
 
             assertThat(box.get()).isEqualTo(item)
         }
-
-        companion object {
-            @JvmStatic
-            fun provideStrongBoxTestData(): List<Arguments> {
-                return listOf(
-                    Arguments.of(KeyType.PADLOCK, "보물"),
-                    Arguments.of(KeyType.BUTTON, 10000),
-                    Arguments.of(KeyType.FINGER, 99.9)
-                )
-            }
-        }
     }
 
     @Nested
     class `문자열 연습문제 테스트` {
+
+        @ParameterizedTest
+        @ValueSource(strings = ["vOiㄷd", "pIㄷpp", "lo ll"])
+        fun `영어가 아닌 문자열이 들어오면 생성 예외 발생`(str: String) {
+            assertThatThrownBy { Word(str) }.hasMessage("영문자만 입력 가능")
+        }
+
         @ParameterizedTest
         @ValueSource(strings = ["vOid", "pIpp", "loll"])
         fun `문자열에 모음이 있으면 isVowel은 true를 반환한다`(str: String) {
@@ -86,11 +83,22 @@ class `11일차 테스트` {
 
         @ParameterizedTest
         @ValueSource(strings = ["vOid", "pipp", "loll"])
-        fun `문자열에 모음이 있으면 isConsonant은 false를 반환한다`(str: String) {
+        fun `문자열에 모음이 없으면 isConsonant은 false를 반환한다`(str: String) {
             val word = Word(str)
 
             // 1번 인덱스 문자가 모음(o, i, o)이므로 자음 검사는 false
             assertThat(word.isConsonant(1)).isFalse()
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun provideStrongBoxTestData(): List<Arguments> {
+            return listOf(
+                Arguments.of(KeyType.PADLOCK, "보물"),
+                Arguments.of(KeyType.BUTTON, 10000),
+                Arguments.of(KeyType.FINGER, 99.9)
+            )
         }
     }
 }
