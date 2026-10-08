@@ -9,17 +9,14 @@ enum class KeyType(val attemptCount: Int) {
 }
 
 
-class StrongBox<E> {
-	private var _data: E? = null
+class StrongBox<E>(keyType: KeyType) {
+	private var _item: E? = null
+	private val keyType: KeyType = keyType
+	private var attemptCount: Int = 0
 	
-	fun put(data: E) {
-		_data = data
+	fun put(item: E) {
+		_item = item
 	}
 	
-	fun get() = _data
-}
-
-
-fun main() {
-
+	fun get(): E? = if (++attemptCount < keyType.attemptCount) null else _item
 }
