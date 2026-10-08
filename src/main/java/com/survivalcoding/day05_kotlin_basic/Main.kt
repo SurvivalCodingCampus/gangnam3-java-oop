@@ -51,9 +51,9 @@ fun main() {
     // val length1 = nickname!!.length
     // println(length1)
 
-    if (hero is SuperHero) {
-        hero.fly()
-    }
+    // if (hero is SuperHero) {
+    //     hero.fly()
+    // }
 
     val party = mutableListOf<Hero>()
     party.add(Hero("홍길동", "Mr.홍"))
@@ -61,6 +61,9 @@ fun main() {
 
     for (hero in party) {
         hero.attack()
+        if (hero is SuperHero) {
+            hero.fly()
+        }
     }
 
     val party1 = listOf(
