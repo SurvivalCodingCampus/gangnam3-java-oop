@@ -7,11 +7,15 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.stream.Stream
 
 class `11일차 테스트` {
     @Nested
-    inner class `스트롱 박스 테스트` {
+    class `스트롱 박스 테스트` {
         @ParameterizedTest
         @EnumSource(KeyType::class)
         fun `시도횟수에 도달하지 않으면 null을 출력한다`(keytype: KeyType) {
@@ -33,19 +37,28 @@ class `11일차 테스트` {
         }
 
         @ParameterizedTest
-        @EnumSource(KeyType::class)
-        fun `시도횟수에 도달하면 않으면 data를 출력한다`(keytype: KeyType) {
-            val item = "보물"
-            val box = StrongBox(data = item, key = keytype)
-
+        @MethodSource("provideStrongBoxTestData")
+        fun <T> `시도횟수에 도달하면 data를 반환한다`(keyType: KeyType, item: T) {
+            val box = StrongBox(data = item, key = keyType)
             box._count = box._requiredCount
 
             assertThat(box.get()).isEqualTo(item)
         }
+
+        companion object {
+            @JvmStatic
+            fun provideStrongBoxTestData(): List<Arguments> {
+                return listOf(
+                    Arguments.of(KeyType.PADLOCK, "보물"),
+                    Arguments.of(KeyType.BUTTON, 10000),
+                    Arguments.of(KeyType.FINGER, 99.9)
+                )
+            }
+        }
     }
 
     @Nested
-    inner class `문자열 연습문제 테스트` {
+    class `문자열 연습문제 테스트` {
         @ParameterizedTest
         @ValueSource(strings = ["vOid", "pIpp", "loll"])
         fun `문자열에 모음이 있으면 isVowel은 true를 반환한다`(str: String) {
@@ -81,3 +94,4 @@ class `11일차 테스트` {
         }
     }
 }
+
