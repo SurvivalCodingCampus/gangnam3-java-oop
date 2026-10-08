@@ -18,8 +18,8 @@ class StrongBox<E>(
         KeyType.FINGER -> 1_000_000
     }
 
-    private val _data: E = data
     internal var _count: Int = 0
+    private val _data: E = data
 
     fun get(): E? {
         if (_count < _requiredCount) {
