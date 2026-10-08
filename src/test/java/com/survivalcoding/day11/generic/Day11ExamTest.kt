@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 
-
 class `11일차 테스트` {
     @Nested
-    class `스트롱 박스 테스트` {
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class `스트롱 박스 테스트` {
         @ParameterizedTest
         @EnumSource(KeyType::class)
         fun `시도횟수에 도달하지 않으면 null을 출력한다`(keytype: KeyType) {
@@ -45,10 +45,18 @@ class `11일차 테스트` {
 
             assertThat(box.get()).isEqualTo(item)
         }
+
+        fun provideStrongBoxTestData(): List<Arguments> {
+            return listOf(
+                Arguments.of(KeyType.PADLOCK, "보물"),
+                Arguments.of(KeyType.BUTTON, 10000),
+                Arguments.of(KeyType.FINGER, 99.9)
+            )
+        }
     }
 
     @Nested
-    class `문자열 연습문제 테스트` {
+    inner class `문자열 연습문제 테스트` {
 
         @ParameterizedTest
         @ValueSource(strings = ["vOiㄷd", "pIㄷpp", "lo ll"])
@@ -88,17 +96,6 @@ class `11일차 테스트` {
 
             // 1번 인덱스 문자가 모음(o, i, o)이므로 자음 검사는 false
             assertThat(word.isConsonant(1)).isFalse()
-        }
-    }
-
-    companion object {
-        @JvmStatic
-        fun provideStrongBoxTestData(): List<Arguments> {
-            return listOf(
-                Arguments.of(KeyType.PADLOCK, "보물"),
-                Arguments.of(KeyType.BUTTON, 10000),
-                Arguments.of(KeyType.FINGER, 99.9)
-            )
         }
     }
 }
