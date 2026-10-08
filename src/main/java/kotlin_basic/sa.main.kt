@@ -13,7 +13,7 @@ package kotlin_basic
 */
 //함수로 특정 값을 조절하는것은 힘들어 보인다
 
-
+////
 class word(var word: String) {
     var hi = word.length
 
