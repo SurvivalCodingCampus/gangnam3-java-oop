@@ -1,3 +1,5 @@
+@file:Suppress("NonAsciiCharacters")
+
 package com.survivalcoding.kotlin_basic
 
 import org.junit.jupiter.api.Assertions.*
