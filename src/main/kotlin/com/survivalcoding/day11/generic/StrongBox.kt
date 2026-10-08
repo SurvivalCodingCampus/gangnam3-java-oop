@@ -9,9 +9,9 @@ enum class KeyType {
 
 class StrongBox<E>(
     data: E,
-    val key: KeyType,
+    key: KeyType,
 ) {
-    private val _requiredCount: Int = when (key) {
+    internal val _requiredCount: Int = when (key) {
         KeyType.PADLOCK -> 1_024
         KeyType.BUTTON -> 10_000
         KeyType.DIAL -> 30_000
@@ -19,7 +19,7 @@ class StrongBox<E>(
     }
 
     private val _data: E = data
-    private var _count: Int = 0
+    internal var _count: Int = 0
 
     fun get(): E? {
         if (_count < _requiredCount) {
