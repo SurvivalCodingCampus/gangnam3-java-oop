@@ -20,8 +20,7 @@ class `11일차 테스트` {
         @ParameterizedTest
         @EnumSource(KeyType::class)
         fun `시도횟수에 도달하지 않으면 null을 출력한다`(keytype: KeyType) {
-            val item = "보물"
-            val box = StrongBox(data = item, key = keytype)
+            val box = StrongBox(data = "보물", key = keytype)
 
             // 기본 반복 5
             val repeatCount = if (box._requiredCount < 5) {
