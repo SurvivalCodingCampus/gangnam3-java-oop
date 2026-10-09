@@ -74,4 +74,20 @@ class WordTest {
         // when & then
         assertEquals("d", d)
     }
+
+    @Test
+    fun `글자가 빈 상태로 생성하면 IllegalArgumentException 예외를 던진다`() {
+        // when & then
+        assertThrows(IllegalArgumentException::class.java) {
+            Word("")
+        }
+    }
+
+    @Test
+    fun `글자를 빈 상태로 변경하면 IllegalArgumentException 예외를 던진다`() {
+        // when & then
+        assertThrows(IllegalArgumentException::class.java) {
+            word.word = ""
+        }
+    }
 }
