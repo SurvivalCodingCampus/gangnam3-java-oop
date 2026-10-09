@@ -50,7 +50,7 @@ package "com.survivalcoding.day06_generic" {
     }
 
     class StrongBox<T : KeyType> {
-        + data: T?
+        - data: T?
         + count: Int
 
         + put(data: T?)

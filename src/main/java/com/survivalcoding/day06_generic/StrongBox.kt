@@ -1,6 +1,6 @@
 package com.survivalcoding.day06_generic
 
-class StrongBox<T : KeyType>(var data: T?) {
+class StrongBox<T : KeyType>(private var data: T?) {
 
     var count: Int = 0
         private set

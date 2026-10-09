@@ -2,7 +2,6 @@ package com.survivalcoding.day06_generic
 
 fun main() {
     val strongBox = StrongBox<KeyType>(KeyType.PADLOCK)
-    println(strongBox.data)
 
     repeat(KeyType.PADLOCK.limit) { _ ->
         val data = strongBox.get()
