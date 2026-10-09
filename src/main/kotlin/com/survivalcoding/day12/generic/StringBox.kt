@@ -1,4 +1,4 @@
-package com.survivalcoding.day11.generic
+package com.survivalcoding.day12.generic
 
 enum class KeyType {
     PADLOCK,

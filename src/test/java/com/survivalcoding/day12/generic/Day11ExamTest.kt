@@ -1,19 +1,18 @@
 @file:Suppress("NonAsciiCharacters")
 
-package com.survivalcoding.day11.generic
+package com.survivalcoding.day12.generic
 
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 import org.assertj.core.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 
-class `11일차 테스트` {
+class `12일차 테스트` {
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class `스트롱 박스 테스트` {
