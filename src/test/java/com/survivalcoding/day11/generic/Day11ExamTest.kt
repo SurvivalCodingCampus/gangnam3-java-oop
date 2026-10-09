@@ -38,7 +38,7 @@ class `11일차 테스트` {
 
         @ParameterizedTest
         @MethodSource("provideStrongBoxTestData")
-        fun <T> `시도횟수에 도달하면 data를 반환한다`(keyType: KeyType, item: T) {
+        fun <T : Any> `시도횟수에 도달하면 data를 반환한다`(keyType: KeyType, item: T) {
             val box = StrongBox(data = item, key = keyType)
             box._count = box._requiredCount
 
@@ -76,7 +76,6 @@ class `11일차 테스트` {
         fun `문자열에 모음이 없으면 isVowel은 false를 반환한다`(str: String) {
             val word = Word(str)
 
-            // 1번 인덱스 문자가 모음이 아니므로 false
             assertThat(word.isVowel(1)).isFalse()
         }
 
@@ -93,7 +92,6 @@ class `11일차 테스트` {
         fun `문자열에 모음이 없으면 isConsonant은 false를 반환한다`(str: String) {
             val word = Word(str)
 
-            // 1번 인덱스 문자가 모음(o, i, o)이므로 자음 검사는 false
             assertThat(word.isConsonant(1)).isFalse()
         }
     }

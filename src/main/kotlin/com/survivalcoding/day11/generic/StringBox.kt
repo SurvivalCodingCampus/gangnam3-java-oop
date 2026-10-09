@@ -7,8 +7,8 @@ enum class KeyType {
     FINGER,
 }
 
-class StrongBox<E>(
-    data: E,
+class StrongBox<T: Any>(
+    data: T,
     key: KeyType,
 ) {
     internal val _requiredCount: Int = when (key) {
@@ -19,9 +19,9 @@ class StrongBox<E>(
     }
 
     internal var _count: Int = 0
-    private val _data: E = data
+    private val _data: T = data
 
-    fun get(): E? {
+    fun get(): T? {
         if (_count < _requiredCount) {
             _count++
             return null
