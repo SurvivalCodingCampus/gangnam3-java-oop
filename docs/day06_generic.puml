@@ -64,6 +64,7 @@ package "com.survivalcoding.day06_generic" {
 
         + isVowel(i: Int): Boolean
         + isConsonant(i: Int): Boolean
+        - validateWord(word: String)
     }
 
     Asset <|-- TangibleAsset
