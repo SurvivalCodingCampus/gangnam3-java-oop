@@ -165,4 +165,17 @@ class ClericTest {
         // then
         assertEquals(beforeMp + recovered, cleric.mp)
     }
+
+    @Test
+    fun `기도 시간이 Int 최대값이어도 MAX_MP까지만 회복한다`() {
+        // given
+        val cleric = Cleric("세실", mp = 0)
+
+        // when
+        val recovered = cleric.pray(Int.MAX_VALUE)
+
+        // then
+        assertEquals(Cleric.MAX_MP, recovered)
+        assertEquals(Cleric.MAX_MP, cleric.mp)
+    }
 }
