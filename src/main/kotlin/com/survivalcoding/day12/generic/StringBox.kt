@@ -21,12 +21,5 @@ class StrongBox<T: Any>(
     internal var _count: Int = 0
     private val _data: T = data
 
-    fun get(): T? {
-        if (_count < _requiredCount) {
-            _count++
-            return null
-        }
-
-        return _data
-    }
+    fun get(): T? = if (_count++ < _requiredCount) null else _data
 }
