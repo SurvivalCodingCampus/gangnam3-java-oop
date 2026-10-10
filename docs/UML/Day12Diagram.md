@@ -10,7 +10,7 @@ classDiagram
 
     class StrongBox~T : Any~ {
         -_data : T [readonly]
-        ~_requiredCount : Int
+        ~_requiredCount : Int [readonly]
         ~_count : Int
         +get() _data : T?
     }
@@ -25,7 +25,7 @@ classDiagram
 
     class Companion {
         <<Companion>> 
-        - CharArray VOWELS*
+        - CharArray VOWELS* [readonly]
     }
 
 Word o-- Companion
