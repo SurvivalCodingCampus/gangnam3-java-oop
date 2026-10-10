@@ -25,7 +25,7 @@ classDiagram
 
     class Companion {
         <<Companion>> 
-        - CharArray VOWELS* [readonly]
+        - CharArray VOWELS [readonly] *
     }
 
 Word o-- Companion
