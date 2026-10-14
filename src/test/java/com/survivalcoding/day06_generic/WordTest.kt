@@ -90,4 +90,17 @@ class WordTest {
             word.word = ""
         }
     }
+
+    @Test
+    fun `word 변경 후 letter는 새 단어를 기준으로 동작한다`() {
+        // given
+        word.word = "Word"
+        val index = 0 // `W`ord
+
+        // when
+        val w = word.letter(index) // w
+
+        // then
+        assertEquals("w", w)
+    }
 }
