@@ -45,7 +45,7 @@ public class Book implements Comparable<Book>, Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        // 제목과 출간일이 같으면 같은 책
+        // 제목, 출간일, comment가 모두 같으면 같은 책
         if (this == obj) { // 같은 인스턴스
             return true;
         }
@@ -54,15 +54,17 @@ public class Book implements Comparable<Book>, Cloneable {
         }
         Book other = (Book) obj;
 
+        // LocalDate.equals는 연, 월, 일을 모두 비교
         return Objects.equals(title, other.title)
-                && Objects.equals(publishDate, other.publishDate);
+                && Objects.equals(publishDate, other.publishDate)
+                && Objects.equals(comment, other.comment);
     }
 
     @Override
     public int hashCode() {
         // equals랑 같은 기준으로 계산해야 Set, Map에서도 같은 책으로 판단
-        // Set, Map에 넣은 뒤에는 제목이나 출간일을 바꾸지 않기
-        return Objects.hash(title, publishDate);
+        // Set, Map에 넣은 뒤에는 제목, 출간일, comment를 바꾸지 않기
+        return Objects.hash(title, publishDate, comment);
     }
 
     @Override
@@ -79,7 +81,13 @@ public class Book implements Comparable<Book>, Cloneable {
 
         // 출간일이 같으면 제목순
         Comparator<String> titleOrder = Comparator.nullsFirst(Comparator.naturalOrder());
-        return titleOrder.compare(title, other.title);
+        result = titleOrder.compare(title, other.title);
+        if (result != 0) {
+            return result;
+        }
+
+        // 제목까지 같으면 comment로 구분
+        return titleOrder.compare(comment, other.comment);
     }
 
     @Override
