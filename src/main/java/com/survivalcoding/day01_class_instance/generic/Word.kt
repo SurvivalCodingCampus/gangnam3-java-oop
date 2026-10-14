@@ -3,7 +3,7 @@ package com.survivalcoding.day01_class_instance.generic
 class Word(var word: String) {
 
     fun isVowel(i: Int): Boolean {
-        return "aeiouAEIOU".contains(word.substring(i, i + 1))
+        return word[i] in "aeiouAEIOU"
     }
 
     fun isConsonant(i: Int) = !isVowel(i)
