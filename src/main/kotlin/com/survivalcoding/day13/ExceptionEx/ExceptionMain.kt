@@ -1,4 +1,4 @@
-package com.survivalcoding.day13
+package com.survivalcoding.day13.ExceptionEx
 
 fun main() {
     val numStr = "10.5"
