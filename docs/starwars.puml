@@ -1,5 +1,7 @@
 @startuml
 
+left to right direction
+
 ' ##### 개체 #####
 interface Entity
 
