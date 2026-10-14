@@ -24,38 +24,12 @@ package com.survivalcoding.day12_class_generic
 class Word(val word: String) {
     // 생성자의 val word는 객체가 보관하는 읽기 전용 프로퍼티이다.
     // 함수 매개변수 i도 함수 안에서 재할당할 수 없다. Int는 위치, Boolean은 판별 결과이다.
-
-    // 연습문제 1: i번째 글자가 모음인지 확인한다.
-    // word[i]는 한 글자를 Char로 가져온다. substring(i, i + 1)은 String을 반환하므로
-    // 한 글자만 판별하는 여기서는 인덱스로 바로 가져오는 편이 목적에 맞다.
-    // substring으로 한 글자짜리 중간 문자열을 만드는 단계도 생략할 수 있다.
-    // lowercaseChar()는 Char를 소문자 Char로 변환해 'A'와 'a'를 동일하게 판단한다.
-    // 기존 word의 내용은 바뀌지 않는다.
-    //
-    // ch in "aeiou"는 "aeiou".contains(ch)와 같은 포함 검사이다.
-    // ch == 'a' || ch == 'e' || ...처럼 다섯 조건을 나열하는 것보다
-    // 모음 후보를 한곳에 모아 보여 주므로 읽고 수정하기 쉽다.
-    // in의 주된 장점은 가독성이다. contains()보다 더 빠른 별도 연산은 아니다.
-    // 반환식이 하나라서 중괄호와 return 대신 '= 식' 형태의 함수로 작성한다.
     fun isVowel(i: Int): Boolean =
         word[i].lowercaseChar() in "aeiou"
 
     // 연습문제 2: 영어 알파벳이면서 모음이 아닌 글자를 자음으로 판단한다.
     fun isConsonant(i: Int): Boolean {
-        // ch는 이 호출에서 한 번 계산한 글자를 보관한다. 다시 대입하지 않으므로 val이다.
-        // 타입은 반환값에서 Char로 추론되므로 ': Char'를 생략할 수 있다.
-        // 소문자로 변환해 알파벳 범위 검사와 모음 검사에서 같은 값을 사용한다.
         val ch = word[i].lowercaseChar()
-
-        // 작은따옴표는 Char, 큰따옴표는 String이다.
-        // 'a'..'z'는 양 끝을 포함하는 문자 범위이고, in은 그 범위에 속하는지 확인한다.
-        // !in은 포함되지 않는지 확인하며 !"aeiou".contains(ch)와 같은 의미이다.
-        // &&는 두 조건이 모두 true일 때만 true이다.
-        // 왼쪽 조건이 false이면 오른쪽 조건을 평가하지 않는 단락 평가도 수행한다.
-        // 단순히 !isVowel(i)만 사용하면 숫자나 공백도 자음으로 오인하므로
-        // 영어 알파벳 범위부터 확인해야 한다.
-        // 이미 구한 ch를 재사용하면 isVowel(i)를 다시 호출할 때의
-        // 글자 읽기와 소문자 변환을 반복하지 않아도 된다.
         return ch in 'a'..'z' && ch !in "aeiou"
     }
 }
