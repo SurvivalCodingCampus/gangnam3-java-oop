@@ -43,9 +43,13 @@ tasks.withType(JavaCompile).configureEach {
 // 제외하지 않으면 부모 빌드가 그 프로젝트의 테스트 소스까지 main 소스로 컴파일해 빌드가 실패한다.
 sourceSets {
     main {
+        kotlin.srcDirs = ['src/main/KotlinMain/src']
         java {
             exclude 'com/survivalcoding/day12_abstract_interface/day12-asset/**'
         }
+    }
+    test {
+        kotlin.srcDirs = ['src/main/KotlinMain/test']
     }
 }
 
@@ -62,4 +66,12 @@ application {
         '--module-path', "${configurations.runtimeClasspath.files.collect { it.absolutePath }.join(File.pathSeparator)}",
         '--add-modules', 'javafx.controls,javafx.graphics,javafx.fxml,javafx.media'
     ]
+}
+
+tasks.register('runKotlinGame', JavaExec) {
+    group = 'application'
+    description = 'Runs the deterministic Kotlin console battle game.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.survivalcoding.day12kotlin.MainKt'
+    systemProperty 'file.encoding', 'UTF-8'
 }
