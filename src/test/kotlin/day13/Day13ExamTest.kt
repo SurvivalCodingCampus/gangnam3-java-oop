@@ -2,46 +2,57 @@
 
 package day13
 
-import com.survivalcoding.day13.FileEx.FileOperations
 import com.survivalcoding.day13.FileEx.FileCopier
+import com.survivalcoding.day13.FileEx.FileOperations
 import com.survivalcoding.day13.JsonEx.Department
 import com.survivalcoding.day13.JsonEx.Employee
 import kotlinx.serialization.json.Json
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.io.File
 import java.io.FileNotFoundException
-
+import kotlin.io.path.Path
+import kotlin.io.path.createDirectories
+import kotlin.io.path.deleteIfExists
+import kotlin.io.path.div
+import kotlin.io.path.notExists
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 
 class Day13ExamTest {
+    companion object {
+        // OS마다 경로 구분자가 다를 수 있음 Path를 사용하면 OS 맞게 구분자를 넣어줌
+        private val TestFolderPath = Path("src", "test", "resources", "FileTestFolder")
 
-    private val saveFolder = "src/test/resources/FileTestFolder/"
+        @BeforeAll
+        @JvmStatic
+        fun init() {
+            if (TestFolderPath.notExists()) {
+                TestFolderPath.createDirectories()
+            }
+        }
+    }
 
     @Nested
     inner class `파일 복사 테스트` {
         private val myCopier: FileOperations = FileCopier()
-        private val srcFile = File(saveFolder + "src.txt")
-        private val destFile = File(saveFolder + "dest.txt")
+        private val srcPath = TestFolderPath / "src.txt"
+        private val destPath = TestFolderPath / "dest.txt"
+        private val srcFile = srcPath.toFile()
+        private val destFile = destPath.toFile()
 
         // 테스트 메서드가 끝나면 지움
         @AfterEach
         fun tearDown() {
-
-            if (srcFile.exists()) {
-                srcFile.delete()
-            }
-
-            if (destFile.exists()) {
-                destFile.delete()
-            }
+            srcPath.deleteIfExists()
+            destPath.deleteIfExists()
         }
 
         @Test
         fun `원본 파일이 존재하지 않으면 예외가 발생한다`() {
-
             assertThatThrownBy { myCopier.copyFile(srcFile, destFile) }
                 .isInstanceOf(FileNotFoundException::class.java)
         }
@@ -49,13 +60,13 @@ class Day13ExamTest {
         @Test
         fun `원본 파일이 존재하면 복사한다`() {
 
-            srcFile.writeText("안녕")
+            srcPath.writeText("안녕")
 
-            val srcText = srcFile.readText()
+            val srcText = srcPath.readText()
 
             myCopier.copyFile(srcFile, destFile)
 
-            val destText = destFile.readText()
+            val destText = destPath.readText()
 
             assertThat(srcText).isEqualTo(destText)
         }
@@ -64,7 +75,7 @@ class Day13ExamTest {
     @Nested
     inner class `JSON 변환, 저장 테스트` {
 
-        private val companyFile = File(saveFolder + "company.json")
+        private val companyPath = TestFolderPath / "company.json"
 
         private val expectedDepartment = Department(
             name = "총무부",
@@ -74,30 +85,25 @@ class Day13ExamTest {
         // 테스트 메서드가 끝나면 지움
         @AfterEach
         fun tearDown() {
-
-            if (companyFile.exists()) {
-                companyFile.delete()
-            }
+            companyPath.deleteIfExists()
         }
 
         @Test
         fun `직렬화를 통해 JSON으로 저장한다`() {
-
             val jsonText = Json.encodeToString(expectedDepartment)
 
-            companyFile.writeText(jsonText)
-            val readText = companyFile.readText()
+            companyPath.writeText(jsonText)
+            val readText = companyPath.readText()
 
             assertThat(readText).isEqualTo(jsonText)
         }
 
         @Test
         fun `역직렬화를 통해 클래스로 변환이 가능하다`() {
-
             val jsonText = Json.encodeToString(expectedDepartment)
-            companyFile.writeText(jsonText)
+            companyPath.writeText(jsonText)
 
-            val readText = companyFile.readText()
+            val readText = companyPath.readText()
             val actualDepartment = Json.decodeFromString<Department>(readText)
 
             assertThat(actualDepartment).isEqualTo(expectedDepartment)
