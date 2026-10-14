@@ -12,8 +12,6 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -68,6 +66,11 @@ class Day13ExamTest {
 
         private val companyFile = File(saveFolder + "company.json")
 
+        private val expectedDepartment = Department(
+            name = "총무부",
+            leader = Employee(name = "홍길동", age = 41)
+        )
+
         // 테스트 메서드가 끝나면 지움
         @AfterEach
         fun tearDown() {
@@ -79,32 +82,25 @@ class Day13ExamTest {
 
         @Test
         fun `직렬화를 통해 JSON으로 저장한다`() {
-            val employee = Employee(name = "홍길동", age = 41)
-            val department = Department(name = "총무부", leader = employee)
 
-            val departmentJsonText = Json.encodeToString(department)
+            val jsonText = Json.encodeToString(expectedDepartment)
 
-            println(departmentJsonText)
-            companyFile.writeText(departmentJsonText)
+            companyFile.writeText(jsonText)
+            val readText = companyFile.readText()
 
-            val readDepartmentJsonText = companyFile.readText()
-
-            assertThat(departmentJsonText).isEqualTo(readDepartmentJsonText)
+            assertThat(readText).isEqualTo(jsonText)
         }
 
         @Test
         fun `역직렬화를 통해 클래스로 변환이 가능하다`() {
-            val employee = Employee(name = "홍길동", age = 41)
-            val department = Department(name = "총무부", leader = employee)
 
-            val departmentJsonText = Json.encodeToString(department)
-            companyFile.writeText(departmentJsonText)
+            val jsonText = Json.encodeToString(expectedDepartment)
+            companyFile.writeText(jsonText)
 
-            val readDepartmentJsonText = companyFile.readText()
+            val readText = companyFile.readText()
+            val actualDepartment = Json.decodeFromString<Department>(readText)
 
-            val readDepartment = Json.decodeFromString<Department>(readDepartmentJsonText)
-
-            assertThat(readDepartment).isEqualTo(department)
+            assertThat(actualDepartment).isEqualTo(expectedDepartment)
         }
     }
 }
