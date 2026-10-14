@@ -6,8 +6,7 @@ class Word(var word: String) {
         return "aeiouAEIOU".contains(word.substring(i, i + 1))
     }
 
-    fun isConsonant(i: Int): Boolean {
-        return !isVowel(i)
+    fun isConsonant(i: Int) = !isVowel(i)
     }
 }
 
