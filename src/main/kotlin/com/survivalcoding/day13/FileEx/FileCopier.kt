@@ -6,7 +6,7 @@ interface FileOperations {
     fun copyFile(source: File, destination: File)
 }
 
-class MyFileCopier: FileOperations {
+class FileCopier: FileOperations {
     override fun copyFile(source: File, destination: File) {
         val srcText = source.readText()
         destination.writeText(srcText)
