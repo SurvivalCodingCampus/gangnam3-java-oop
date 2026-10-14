@@ -21,7 +21,7 @@ fun main() {
 	println(json)
 	
 	// 파일 저장하기
-	val file = File("user.json")
+	val file = File("src/main/java/com/survivalcoding/kotlin_json/user.json")
 	file.writeText(json)
 	
 	// 역직렬화 : json을 객체로 읽어오기
