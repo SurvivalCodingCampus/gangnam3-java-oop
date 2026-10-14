@@ -25,4 +25,5 @@ tasks.withType<JavaCompile> {
 
 tasks.test {
     useJUnitPlatform()
+    systemProperty("file.encoding", "UTF-8")
 }
