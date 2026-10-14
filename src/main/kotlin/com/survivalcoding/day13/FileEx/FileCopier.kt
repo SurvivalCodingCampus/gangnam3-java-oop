@@ -8,7 +8,10 @@ interface FileOperations {
 
 class FileCopier: FileOperations {
     override fun copyFile(source: File, destination: File) {
-        val srcText = source.readText()
-        destination.writeText(srcText)
+        source.bufferedReader().use { reader ->
+            destination.bufferedWriter().use { writer ->
+                reader.copyTo(writer)
+            }
+        }
     }
 }
