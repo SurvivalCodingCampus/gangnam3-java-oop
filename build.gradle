@@ -15,6 +15,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.assertj:assertj-core:3.27.7'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // 데이터의 실제 크기를 확인할 수 있는 라이브러리
+    implementation("org.openjdk.jol:jol-core:0.16")
 }
 
 test {
