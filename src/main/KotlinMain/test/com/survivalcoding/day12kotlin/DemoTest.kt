@@ -1,5 +1,6 @@
 package com.survivalcoding.day12kotlin
 
+import com.survivalcoding.generic_enum_string.createDemoOutput
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
