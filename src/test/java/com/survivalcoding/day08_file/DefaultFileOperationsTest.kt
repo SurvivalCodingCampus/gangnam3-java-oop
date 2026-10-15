@@ -101,4 +101,29 @@ class DefaultFileOperationsTest {
         // then
         assertFalse(destination.exists())
     }
+
+    @Test
+    fun `원본과 대상이 같은 파일을 copyFile하면 IllegalArgumentException 예외를 던진다`() {
+        // given
+        source.writeText("Hello, world!")
+        destination = File("./test_source.txt")
+
+        // when & then
+        assertThrows(IllegalArgumentException::class.java) {
+            fileOperations.copyFile(source, destination)
+        }
+    }
+
+    @Test
+    fun `원본과 대상이 같은 파일을 copyFile해도 원본 파일의 내용은 변하지 않는다`() {
+        // given
+        source.writeText("Hello, world!")
+        destination = File("./test_source.txt")
+
+        // when
+        runCatching { fileOperations.copyFile(source, destination) }
+
+        // then
+        assertEquals("Hello, world!", source.readText())
+    }
 }
