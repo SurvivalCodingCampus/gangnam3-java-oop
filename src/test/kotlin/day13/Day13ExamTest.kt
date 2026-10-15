@@ -1,4 +1,4 @@
-@file:Suppress("NonAsciiCharacters")
+@file:Suppress("NonAsciiCharacters", "ClassName")
 
 package day13
 
