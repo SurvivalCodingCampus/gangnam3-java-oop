@@ -21,9 +21,6 @@ fun main() {
     } catch (e: NumberFormatException) {
         println(e.message)
         0
-    } catch (e: Exception) {
-        e.printStackTrace()
-        throw e
     }
 
     val num2 = numString.toIntOrNull() ?: 0
