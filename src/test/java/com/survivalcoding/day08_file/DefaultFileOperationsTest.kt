@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import java.io.FileNotFoundException
+import java.nio.file.Files
 
 @DisplayName("DefaultFileOperations 클래스 테스트")
 class DefaultFileOperationsTest {
@@ -115,6 +116,33 @@ class DefaultFileOperationsTest {
         // given
         source.writeText("Hello, world!")
         destination = File(tempDir, "./test_source.txt")
+
+        // when
+        runCatching { fileOperations.copyFile(source, destination) }
+
+        // then
+        assertEquals("Hello, world!", source.readText())
+    }
+
+    @Test
+    fun `하드 링크로 같은 파일을 가리키는 대상에 copyFile하면 IllegalArgumentException 예외를 던진다`() {
+        // given
+        source.writeText("Hello, world!")
+        destination = File(tempDir, "test_link.txt")
+        Files.createLink(destination.toPath(), source.toPath())
+
+        // when & then
+        assertThrows(IllegalArgumentException::class.java) {
+            fileOperations.copyFile(source, destination)
+        }
+    }
+
+    @Test
+    fun `하드 링크로 같은 파일을 가리키는 대상에 copyFile해도 원본 파일의 내용은 변하지 않는다`() {
+        // given
+        source.writeText("Hello, world!")
+        destination = File(tempDir, "test_link.txt")
+        Files.createLink(destination.toPath(), source.toPath())
 
         // when
         runCatching { fileOperations.copyFile(source, destination) }
