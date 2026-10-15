@@ -1,10 +1,10 @@
 package com.survivalcoding.day08_file
 
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -14,18 +14,14 @@ class DefaultFileOperationsTest {
     private lateinit var fileOperations: FileOperations
     private lateinit var source: File
     private lateinit var destination: File
+    private lateinit var tempDir: File
 
     @BeforeEach
-    fun setUp() {
+    fun setUp(@TempDir tempDir: File) {
+        this.tempDir = tempDir
         fileOperations = DefaultFileOperations()
-        source = File("test_source.txt")
-        destination = File("test_destination.txt")
-    }
-
-    @AfterEach
-    fun tearDown() {
-        source.delete()
-        destination.delete()
+        source = File(tempDir, "test_source.txt")
+        destination = File(tempDir, "test_destination.txt")
     }
 
     @Test
@@ -82,7 +78,7 @@ class DefaultFileOperationsTest {
     @Test
     fun `존재하지 않는 원본 파일을 copyFile하면 FileNotFoundException 예외를 던진다`() {
         // given
-        val unknown = File("unknown.txt")
+        val unknown = File(tempDir, "unknown.txt")
 
         // when & then
         assertThrows(FileNotFoundException::class.java) {
@@ -93,7 +89,7 @@ class DefaultFileOperationsTest {
     @Test
     fun `존재하지 않는 원본 파일을 copyFile하면 대상 파일은 생성되지 않는다`() {
         // given
-        val unknown = File("unknown.txt")
+        val unknown = File(tempDir, "unknown.txt")
 
         // when
         runCatching { fileOperations.copyFile(unknown, destination) }
@@ -106,7 +102,7 @@ class DefaultFileOperationsTest {
     fun `원본과 대상이 같은 파일을 copyFile하면 IllegalArgumentException 예외를 던진다`() {
         // given
         source.writeText("Hello, world!")
-        destination = File("./test_source.txt")
+        destination = File(tempDir, "./test_source.txt")
 
         // when & then
         assertThrows(IllegalArgumentException::class.java) {
@@ -118,7 +114,7 @@ class DefaultFileOperationsTest {
     fun `원본과 대상이 같은 파일을 copyFile해도 원본 파일의 내용은 변하지 않는다`() {
         // given
         source.writeText("Hello, world!")
-        destination = File("./test_source.txt")
+        destination = File(tempDir, "./test_source.txt")
 
         // when
         runCatching { fileOperations.copyFile(source, destination) }
