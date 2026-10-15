@@ -5,7 +5,7 @@ fun main() {
 
     val num: Int = try {
         numStr.toInt()
-    } catch (e: NumberFormatException) {
+    } catch (_: NumberFormatException) {
         0
     }
 
