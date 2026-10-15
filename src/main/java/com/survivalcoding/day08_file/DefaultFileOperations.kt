@@ -1,6 +1,7 @@
 package com.survivalcoding.day08_file
 
 import java.io.File
+import java.nio.file.Files
 
 class DefaultFileOperations : FileOperations {
 
@@ -13,7 +14,7 @@ class DefaultFileOperations : FileOperations {
         // source.copyTo(destination, overwrite = true)
 
         // Case 3
-        require(source.canonicalFile != destination.canonicalFile) {
+        require(!isSameFile(source, destination)) {
             "원본과 대상이 같은 파일입니다: ${source.path}"
         }
 
@@ -23,5 +24,10 @@ class DefaultFileOperations : FileOperations {
                 fis.copyTo(fos)
             }
         }
+    }
+
+    private fun isSameFile(source: File, destination: File): Boolean {
+        if (source.canonicalFile == destination.canonicalFile) return true
+        return source.exists() && destination.exists() && Files.isSameFile(source.toPath(), destination.toPath())
     }
 }
