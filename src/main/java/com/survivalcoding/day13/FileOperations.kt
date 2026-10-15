@@ -14,7 +14,7 @@ class DefaultFileOperations : FileOperations {
 
         try {
             text = source.readText()
-        } catch (error: FileNotFoundException) {
+        } catch (_: FileNotFoundException) {
             throw FileNotFoundException("원본 파일이 없습니다.")
         }
 
