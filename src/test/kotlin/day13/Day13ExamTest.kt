@@ -2,10 +2,10 @@
 
 package day13
 
-import com.survivalcoding.day13.FileEx.FileCopier
-import com.survivalcoding.day13.FileEx.FileOperations
-import com.survivalcoding.day13.JsonEx.Department
-import com.survivalcoding.day13.JsonEx.Employee
+import com.survivalcoding.day13.file.FileCopier
+import com.survivalcoding.day13.file.FileOperations
+import com.survivalcoding.day13.json.Department
+import com.survivalcoding.day13.json.Employee
 import kotlinx.serialization.json.Json
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy

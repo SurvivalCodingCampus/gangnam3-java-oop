@@ -1,4 +1,4 @@
-package com.survivalcoding.day13.FileEx
+package com.survivalcoding.day13.file
 
 import java.io.File
 
