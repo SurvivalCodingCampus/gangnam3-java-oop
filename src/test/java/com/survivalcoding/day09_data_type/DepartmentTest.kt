@@ -1,28 +1,22 @@
 package com.survivalcoding.day09_data_type
 
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
 @DisplayName("Department 직렬화 테스트")
 class DepartmentTest {
 
     private lateinit var department: Department
-    private lateinit var file: File
 
     @BeforeEach
     fun setUp() {
         department = Department("총무부", Employee("홍길동", 41))
-        file = File("test_company.json")
-    }
-
-    @AfterEach
-    fun tearDown() {
-        file.delete()
     }
 
     @Test
@@ -59,8 +53,9 @@ class DepartmentTest {
     }
 
     @Test
-    fun `직렬화한 JSON을 파일에 쓰고 다시 읽어 역직렬화하면 원래 객체와 같다`() {
+    fun `직렬화한 JSON을 파일에 쓰고 다시 읽어 역직렬화하면 원래 객체와 같다`(@TempDir tempDir: File) {
         // given
+        val file = File(tempDir, "test_company.json")
         val json = Json.encodeToString(department)
 
         // when
