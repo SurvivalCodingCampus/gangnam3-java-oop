@@ -22,8 +22,6 @@ fun main() {
         fileOperations.copyFile(File("unknown.txt"), destination)
     } catch (e: FileNotFoundException) {
         println(e.message)
-    } catch (e: NoSuchFileException) {
-        println(e.message)
     } catch (e: Exception) {
         e.printStackTrace()
     }
