@@ -108,5 +108,21 @@ class Day13ExamTest {
 
             assertThat(actualDepartment).isEqualTo(expectedDepartment)
         }
+
+        @Test
+        fun `Non-null 타입일 때 JSON에 null이 있으면 역직렬화에 실패한다`() {
+            val jsonText = """
+                {
+                    "name": "총무부",
+                    "leader": null
+                }
+            """.trimIndent()
+
+            companyPath.writeText(jsonText)
+            val readText = companyPath.readText()
+
+            assertThatThrownBy { Json.decodeFromString<Department>(readText) }
+                .isInstanceOf(kotlinx.serialization.SerializationException::class.java)
+        }
     }
 }
