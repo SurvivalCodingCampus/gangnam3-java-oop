@@ -27,14 +27,13 @@ fun main() {
 
     val num3 = numString.runCatching { toInt() }.getOrDefault(0)
 
-    val num4 = numString.runCatching { toInt() }
-        .onSuccess { it.toString() }
-        .onFailure { it.message }
-
     println(num)
     println(num2)
     println(num3)
-    println(num4)
+
+    numString.runCatching { toInt() }
+        .onSuccess { println(it) }
+        .onFailure { println(it.message) }
 }
 
 // 직접 처리하지 않고 호출자(main)로 처리를 미룸
