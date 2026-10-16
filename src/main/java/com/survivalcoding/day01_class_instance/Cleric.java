@@ -3,29 +3,43 @@ package com.survivalcoding.day01_class_instance;
 import java.util.Random;
 
 public class Cleric {
-    static final int MP_COST = 5;
+    private static final int MP_COST = 5;
 
-    final int maxHp = 50;
-    final int maxMp = 10;
+    public static final int maxHp = 50;
+    public static final int maxMp = 10;
 
-    String name;
-    int hp;
-    int mp;
+    private String name;
+    private int hp = maxHp;
+    private int mp = maxMp;
 
-    Cleric(String name, int hp, int mp) {
-        this(name, hp);
+    public Cleric(String name, int hp, int mp) {
+        this.name = name;
+        this.hp = hp;
         this.mp = mp;
     }
 
-    Cleric(String name, int hp) {
-        this(name);
+    public Cleric(String name, int hp) {
+        this.name = name;
         this.hp = hp;
     }
 
-    Cleric(String name) {
+    public Cleric(String name) {
         this.name = name;
-        this.hp = maxHp;
-        this.mp = maxMp;
+    }
+
+    public String getName() {
+        return name + " 천재";
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public void setMp(int mp) {
+        if (mp < 0) {
+            throw new IllegalArgumentException("mp 는 음수일 수 없다 " + mp);
+        }
+        this.mp = mp;
     }
 
     void selfAid() {
