@@ -1,4 +1,4 @@
-package com.survivalcoding.day14_extension
+package com.survivalcoding.day14_extension_lambda
 
 fun main() {
     val name = "홍길동"
