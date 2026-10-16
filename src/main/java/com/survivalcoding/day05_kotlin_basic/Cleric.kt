@@ -34,9 +34,9 @@ class Cleric(
         }
 
         val bonus = (0..2).random()
-        val recovery = seconds + bonus
+        val recovery = seconds.toLong() + bonus.toLong()
         val maxRecovery = MAX_MP - mp
-        val actualRecovery = minOf(recovery, maxRecovery)
+        val actualRecovery = minOf(recovery, maxRecovery.toLong()).toInt()
 
         mp += actualRecovery
 

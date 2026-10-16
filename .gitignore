@@ -43,3 +43,10 @@ bin/
 .DS_Store
 
 .idea/
+
+### Example files ###
+/save.txt
+/destination.txt
+/user.json
+/company.json
+/data.properties

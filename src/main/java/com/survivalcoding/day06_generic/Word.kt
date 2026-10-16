@@ -1,16 +1,16 @@
 package com.survivalcoding.day06_generic
 
-class Word(word: String) {
+class Word(_word: String) {
 
-    var word: String = word
+    init {
+        validateWord(_word)
+    }
+
+    var word: String = _word
         set(value) {
             validateWord(value)
             field = value
         }
-
-    init {
-        validateWord(word)
-    }
 
     val letter: (Int) -> String = { index ->
         val startIndex = index.coerceIn(0, word.lastIndex)
