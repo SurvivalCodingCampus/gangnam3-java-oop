@@ -1,0 +1,969 @@
+{
+  "collectionChartDataList": [
+    {
+      "collectionName": "collection1",
+      "collectionSalePrice": [
+        {
+          "price": 58.25,
+          "cvtDatetime": "2023-03-26T08:00:00"
+        },
+        {
+          "price": 58.50,
+          "cvtDatetime": "2023-03-26T08:00:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection2",
+      "collectionSalePrice": [
+        {
+          "price": 58.75,
+          "cvtDatetime": "2023-03-26T08:00:20"
+        },
+        {
+          "price": 59.00,
+          "cvtDatetime": "2023-03-26T08:00:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection3",
+      "collectionSalePrice": [
+        {
+          "price": 59.25,
+          "cvtDatetime": "2023-03-26T08:00:40"
+        },
+        {
+          "price": 59.50,
+          "cvtDatetime": "2023-03-26T08:00:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection4",
+      "collectionSalePrice": [
+        {
+          "price": 59.75,
+          "cvtDatetime": "2023-03-26T08:01:00"
+        },
+        {
+          "price": 60.00,
+          "cvtDatetime": "2023-03-26T08:01:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection5",
+      "collectionSalePrice": [
+        {
+          "price": 60.25,
+          "cvtDatetime": "2023-03-26T08:01:20"
+        },
+        {
+          "price": 60.50,
+          "cvtDatetime": "2023-03-26T08:01:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection6",
+      "collectionSalePrice": [
+        {
+          "price": 60.75,
+          "cvtDatetime": "2023-03-26T08:01:40"
+        },
+        {
+          "price": 61.00,
+          "cvtDatetime": "2023-03-26T08:01:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection7",
+      "collectionSalePrice": [
+        {
+          "price": 61.25,
+          "cvtDatetime": "2023-03-26T08:02:00"
+        },
+        {
+          "price": 61.50,
+          "cvtDatetime": "2023-03-26T08:02:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection8",
+      "collectionSalePrice": [
+        {
+          "price": 61.75,
+          "cvtDatetime": "2023-03-26T08:02:20"
+        },
+        {
+          "price": 62.00,
+          "cvtDatetime": "2023-03-26T08:02:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection9",
+      "collectionSalePrice": [
+        {
+          "price": 62.25,
+          "cvtDatetime": "2023-03-26T08:02:40"
+        },
+        {
+          "price": 62.50,
+          "cvtDatetime": "2023-03-26T08:02:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection10",
+      "collectionSalePrice": [
+        {
+          "price": 62.75,
+          "cvtDatetime": "2023-03-26T08:03:00"
+        },
+        {
+          "price": 63.00,
+          "cvtDatetime": "2023-03-26T08:03:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection11",
+      "collectionSalePrice": [
+        {
+          "price": 63.25,
+          "cvtDatetime": "2023-03-26T08:03:20"
+        },
+        {
+          "price": 63.50,
+          "cvtDatetime": "2023-03-26T08:03:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection12",
+      "collectionSalePrice": [
+        {
+          "price": 63.75,
+          "cvtDatetime": "2023-03-26T08:03:40"
+        },
+        {
+          "price": 64.00,
+          "cvtDatetime": "2023-03-26T08:03:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection13",
+      "collectionSalePrice": [
+        {
+          "price": 64.25,
+          "cvtDatetime": "2023-03-26T08:04:00"
+        },
+        {
+          "price": 64.50,
+          "cvtDatetime": "2023-03-26T08:04:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection14",
+      "collectionSalePrice": [
+        {
+          "price": 64.75,
+          "cvtDatetime": "2023-03-26T08:04:20"
+        },
+        {
+          "price": 65.00,
+          "cvtDatetime": "2023-03-26T08:04:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection15",
+      "collectionSalePrice": [
+        {
+          "price": 65.25,
+          "cvtDatetime": "2023-03-26T08:04:40"
+        },
+        {
+          "price": 65.50,
+          "cvtDatetime": "2023-03-26T08:04:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection16",
+      "collectionSalePrice": [
+        {
+          "price": 65.75,
+          "cvtDatetime": "2023-03-26T08:05:00"
+        },
+        {
+          "price": 66.00,
+          "cvtDatetime": "2023-03-26T08:05:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection17",
+      "collectionSalePrice": [
+        {
+          "price": 66.25,
+          "cvtDatetime": "2023-03-26T08:05:20"
+        },
+        {
+          "price": 66.50,
+          "cvtDatetime": "2023-03-26T08:05:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection18",
+      "collectionSalePrice": [
+        {
+          "price": 66.75,
+          "cvtDatetime": "2023-03-26T08:05:40"
+        },
+        {
+          "price": 67.00,
+          "cvtDatetime": "2023-03-26T08:05:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection19",
+      "collectionSalePrice": [
+        {
+          "price": 67.25,
+          "cvtDatetime": "2023-03-26T08:06:00"
+        },
+        {
+          "price": 67.50,
+          "cvtDatetime": "2023-03-26T08:06:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection20",
+      "collectionSalePrice": [
+        {
+          "price": 67.75,
+          "cvtDatetime": "2023-03-26T08:06:20"
+        },
+        {
+          "price": 68.00,
+          "cvtDatetime": "2023-03-26T08:06:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection21",
+      "collectionSalePrice": [
+        {
+          "price": 68.25,
+          "cvtDatetime": "2023-03-26T08:06:40"
+        },
+        {
+          "price": 68.50,
+          "cvtDatetime": "2023-03-26T08:06:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection22",
+      "collectionSalePrice": [
+        {
+          "price": 68.75,
+          "cvtDatetime": "2023-03-26T08:07:00"
+        },
+        {
+          "price": 69.00,
+          "cvtDatetime": "2023-03-26T08:07:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection23",
+      "collectionSalePrice": [
+        {
+          "price": 69.25,
+          "cvtDatetime": "2023-03-26T08:07:20"
+        },
+        {
+          "price": 69.50,
+          "cvtDatetime": "2023-03-26T08:07:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection24",
+      "collectionSalePrice": [
+        {
+          "price": 69.75,
+          "cvtDatetime": "2023-03-26T08:07:40"
+        },
+        {
+          "price": 70.00,
+          "cvtDatetime": "2023-03-26T08:07:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection25",
+      "collectionSalePrice": [
+        {
+          "price": 70.25,
+          "cvtDatetime": "2023-03-26T08:08:00"
+        },
+        {
+          "price": 70.50,
+          "cvtDatetime": "2023-03-26T08:08:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection26",
+      "collectionSalePrice": [
+        {
+          "price": 70.75,
+          "cvtDatetime": "2023-03-26T08:08:20"
+        },
+        {
+          "price": 71.00,
+          "cvtDatetime": "2023-03-26T08:08:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection27",
+      "collectionSalePrice": [
+        {
+          "price": 71.25,
+          "cvtDatetime": "2023-03-26T08:08:40"
+        },
+        {
+          "price": 71.50,
+          "cvtDatetime": "2023-03-26T08:08:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection28",
+      "collectionSalePrice": [
+        {
+          "price": 71.75,
+          "cvtDatetime": "2023-03-26T08:09:00"
+        },
+        {
+          "price": 72.00,
+          "cvtDatetime": "2023-03-26T08:09:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection29",
+      "collectionSalePrice": [
+        {
+          "price": 72.25,
+          "cvtDatetime": "2023-03-26T08:09:20"
+        },
+        {
+          "price": 72.50,
+          "cvtDatetime": "2023-03-26T08:09:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection30",
+      "collectionSalePrice": [
+        {
+          "price": 72.75,
+          "cvtDatetime": "2023-03-26T08:09:40"
+        },
+        {
+          "price": 73.00,
+          "cvtDatetime": "2023-03-26T08:09:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection31",
+      "collectionSalePrice": [
+        {
+          "price": 73.25,
+          "cvtDatetime": "2023-03-26T08:10:00"
+        },
+        {
+          "price": 73.50,
+          "cvtDatetime": "2023-03-26T08:10:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection32",
+      "collectionSalePrice": [
+        {
+          "price": 73.75,
+          "cvtDatetime": "2023-03-26T08:10:20"
+        },
+        {
+          "price": 74.00,
+          "cvtDatetime": "2023-03-26T08:10:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection33",
+      "collectionSalePrice": [
+        {
+          "price": 74.25,
+          "cvtDatetime": "2023-03-26T08:10:40"
+        },
+        {
+          "price": 74.50,
+          "cvtDatetime": "2023-03-26T08:10:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection34",
+      "collectionSalePrice": [
+        {
+          "price": 74.75,
+          "cvtDatetime": "2023-03-26T08:11:00"
+        },
+        {
+          "price": 75.00,
+          "cvtDatetime": "2023-03-26T08:11:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection35",
+      "collectionSalePrice": [
+        {
+          "price": 75.25,
+          "cvtDatetime": "2023-03-26T08:11:20"
+        },
+        {
+          "price": 75.50,
+          "cvtDatetime": "2023-03-26T08:11:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection36",
+      "collectionSalePrice": [
+        {
+          "price": 75.75,
+          "cvtDatetime": "2023-03-26T08:11:40"
+        },
+        {
+          "price": 76.00,
+          "cvtDatetime": "2023-03-26T08:11:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection37",
+      "collectionSalePrice": [
+        {
+          "price": 76.25,
+          "cvtDatetime": "2023-03-26T08:12:00"
+        },
+        {
+          "price": 76.50,
+          "cvtDatetime": "2023-03-26T08:12:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection38",
+      "collectionSalePrice": [
+        {
+          "price": 76.75,
+          "cvtDatetime": "2023-03-26T08:12:20"
+        },
+        {
+          "price": 77.00,
+          "cvtDatetime": "2023-03-26T08:12:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection39",
+      "collectionSalePrice": [
+        {
+          "price": 77.25,
+          "cvtDatetime": "2023-03-26T08:12:40"
+        },
+        {
+          "price": 77.50,
+          "cvtDatetime": "2023-03-26T08:12:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection40",
+      "collectionSalePrice": [
+        {
+          "price": 77.75,
+          "cvtDatetime": "2023-03-26T08:13:00"
+        },
+        {
+          "price": 78.00,
+          "cvtDatetime": "2023-03-26T08:13:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection41",
+      "collectionSalePrice": [
+        {
+          "price": 78.25,
+          "cvtDatetime": "2023-03-26T08:13:20"
+        },
+        {
+          "price": 78.50,
+          "cvtDatetime": "2023-03-26T08:13:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection42",
+      "collectionSalePrice": [
+        {
+          "price": 78.75,
+          "cvtDatetime": "2023-03-26T08:13:40"
+        },
+        {
+          "price": 79.00,
+          "cvtDatetime": "2023-03-26T08:13:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection43",
+      "collectionSalePrice": [
+        {
+          "price": 79.25,
+          "cvtDatetime": "2023-03-26T08:14:00"
+        },
+        {
+          "price": 79.50,
+          "cvtDatetime": "2023-03-26T08:14:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection44",
+      "collectionSalePrice": [
+        {
+          "price": 79.75,
+          "cvtDatetime": "2023-03-26T08:14:20"
+        },
+        {
+          "price": 80.00,
+          "cvtDatetime": "2023-03-26T08:14:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection45",
+      "collectionSalePrice": [
+        {
+          "price": 80.25,
+          "cvtDatetime": "2023-03-26T08:14:40"
+        },
+        {
+          "price": 80.50,
+          "cvtDatetime": "2023-03-26T08:14:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection46",
+      "collectionSalePrice": [
+        {
+          "price": 80.75,
+          "cvtDatetime": "2023-03-26T08:15:00"
+        },
+        {
+          "price": 81.00,
+          "cvtDatetime": "2023-03-26T08:15:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection47",
+      "collectionSalePrice": [
+        {
+          "price": 81.25,
+          "cvtDatetime": "2023-03-26T08:15:20"
+        },
+        {
+          "price": 81.50,
+          "cvtDatetime": "2023-03-26T08:15:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection48",
+      "collectionSalePrice": [
+        {
+          "price": 81.75,
+          "cvtDatetime": "2023-03-26T08:15:40"
+        },
+        {
+          "price": 82.00,
+          "cvtDatetime": "2023-03-26T08:15:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection49",
+      "collectionSalePrice": [
+        {
+          "price": 82.25,
+          "cvtDatetime": "2023-03-26T08:16:00"
+        },
+        {
+          "price": 82.50,
+          "cvtDatetime": "2023-03-26T08:16:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection50",
+      "collectionSalePrice": [
+        {
+          "price": 82.75,
+          "cvtDatetime": "2023-03-26T08:16:20"
+        },
+        {
+          "price": 83.00,
+          "cvtDatetime": "2023-03-26T08:16:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection51",
+      "collectionSalePrice": [
+        {
+          "price": 83.25,
+          "cvtDatetime": "2023-03-26T08:16:40"
+        },
+        {
+          "price": 83.50,
+          "cvtDatetime": "2023-03-26T08:16:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection52",
+      "collectionSalePrice": [
+        {
+          "price": 83.75,
+          "cvtDatetime": "2023-03-26T08:17:00"
+        },
+        {
+          "price": 84.00,
+          "cvtDatetime": "2023-03-26T08:17:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection53",
+      "collectionSalePrice": [
+        {
+          "price": 84.25,
+          "cvtDatetime": "2023-03-26T08:17:20"
+        },
+        {
+          "price": 84.50,
+          "cvtDatetime": "2023-03-26T08:17:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection54",
+      "collectionSalePrice": [
+        {
+          "price": 84.75,
+          "cvtDatetime": "2023-03-26T08:17:40"
+        },
+        {
+          "price": 85.00,
+          "cvtDatetime": "2023-03-26T08:17:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection55",
+      "collectionSalePrice": [
+        {
+          "price": 85.25,
+          "cvtDatetime": "2023-03-26T08:18:00"
+        },
+        {
+          "price": 85.50,
+          "cvtDatetime": "2023-03-26T08:18:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection56",
+      "collectionSalePrice": [
+        {
+          "price": 85.75,
+          "cvtDatetime": "2023-03-26T08:18:20"
+        },
+        {
+          "price": 86.00,
+          "cvtDatetime": "2023-03-26T08:18:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection57",
+      "collectionSalePrice": [
+        {
+          "price": 86.25,
+          "cvtDatetime": "2023-03-26T08:18:40"
+        },
+        {
+          "price": 86.50,
+          "cvtDatetime": "2023-03-26T08:18:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection58",
+      "collectionSalePrice": [
+        {
+          "price": 86.75,
+          "cvtDatetime": "2023-03-26T08:19:00"
+        },
+        {
+          "price": 87.00,
+          "cvtDatetime": "2023-03-26T08:19:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection59",
+      "collectionSalePrice": [
+        {
+          "price": 87.25,
+          "cvtDatetime": "2023-03-26T08:19:20"
+        },
+        {
+          "price": 87.50,
+          "cvtDatetime": "2023-03-26T08:19:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection60",
+      "collectionSalePrice": [
+        {
+          "price": 87.75,
+          "cvtDatetime": "2023-03-26T08:19:40"
+        },
+        {
+          "price": 88.00,
+          "cvtDatetime": "2023-03-26T08:19:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection61",
+      "collectionSalePrice": [
+        {
+          "price": 88.25,
+          "cvtDatetime": "2023-03-26T08:20:00"
+        },
+        {
+          "price": 88.50,
+          "cvtDatetime": "2023-03-26T08:20:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection62",
+      "collectionSalePrice": [
+        {
+          "price": 88.75,
+          "cvtDatetime": "2023-03-26T08:20:20"
+        },
+        {
+          "price": 89.00,
+          "cvtDatetime": "2023-03-26T08:20:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection63",
+      "collectionSalePrice": [
+        {
+          "price": 89.25,
+          "cvtDatetime": "2023-03-26T08:20:40"
+        },
+        {
+          "price": 89.50,
+          "cvtDatetime": "2023-03-26T08:20:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection64",
+      "collectionSalePrice": [
+        {
+          "price": 89.75,
+          "cvtDatetime": "2023-03-26T08:21:00"
+        },
+        {
+          "price": 90.00,
+          "cvtDatetime": "2023-03-26T08:21:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection65",
+      "collectionSalePrice": [
+        {
+          "price": 90.25,
+          "cvtDatetime": "2023-03-26T08:21:20"
+        },
+        {
+          "price": 90.50,
+          "cvtDatetime": "2023-03-26T08:21:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection66",
+      "collectionSalePrice": [
+        {
+          "price": 90.75,
+          "cvtDatetime": "2023-03-26T08:21:40"
+        },
+        {
+          "price": 91.00,
+          "cvtDatetime": "2023-03-26T08:21:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection67",
+      "collectionSalePrice": [
+        {
+          "price": 91.25,
+          "cvtDatetime": "2023-03-26T08:22:00"
+        },
+        {
+          "price": 91.50,
+          "cvtDatetime": "2023-03-26T08:22:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection68"
+    },
+    {
+      "collectionName": "collection69",
+      "collectionSalePrice": [
+        {
+          "price": 92.25,
+          "cvtDatetime": "2023-03-26T08:22:40"
+        },
+        {
+          "price": 92.50,
+          "cvtDatetime": "2023-03-26T08:22:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection70",
+      "collectionSalePrice": [
+        {
+          "price": 92.75,
+          "cvtDatetime": "2023-03-26T08:23:00"
+        },
+        {
+          "price": 93.00,
+          "cvtDatetime": "2023-03-26T08:23:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection71",
+      "collectionSalePrice": [
+        {
+          "price": 93.25,
+          "cvtDatetime": "2023-03-26T08:23:20"
+        },
+        {
+          "price": 93.50,
+          "cvtDatetime": "2023-03-26T08:23:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection72",
+      "collectionSalePrice": [
+        {
+          "price": 93.75,
+          "cvtDatetime": "2023-03-26T08:23:40"
+        },
+        {
+          "price": 94.00,
+          "cvtDatetime": "2023-03-26T08:23:50"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection73",
+      "collectionSalePrice": [
+        {
+          "price": 94.25,
+          "cvtDatetime": "2023-03-26T08:24:00"
+        },
+        {
+          "price": 94.50,
+          "cvtDatetime": "2023-03-26T08:24:10"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection74",
+      "collectionSalePrice": [
+        {
+          "price": 94.75,
+          "cvtDatetime": "2023-03-26T08:24:20"
+        },
+        {
+          "price": 95.00,
+          "cvtDatetime": "2023-03-26T08:24:30"
+        }
+      ]
+    },
+    {
+      "collectionName": "collection75",
+      "collectionSalePrice": [
+        {
+          "price": 95.25,
+          "cvtDatetime": "2023-03-26T08:24:40"
+        },
+        {
+          "price": 95.50,
+          "cvtDatetime": "2023-03-26T08:24:50"
+        }
+      ]
+    }
+  ]
+}
