@@ -1,4 +1,15 @@
-package com.survivalcoding.day12kotlin
+package com.survivalcoding.generic_enum_string
+
+import com.survivalcoding.day12kotlin.AdvancedMonster
+import com.survivalcoding.day12kotlin.Attackable
+import com.survivalcoding.day12kotlin.BattleGame
+import com.survivalcoding.day12kotlin.BattleLog
+import com.survivalcoding.day12kotlin.Flyableimport com.survivalcoding.day12kotlin.Hero
+import com.survivalcoding.day12kotlin.MagicCaster
+import com.survivalcoding.day12kotlin.Monster
+import com.survivalcoding.day12kotlin.SpiderMan
+import com.survivalcoding.day12kotlin.Wizard
+import com.survivalcoding.day12kotlin.Zombie
 
 fun createDemoOutput(): List<String> {
     val hero = Hero("용사", hp = 80)
