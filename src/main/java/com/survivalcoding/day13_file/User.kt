@@ -1,4 +1,4 @@
-package com.survivalcoding.day13
+package com.survivalcoding.day13_file
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

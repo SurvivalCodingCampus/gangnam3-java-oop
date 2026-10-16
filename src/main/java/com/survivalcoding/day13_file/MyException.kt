@@ -1,4 +1,4 @@
-package com.survivalcoding.day13
+package com.survivalcoding.day13_file
 
 class MyException(message: String): Exception(message) {
 
