@@ -8,9 +8,10 @@ interface FileOperations {
 
 class FileCopier: FileOperations {
     override fun copyFile(source: File, destination: File) {
-        source.bufferedReader().use { br ->
-            destination.bufferedWriter().use { bw ->
-                br.copyTo(bw)
+
+        source.inputStream().buffered().use { bis ->
+            destination.outputStream().buffered().use { bos ->
+                bis.copyTo(bos)
             }
         }
     }
