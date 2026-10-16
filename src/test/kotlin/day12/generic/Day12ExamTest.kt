@@ -1,7 +1,10 @@
 @file:Suppress("NonAsciiCharacters")
 
-package com.survivalcoding.day12.generic
+package day12.generic
 
+import com.survivalcoding.day12.generic.KeyType
+import com.survivalcoding.day12.generic.StrongBox
+import com.survivalcoding.day12.generic.Word
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
