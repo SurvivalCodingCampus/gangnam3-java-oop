@@ -38,7 +38,7 @@ class Day13ExamTest {
 
     @Nested
     inner class `파일 복사 테스트` {
-        private val myCopier: FileOperations = FileCopier()
+        private val fileOperations: FileOperations = FileCopier()
         private val srcPath = TestFolderPath / "src.txt"
         private val destPath = TestFolderPath / "dest.txt"
         private val srcFile = srcPath.toFile()
@@ -53,7 +53,7 @@ class Day13ExamTest {
 
         @Test
         fun `원본 파일이 존재하지 않으면 예외가 발생한다`() {
-            assertThatThrownBy { myCopier.copyFile(srcFile, destFile) }
+            assertThatThrownBy { fileOperations.copyFile(srcFile, destFile) }
                 .isInstanceOf(FileNotFoundException::class.java)
         }
 
@@ -64,7 +64,7 @@ class Day13ExamTest {
 
             val srcText = srcPath.readText()
 
-            myCopier.copyFile(srcFile, destFile)
+            fileOperations.copyFile(srcFile, destFile)
 
             val destText = destPath.readText()
 
