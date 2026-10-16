@@ -16,12 +16,14 @@ fun main() {
     // 연습문제
     val numString = "10.5"
 
-    val num: Int = try {
-        numString.toInt()
-    } catch (e: NumberFormatException) {
-        println(e.message)
-        0
-    }
+//    val num: Int = try {
+//        numString.toInt()
+//    } catch (e: NumberFormatException) {
+//        println(e.message)
+//        0
+//    }
+
+    val num = numString.toInt()
 
     val num2 = numString.toIntOrNull() ?: 0
 
