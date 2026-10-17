@@ -152,18 +152,23 @@ fun main() {
 
     // 케임브리지에서 근무하는 모든 거래자를 찾아서 이름순으로 정렬하여 나열한다.
     transactions.filter { it.trader.city == "Cambridge" }
-        .sortedBy { it.trader.name }
-        .forEach { println(it.trader) }
+        .map { it.trader }
+        .distinct()
+        .sortedBy { it.name }
+        .forEach(::println)
 
     // 모든 거래자의 이름을 알파벳순으로 정렬하여 나열
-    transactions.sortedBy { it.trader.name }
-        .forEach { println(it.trader.name) }
+    transactions.map { it.trader.name }
+        .distinct()
+        .sortedBy { it }
+        .forEach(::println)
 
     // 밀라노에 거래자가 있는가?
     println(transactions.any { it.trader.city == "Milan" })
 
     // 케임브리지에 거주하는 거래자의 모든 트랙잭션 값을 출력
     transactions.filter { it.trader.city == "Cambridge" }
+        .map { it.value }
         .forEach(::println)
 
     // 전체 트랜잭션 중 (가격) 최대값은 얼마인가?
