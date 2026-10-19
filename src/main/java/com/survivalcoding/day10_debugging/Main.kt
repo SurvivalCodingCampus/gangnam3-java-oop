@@ -1,7 +1,6 @@
 package com.survivalcoding.day10_debugging
 
 import kotlinx.serialization.json.Json
-import java.io.File
 
 fun main() {
     // val heroes = mutableListOf<Hero>()
@@ -27,9 +26,14 @@ fun main() {
     // println("===============")
 
     // 연습문제 1
-    val chartFile =
-        File("src/main/java/com/survivalcoding/day10_debugging/chart_data.json")
-    val chartObject = Json.decodeFromString<Chart>(chartFile.readText())
+    // val chartFile = File("src/main/resources/chart_data.json")
+
+    val chartFile = ClassLoader.getSystemResourceAsStream("chart_data.json")
+        ?.bufferedReader()
+        ?.use { it.readText() }
+        ?: error("파일을 찾지 못했습니다")
+
+    val chartObject = Json.decodeFromString<Chart>(chartFile)
 
     chartObject.collectionChartDataList.forEach(::println)
 }
