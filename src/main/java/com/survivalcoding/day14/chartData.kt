@@ -11,7 +11,7 @@ data class CollectionSalePrice{
 @Serializable
 data class CollectionChartData(
     val colletionName: String,
-    val collectionSalePrice: List<CollectionSalePrice>
+    val collectionSalePrice: List<CollectionSalePrice>? = null
     )
 )
 
