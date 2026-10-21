@@ -11,7 +11,7 @@ data class Employee(
 )
 
 @Serializable
-data class Department (
+data class Department(
     var name: String,
     var leader: Employee
 )
@@ -38,9 +38,9 @@ fun main() {
 
     // 역직렬화
     val loadUser: Department = Json.decodeFromString<Department>(loadJson)
-    println(loadDepartment)
+    println(loadUser)
 
-    println(department == loadDepartment)
-    println(departmemt === loadDepartment)
+    println(department == loadUser)
+    println(department === loadUser)
 
 }

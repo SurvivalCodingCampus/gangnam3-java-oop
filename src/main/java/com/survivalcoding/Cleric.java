@@ -8,7 +8,7 @@ public class Cleric {
     private static final int SELF_AID_COST = 5;
 
     private final String name;
-    private final int mp = MAX_MP;
+    private int mp = MAX_MP;
     private int hp = MAX_HP;
 
     public Cleric(String name, int hp, int mp) {
@@ -68,7 +68,7 @@ public class Cleric {
 
         int bonus = new Random().nextInt(3);
         int recovery = seconds + bonus;
-        int maxRecovery = MAX_MP = mp;
+        int maxRecovery = MAX_MP + mp;
         int actualRecovery = Math.min(recovery, maxRecovery);
 
         mp += actualRecovery;

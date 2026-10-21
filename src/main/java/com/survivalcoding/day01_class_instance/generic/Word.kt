@@ -7,7 +7,6 @@ class Word(var word: String) {
     }
 
     fun isConsonant(i: Int) = !isVowel(i)
-    }
 }
 
 fun main() {

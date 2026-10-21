@@ -1,4 +1,4 @@
-package com.survivalcoding.day01_class_instance;
+package com.survivalcoding;
 
 public class Hero {
     // 필드(field), 멤버변수(member variable),속성(property), 전역변수,
@@ -16,7 +16,7 @@ public class Hero {
 
     void sit(int sec) {
         this.hp += sec;
-        System.out.println(this.name + "는 " + sed + "초 앉았다");
+        System.out.println(this.name + "는 " + sec + "초 앉았다");
     }
 
     void slip() {
