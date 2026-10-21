@@ -4,49 +4,45 @@ import com.sun.management.ThreadMXBean
 import com.survivalcoding.day15.model.StockListing
 import java.lang.management.ManagementFactory
 import kotlin.io.path.Path
-import kotlin.io.path.bufferedReader
-import kotlin.io.path.fileSize
 import kotlin.io.path.readLines
-import kotlin.io.path.useLines
 import kotlin.system.measureTimeMillis
 
-//useLines 실행 시간 (100회 총합): 10ms
-//while 문 실행 시간 (100회 총합): 11ms
-//buildList 실행 시간 (100회 총합): 7ms
+//readLines + map 실행 시간 (100회 총합): 10ms
+//readLines + for 루프 실행 시간 (100회 총합): 9ms
+//readLines + buildList 실행 시간 (100회 총합): 8ms
 //----------------------------------------
-//useLines 메모리 사용량: 2905 KB
-//while 문 메모리 사용량: 2689 KB
-//buildList 메모리 사용량: 2683 KB
-
+//readLines + map 메모리 사용량: 2892 KB
+//readLines + for 루프 메모리 사용량: 2680 KB
+//readLines + buildList 메모리 사용량: 2683 KB
 fun main() {
     try {
         val iterations = 100 // 100번 반복 측정
 
         // 1. JIT 컴파일러 예열 (Warm-up)
         repeat(10) {
-            loadUsingUseLines()
-            loadUsingWhileLoop()
+            loadUsingReadLinesMap()
+            loadUsingReadLinesForLoop()
             loadUsingBuildList()
         }
 
-        // 2. useLines (Sequence 기반) 측정
-        val useLinesMemory = measureMemoryUsage {
-            val useLinesTime = measureTimeMillis {
+        // 2. readLines + map 방식 측정
+        val mapMemory = measureMemoryUsage {
+            val mapTime = measureTimeMillis {
                 repeat(iterations) {
-                    loadUsingUseLines()
+                    loadUsingReadLinesMap()
                 }
             }
-            println("useLines 실행 시간 (${iterations}회 총합): ${useLinesTime}ms")
+            println("readLines + map 실행 시간 (${iterations}회 총합): ${mapTime}ms")
         }
 
-        // 3. while 문 (초기 용량 + 원시 제어) 측정
-        val whileLoopMemory = measureMemoryUsage {
-            val whileLoopTime = measureTimeMillis {
+        // 3. readLines + for 루프 (초기 용량 ArrayList) 방식 측정
+        val forLoopMemory = measureMemoryUsage {
+            val forLoopTime = measureTimeMillis {
                 repeat(iterations) {
-                    loadUsingWhileLoop()
+                    loadUsingReadLinesForLoop()
                 }
             }
-            println("while 문 실행 시간 (${iterations}회 총합): ${whileLoopTime}ms")
+            println("readLines + for 루프 실행 시간 (${iterations}회 총합): ${forLoopTime}ms")
         }
 
         // 4. readLines + buildList 방식 측정
@@ -56,69 +52,60 @@ fun main() {
                     loadUsingBuildList()
                 }
             }
-            println("buildList 실행 시간 (${iterations}회 총합): ${buildListTime}ms")
+            println("readLines + buildList 실행 시간 (${iterations}회 총합): ${buildListTime}ms")
         }
 
         println("----------------------------------------")
-        println("useLines 메모리 사용량: ${useLinesMemory} KB")
-        println("while 문 메모리 사용량: ${whileLoopMemory} KB")
-        println("buildList 메모리 사용량: ${buildListMemory} KB")
+        println("readLines + map 메모리 사용량: ${mapMemory} KB")
+        println("readLines + for 루프 메모리 사용량: ${forLoopMemory} KB")
+        println("readLines + buildList 메모리 사용량: ${buildListMemory} KB")
 
     } catch (e: Exception) {
         e.printStackTrace()
     }
 }
 
-// --- 비교 대상 1: useLines 방식 ---
-private fun loadUsingUseLines(): List<StockListing> {
+// --- 비교 대상 1: readLines + map 방식 ---
+private fun loadUsingReadLinesMap(): List<StockListing> {
     val path = Path("src/main/resources/todo_data.json")
-    return path.useLines { lines ->
-        lines.drop(1)
-            .filter { it.isNotBlank() }
-            .map { row ->
-                val fields = row.split(',')
-                StockListing(
-                    symbol = fields[0],
-                    name = fields[1],
-                    exchange = fields[2],
-                    assetType = fields[3],
-                    ipoData = fields[4],
-                    status = fields[5],
-                )
-            }
-            .toList()
+    val rows = path.readLines().drop(1)
+
+    return rows.map { row ->
+        val fields = row.split(',')
+        StockListing(
+            symbol = fields[0],
+            name = fields[1],
+            exchange = fields[2],
+            assetType = fields[3],
+            ipoData = fields[4],
+            status = fields[5],
+        )
     }
 }
 
-// --- 비교 대상 2: while 문 + 초기 용량 방식 ---
-private fun loadUsingWhileLoop(): List<StockListing> {
+// --- 비교 대상 2: readLines + for 루프 (초기 용량 지정) 방식 ---
+private fun loadUsingReadLinesForLoop(): List<StockListing> {
     val path = Path("src/main/resources/todo_data.json")
-    val fileSize = path.fileSize()
-    if (fileSize == 0L) return emptyList()
+    val rawRows = path.readLines()
+    if (rawRows.isEmpty()) return emptyList()
 
-    val estimatedSize = (fileSize / 64).toInt().coerceAtLeast(10)
-    val stockListings = ArrayList<StockListing>(estimatedSize)
+    val rows = rawRows.drop(1)
+    val stockListings = ArrayList<StockListing>(rows.size)
 
-    path.bufferedReader().use { reader ->
-        val firstLine = reader.readLine() ?: return emptyList()
+    for (row in rows) {
+        if (row.isBlank()) continue
+        val fields = row.split(',')
 
-        while (true) {
-            val line = reader.readLine() ?: break
-            if (line.isBlank()) continue
-
-            val fields = line.split(',')
-
-            stockListings.add(
-                StockListing(
-                    symbol = fields[0],
-                    name = fields[1],
-                    exchange = fields[2],
-                    assetType = fields[3],
-                    ipoData = fields[4],
-                    status = fields[5],
-                )
+        stockListings.add(
+            StockListing(
+                symbol = fields[0],
+                name = fields[1],
+                exchange = fields[2],
+                assetType = fields[3],
+                ipoData = fields[4],
+                status = fields[5],
             )
-        }
+        )
     }
 
     return stockListings
@@ -128,10 +115,11 @@ private fun loadUsingWhileLoop(): List<StockListing> {
 private fun loadUsingBuildList(): List<StockListing> {
     val path = Path("src/main/resources/todo_data.json")
     val rawRows = path.readLines()
-    val rows = rawRows.drop(1).dropLast(1)
+    val rows = rawRows.drop(1)
 
     return buildList(rows.size) {
         rows.forEach { row ->
+            if (row.isBlank()) return@forEach
             val fields = row.split(',')
 
             add(
@@ -149,7 +137,6 @@ private fun loadUsingBuildList(): List<StockListing> {
 }
 
 private fun measureMemoryUsage(block: () -> Unit): Long {
-    // com.sun.management.ThreadMXBean으로 캐스팅하여 확장 기능을 사용합니다.
     val threadMXBean = ManagementFactory.getThreadMXBean() as ThreadMXBean
 
     if (!threadMXBean.isThreadAllocatedMemorySupported) {
