@@ -4,7 +4,7 @@ import com.survivalcoding.day15.datasource.StockDataSource
 import com.survivalcoding.day15.model.StockListing
 import kotlin.io.path.Path
 import kotlin.io.path.bufferedReader
-import kotlin.io.path.readLines
+import kotlin.io.path.fileSize
 
 class CsvStockDataSource : StockDataSource {
     private val path = Path("src/main/resources/listing_status.csv")
@@ -16,7 +16,14 @@ class CsvStockDataSource : StockDataSource {
      * @return 파싱된 [StockListing] 객체들의 불변 리스트 (파일이 비어있을 경우 빈 리스트 반환)
      */
     override fun loadStockListings(): List<StockListing> {
-        val stockListings = mutableListOf<StockListing>()
+
+        val fileSize = path.fileSize()
+
+        // 파일 크기를 바탕으로 대략적인 행 개수 추정
+        val estimatedSize = (fileSize / 64).toInt()
+
+        // 초기 용량을 미리 할당한 ArrayList 생성
+        val stockListings: MutableList<StockListing> = ArrayList(estimatedSize)
 
         path.bufferedReader().use { reader ->
             val firstLine = reader.readLine()
