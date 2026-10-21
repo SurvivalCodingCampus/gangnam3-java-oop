@@ -10,13 +10,13 @@ import kotlin.io.path.readLines
 import kotlin.io.path.useLines
 import kotlin.system.measureTimeMillis
 
-//useLines 실행 시간 (100회 총합): 12ms
-//while 문 실행 시간 (100회 총합): 13ms
-//buildList 실행 시간 (100회 총합): 9ms
+//useLines 실행 시간 (100회 총합): 10ms
+//while 문 실행 시간 (100회 총합): 11ms
+//buildList 실행 시간 (100회 총합): 7ms
 //----------------------------------------
-//useLines 메모리 사용량: 5149 KB
-//while 문 메모리 사용량: 2911 KB
-//buildList 메모리 사용량: 2839 KB
+//useLines 메모리 사용량: 2905 KB
+//while 문 메모리 사용량: 2689 KB
+//buildList 메모리 사용량: 2683 KB
 
 fun main() {
     try {
