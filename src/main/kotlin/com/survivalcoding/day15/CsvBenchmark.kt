@@ -1,6 +1,8 @@
 package com.survivalcoding.day15
 
+import com.sun.management.ThreadMXBean
 import com.survivalcoding.day15.model.StockListing
+import java.lang.management.ManagementFactory
 import kotlin.io.path.Path
 import kotlin.io.path.bufferedReader
 import kotlin.io.path.fileSize
@@ -147,10 +149,20 @@ private fun loadUsingBuildList(): List<StockListing> {
 }
 
 private fun measureMemoryUsage(block: () -> Unit): Long {
-    val runtime = Runtime.getRuntime()
+    // com.sun.management.ThreadMXBean으로 캐스팅하여 확장 기능을 사용합니다.
+    val threadMXBean = ManagementFactory.getThreadMXBean() as ThreadMXBean
+
+    if (!threadMXBean.isThreadAllocatedMemorySupported) {
+        println("Thread allocated memory tracking is not supported.")
+        return -1
+    }
+
     System.gc()
-    val before = runtime.totalMemory() - runtime.freeMemory()
+    Thread.sleep(50)
+
+    val before = threadMXBean.getCurrentThreadAllocatedBytes()
     block()
-    val after = runtime.totalMemory() - runtime.freeMemory()
+    val after = threadMXBean.getCurrentThreadAllocatedBytes()
+
     return (after - before) / 1024
 }
