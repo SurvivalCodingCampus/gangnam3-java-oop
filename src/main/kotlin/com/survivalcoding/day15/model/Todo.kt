@@ -3,7 +3,7 @@ package com.survivalcoding.day15.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Todo(
+data class Todo(
     val userId: Long,
     val id: Long,
     val title: String,
