@@ -22,7 +22,7 @@ class FileTodoDataSource : TodoDataSource {
     }
 
     override fun saveTodos(todos: List<Todo>) {
-        val jsonText = Json.encodeToString(Todo)
+        val jsonText = Json.encodeToString(todos)
         file.writeText(jsonText)
     }
 }
