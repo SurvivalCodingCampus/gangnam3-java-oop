@@ -8,6 +8,6 @@ fun main() {
 
     dataSource
         .loadStockListings()
-        .take(5)
+//        .take(5)
         .forEach(::println)
 }

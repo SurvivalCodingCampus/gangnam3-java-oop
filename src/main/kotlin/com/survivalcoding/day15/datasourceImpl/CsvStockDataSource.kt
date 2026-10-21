@@ -3,6 +3,7 @@ package com.survivalcoding.day15.datasourceImpl
 import com.survivalcoding.day15.datasource.StockDataSource
 import com.survivalcoding.day15.model.StockListing
 import kotlin.io.path.Path
+import kotlin.io.path.bufferedReader
 import kotlin.io.path.readLines
 
 class CsvStockDataSource : StockDataSource {
@@ -15,23 +16,27 @@ class CsvStockDataSource : StockDataSource {
      * @return 파싱된 [StockListing] 객체들의 불변 리스트 (파일이 비어있을 경우 빈 리스트 반환)
      */
     override fun loadStockListings(): List<StockListing> {
-        val rawRows: List<String> = path.readLines()
+        val stockListings = mutableListOf<StockListing>()
 
-        if (rawRows.isEmpty()) {
-            return emptyList()
-        }
+        path.bufferedReader().use { reader ->
+            val firstLine = reader.readLine()
 
-        val rows = if (rawRows.last().isBlank()) {
-            rawRows.drop(1).dropLast(1)
-        } else {
-            rawRows.drop(1)
-        }
+            // 빈파일이다
+            if (firstLine == null) {
+                return emptyList()
+            }
 
-        val stockList = buildList(rows.size) {
-            rows.forEach { row ->
-                val fields = row.split(',')
+            while (true) {
+                val line = reader.readLine()
 
-                add(
+                // EOF
+                if (line == null) {
+                    break
+                }
+
+                val fields = line.split(',')
+
+                stockListings.add(
                     StockListing(
                         symbol = fields[0],
                         name = fields[1],
@@ -44,6 +49,6 @@ class CsvStockDataSource : StockDataSource {
             }
         }
 
-        return stockList
+        return stockListings
     }
 }
