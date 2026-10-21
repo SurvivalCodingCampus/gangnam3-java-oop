@@ -18,7 +18,7 @@ fun main() {
 
     println("// 1. 2011년에 일어난 모든 트랜잭션을 찾아 가격 기준 오름차순으로 정리하여 이름을 나열하시오\n")
 
-    val exam1Result: List<String> = transactions.filter { it.year == 2011 }
+    val exam1Result = transactions.filter { it.year == 2011 }
         .sortedBy { it.value }
         .map { it.trader.name }
     println(exam1Result)
