@@ -6,5 +6,8 @@ import com.survivalcoding.day15.datasourceImpl.CsvStockDataSource
 fun main() {
     val dataSource: StockDataSource = CsvStockDataSource()
 
-    dataSource.loadStockListings().take(5).forEach(::println)
+    dataSource
+        .loadStockListings()
+        .take(5)
+        .forEach(::println)
 }

@@ -4,29 +4,44 @@ import com.survivalcoding.day15.datasource.StockDataSource
 import com.survivalcoding.day15.model.StockListing
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
-import kotlin.io.path.readText
 
 class CsvStockDataSource : StockDataSource {
     private val path = Path("src/main/resources/listing_status.csv")
 
+    /**
+     * 파일 경로에서 CSV 데이터를 읽어와 주식 목록([StockListing]) 리스트로 변환한다
+     * 항상 첫 번째 줄(헤더)을 제외한다
+     *
+     * @return 파싱된 [StockListing] 객체들의 불변 리스트 (파일이 비어있을 경우 빈 리스트 반환)
+     */
     override fun loadStockListings(): List<StockListing> {
-        val rows: List<String> = path.readLines()
+        val rawRows: List<String> = path.readLines()
 
-        val stockList = mutableListOf<StockListing>()
+        if (rawRows.isEmpty()) {
+            return emptyList()
+        }
 
-        for (row in rows.drop(1).dropLast(1)) {
-            val fields = row.split(',')
+        val rows = if (rawRows.last().isBlank()) {
+            rawRows.drop(1).dropLast(1)
+        } else {
+            rawRows.drop(1)
+        }
 
-            stockList.add(
-                StockListing(
-                    symbol = fields[0],
-                    name = fields[1],
-                    exchange = fields[2],
-                    assetType = fields[3],
-                    ipoData = fields[4],
-                    status = fields[5],
+        val stockList = buildList(rows.size) {
+            rows.forEach { row ->
+                val fields = row.split(',')
+
+                add(
+                    StockListing(
+                        symbol = fields[0],
+                        name = fields[1],
+                        exchange = fields[2],
+                        assetType = fields[3],
+                        ipoData = fields[4],
+                        status = fields[5],
+                    )
                 )
-            )
+            }
         }
 
         return stockList
