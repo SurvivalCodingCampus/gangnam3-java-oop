@@ -19,8 +19,8 @@ class CsvStockDataSource : StockDataSource {
 
         val fileSize = path.fileSize()
 
-        // 파일 크기를 바탕으로 대략적인 행 개수 추정
-        val estimatedSize = (fileSize / 64).toInt()
+        // 파일 크기를 바탕으로 대략적인 행 개수 추정 (최소 10개)
+        val estimatedSize = (fileSize / 64).toInt().coerceAtLeast(10)
 
         // 초기 용량을 미리 할당한 ArrayList 생성
         val stockListings: MutableList<StockListing> = ArrayList(estimatedSize)
