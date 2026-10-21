@@ -5,10 +5,9 @@ import com.survivalcoding.day15.datasourceImpl.FileTodoDataSource
 import com.survivalcoding.day15.model.Todo
 
 fun main() {
-    // TODO: 학생 구현체 인스턴스 생성
     val dataSource: TodoDataSource = FileTodoDataSource()
 
-    // 1. 저장할 더미 Todo 데이터 (JSONPlaceholder 규격 샘플)
+    // 1. 저장할 더미
     val sampleTodos = listOf(
         Todo(userId = 1L, id = 1L, title = "파일 입출력 과제 제출하기", completed = false),
         Todo(userId = 1L, id = 2L, title = "JSON 직렬화 개념 복습", completed = true),
