@@ -25,6 +25,50 @@ class CsvStockDataSource : StockDataSource {
         // 초기 용량을 미리 할당한 ArrayList 생성
         val stockListings: MutableList<StockListing> = ArrayList(estimatedSize)
 
+//        ver 1
+//
+//        val rows = if (rawRows.last().isBlank()) {
+//            rawRows.drop(1).dropLast(1)
+//        } else {
+//            rawRows.drop(1)
+//        }
+//        return buildList(rows.size) {
+//            rows.forEach { row ->
+//                val fields = row.split(',')
+//
+//                add(
+//                    StockListing(
+//                        symbol = fields[0],
+//                        name = fields[1],
+//                        exchange = fields[2],
+//                        assetType = fields[3],
+//                        ipoData = fields[4],
+//                        status = fields[5],
+//                    )
+//                )
+//            }
+//        }
+
+//        ver 2
+//
+//        path.useLines { lines ->
+//            lines.drop(1)
+//                .filter { it.isNotBlank() }
+//                .map { row ->
+//                    val fields = row.split(',')
+//
+//                    StockListing(
+//                        symbol = fields[0],
+//                        name = fields[1],
+//                        exchange = fields[2],
+//                        assetType = fields[3],
+//                        ipoData = fields[4],
+//                        status = fields[5],
+//                    )
+//                }
+//                .toList()
+//        }
+
         path.bufferedReader().use { reader ->
             val firstLine = reader.readLine()
 
