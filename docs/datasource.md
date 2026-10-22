@@ -1,44 +1,6 @@
 # DataSource 작성 원칙
 
-`day15/data_source` 의 `ItemDataSource` / `FileItemDataSource` 를 기준으로 정리한, 새로운 DataSource 를 만들 때 지켜야 할 규칙이다.
-(`TodoDataSource` / `FileTodoDataSource`, `StockDataSource` / `CsvStockDataSource` 도 같은 구조를 따른다.)
-
-## 0. 기준 코드
-
-```kotlin
-// 인터페이스: "무엇을" 하는지만 정의한다
-interface ItemDataSource {
-    fun loadItems(): List<Item>
-    fun saveItems(items: List<Item>)
-}
-
-// 구현체: "어떻게" 하는지는 전부 여기 숨긴다
-class FileItemDataSource : ItemDataSource {
-    private val file = File("items.json")
-
-    override fun loadItems(): List<Item> {
-        if (!file.exists()) return emptyList()
-        val jsonText = file.readText()
-        if (jsonText.isBlank()) return emptyList()
-        return Json.decodeFromString<List<Item>>(jsonText)
-    }
-
-    override fun saveItems(items: List<Item>) {
-        file.writeText(Json.encodeToString(items))
-    }
-}
-
-// 사용하는 쪽: 인터페이스 타입으로만 받는다
-val dataSource: ItemDataSource = FileItemDataSource()
-```
-
-구조는 항상 세 덩어리다.
-
-| 역할 | 위치 | 예시 |
-|---|---|---|
-| 모델 | `model/` | `Item`, `Todo`, `StockListing` |
-| 인터페이스 | `data_source/` | `ItemDataSource` |
-| 구현체 | `data_source/` | `FileItemDataSource` |
+`day15/data_source` 의 `ItemDataSource` / `FileItemDataSource` 를 기준으로 정리한, 새로운 DataSource 를 만들 때 지켜야 할 필수 원칙이다.
 
 ---
 
@@ -60,19 +22,6 @@ val dataSource: ItemDataSource = FileItemDataSource()
 | 로컬 파일(CSV) | `Csv` | `CsvStockDataSource` |
 | 원격 API | `Remote` 또는 `Api` | `RemoteItemDataSource` |
 | 데이터베이스 | `Db` 또는 구체 제품명 | `DbItemDataSource`, `SqliteItemDataSource` |
-| 메모리(테스트, 임시) | `InMemory` 또는 `Fake` | `InMemoryItemDataSource` |
-
-### 메서드: `load<복수모델명>()` / `save<복수모델명>()`
-
-- 읽기는 `load`, 쓰기는 `save` 로 통일한다. 복수형을 쓴다.
-- `loadItems()`, `saveItems(items)`, `loadStockListings()`
-- `readFile()`, `parseJson()`, `fetch()`, `query()` 같은 **기술이 드러나는 동사는 인터페이스 메서드명으로 쓰지 않는다.**
-
-### 패키지 / 파일
-
-- 인터페이스와 구현체는 같은 `data_source` 패키지에 둔다.
-- 파일 하나에 클래스 하나. 파일명은 클래스명과 같게 한다.
-- 구현체 파일 안에 테스트용 `main()` 을 두지 않는다. (실행 진입점은 `Main.kt` 로 분리한다.)
 
 ---
 
@@ -122,12 +71,6 @@ interface ItemDataSource {
   val dataSource = FileItemDataSource()                   // X (구현체에 묶임)
   ```
 
-### 확인 방법
-
-구현체를 `FileItemDataSource` 에서 `RemoteItemDataSource` 로 바꿨을 때
-**`Main.kt` 에서 생성자 한 줄 외에 바뀌는 코드가 없어야 한다.**
-한 줄 이상 바뀐다면 인터페이스에 기술 세부사항이 새어 나온 것이다.
-
 ---
 
 ## 3. 반환 타입 원칙
@@ -161,36 +104,12 @@ fun loadItems(): List<Item>
 
 ### 반환 전 정제 규칙
 
-구현체는 **파싱 → 모델 변환 → 정제** 를 마친 뒤 반환한다. `CsvStockDataSource` 가 좋은 예다.
+구현체는 **파싱 → 모델 변환 → 정제** 를 마친 뒤 반환한다.
 
 1. 데이터가 없으면 예외 대신 **빈 컬렉션** 을 돌려준다. (`emptyList()`)
-   파일이 없거나, 내용이 비었거나, 응답이 비었을 때 모두 동일하게 처리한다.
-2. 헤더 줄, 빈 줄 등 데이터가 아닌 것은 구현체 안에서 제거한다. (`drop(1)`, `filter { it.isNotBlank() }`)
+2. 헤더 줄, 빈 줄 등 데이터가 아닌 것은 구현체 안에서 제거한다.
 3. 공백 제거(`trim()`), 타입 변환(`toInt()`, `toLong()`) 은 모델에 넣기 전에 끝낸다.
 4. 내부에서 `mutableListOf` 로 모았더라도 반환 타입은 `List` 로 선언한다.
-
-```kotlin
-override fun loadStockListings(): List<StockListing> {
-    if (!file.exists()) return emptyList()
-    val csvText = file.readText()
-    if (csvText.isBlank()) return emptyList()
-
-    return csvText.split("\n")
-        .drop(1)                        // 헤더 제거
-        .filter { it.isNotBlank() }     // 빈 줄 제거
-        .map { line ->
-            val parts = line.split(",")
-            StockListing(
-                symbol = parts[0].trim(),
-                name = parts[1].trim(),
-                exchange = parts[2].trim(),
-                assetType = parts[3].trim(),
-                ipoDate = parts[4].trim(),
-                status = parts[6].trim(),
-            )
-        }
-}
-```
 
 ---
 
@@ -231,34 +150,7 @@ interface ItemDataSource {
 }
 ```
 
-### 4-2. 파일 구현체 (현재 기준)
-
-```kotlin
-// data_source/FileItemDataSource.kt
-package com.survivalcoding.day15.data_source
-
-import com.survivalcoding.day15.model.Item
-import kotlinx.serialization.json.Json
-import java.io.File
-
-class FileItemDataSource(
-    private val file: File = File("items.json"),
-) : ItemDataSource {
-
-    override fun loadItems(): List<Item> {
-        if (!file.exists()) return emptyList()
-        val jsonText = file.readText()
-        if (jsonText.isBlank()) return emptyList()
-        return Json.decodeFromString<List<Item>>(jsonText)
-    }
-
-    override fun saveItems(items: List<Item>) {
-        file.writeText(Json.encodeToString(items))
-    }
-}
-```
-
-### 4-3. Remote API 구현체
+### 4-2. Remote API 구현체
 
 JDK 11 에 내장된 `java.net.http.HttpClient` 를 사용한다. 추가 의존성이 필요 없다.
 
@@ -309,7 +201,7 @@ class RemoteItemDataSource(
 }
 ```
 
-### 4-4. DB 구현체
+### 4-3. DB 구현체
 
 JDBC 예시다. (SQLite 를 쓰려면 `build.gradle.kts` 에 `org.xerial:sqlite-jdbc` 의존성을 추가한다.)
 
@@ -384,32 +276,7 @@ class DbItemDataSource(
 }
 ```
 
-### 4-5. 메모리 구현체 (테스트용)
-
-실제 파일이나 서버 없이 사용처 로직을 확인할 때 쓴다.
-
-```kotlin
-// data_source/InMemoryItemDataSource.kt
-package com.survivalcoding.day15.data_source
-
-import com.survivalcoding.day15.model.Item
-
-class InMemoryItemDataSource(
-    initial: List<Item> = emptyList(),
-) : ItemDataSource {
-
-    private val items = initial.toMutableList()
-
-    override fun loadItems(): List<Item> = items.toList()   // 복사본을 돌려준다
-
-    override fun saveItems(items: List<Item>) {
-        this.items.clear()
-        this.items.addAll(items)
-    }
-}
-```
-
-### 4-6. 사용처
+### 4-4. 사용처
 
 구현체를 바꿔도 **첫 줄만 바뀐다.**
 
@@ -418,7 +285,6 @@ fun main() {
     val dataSource: ItemDataSource = FileItemDataSource()
     // val dataSource: ItemDataSource = RemoteItemDataSource("https://example.com/api")
     // val dataSource: ItemDataSource = DbItemDataSource()
-    // val dataSource: ItemDataSource = InMemoryItemDataSource()
 
     dataSource.saveItems(
         listOf(
@@ -430,20 +296,3 @@ fun main() {
     dataSource.loadItems().forEach(::println)
 }
 ```
-
----
-
-## 5. 체크리스트
-
-새 DataSource 를 커밋하기 전에 확인한다.
-
-- [ ] 인터페이스 이름이 `<모델명>DataSource` 인가
-- [ ] 구현체 이름이 `<기술명><모델명>DataSource` 인가
-- [ ] 메서드 이름이 `load<복수모델명>` / `save<복수모델명>` 인가
-- [ ] 인터페이스 파일의 import 가 `model` 패키지만인가
-- [ ] 인터페이스 시그니처에 `File`, `String`(원본), `Json`, `Connection`, `HttpClient` 등이 없는가
-- [ ] 반환 타입이 `List<모델>` 또는 `모델?` 인가 (`MutableList` 아님)
-- [ ] 데이터가 없을 때 예외 대신 `emptyList()` 를 돌려주는가
-- [ ] 파일명, URL, 테이블명 등 설정값이 `private val` 또는 생성자 파라미터인가
-- [ ] 구현체 파일에 테스트용 `main()` 이 없는가
-- [ ] 사용처가 `val ds: XxxDataSource = ...` 로 인터페이스 타입으로 선언했는가
