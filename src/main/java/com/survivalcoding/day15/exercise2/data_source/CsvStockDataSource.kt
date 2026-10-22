@@ -15,11 +15,29 @@ class CsvStockDataSource : StockDataSource {
         if (csvText.isBlank()) {
             return emptyList()
         }
+
         val lines = csvText.split("\n")
             .drop(1)
             .filter { it.isNotBlank() }
 
-        return emptyList()
+        val result = ListOf<StockListing>()
+
+        for (line in lines) {
+            val parts = line.split(",")
+
+            val stock = StockListing(
+                symbol = parts[0].trim(),
+                name = parts[1].trim(),
+                exchange = parts[2].trim(),
+                assetType = parts[3].trim(),
+                ipoDate = parts[4].trim(),
+                status = parts[6].trim(),
+            )
+
+            result.add(stock)
+        }
+
+        return result
     }
 }
 
