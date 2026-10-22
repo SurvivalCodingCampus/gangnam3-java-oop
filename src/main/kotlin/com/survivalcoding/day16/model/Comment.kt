@@ -1,4 +1,4 @@
-package com.survivalcoding.day15.model
+package com.survivalcoding.day16.model
 
 import kotlinx.serialization.Serializable
 

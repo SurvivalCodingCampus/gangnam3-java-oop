@@ -1,6 +1,6 @@
 package com.survivalcoding.day16.datasource.inter
 
-import com.survivalcoding.day15.model.Comment
+import com.survivalcoding.day16.model.Comment
 
 interface CommentDataSource {
     fun loadComments(): List<Comment>
