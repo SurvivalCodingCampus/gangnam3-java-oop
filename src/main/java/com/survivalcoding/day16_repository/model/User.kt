@@ -3,7 +3,7 @@ package com.survivalcoding.day16_repository.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Comment(
+data class User(
     val postId: Int,
     val id: String,
     val name: String,

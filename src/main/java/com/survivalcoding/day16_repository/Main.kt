@@ -1,29 +1,29 @@
 package com.survivalcoding.day16_repository
 
-import com.survivalcoding.day16_repository.data_source.FileCommentDataSource
-import com.survivalcoding.day16_repository.model.Comment
-import com.survivalcoding.day16_repository.repository.CommentRepository
-import com.survivalcoding.day16_repository.repository.CommentRepositoryImpl
+import com.survivalcoding.day16_repository.data_source.FileUserDataSource
+import com.survivalcoding.day16_repository.model.User
+import com.survivalcoding.day16_repository.repository.UserRepository
+import com.survivalcoding.day16_repository.repository.UserRepositoryImpl
 
 fun main() {
-    val dataSource = FileCommentDataSource()
-    dataSource.saveComments(
+    val dataSource = FileUserDataSource()
+    dataSource.saveUsers(
         listOf(
-            Comment(
+            User(
                 postId = 1,
                 id = "1",
                 name = "id labore ex et quam laborum",
                 email = "Eliseo@gardner.biz",
                 body = "laudantium enim quasi est quidem\nmagnam voluptate ipsam eos"
             ),
-            Comment(
+            User(
                 postId = 1,
                 id = "2",
                 name = "quo vero reiciendis velit similique earum",
                 email = "Jayne_Kuhic@sydney.com",
                 body = "est natus enim nihil est dolore omnis voluptatem numquam"
             ),
-            Comment(
+            User(
                 postId = 2,
                 id = "6",
                 name = "et fugit eligendi deleniti quidem qui sint nihil autem",
@@ -33,10 +33,10 @@ fun main() {
         )
     )
 
-    val repository: CommentRepository = CommentRepositoryImpl(dataSource)
+    val repository: UserRepository = UserRepositoryImpl(dataSource)
 
     println("=== postId 1 댓글 ===")
-    repository.getComments(1).forEach { comment ->
+    repository.getUsers(1).forEach { comment ->
         println("- [ID: ${comment.id}] ${comment.name} (${comment.email})")
     }
 }

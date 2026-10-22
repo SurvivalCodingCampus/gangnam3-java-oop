@@ -1,15 +1,15 @@
 package com.survivalcoding.day16_repository.data_source
 
-import com.survivalcoding.day16_repository.model.Comment
+import com.survivalcoding.day16_repository.model.User
 import java.io.File
 
-class FileCommentDataSource(
-    private val filePath: String = "comments.txt"
-) : CommentDataSource {
+class FileUserDataSource(
+    private val filePath: String = "users.txt"
+) : UserDataSource {
 
     private val separator = "\t"
 
-    override fun loadComments(): List<Comment> {
+    override fun loadUsers(): List<User> {
         val file = File(filePath)
         if (!file.exists()) return emptyList()
 
@@ -17,7 +17,7 @@ class FileCommentDataSource(
             .filter { it.isNotBlank() }
             .map { line ->
                 val parts = line.split(separator)
-                Comment(
+                User(
                     postId = parts[0].toInt(),
                     id = parts[1],
                     name = parts[2],
@@ -27,7 +27,7 @@ class FileCommentDataSource(
             }
     }
 
-    override fun saveComments(comments: List<Comment>) {
+    override fun saveUsers(comments: List<User>) {
         val lines = comments.map { comment ->
             listOf(
                 comment.postId.toString(),
