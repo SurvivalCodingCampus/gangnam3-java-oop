@@ -67,7 +67,7 @@ fun main() {
 
 // --- 비교 대상 1: readLines + map 방식 ---
 private fun loadUsingReadLinesMap(): List<StockListing> {
-    val path = Path("src/main/resources/todo_data.json")
+    val path = Path("src/main/resources/listing_status.csv")
     val rows = path.readLines().drop(1)
 
     return rows.map { row ->
@@ -85,7 +85,7 @@ private fun loadUsingReadLinesMap(): List<StockListing> {
 
 // --- 비교 대상 2: readLines + for 루프 (초기 용량 지정) 방식 ---
 private fun loadUsingReadLinesForLoop(): List<StockListing> {
-    val path = Path("src/main/resources/todo_data.json")
+    val path = Path("src/main/resources/listing_status.csv")
     val rawRows = path.readLines()
     if (rawRows.isEmpty()) return emptyList()
 
@@ -113,7 +113,7 @@ private fun loadUsingReadLinesForLoop(): List<StockListing> {
 
 // --- 비교 대상 3: readLines + buildList 방식 ---
 private fun loadUsingBuildList(): List<StockListing> {
-    val path = Path("src/main/resources/todo_data.json")
+    val path = Path("src/main/resources/listing_status.csv")
     val rawRows = path.readLines()
     val rows = rawRows.drop(1)
 
