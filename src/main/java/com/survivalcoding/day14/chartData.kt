@@ -1,19 +1,19 @@
 package com.survivalcoding.day14
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import java.io.File
 
 @Serializable
-data class CollectionSalePrice{
+data class CollectionSalePrice(
     val price: Double,
     val cvtDatetime: String
-}
+)
 
 @Serializable
 data class CollectionChartData(
     val colletionName: String,
     val collectionSalePrice: List<CollectionSalePrice>? = null
-    )
 )
 
 @Serializable

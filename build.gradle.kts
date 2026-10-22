@@ -1,6 +1,7 @@
 plugins {
     java
     kotlin("jvm") version "2.4.20"
+    kotlin("plugin.serialization") version "2.4.21"
 }
 
 group = "com.survivalcoding"
@@ -14,6 +15,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 }
 
 tasks.test {
