@@ -94,7 +94,8 @@ class CsvStockDataSource : StockDataSource {
                         exchange = fields[2],
                         assetType = fields[3],
                         ipoData = fields[4],
-                        status = fields[5],
+                        delistingDate = fields[5],
+                        status = fields[6],
                     )
                 )
             }

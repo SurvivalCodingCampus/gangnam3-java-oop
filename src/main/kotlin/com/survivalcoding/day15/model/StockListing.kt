@@ -9,5 +9,6 @@ data class StockListing(
     val exchange: String,
     val assetType: String,
     val ipoData: String,
+    val delistingDate: String,
     val status: String,
 )

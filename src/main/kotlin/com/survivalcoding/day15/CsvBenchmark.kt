@@ -78,7 +78,8 @@ private fun loadUsingReadLinesMap(): List<StockListing> {
             exchange = fields[2],
             assetType = fields[3],
             ipoData = fields[4],
-            status = fields[5],
+            delistingDate = fields[5],
+            status = fields[6],
         )
     }
 }
@@ -103,7 +104,8 @@ private fun loadUsingReadLinesForLoop(): List<StockListing> {
                 exchange = fields[2],
                 assetType = fields[3],
                 ipoData = fields[4],
-                status = fields[5],
+                delistingDate = fields[5],
+                status = fields[6],
             )
         )
     }
@@ -129,7 +131,8 @@ private fun loadUsingBuildList(): List<StockListing> {
                     exchange = fields[2],
                     assetType = fields[3],
                     ipoData = fields[4],
-                    status = fields[5],
+                    delistingDate = fields[5],
+                    status = fields[6],
                 )
             )
         }
