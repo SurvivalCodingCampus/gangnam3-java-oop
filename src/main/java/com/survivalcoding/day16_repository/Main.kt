@@ -36,7 +36,7 @@ fun main() {
     val repository: UserRepository = UserRepositoryImpl(dataSource)
 
     println("=== postId 1 댓글 ===")
-    repository.getUsers(1).forEach { comment ->
+    repository.getUsers().forEach { comment ->
         println("- [ID: ${comment.id}] ${comment.name} (${comment.email})")
     }
 }
