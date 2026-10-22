@@ -1,5 +1,6 @@
 package com.survivalcoding.day15.exercise2.data_source
 
+import com.survivalcoding.day15.exercise2.model.StockListing
 import java.io.File
 
 class CsvStockDataSource : StockDataSource {
@@ -20,7 +21,8 @@ class CsvStockDataSource : StockDataSource {
             .drop(1)
             .filter { it.isNotBlank() }
 
-        val result = ListOf<StockListing>()
+        val result = mutableListOf<StockListing>()
+// List는 읽기 mutableListOf는 읽고 쓰기
 
         for (line in lines) {
             val parts = line.split(",")
