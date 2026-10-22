@@ -7,15 +7,17 @@ class CsvStockDataSource : StockDataSource {
     private val file = File("listing_status.csv")
 
     override fun loadStockListings(): List<StockListing> {
-//        if (!file.exists()) {
-//            return emptyList()
-//        }
-//
-//        val jsonText = file.readText()
-//        if (jsonText.isBlank()) {
-//            return emptyList()
-//        }
-        val lines = csvText.split("\n").drop(1)
+        if (!file.exists()) {
+            return emptyList()
+        }
+
+        val csvText = file.readText()
+        if (csvText.isBlank()) {
+            return emptyList()
+        }
+        val lines = csvText.split("\n")
+            .drop(1)
+            .filter { it.isNotBlank() }
 
         return emptyList()
     }
