@@ -90,11 +90,10 @@ private fun loadUsingReadLinesForLoop(): List<StockListing> {
     val rawRows = path.readLines()
     if (rawRows.isEmpty()) return emptyList()
 
-    val rows = rawRows.drop(1)
+    val rows = rawRows.drop(1).dropLast(1)
     val stockListings = ArrayList<StockListing>(rows.size)
 
     for (row in rows) {
-        if (row.isBlank()) continue
         val fields = row.split(',')
 
         stockListings.add(
@@ -121,7 +120,6 @@ private fun loadUsingBuildList(): List<StockListing> {
 
     return buildList(rows.size) {
         rows.forEach { row ->
-            if (row.isBlank()) return@forEach
             val fields = row.split(',')
 
             add(
