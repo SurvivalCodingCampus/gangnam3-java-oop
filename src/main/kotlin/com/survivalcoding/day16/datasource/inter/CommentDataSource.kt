@@ -1,4 +1,4 @@
-package com.survivalcoding.day15.datasource
+package com.survivalcoding.day16.datasource.inter
 
 import com.survivalcoding.day15.model.Comment
 

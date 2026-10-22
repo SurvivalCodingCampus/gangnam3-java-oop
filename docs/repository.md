@@ -1,6 +1,6 @@
 # Repository 작성 원칙
 
-`day15`의 `ItemRepository` / `ItemRepositoryImpl` / `FakeItemDataSource` / `ItemRepositoryTest`를 기준으로 정리한, 새로운 Repository를 만들 때 지켜야 할 필수 원칙이다.
+`day15`의 `ItemRepository` / `ItemRepositoryImpl` / `FakeCommentDataSource` / `ItemRepositoryTest`를 기준으로 정리한, 새로운 Repository를 만들 때 지켜야 할 필수 원칙이다.
 
 ---
 
@@ -12,7 +12,7 @@
 |---|---|---|---|
 | **인터페이스** | `<모델명>Repository` | `ItemRepository` | 접두사(`I`)나 기술명을 붙이지 않는다. 비즈니스 관점의 명칭 사용. |
 | **구현체** | `<모델명>RepositoryImpl` | `ItemRepositoryImpl` | 기술명이 아닌 `Impl` 접미사를 붙인다. 특정 저장 기술에 종속되지 않는 비즈니스 계층이기 때문. |
-| **Fake 구현체** | `Fake<모델명>DataSource` | `FakeItemDataSource` | 테스트를 위해 DataSource 인터페이스를 메모리(In-Memory) 상에서 구현한 Test Double. |
+| **Fake 구현체** | `Fake<모델명>DataSource` | `FakeCommentDataSource` | 테스트를 위해 DataSource 인터페이스를 메모리(In-Memory) 상에서 구현한 Test Double. |
 
 ### 1-2. 패키지 구조 규칙
 - 패키지명은 소문자 표준(`lower_case` 또는 `lowercase`)을 준수한다.
@@ -49,7 +49,7 @@ src/
   - 오직 고수준의 추상화인 `ItemDataSource` 인터페이스에만 의존한다.
 - **장점**:
   1. 데이터 저장 매체가 로컬 파일에서 DB, 네트워크 API 등으로 변경되어도 Repository의 코드는 단 한 줄도 수정되지 않는다.
-  2. 실제 파일 I/O나 외부 연결 없이도, 테스트 시 `FakeItemDataSource`를 주입하여 손쉽게 격리된 단위 테스트를 수행할 수 있다.
+  2. 실제 파일 I/O나 외부 연결 없이도, 테스트 시 `FakeCommentDataSource`를 주입하여 손쉽게 격리된 단위 테스트를 수행할 수 있다.
 
 ```kotlin
 // 나쁜 예: 특정 기술 구현체에 직접 의존 (결합도 증가, 테스트 어려움)
@@ -131,10 +131,6 @@ class ItemRepositoryImpl(
 ### 5-1. 모델 및 DataSource 인터페이스
 ```kotlin
 // model/Item.kt
-package com.survivalcoding.day15.model
-
-import kotlinx.serialization.Serializable
-
 @Serializable
 data class Item(
     val id: Long,
@@ -145,10 +141,6 @@ data class Item(
 
 ```kotlin
 // datasource/ItemDataSource.kt
-package com.survivalcoding.day15.datasource
-
-import com.survivalcoding.day15.model.Item
-
 interface ItemDataSource {
     fun loadItems(): List<Item>
     fun saveItems(items: List<Item>)
@@ -158,66 +150,21 @@ interface ItemDataSource {
 ### 5-2. Repository 인터페이스
 ```kotlin
 // repository/ItemRepository.kt
-package com.survivalcoding.day15.repository
-
-import com.survivalcoding.day15.model.Item
-
 interface ItemRepository {
-    fun getItems(): List<Item>
-    fun getItem(id: Long): Item?
-    fun getItemsByMaxPrice(maxPrice: Int): List<Item>
-    fun saveItem(item: Item)
 }
 ```
 
 ### 5-3. Repository 구현체
 ```kotlin
 // repositoryImpl/ItemRepositoryImpl.kt
-package com.survivalcoding.day15.repositoryImpl
-
-import com.survivalcoding.day15.datasource.ItemDataSource
-import com.survivalcoding.day15.model.Item
-import com.survivalcoding.day15.repository.ItemRepository
-
 class ItemRepositoryImpl(
     private val dataSource: ItemDataSource, // DI: DataSource 인터페이스 의존
-) : ItemRepository {
-
-    override fun getItems(): List<Item> {
-        return dataSource.loadItems()
-    }
-
-    override fun getItem(id: Long): Item? {
-        return dataSource.loadItems().find { it.id == id }
-    }
-
-    override fun getItemsByMaxPrice(maxPrice: Int): List<Item> {
-        return dataSource.loadItems()
-            .filter { it.price <= maxPrice }
-            .sortedBy { it.price }
-    }
-
-    override fun saveItem(item: Item) {
-        val currentItems = dataSource.loadItems().toMutableList()
-        val index = currentItems.indexOfFirst { it.id == item.id }
-        if (index >= 0) {
-            currentItems[index] = item
-        } else {
-            currentItems.add(item)
-        }
-        dataSource.saveItems(currentItems)
-    }
-}
+) : ItemRepository {...}
 ```
 
 ### 5-4. 테스트용 In-Memory Fake DataSource 구현체
 ```kotlin
 // test/kotlin/day15/datasource/FakeItemDataSource.kt
-package day15.datasource
-
-import com.survivalcoding.day15.datasource.ItemDataSource
-import com.survivalcoding.day15.model.Item
-
 class FakeItemDataSource(
     initialItems: List<Item> = emptyList(),
 ) : ItemDataSource {
@@ -231,79 +178,6 @@ class FakeItemDataSource(
     override fun saveItems(items: List<Item>) {
         this.items.clear()
         this.items.addAll(items)
-    }
-}
-```
-
-### 5-5. Repository 단위 테스트
-```kotlin
-// test/kotlin/day15/repository/ItemRepositoryTest.kt
-package day15.repository
-
-import com.survivalcoding.day15.model.Item
-import com.survivalcoding.day15.repository.ItemRepository
-import com.survivalcoding.day15.repositoryImpl.ItemRepositoryImpl
-import day15.datasource.FakeItemDataSource
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
-class ItemRepositoryTest {
-
-    private lateinit var fakeDataSource: FakeItemDataSource
-    private lateinit var repository: ItemRepository
-
-    private val sampleItems = listOf(
-        Item(id = 1L, name = "Keyboard", price = 50000),
-        Item(id = 2L, name = "Mouse", price = 30000),
-        Item(id = 3L, name = "Monitor", price = 200000),
-    )
-
-    @BeforeEach
-    fun setUp() {
-        // In-Memory Fake를 주입하여 파일/DB I/O 없이 빠르고 독립적인 테스트 환경 구성
-        fakeDataSource = FakeItemDataSource(initialItems = sampleItems)
-        repository = ItemRepositoryImpl(fakeDataSource)
-    }
-
-    @Test
-    fun `getItems returns all items`() {
-        val items = repository.getItems()
-
-        assertThat(items).hasSize(3)
-        assertThat(items).isEqualTo(sampleItems)
-    }
-
-    @Test
-    fun `getItem with existing id returns matching item`() {
-        val item = repository.getItem(1L)
-
-        assertThat(item).isNotNull
-        assertThat(item?.name).isEqualTo("Keyboard")
-    }
-
-    @Test
-    fun `getItem with non-existing id returns null`() {
-        val item = repository.getItem(999L)
-
-        assertThat(item).isNull()
-    }
-
-    @Test
-    fun `getItemsByMaxPrice filters items less than or equal to maxPrice and sorts ascending`() {
-        val result = repository.getItemsByMaxPrice(50000)
-
-        assertThat(result).hasSize(2)
-        assertThat(result.map { it.name }).containsExactly("Mouse", "Keyboard")
-    }
-
-    @Test
-    fun `saveItem updates existing item or adds new item`() {
-        val newItem = Item(id = 4L, name = "Headset", price = 70000)
-        repository.saveItem(newItem)
-
-        assertThat(repository.getItems()).hasSize(4)
-        assertThat(repository.getItem(4L)).isEqualTo(newItem)
     }
 }
 ```

@@ -1,7 +1,7 @@
-package com.survivalcoding.day15.RepositoryImpl
+package com.survivalcoding.day16.repository.impl
 
-import com.survivalcoding.day15.Repository.CommentRepository
-import com.survivalcoding.day15.datasourceImpl.FileCommentDataSource
+import com.survivalcoding.day16.repository.inter.CommentRepository
+import com.survivalcoding.day16.datasource.impl.FileCommentDataSource
 import com.survivalcoding.day15.model.Comment
 
 class CommentRepositoryImpl(

@@ -1,4 +1,4 @@
-package com.survivalcoding.day15.Repository
+package com.survivalcoding.day16.repository.inter
 
 import com.survivalcoding.day15.model.Comment
 

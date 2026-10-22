@@ -1,6 +1,6 @@
-package com.survivalcoding.day15.datasourceImpl
+package com.survivalcoding.day16.datasource.impl
 
-import com.survivalcoding.day15.datasource.CommentDataSource
+import com.survivalcoding.day16.datasource.inter.CommentDataSource
 import com.survivalcoding.day15.model.Comment
 import kotlinx.serialization.json.Json
 import java.nio.file.Path
