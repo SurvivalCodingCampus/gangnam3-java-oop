@@ -13,7 +13,7 @@ class UserRepositoryImpl(
 
     override fun getUsersTop10ByUserName(): List<User> {
         return dataSource.loadUsers()
-            .filter { it.postId == postId }
+            .sortedBy { it.name }
             .take(10)
     }
 }
