@@ -8,7 +8,7 @@
 
 ### 인터페이스: `<모델명>DataSource`
 
-- 모델 이름 뒤에 `DataSource` 를 붙인다. 접두사(`I`)나 기술명은 붙이지 않는다.
+- 모델 이름 뒤에 `DataSource` 를 붙인다. 접두사 (`I`)나 기술명은 붙이지 않는다.
 - `ItemDataSource`, `TodoDataSource`, `StockDataSource`
 
 ### 구현체: `<기술명><인터페이스명>`
@@ -16,12 +16,12 @@
 - 인터페이스 이름 앞에 **데이터를 어디서 / 어떤 형식으로 가져오는지** 를 나타내는 기술명을 접두사로 붙인다.
 - 기술명은 한 단어로, 보고 바로 알 수 있는 것을 쓴다.
 
-| 기술 | 접두사 | 예시 |
-|---|---|---|
-| 로컬 파일(JSON) | `File` | `FileItemDataSource` |
-| 로컬 파일(CSV) | `Csv` | `CsvStockDataSource` |
-| 원격 API | `Remote` 또는 `Api` | `RemoteItemDataSource` |
-| 데이터베이스 | `Db` 또는 구체 제품명 | `DbItemDataSource`, `SqliteItemDataSource` |
+| 기술            | 접두사                | 예시                                       |
+|-----------------|-----------------------|--------------------------------------------|
+| 로컬 파일(JSON) | `File`                | `FileItemDataSource`                       |
+| 로컬 파일(CSV)  | `Csv`                 | `CsvStockDataSource`                       |
+| 원격 API        | `Remote` 또는 `Api`   | `RemoteItemDataSource`                     |
+| 데이터베이스    | `Db` 또는 구체 제품명 | `DbItemDataSource`, `SqliteItemDataSource` |
 
 ---
 
@@ -31,20 +31,20 @@
 
 ### 인터페이스에 노출하면 안 되는 것
 
-| 분류 | 금지 예시 | 이유 |
-|---|---|---|
-| 파일 | `File`, `Path`, 파일명 파라미터, `InputStream` | CSV → JSON → DB 로 바뀌면 인터페이스가 깨진다 |
-| DB | `Connection`, `ResultSet`, SQL 문자열 | 사용자가 DB 종류를 알 필요가 없다 |
-| 네트워크 | `HttpClient`, `HttpResponse`, URL, 헤더 | 통신 방식이 바뀌어도 사용처는 그대로여야 한다 |
-| 직렬화 | `Json`, `JsonElement`, 원본 문자열, CSV 한 줄 | 포맷 변환은 구현체의 책임이다 |
+| 분류            | 금지 예시                                        | 이유                                            |
+|-----------------|--------------------------------------------------|-------------------------------------------------|
+| 파일            | `File`, `Path`, 파일명 파라미터, `InputStream`   | CSV → JSON → DB 로 바뀌면 인터페이스가 깨진다   |
+| DB              | `Connection`, `ResultSet`, SQL 문자열            | 사용자가 DB 종류를 알 필요가 없다               |
+| 네트워크        | `HttpClient`, `HttpResponse`, URL, 헤더          | 통신 방식이 바뀌어도 사용처는 그대로여야 한다   |
+| 직렬화          | `Json`, `JsonElement`, 원본 문자열, CSV 한 줄    | 포맷 변환은 구현체의 책임이다                   |
 | 라이브러리 타입 | `kotlinx.serialization`, JDBC, Ktor 등 외부 타입 | 라이브러리 교체 시 인터페이스까지 수정하게 된다 |
 
 ```kotlin
 // 나쁜 예: 기술 세부사항이 인터페이스로 새어 나왔다
 interface ItemDataSource {
     fun loadItems(file: File): List<Item>          // File 노출
-    fun loadJson(): String                         // 직렬화 포맷 노출
-    fun query(sql: String): ResultSet              // DB 노출
+    fun loadJson(): String                         // 직렬화 포맷 노출, Json
+    fun query(sql: String): ResultSet              // DB 노출, DB 에서만 쓰는 것
 }
 
 // 좋은 예: 모델만 오간다
@@ -79,15 +79,15 @@ interface ItemDataSource {
 
 ### 허용
 
-| 상황 | 반환 타입 |
-|---|---|
-| 여러 건 조회 | `List<Item>` |
-| 단건 조회 (없을 수 있음) | `Item?` |
-| 저장 / 삭제 | `Unit` (반환 없음) |
+| 상황                     | 반환 타입          |
+|--------------------------|--------------------|
+| 여러 건 조회             | `List<Item>`       |
+| 단건 조회 (없을 수 있음) | `Item?`            |
+| 저장 / 삭제              | `Unit` (반환 없음) |
 
 ### 금지
 
-- 원본 문자열: `String`(JSON 텍스트, CSV 텍스트), `List<String>`(CSV 줄 목록)
+- 원본 문자열: `String`(JSON 텍스트, CSV 텍스트), `List<String>`(CSV 줄 목록) //객체에 담아 쓰자
 - 중간 표현: `JsonElement`, `Map<String, Any>`, `Array<String>`(split 결과)
 - 기술 타입: `ResultSet`, `HttpResponse`, `File`
 - 가변 컬렉션: `MutableList<Item>` (내부 상태가 밖으로 새어 나간다)
@@ -108,7 +108,7 @@ fun loadItems(): List<Item>
 
 1. 데이터가 없으면 예외 대신 **빈 컬렉션** 을 돌려준다. (`emptyList()`)
 2. 헤더 줄, 빈 줄 등 데이터가 아닌 것은 구현체 안에서 제거한다.
-3. 공백 제거(`trim()`), 타입 변환(`toInt()`, `toLong()`) 은 모델에 넣기 전에 끝낸다.
+3. 공백 제거 (`trim()`), 타입 변환 (`toInt()`, `toLong()`) 은 모델에 넣기 전에 끝낸다.
 4. 내부에서 `mutableListOf` 로 모았더라도 반환 타입은 `List` 로 선언한다.
 
 ---
@@ -155,125 +155,222 @@ interface ItemDataSource {
 JDK 11 에 내장된 `java.net.http.HttpClient` 를 사용한다. 추가 의존성이 필요 없다.
 
 ```kotlin
+
 // data_source/RemoteItemDataSource.kt
+
 package com.survivalcoding.day15.data_source
 
+
 import com.survivalcoding.day15.model.Item
+
 import kotlinx.serialization.json.Json
+
 import java.net.URI
+
 import java.net.http.HttpClient
+
 import java.net.http.HttpRequest
+
 import java.net.http.HttpResponse
 
+
 class RemoteItemDataSource(
+
     private val baseUrl: String = "https://example.com/api",
-) : ItemDataSource {
+
+    ) : ItemDataSource {
+
 
     // 기술 세부사항은 전부 private
+
     private val client: HttpClient = HttpClient.newHttpClient()
+
     private val json = Json { ignoreUnknownKeys = true }
 
+
     override fun loadItems(): List<Item> {
+
         val request = HttpRequest.newBuilder()
+
             .uri(URI.create("$baseUrl/items"))
+
             .GET()
+
             .build()
+
 
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
+
         // 실패나 빈 응답은 빈 컬렉션으로 정제해서 돌려준다
+
         if (response.statusCode() != 200) return emptyList()
+
         val body = response.body()
+
         if (body.isBlank()) return emptyList()
 
+
         return json.decodeFromString<List<Item>>(body)
+
     }
+
 
     override fun saveItems(items: List<Item>) {
+
         val request = HttpRequest.newBuilder()
+
             .uri(URI.create("$baseUrl/items"))
+
             .header("Content-Type", "application/json")
+
             .PUT(HttpRequest.BodyPublishers.ofString(json.encodeToString(items)))
+
             .build()
 
+
         client.send(request, HttpResponse.BodyHandlers.discarding())
+
     }
+
 }
+
 ```
 
-### 4-3. DB 구현체
+//### 4-3. DB 구현체
 
 JDBC 예시다. (SQLite 를 쓰려면 `build.gradle.kts` 에 `org.xerial:sqlite-jdbc` 의존성을 추가한다.)
 
 ```kotlin
+
 // data_source/DbItemDataSource.kt
+
 package com.survivalcoding.day15.data_source
 
+
 import com.survivalcoding.day15.model.Item
+
 import java.sql.Connection
+
 import java.sql.DriverManager
 
+
 class DbItemDataSource(
+
     private val jdbcUrl: String = "jdbc:sqlite:items.db",
-) : ItemDataSource {
+
+    ) : ItemDataSource {
+
 
     init {
+
         connect().use { conn ->
+
             conn.createStatement().use {
+
                 it.execute(
+
                     """
+
                     CREATE TABLE IF NOT EXISTS items (
+
                         id    INTEGER PRIMARY KEY,
+
                         name  TEXT    NOT NULL,
+
                         price INTEGER NOT NULL
+
                     )
+
                     """.trimIndent()
+
                 )
+
             }
+
         }
+
     }
+
 
     private fun connect(): Connection = DriverManager.getConnection(jdbcUrl)
 
+
     override fun loadItems(): List<Item> {
+
         val result = mutableListOf<Item>()
 
+
         connect().use { conn ->
+
             conn.createStatement().use { stmt ->
+
                 val rs = stmt.executeQuery("SELECT id, name, price FROM items ORDER BY id")
+
                 // ResultSet 은 여기서 끝낸다. 밖으로 나가는 것은 Item 만
+
                 while (rs.next()) {
+
                     result.add(
+
                         Item(
+
                             id = rs.getLong("id"),
+
                             name = rs.getString("name"),
+
                             price = rs.getInt("price"),
-                        )
+
+                            )
+
                     )
+
                 }
+
             }
+
         }
+
 
         return result   // 선언 타입은 List<Item>
+
     }
 
+
     override fun saveItems(items: List<Item>) {
+
         connect().use { conn ->
+
             conn.autoCommit = false
+
             conn.createStatement().use { it.execute("DELETE FROM items") }
+
             conn.prepareStatement("INSERT INTO items (id, name, price) VALUES (?, ?, ?)").use { ps ->
+
                 for (item in items) {
+
                     ps.setLong(1, item.id)
+
                     ps.setString(2, item.name)
+
                     ps.setInt(3, item.price)
+
                     ps.addBatch()
+
                 }
+
                 ps.executeBatch()
+
             }
+
             conn.commit()
+
         }
+
     }
+
 }
+
 ```
 
 ### 4-4. 사용처
