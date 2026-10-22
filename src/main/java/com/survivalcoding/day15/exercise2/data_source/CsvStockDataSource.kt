@@ -12,23 +12,31 @@ class CsvStockDataSource : StockDataSource {
             return emptyList()
         }
 
-        val csvText = file.readText()
+        // Text->Lines List<String>로 넘어옴
+        val csvText = file.readLines()
+
         if (csvText.isBlank()) {
             return emptyList()
         }
+
+
+        //val lines: List<String> = File("").readLines()
+        //    .drop(1)
 
         val lines = csvText.split("\n")
             .drop(1)
             .filter { it.isNotBlank() }
 
+// .map { val values: List<String> = it.split(",")
+        // List는 읽기 mutableListOf는 읽고 쓰기
         val result = mutableListOf<StockListing>()
-// List는 읽기 mutableListOf는 읽고 쓰기
 
         for (line in lines) {
             val parts = line.split(",")
 
             val stock = StockListing(
                 symbol = parts[0].trim(),
+                //.trim() 생략 가능
                 name = parts[1].trim(),
                 exchange = parts[2].trim(),
                 assetType = parts[3].trim(),
