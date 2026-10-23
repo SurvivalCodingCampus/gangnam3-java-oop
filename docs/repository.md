@@ -1,7 +1,9 @@
 # Repository 작성 원칙
 
-`day15` 의 `ItemRepository` / `ItemRepositoryImpl`, `day16_repository` 의 `UserRepository` / `UserRepositoryImpl` / `FakeUserDataSource` / `UserRepositoryTest` 를 기준으로 정리한, 새로운 Repository 를 만들 때 지켜야 할 필수 원칙이다.
-DataSource 쪽 규칙은 [datasource.md](datasource.md) 를 따른다. 이 문서는 그 위에 올라가는 Repository 계층만 다룬다.
+`day15` 의 `ItemRepository` / `ItemRepositoryImpl`, `day16_repository` 의 `UserRepository` / `UserRepositoryImpl` /
+`FakeUserDataSource` / `UserRepositoryTest` 를 기준으로 정리한, 새로운 Repository 를 만들 때 지켜야 할 필수 원칙이다.
+DataSource 쪽 규칙은 [datasource.md](datasource.md), 테스트 클래스 쪽 규칙은 [test.md](test.md) 를 따른다. 이 문서는 그 위에 올라가는 Repository 계층만 다룬다.
+// 문서 참조는 카테고라이즈화 한다. 예) DataSource
 
 > **한 줄 요약**
 > DataSource 는 "읽고 쓴다", Repository 는 "가공한다", 테스트는 "Fake 로 바꿔 끼운다".
@@ -12,13 +14,13 @@ DataSource 쪽 규칙은 [datasource.md](datasource.md) 를 따른다. 이 문�
 
 문서를 쓰기 전에 기준 코드를 점검한 결과다. 아래 원칙들은 이 문제들을 다시 만들지 않기 위한 것이다.
 
-| 파일 | 상태 | 발견한 문제 |
-|---|---|---|
-| `day15/data_source/repository/ItemRepository.kt` | 전체 주석 처리 | `import` 가 없다. `repository/` 가 `data_source/` 아래에 들어가 있다. |
-| `day15/data_source/repository/ItemRepositoryImpl.kt` | 전체 주석 처리 | 인터페이스와 시그니처가 다르다. `getItem(id: Long)` ↔ `getItems(id: String)`, `deleteItem(item: Item)` ↔ `deleteItem(id: String)`. `searchByNameDesc` 가 구현되지 않았다. |
-| `day16_repository/repository/UserRepository*.kt` | 정상 | 없음. 생성자 주입, 인터페이스 타입 선언, 정렬·take 가공 모두 원칙대로다. |
-| `src/test/kotlin/day16/UserRepositoryTest.kt` | 컴파일 불가 | ① 테스트 클래스가 `: UserDataSource` 를 상속한다. ② `org.junit.Before` (JUnit 4) 를 쓰는데 의존성은 JUnit Jupiter 뿐이다. ③ `User` 에 없는 `username` 필드를 쓴다. ④ `FakeUserDataSource` 가 테스트 파일 안에 같이 들어 있다. |
-| `FakeItemDataSource`, `ItemRepositoryTest` | 없음 | 저장소 어디에도 없다. 5장의 템플릿이 그 역할을 한다. |
+| 파일                                                 | 상태           | 발견한 문제                                                                                                                                                                                                                   |
+|------------------------------------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `day15/datasource/repository/ItemRepository.kt`     | 전체 주석 처리 | `import` 가 없다. `repository/` 가 `datasource/` 아래에 들어가 있다.                                                                                                                                                         |
+| `day15/datasource/repository/ItemRepositoryImpl.kt` | 전체 주석 처리 | 인터페이스와 시그니처가 다르다. `getItem(id: Long)` ↔ `getItems(id: String)`, `deleteItem(item: Item)` ↔ `deleteItem(id: String)`. `searchByNameDesc` 가 구현되지 않았다.                                                     |
+| `day16_repository/repository/UserRepository*.kt`     | 정상           | 없음. 생성자 주입, 인터페이스 타입 선언, 정렬·take 가공 모두 원칙대로다.                                                                                                                                                      |
+| `src/test/kotlin/day16/UserRepositoryTest.kt`        | 컴파일 불가    | ① 테스트 클래스가 `: UserDataSource` 를 상속한다. ② `org.junit.Before` (JUnit 4) 를 쓰는데 의존성은 JUnit Jupiter 뿐이다. ③ `User` 에 없는 `username` 필드를 쓴다. ④ `FakeUserDataSource` 가 테스트 파일 안에 같이 들어 있다. |
+| `FakeItemDataSource`, `ItemRepositoryTest`           | 없음           | 저장소 어디에도 없다. 5장의 템플릿이 그 역할을 한다.                                                                                                                                                                          |
 
 ---
 
@@ -26,32 +28,30 @@ DataSource 쪽 규칙은 [datasource.md](datasource.md) 를 따른다. 이 문�
 
 ### 1-1. 클래스 이름
 
-| 역할 | 규칙 | 예시 |
-|---|---|---|
-| Repository 인터페이스 | `<모델명>Repository` | `ItemRepository`, `UserRepository` |
-| Repository 구현체 | `<모델명>RepositoryImpl` | `ItemRepositoryImpl`, `UserRepositoryImpl` |
-| DataSource 인터페이스 | `<모델명>DataSource` | `ItemDataSource` |
-| DataSource 실제 구현체 | `<기술명><모델명>DataSource` | `FileItemDataSource`, `CsvStockDataSource` |
-| DataSource 테스트 더블 | `Fake<모델명>DataSource` | `FakeItemDataSource`, `FakeUserDataSource` |
-| 테스트 클래스 | `<구현체가 아닌 인터페이스명>Test` | `ItemRepositoryTest` (`ItemRepositoryImplTest` 가 아니다) |
+| 역할                  | 규칙                     | 예시                                       |
+|-----------------------|--------------------------|--------------------------------------------|
+| Repository 인터페이스 | `<모델명>Repository`     | `ItemRepository`, `UserRepository`         |
+| Repository 구현체     | `<모델명>RepositoryImpl` | `ItemRepositoryImpl`, `UserRepositoryImpl` |
 
+- DataSource 인터페이스 · 구현체 · Fake 의 이름 규칙은 [datasource.md](datasource.md) 의 네이밍 규칙을 따른다.
+- 테스트 클래스의 이름 규칙은 [test.md](test.md) 의 네이밍 규칙을 따른다.
 - Repository 구현체는 기술명을 붙이지 않는다. Repository 는 기술을 모르기 때문에 `FileItemRepository` 같은 이름은 그 자체로 원칙 위반이다.
 - 구현체가 하나뿐이라도 인터페이스를 만든다. 테스트에서 타입 선언을 인터페이스로 하기 위해서다.
-- 테스트 클래스 이름은 인터페이스를 따른다. 테스트가 검증하는 것은 "Repository 의 약속" 이지 구현체의 내부가 아니다.
 
 ### 1-2. 메서드 이름
 
-| 동작 | 이름 패턴 | 예시 |
-|---|---|---|
-| 전체 조회 | `get<모델명 복수>()` | `getItems()`, `getUsers()` |
-| 단건 조회 | `get<모델명>(id)` → `모델?` | `getItem(id: Long): Item?` |
-| 조건 조회 | `get<모델명 복수><조건>()` | `getItemsUnderPrice(maxPrice: Int)`, `getUsersTop10ByUserName()` |
-| 검색 | `searchBy<필드>(query)` | `searchByName(query: String)` |
-| 추가 | `add<모델명>(model)` | `addItem(item: Item)` |
-| 삭제 | `delete<모델명>(id)` | `deleteItem(id: Long)` |
+| 동작      | 이름 패턴                   | 예시                                                             |
+|-----------|-----------------------------|------------------------------------------------------------------|
+| 전체 조회 | `get<모델명 복수>()`        | `getItems()`, `getUsers()`                                       |
+| 단건 조회 | `get<모델명>(id)` → `모델?` | `getItem(id: Long): Item?`                                       |
+| 조건 조회 | `get<모델명 복수><조건>()`  | `getItemsUnderPrice(maxPrice: Int)`, `getUsersTop10ByUserName()` |
+| 검색      | `searchBy<필드>(query)`     | `searchByName(query: String)`                                    |
+| 추가      | `add<모델명>(model)`        | `addItem(item: Item)`                                            |
+| 삭제      | `delete<모델명>(id)`        | `deleteItem(id: Long)`                                           |
 
 - 단건 조회는 `get<단수>`, 전체 조회는 `get<복수>` 다. day15 처럼 `getItems(id)` 와 `getItems()` 를 섞어 쓰지 않는다.
-- `id` 파라미터 타입은 **모델의 `id` 타입과 똑같이** 쓴다. `Item.id` 가 `Long` 이면 `getItem(id: Long)`, `deleteItem(id: Long)` 이다. 모델의 id 타입을 바꾸면 Repository 의 모든 id 파라미터도 함께 바꾼다.
+- `id` 파라미터 타입은 **모델의 `id` 타입과 똑같이** 쓴다. `Item.id` 가 `Long` 이면 `getItem(id: Long)`, `deleteItem(id: Long)` 이다. 모델의 id
+  타입을 바꾸면 Repository 의 모든 id 파라미터도 함께 바꾼다.
 - 삭제는 모델 전체가 아니라 `id` 로 받는다. 호출하는 쪽이 모델 객체를 통째로 들고 있을 이유가 없다.
 - 인터페이스에 쓴 메서드는 전부 구현체에 있어야 한다. 구현 안 할 메서드는 인터페이스에 적지 않는다.
 
@@ -75,14 +75,15 @@ src/test/kotlin/com/survivalcoding/<dayXX>/
     └── ItemRepositoryTest.kt
 ```
 
-- `repository/` 와 `datasource/` 는 **형제 패키지** 다. day15 처럼 `data_source/repository/` 로 중첩하지 않는다. Repository 는 DataSource 의 하위 개념이 아니라 DataSource 를 사용하는 상위 계층이다.
-- 패키지 이름은 `datasource` 로 쓴다. 현재 day15 · day16 코드는 `data_source` 로 되어 있다. 새로 만드는 것부터 `datasource` 로 쓰고, 기존 것은 리네임한다.
+- `repository/` 와 `datasource/` 는 **형제 패키지** 다. day15 처럼 `datasource/repository/` 로 중첩하지 않는다. Repository 는 DataSource 의
+  하위 개념이 아니라 DataSource 를 사용하는 상위 계층이다.
 - Fake 는 `src/main` 이 아니라 `src/test` 에 둔다. 배포 코드에 테스트 더블이 섞이지 않는다.
-- 테스트 패키지는 메인 패키지를 그대로 따라간다. 현재 `UserRepositoryTest` 의 패키지 `day16` 은 메인의 `com.survivalcoding.day16_repository` 와 달라서 `internal` 접근도 안 되고 파일 위치만 봐서는 대상 코드를 찾기 어렵다.
+- 테스트 패키지는 메인 패키지를 그대로 따라간다. 현재 `UserRepositoryTest` 의 패키지 `day16` 은 메인의 `com.survivalcoding.day16_repository` 와 달라서
+  `internal` 접근도 안 되고 파일 위치만 봐서는 대상 코드를 찾기 어렵다.
 
 ---
 
-## 2. 의존성 주입(DI) 원칙
+## 2. 의존성 주입 (DI) 원칙
 
 > **Repository 는 DataSource 인터페이스 하나만 생성자로 받는다. 그 외에는 아무것도 모른다.**
 
@@ -120,7 +121,7 @@ class ItemRepositoryImpl(
 
 ### 2-2. import 로 확인하는 방법
 
-Repository 파일(인터페이스 · 구현체)의 `import` 에는 다음 두 종류만 있어야 한다.
+Repository 파일 (인터페이스 · 구현체)의 `import` 에는 다음 두 종류만 있어야 한다.
 
 ```kotlin
 import com.survivalcoding.day15.datasource.ItemDataSource   // 구현체 파일에만
@@ -129,15 +130,15 @@ import com.survivalcoding.day15.model.Item
 
 아래가 보이면 책임이 잘못 들어온 것이다.
 
-| import | 의미 |
-|---|---|
-| `java.io.File`, `java.nio.file.*` | 파일 조작이 Repository 로 올라왔다 |
-| `kotlinx.serialization.*`, `Json` | 파싱이 Repository 로 올라왔다 |
-| `java.net.http.*`, `retrofit2.*` | 통신이 Repository 로 올라왔다 |
-| `java.sql.*` | DB 가 Repository 로 올라왔다 |
-| `FileItemDataSource` 등 구현체 이름 | 구현체에 묶였다 |
+| import                              | 의미                               |
+|-------------------------------------|------------------------------------|
+| `java.io.File`, `java.nio.file.*`   | 파일 조작이 Repository 로 올라왔다 |
+| `kotlinx.serialization.*`, `Json`   | 파싱이 Repository 로 올라왔다      |
+| `java.net.http.*`, `retrofit2.*`    | 통신이 Repository 로 올라왔다      |
+| `java.sql.*`                        | DB 가 Repository 로 올라왔다       |
+| `FileItemDataSource` 등 구현체 이름 | 구현체에 묶였다                    |
 
-### 2-3. 조립은 사용하는 쪽(`main`)에서
+### 2-3. 조립은 사용하는 쪽 (`main`)에서
 
 ```kotlin
 fun main() {
@@ -159,18 +160,18 @@ fun main() {
 
 ### 3-1. 책임 표
 
-| 할 일 | DataSource | Repository |
-|---|---|---|
-| 파일 · DB · 네트워크 읽기/쓰기 | O | X |
-| JSON · CSV 파싱, 타입 변환, 빈 줄 제거 | O | X |
-| 전체 목록 그대로 돌려주기 (`loadItems`, `saveItems`) | O | 위임만 |
-| 정렬 (`sortedBy`) | X | O |
-| 필터링 (`filter`, `filterNot`) | X | O |
-| 검색 (`contains`, `ignoreCase`) | X | O |
-| 단건 찾기 (`find`) | X | O |
-| 개수 제한, 상위 N (`take`) | X | O |
-| 추가 · 삭제 후 저장 (읽기 → 바꾸기 → 쓰기) | 쓰기만 | 흐름 전체 |
-| 비즈니스 규칙 (가격 상한, 중복 id 금지 등) | X | O |
+| 할 일                                                | DataSource | Repository |
+|------------------------------------------------------|------------|------------|
+| 파일 · DB · 네트워크 읽기/쓰기                       | O          | X          |
+| JSON · CSV 파싱, 타입 변환, 빈 줄 제거               | O          | X          |
+| 전체 목록 그대로 돌려주기 (`loadItems`, `saveItems`) | O          | 위임만     |
+| 정렬 (`sortedBy`)                                    | X          | O          |
+| 필터링 (`filter`, `filterNot`)                       | X          | O          |
+| 검색 (`contains`, `ignoreCase`)                      | X          | O          |
+| 단건 찾기 (`find`)                                   | X          | O          |
+| 개수 제한, 상위 N (`take`)                           | X          | O          |
+| 추가 · 삭제 후 저장 (읽기 → 바꾸기 → 쓰기)           | 쓰기만     | 흐름 전체  |
+| 비즈니스 규칙 (가격 상한, 중복 id 금지 등)           | X          | O          |
 
 - DataSource 인터페이스는 `load` / `save` 두 메서드로 충분하다. `loadItemsSortedByName()` 같은 메서드가 DataSource 에 생기면 가공이 아래로 내려간 것이다.
 - 반대로 Repository 가 `file.readText()` 를 하면 저장 매체 조작이 위로 올라온 것이다.
@@ -222,13 +223,13 @@ override fun deleteItem(id: Long) {
 
 ### 4-1. 왜 Mock 이 아니라 Fake 인가
 
-| | Mock (Mockito, MockK) | Fake (직접 작성) |
-|---|---|---|
-| 추가 의존성 | 필요 | 없음. `build.gradle.kts` 에는 JUnit Jupiter 만 있다 |
-| 동작 | "이 메서드가 호출되면 이걸 돌려줘" 를 테스트마다 지정 | 진짜 저장소처럼 넣은 대로 나온다 |
-| 검증하는 것 | 호출 여부 · 횟수 (구현 방식에 묶임) | 결과 값 (구현을 바꿔도 테스트가 살아남는다) |
-| 읽기 쉬움 | `every { } returns` 문법을 알아야 함 | 평범한 Kotlin 클래스 |
-| 속도 | 빠름 | 빠름. 파일 I/O 가 없다 |
+|             | Mock (Mockito, MockK)                                 | Fake (직접 작성)                                    |
+|-------------|-------------------------------------------------------|-----------------------------------------------------|
+| 추가 의존성 | 필요                                                  | 없음. `build.gradle.kts` 에는 JUnit Jupiter 만 있다 |
+| 동작        | "이 메서드가 호출되면 이걸 돌려줘" 를 테스트마다 지정 | 진짜 저장소처럼 넣은 대로 나온다                    |
+| 검증하는 것 | 호출 여부 · 횟수 (구현 방식에 묶임)                   | 결과 값 (구현을 바꿔도 테스트가 살아남는다)         |
+| 읽기 쉬움   | `every { } returns` 문법을 알아야 함                  | 평범한 Kotlin 클래스                                |
+| 속도        | 빠름                                                  | 빠름. 파일 I/O 가 없다                              |
 
 - Repository 테스트의 목적은 "정렬·필터·검색이 맞는가" 다. `loadItems()` 가 몇 번 불렸는지는 관심사가 아니다. 그래서 Fake 로 충분하다.
 - 파일을 실제로 만들어 테스트하지 않는다. 테스트 순서에 따라 결과가 달라지고, 작업 디렉터리에 찌꺼기 파일이 남는다.
@@ -274,23 +275,26 @@ class ItemRepositoryTest {                                  // ① 아무것도 
     }
 
     @Test
-    fun `getItems 는 이름 오름차순으로 정렬한다`() { ... }   // ⑤ 한글 백틱 이름: "메서드 는 무엇 한다"
+    fun `getItems 는 이름 오름차순으로 정렬한다`() {
+        ...
+    }   // ⑤ 한글 백틱 이름: "메서드 는 무엇 한다"
 }
 ```
 
-| 번호 | 규칙 | 현재 `UserRepositoryTest` 의 위반 |
-|---|---|---|
-| ① | 테스트 클래스는 어떤 인터페이스도 구현하지 않는다 | `class UserRepositoryTest : UserDataSource` → 추상 메서드 미구현으로 컴파일 실패 |
-| ② | Repository 변수는 인터페이스 타입으로 선언한다 | 지켰다 (`private lateinit var repository: UserRepository`) |
-| ③ | `org.junit.jupiter.api.BeforeEach` / `Test` / `Assertions` 만 쓴다 | `import org.junit.Before` → JUnit 4 는 의존성에 없다 |
-| ④ | 테스트 데이터는 모델의 실제 필드로만 만든다 | `User(username = ...)` → `User` 에는 `postId, id, name, email, body` 뿐 |
-| ⑤ | 테스트 이름은 ``메서드명 은/는 기대동작``. 하나의 테스트는 하나의 동작 | 지켰다 |
+| 번호 | 규칙                                                                   | 현재 `UserRepositoryTest` 의 위반                                                |
+|------|------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| ①    | 테스트 클래스는 어떤 인터페이스도 구현하지 않는다                      | `class UserRepositoryTest : UserDataSource` → 추상 메서드 미구현으로 컴파일 실패 |
+| ②    | Repository 변수는 인터페이스 타입으로 선언한다                         | 지켰다 (`private lateinit var repository: UserRepository`)                       |
+| ③    | `org.junit.jupiter.api.BeforeEach` / `Test` / `Assertions` 만 쓴다     | `import org.junit.Before` → JUnit 4 는 의존성에 없다                             |
+| ④    | 테스트 데이터는 모델의 실제 필드로만 만든다                            | `User(username = ...)` → `User` 에는 `postId, id, name, email, body` 뿐          |
+| ⑤    | 테스트 이름은 ``메서드명 은/는 기대동작``. 하나의 테스트는 하나의 동작 | 지켰다                                                                           |
 
 추가 규칙:
 
 - **Given / When / Then** 세 블록으로 쓴다. `setUp` 이 Given, 테스트 본문 첫 줄이 When, `assert` 가 Then 이다.
-- 쓰기 메서드(`add`, `delete`)는 **Repository 로 다시 읽어서** 확인한다. `fakeDataSource.loadItems()` 로 직접 봐도 되지만, Repository 의 읽기 경로를 함께 검증하는 쪽이 낫다.
-- 모든 공개 메서드마다 최소 한 개, 조건이 있는 메서드(`getItem`, `searchByName`)는 "있을 때 / 없을 때" 두 개를 쓴다.
+- 쓰기 메서드 (`add`, `delete`)는 **Repository 로 다시 읽어서** 확인한다. `fakeDataSource.loadItems()` 로 직접 봐도 되지만, Repository 의 읽기 경로를
+  함께 검증하는 쪽이 낫다.
+- 모든 공개 메서드마다 최소 한 개, 조건이 있는 메서드 (`getItem`, `searchByName`)는 "있을 때 / 없을 때" 두 개를 쓴다.
 - 테스트는 서로 독립이다. `@BeforeEach` 가 매번 새 Fake 를 만들기 때문에 한 테스트의 `add` 가 다른 테스트에 남지 않는다.
 - 실행: `./gradlew test`. IDE 에서 `@Test` 옆 화살표로 하나씩 돌려도 된다.
 
@@ -551,7 +555,7 @@ fun main() {
 
 - [ ] 이름이 `<모델명>Repository` / `<모델명>RepositoryImpl` / `Fake<모델명>DataSource` 인가
 - [ ] `repository/` 와 `datasource/` 가 형제 패키지인가. Fake 는 `src/test` 에 있는가
-- [ ] 인터페이스의 모든 메서드가 구현체에 있고, 파라미터 타입(특히 `id`)이 모델과 같은가
+- [ ] 인터페이스의 모든 메서드가 구현체에 있고, 파라미터 타입 (특히 `id`)이 모델과 같은가
 - [ ] Repository 생성자가 `DataSource` 인터페이스 하나만 받고 기본값이 없는가
 - [ ] Repository 파일의 import 에 `File`, `Json`, `Http`, `sql`, 구현체 이름이 없는가
 - [ ] 정렬 · 필터 · 검색 · 비즈니스 규칙이 전부 Repository 에, 읽기 · 쓰기가 전부 DataSource 에 있는가
