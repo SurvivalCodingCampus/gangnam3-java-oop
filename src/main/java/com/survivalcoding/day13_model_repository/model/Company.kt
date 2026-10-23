@@ -1,0 +1,10 @@
+package com.survivalcoding.day13_model_repository.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Company(
+    val name: String,
+    val catchPhrase: String,
+    val bs: String
+)
