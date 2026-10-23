@@ -9,40 +9,40 @@ import kotlin.time.Duration.Companion.milliseconds
 fun main(): Unit = runBlocking {
     val gguJob = launch {
         repeatSound(
-            birdSound = "꾸우",
-            delayMillis = 1000
+            sound = "꾸우",
+            intervalMs = 1000
         )
     }
 
     val ggaJob = launch {
         repeatSound(
-            birdSound = "까악",
-            delayMillis = 2000
+            sound = "까악",
+            intervalMs = 2000
         )
     }
 
     val jjaekJob = launch {
         repeatSound(
-            birdSound = "짹짹",
-            delayMillis = 3000
+            sound = "짹짹",
+            intervalMs = 3000
         )
     }
 
     cancelAfter(
-        delayMillis = 10000,
+        delayMs = 10000,
         jobs = listOf(gguJob, ggaJob, jjaekJob)
     )
 }
 
-suspend fun repeatSound(birdSound: String, delayMillis: Int) {
+suspend fun repeatSound(sound: String, intervalMs: Int) {
     while (true) {
-        delay(delayMillis.milliseconds)
-        println(birdSound)
+        delay(intervalMs.milliseconds)
+        println(sound)
     }
 }
 
-suspend fun cancelAfter(delayMillis: Int, jobs: List<Job>){
-    delay(delayMillis.milliseconds)
+suspend fun cancelAfter(delayMs: Int, jobs: List<Job>){
+    delay(delayMs.milliseconds)
     jobs.forEach {
         it.cancel()
     }
