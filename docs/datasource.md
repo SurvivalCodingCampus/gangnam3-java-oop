@@ -1,6 +1,6 @@
 # DataSource 작성 원칙
 
-`day15/data_source` 의 `ItemDataSource` / `FileItemDataSource` 를 기준으로 정리한, 새로운 DataSource 를 만들 때 지켜야 할 필수 원칙이다.
+`day15/datasource` 의 `ItemDataSource` / `FileItemDataSource` 를 기준으로 정리한, 새로운 DataSource 를 만들 때 지켜야 할 필수 원칙이다.
 
 ---
 
@@ -118,8 +118,8 @@ fun loadItems(): List<Item>
 새 DataSource 를 만들 때는 다음 순서를 따른다.
 
 1. `model/` 에 `@Serializable data class` 모델을 만든다.
-2. `data_source/` 에 `<모델명>DataSource` 인터페이스를 만든다. import 는 모델만.
-3. `data_source/` 에 `<기술명><모델명>DataSource` 구현체를 만든다.
+2. `datasource/` 에 `<모델명>DataSource` 인터페이스를 만든다. import 는 모델만.
+3. `datasource/` 에 `<기술명><모델명>DataSource` 구현체를 만든다.
 4. `Main.kt` 에서 인터페이스 타입으로 선언해 사용한다.
 
 ### 4-1. 모델 + 인터페이스 (공통)
@@ -139,8 +139,8 @@ data class Item(
 ```
 
 ```kotlin
-// data_source/ItemDataSource.kt
-package com.survivalcoding.day15.data_source
+// datasource/ItemDataSource.kt
+package com.survivalcoding.day15.datasource
 
 import com.survivalcoding.day15.model.Item
 
@@ -156,9 +156,9 @@ JDK 11 에 내장된 `java.net.http.HttpClient` 를 사용한다. 추가 의존�
 
 ```kotlin
 
-// data_source/RemoteItemDataSource.kt
+// datasource/RemoteItemDataSource.kt
 
-package com.survivalcoding.day15.data_source
+package com.survivalcoding.day15.datasource
 
 
 import com.survivalcoding.day15.model.Item
@@ -243,9 +243,9 @@ JDBC 예시다. (SQLite 를 쓰려면 `build.gradle.kts` 에 `org.xerial:sqlite-
 
 ```kotlin
 
-// data_source/DbItemDataSource.kt
+// datasource/DbItemDataSource.kt
 
-package com.survivalcoding.day15.data_source
+package com.survivalcoding.day15.datasource
 
 
 import com.survivalcoding.day15.model.Item
