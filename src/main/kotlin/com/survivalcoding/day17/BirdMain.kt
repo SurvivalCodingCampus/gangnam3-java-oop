@@ -1,27 +1,40 @@
 package com.survivalcoding.day17
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.time.Duration.Companion.milliseconds
 
 fun main(): Unit = runBlocking {
-    launch {
-        cry(birdSound = "꾸우", milliseconds = 1000, repeatTimes = 4)
+    val gguJob = launch {
+        cry(birdSound = "꾸우", delayMillis = 1000)
     }
 
-    launch {
-        cry(birdSound = "까악", milliseconds = 2000, repeatTimes = 4)
+    val ggaJob = launch {
+        cry(birdSound = "까악", delayMillis = 2000)
     }
 
-    launch {
-        cry(birdSound = "짹짹", milliseconds = 3000, repeatTimes = 4)
+    val jjaekJob = launch {
+        cry(birdSound = "짹짹", delayMillis = 3000)
+    }
+
+    cancelAll(
+        delayMillis = 10000,
+        jobs = listOf(gguJob, ggaJob, jjaekJob)
+    )
+}
+
+suspend fun cry(birdSound: String, delayMillis: Int) {
+    while (true) {
+        delay(delayMillis.milliseconds)
+        println(birdSound)
     }
 }
 
-suspend fun cry(birdSound: String, milliseconds: Int, repeatTimes: Int) {
-    repeat (repeatTimes) {
-        delay(milliseconds.milliseconds)
-        println(birdSound)
+suspend fun cancelAll(delayMillis: Int, jobs: List<Job>){
+    delay(delayMillis.milliseconds)
+    jobs.forEach {
+        it.cancel()
     }
 }
