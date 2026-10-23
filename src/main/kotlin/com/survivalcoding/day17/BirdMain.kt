@@ -28,10 +28,12 @@ fun main(): Unit = runBlocking {
         )
     }
 
-    cancelAfter(
-        delayMs = 10000,
-        jobs = listOf(gguJob, ggaJob, jjaekJob)
-    )
+    launch {
+        cancelAfter(
+            delayMs = 10000,
+            jobs = listOf(gguJob, ggaJob, jjaekJob)
+        )
+    }
 }
 
 suspend fun repeatSound(sound: String, intervalMs: Int) {
