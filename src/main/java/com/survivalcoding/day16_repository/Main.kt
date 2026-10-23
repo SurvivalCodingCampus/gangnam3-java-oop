@@ -11,21 +11,21 @@ fun main() {
         listOf(
             User(
                 postId = 1,
-                id = "1",
+                id = 1,
                 name = "id labore ex et quam laborum",
                 email = "Eliseo@gardner.biz",
                 body = "laudantium enim quasi est quidem\nmagnam voluptate ipsam eos"
             ),
             User(
                 postId = 1,
-                id = "2",
+                id = 2,
                 name = "quo vero reiciendis velit similique earum",
                 email = "Jayne_Kuhic@sydney.com",
                 body = "est natus enim nihil est dolore omnis voluptatem numquam"
             ),
             User(
                 postId = 2,
-                id = "6",
+                id = 6,
                 name = "et fugit eligendi deleniti quidem qui sint nihil autem",
                 email = "Presley.Mueller@myrl.com",
                 body = "doloribus at sed quis culpa deserunt consectetur qui praesentium"
