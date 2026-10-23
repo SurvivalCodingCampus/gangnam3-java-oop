@@ -4,36 +4,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import kotlin.time.Duration.Companion.milliseconds
 
 fun main(): Unit = runBlocking {
-    val gguJob = launch {
-        repeatSound(
-            sound = "꾸우",
-            intervalMs = 1000
-        )
-    }
+    val gguJob = launch { repeatSound(sound = "꾸우", intervalMs = 1000) }
+    val ggaJob = launch { repeatSound(sound = "까악", intervalMs = 2000) }
+    val jjaekJob = launch { repeatSound(sound = "짹짹", intervalMs = 3000) }
 
-    val ggaJob = launch {
-        repeatSound(
-            sound = "까악",
-            intervalMs = 2000
-        )
-    }
-
-    val jjaekJob = launch {
-        repeatSound(
-            sound = "짹짹",
-            intervalMs = 3000
-        )
-    }
-
-    launch {
-        cancelAfter(
-            delayMs = 10000,
-            jobs = listOf(gguJob, ggaJob, jjaekJob)
-        )
-    }
+    launch { cancelAfter(delayMs = 10000, jobs = listOf(gguJob, ggaJob, jjaekJob)) }
 }
 
 suspend fun repeatSound(sound: String, intervalMs: Int) {
