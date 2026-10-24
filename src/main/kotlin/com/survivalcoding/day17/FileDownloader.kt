@@ -23,14 +23,14 @@ object DownloadManager {
     suspend fun download(fileName: String): String = coroutineScope {
         var progress = 0
 
-        val downloadJob = async {
+        val animatorJob = launch {
+            Animator.start(fileName) { progress }
+        }
+
+        val downloadJob = async(Dispatchers.IO) {
             FileDownloader.downloadFile(fileName) {
                 progress = it
             }
-        }
-
-        val animatorJob = launch {
-            Animator.start(fileName) { progress }
         }
 
         val result = downloadJob.await()
@@ -49,7 +49,7 @@ object FileDownloader {
         onProgress: (Int) -> Unit
     ): String {
         for (progress in 1..100) {
-            delay(16.milliseconds)
+            delay(15.milliseconds)
             onProgress(progress)
         }
 
@@ -67,7 +67,7 @@ object Animator {
 
             print("\r$fileName 다운로드 중 $progress%")
 
-            delay(50.milliseconds)
+            delay(60.milliseconds)
         }
     }
 
