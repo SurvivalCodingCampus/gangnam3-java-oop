@@ -1,29 +1,31 @@
 package com.survivalcoding.day17
 
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 fun main(): Unit = runBlocking {
-    val job1: Job = launch {
+    val job1: Job = launch(Dispatchers.IO) {
         while (true) {
             delay(1000)
-            println("꾸우")
+            withContext(Dispatchers.Default) {
+                println("꾸우: ${Thread.currentThread().name}")
+            }
         }
     }
 
-    val job2: Job = launch {
+    val job2: Job = launch(Dispatchers.IO) {
         while (true) {
             delay(2000)
-            println("까악")
+            withContext(Dispatchers.Default) {
+                println("까악: ${Thread.currentThread().name}")
+            }
         }
     }
-
-    val job3: Job = launch {
+    val job3: Job = launch(Dispatchers.IO) {
         while (true) {
             delay(3000)
-            println("짹짹")
+            withContext(Dispatchers.Default) {
+                println("짹짹: ${Thread.currentThread().name}")
+            }
         }
     }
 
