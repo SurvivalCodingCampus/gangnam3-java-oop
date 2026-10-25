@@ -8,7 +8,7 @@ fun main(): Unit = runBlocking {
         repeat(4) {
             delay(1000)
             withContext(Dispatchers.Default) {
-                println("꾸우: $(Thread.currentThread().name}")
+                println("꾸우: ${Thread.currentThread().name}")
             }
         }
     }
@@ -17,7 +17,7 @@ fun main(): Unit = runBlocking {
         repeat(4) {
             delay(2000)
             withContext(Dispatchers.Default) {
-                println("까악: $(Thread.currentThread().name}")
+                println("까악: ${Thread.currentThread().name}")
             }
         }
     }
@@ -26,7 +26,7 @@ fun main(): Unit = runBlocking {
         repeat(4) {
             delay(3000)
             withContext(Dispatchers.Default) {
-                println("짹짹: $(Thread.currentThread().name}")
+                println("짹짹: ${Thread.currentThread().name}")
             }
         }
     }
