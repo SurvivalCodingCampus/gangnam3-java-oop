@@ -27,15 +27,13 @@ object DownloadManager {
             Animator.start(fileName) { progress }
         }
 
-        val downloadJob = async(Dispatchers.IO) {
+        val result = withContext(Dispatchers.IO) {
             FileDownloader.downloadFile(fileName) {
                 progress = it
             }
         }
 
-        val result = downloadJob.await()
-
-        animatorJob.cancelAndJoin()
+        animatorJob.cancel()
         Animator.complete(fileName)
 
         result
