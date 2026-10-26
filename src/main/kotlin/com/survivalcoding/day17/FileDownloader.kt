@@ -1,6 +1,7 @@
 package com.survivalcoding.day17
 
 import kotlinx.coroutines.*
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.time.Duration.Companion.milliseconds
 
 fun main() = runBlocking {
@@ -21,15 +22,15 @@ fun main() = runBlocking {
 object DownloadManager {
 
     suspend fun download(fileName: String): String = coroutineScope {
-        var progress = 0
+        val progress = AtomicInteger(0)
 
         val animatorJob = launch {
-            Animator.start(fileName) { progress }
+            Animator.start(fileName) { progress.get() }
         }
 
         val result = withContext(Dispatchers.IO) {
             FileDownloader.downloadFile(fileName) {
-                progress = it
+                progress.set(it)
             }
         }
 
@@ -44,11 +45,11 @@ object FileDownloader {
 
     suspend fun downloadFile(
         name: String,
-        onProgress: (Int) -> Unit
+        onProgressChanged: (Int) -> Unit
     ): String {
         for (progress in 1..100) {
             delay(15.milliseconds)
-            onProgress(progress)
+            onProgressChanged(progress)
         }
 
         return "$name JSON"
