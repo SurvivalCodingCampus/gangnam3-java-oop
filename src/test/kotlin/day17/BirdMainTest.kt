@@ -44,7 +44,7 @@ class Test {
 
         return if (text.isNotEmpty()) {
             text
-                .trimEnd('\r', '\n')
+                .trimEnd('\n')
                 .lines() // 개행문자 기준 분리
         } else {
             emptyList()
