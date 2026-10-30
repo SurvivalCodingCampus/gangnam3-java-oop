@@ -16,8 +16,16 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    // 직렬화
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    // 코루틴
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+
+    // Http 통신
+    implementation("io.ktor:ktor-client-core:3.6.0")
+    implementation("io.ktor:ktor-client-cio:3.6.0")
+
+    testImplementation("io.ktor:ktor-client-mock:3.6.0")
 }
 
 tasks.test {

@@ -1,0 +1,36 @@
+### GET 방식
+GET https://jsonplaceholder.typicode.com/posts
+
+### POST 방식 (등록)
+POST https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json
+
+{
+  "userId": 4,
+  "title": "바보야",
+  "body": "멍청아"
+}
+
+###
+GET https://jsonplaceholder.typicode.com/posts/1
+
+### PUT (전체 수정)
+PUT https://jsonplaceholder.typicode.com/posts/1
+Content-Type: application/json
+
+{
+  "userId": 4,
+  "title": "바보야",
+  "body": "멍청아"
+}
+
+### PATCH (일부 수정)
+PATCH https://jsonplaceholder.typicode.com/posts/1
+Content-Type: application/json
+
+{
+  "title": "바보야"
+}
+
+### 지워주세요
+DELETE https://jsonplaceholder.typicode.com/posts/1

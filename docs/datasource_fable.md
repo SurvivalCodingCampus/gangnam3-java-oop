@@ -9,7 +9,7 @@
 ### 인터페이스: `<모델명>DataSource`
 
 - 모델 이름 뒤에 `DataSource` 를 붙인다. 접두사(`I`)나 기술명은 붙이지 않는다.
-- `ItemDataSource`, `TodoDataSource`, `StockDataSource`
+- `ItemDataSource`, `PostDataSource`, `StockDataSource`
 
 ### 구현체: `<기술명><인터페이스명>`
 

@@ -6,7 +6,6 @@ import java.io.File
 // 메인 스레드
 fun main(): Unit = runBlocking {
 
-
     println("main start")
 
     launch {
@@ -18,6 +17,8 @@ fun main(): Unit = runBlocking {
         delay(1000)
         println("world")
     }
+
+    delay(1000)
 
     println("main end")
 
