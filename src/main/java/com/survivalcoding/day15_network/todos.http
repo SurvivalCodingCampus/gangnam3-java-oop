@@ -1,0 +1,7 @@
+### TODO 조회
+GET https://jsonplaceholder.typicode.com/todos
+Content-Type: application/json
+
+### TODO 조회 - id(1)
+GET https://jsonplaceholder.typicode.com/todos/1
+Content-Type: application/json
