@@ -17,7 +17,9 @@ class PokeDataSourceImpl(
     }
 
     override suspend fun getPokemon(name: String): Response<Pokemon?> {
-        val response = httpClient.get("$BASE_URL/$name")
+        val response = httpClient.get(BASE_URL) {
+            url { appendPathSegments(name, encodeSlash = true) }
+        }
 
         return Response(
             statusCode = response.status.value,
