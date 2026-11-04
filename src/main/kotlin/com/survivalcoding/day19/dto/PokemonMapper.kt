@@ -1,0 +1,24 @@
+package com.survivalcoding.day19.dto
+
+import com.survivalcoding.day18.model.Pokemon
+
+
+fun PokemonDto.toModel(): Pokemon = Pokemon(
+    id = id ?: 0,
+    name = name?.takeIf { it.isNotBlank() } ?: "",
+    baseExperience = baseExperience ?: 0,
+    height = height ?: 0,
+    isDefault = isDefault ?: false,
+    order = order ?: 0,
+    weight = weight ?: 0,
+)
+
+fun Pokemon.toDto(): PokemonDto = PokemonDto(
+    id = id,
+    name = name,
+    baseExperience = baseExperience,
+    height = height,
+    isDefault = isDefault,
+    order = order,
+    weight = weight,
+)
