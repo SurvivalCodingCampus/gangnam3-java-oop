@@ -1,5 +1,6 @@
 package com.survivalcoding.day18.datasource
 
+import com.survivalcoding.day18.HttpClientFactory
 import com.survivalcoding.day18.MyResponse
 import com.survivalcoding.day18.StatusCode
 import com.survivalcoding.day18.model.Pokemon
@@ -10,7 +11,7 @@ import io.ktor.util.toMap
 import kotlinx.serialization.json.Json
 
 class RemotePokemonDataSource(
-    private val httpClient: HttpClient,
+    private val httpClient: HttpClient = HttpClientFactory.create(),
     private val baseUrl: String = "https://pokeapi.co/api/v2/pokemon",
 ) : PokemonDataSource {
     override suspend fun getPokemonByName(name: String): MyResponse<String> {
