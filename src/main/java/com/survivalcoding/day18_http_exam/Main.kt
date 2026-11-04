@@ -12,5 +12,6 @@ fun main(): Unit = runBlocking {
     val repository: PokemonRepository = PokemonRepositoryImpl(dataSource)
 
     val pokemon: Pokemon? = repository.getPokemon("pikachu")
-    println( pokemon?.sprites?.frontDefault ?: "이미지 없음")
+    println(pokemon?.name ?: "이름 없음")
+    println(pokemon?.imageUrl ?: "이미지 없음")
 }

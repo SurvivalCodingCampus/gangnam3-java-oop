@@ -1,6 +1,8 @@
 package com.survivalcoding.day18_http_exam.data_source
 
+import com.survivalcoding.day18_http_exam.dto.PokemonDto
 import kotlinx.coroutines.delay
+import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
 
 const val jsonString = """{
@@ -1440,11 +1442,14 @@ const val jsonString = """{
 }"""
 
 class FakePokemonDataSource : PokemonDataSource {
-    override suspend fun getPokemon(name: String): Response<String> {
+
+    private val json = Json { ignoreUnknownKeys = true }
+
+    override suspend fun getPokemon(name: String): Response<PokemonDto> {
         delay(1.seconds)
         return Response(
             statusCode = 200,
-            body = jsonString,
+            body = json.decodeFromString<PokemonDto>(jsonString),
         )
     }
 }

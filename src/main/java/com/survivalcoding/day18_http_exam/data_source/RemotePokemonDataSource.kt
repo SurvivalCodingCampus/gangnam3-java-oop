@@ -1,21 +1,26 @@
 package com.survivalcoding.day18_http_exam.data_source
 
 import com.survivalcoding.day18_http.HttpClientFactory
+import com.survivalcoding.day18_http_exam.dto.PokemonDto
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import kotlinx.serialization.json.Json
 
+// 데이터 관련 복잡한 거 최대한 다해서 DTO 만 돌려주자
 class RemotePokemonDataSource(
     private val httpClient: HttpClient = HttpClientFactory.create()
 ) : PokemonDataSource {
 
     private val baseUrl = "https://pokeapi.co/api/v2"
+    private val json = Json { ignoreUnknownKeys = true }
 
-    override suspend fun getPokemon(name: String): Response<String> {
+    override suspend fun getPokemon(name: String): Response<PokemonDto> {
         val response = httpClient.get("$baseUrl/pokemon/$name")
+        val jsonString = response.bodyAsText()
         return Response(
             statusCode = response.status.value,
-            body = response.bodyAsText()
+            body = json.decodeFromString<PokemonDto>(jsonString)
         )
     }
 }
