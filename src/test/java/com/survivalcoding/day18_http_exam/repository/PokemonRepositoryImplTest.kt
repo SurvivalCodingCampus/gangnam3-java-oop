@@ -7,13 +7,14 @@ import com.survivalcoding.day18_http_exam.data_source.mockEngine
 import com.survivalcoding.day18_http_exam.model.Pokemon
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 
 class PokemonRepositoryImplTest {
     @Test
-    fun `Pokemon 데이터가 잘 들어와야 한다`(): Unit = runBlocking {
+    fun `Pokemon 데이터가 잘 들어와야 한다`(): Unit = runTest {
 //        val dataSource: PokemonDataSource = RemotePokemonDataSource(HttpClient(mockEngine))
         val dataSource: PokemonDataSource = FakePokemonDataSource()
 

@@ -1446,7 +1446,7 @@ class FakePokemonDataSource : PokemonDataSource {
     private val json = Json { ignoreUnknownKeys = true }
 
     override suspend fun getPokemon(name: String): Response<PokemonDto> {
-        delay(1.seconds)
+        delay(2.seconds)
         return Response(
             statusCode = 200,
             body = json.decodeFromString<PokemonDto>(jsonString),
