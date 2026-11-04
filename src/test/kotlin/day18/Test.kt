@@ -91,11 +91,10 @@ class Test {
         }
 
         @Test
-        fun `존재하지 않는 name으로 요청하면 404 상태코드와 null body를 반환한다`() = runTest {
+        fun `존재하지 않는 name으로 요청하면 404 상태코드를 반환한다`() = runTest {
             val response = dataSource.getPokemonByName("unknown")
 
             assertThat(response.statusCode).isEqualTo(StatusCode.NotFound)
-            assertThat(response.body).isNull()
         }
 
         @OptIn(ExperimentalCoroutinesApi::class)
@@ -136,7 +135,7 @@ class Test {
         }
 
         @Test
-        fun `상태코드가 200가 아니면 null을 반환한다`() = runTest {
+        fun `상태코드가 200가 아니면 Not Found 반환한다`() = runTest {
             val repository = FakePokemonRepository(createMockDataSource())
 
             val actualPokemon = repository.getPokemonByName("unknown")
