@@ -1,0 +1,2 @@
+GET https://pokeapi.co/api/v2/pokemon/pikachu
+Content-Type: application/json

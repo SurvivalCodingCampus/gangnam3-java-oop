@@ -1,0 +1,7 @@
+### Post 조회
+GET https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json
+
+### Post 조회 - id(1)
+GET https://jsonplaceholder.typicode.com/posts/1
+Content-Type: application/json
