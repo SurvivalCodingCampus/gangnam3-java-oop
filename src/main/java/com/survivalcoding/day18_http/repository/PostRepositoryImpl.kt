@@ -9,22 +9,9 @@ class PostRepositoryImpl(
 ) : PostRepository {
 
     override suspend fun getPosts(): List<Post> {
-        try {
-            val response = dataSource.getPosts()
+        val response = dataSource.getPosts()
 
-            // 실패
-            if (response.statusCode != 200) {
-                return emptyList()
-            }
-
-            // 성공 null
-            if (response.body == null) {
-                return emptyList()
-            }
-            // null 아님
-            return Json.decodeFromString<List<Post>>(response.body)
-        } catch (ex: Exception) {
-            return emptyList()
-        }
+        // null 아님
+        return Json.decodeFromString<List<Post>>(response.body!!)
     }
 }
