@@ -777,7 +777,7 @@ fun main() {
 | DataSource 가 주는 것   | `List<Item>` (모델)               | `Response<PokemonDto>` (DTO)                                |
 | 구현체 import           | DataSource + 모델                 | + `dto.PokemonDto` + `mapper.toModel`                       |
 | 메서드 본문             | `load...()` 뒤에 가공             | `getPokemon()` → `body ?: return null` → `dto.toModel()` → (가공) |
-| 실패 처리               | 없음 (파일은 있다고 가정)         | `try/catch (Exception) → null`                              |
+| 실패 처리               | DataSource 가 파일 없음 · 빈 파일을 `emptyList()` 로 처리. Repository 는 할 일 없음 | `try/catch (Exception) → null`                 |
 | Fake                    | `List` 상태 + `load/save`         | `jsonString` decode + `delay`                               |
 | 테스트                  | 동기                              | `runTest`                                                   |
 | `main`                  | `fun main()`                      | `fun main(): Unit = runBlocking { ... }`                    |

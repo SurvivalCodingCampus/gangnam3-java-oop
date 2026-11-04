@@ -28,9 +28,9 @@ DTO 쪽 규칙은 [dto.md](dto.md), DTO → 모델 변환 규칙은 [mapper.md](
 | 돌려주는 것          | `List<Item>` — **모델**             | `Response<PokemonDto>` — **DTO 를 담은 응답 포장**          |
 | 인터페이스 import    | `model.Item`                        | `dto.PokemonDto`                                            |
 | 구현체 접두사        | `File`                              | `Remote`                                                    |
-| 구현체가 받는 것     | `File` (생성자, 기본값 있음)        | `HttpClient` (생성자, 기본값 있음)                          |
+| 구현체가 받는 것     | `File` — 실습 코드는 `private val file = File("items.json")` 로 안에서 만든다 (2장 규칙대로면 생성자로 받는 편이 낫다) | `HttpClient` (생성자, 기본값 있음)             |
 | 기술 라이브러리      | `java.io.File`, `kotlinx.serialization` | Ktor `HttpClient`, `kotlinx.serialization`              |
-| 실패하면             | (실습 코드는 파일이 있다고 가정)    | 예외를 그대로 던진다 → Repository 가 `catch` 해서 `null`   |
+| 실패하면             | 파일이 없거나 비어 있으면 `emptyList()` (3-1 정제 규칙 1) | 예외를 그대로 던진다 → Repository 가 `catch` 해서 `null`   |
 | 모델 변환은 누가     | DataSource (decode 결과가 곧 모델)  | Repository 가 `dto.toModel()` 호출 ([mapper.md](mapper.md)) |
 | 테스트 더블          | `Fake<모델명>DataSource`            | Ktor `MockEngine` ([test.md](test.md))                      |
 

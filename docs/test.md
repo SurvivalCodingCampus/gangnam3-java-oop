@@ -1,6 +1,6 @@
 # 테스트 작성 원칙
 
-실습 코드의 테스트 소스셋에 있는 파일 11개 — 자바 `HeroTest` / `ClericTest` / `BookTest`, 코틀린 `BookTest`,
+실습 코드의 테스트 소스셋에 있는 파일 12개 — 자바 `HeroTest` / `ClericTest` / `BookTest`, 코틀린 `BookTest`,
 로컬 파일 실습의 `FakeCommentDataSource` / `CommentRepositoryImplTest`, 원격 API 실습의 `JsonPlaceHolderTodoDataSourceTest`,
 포켓몬 실습의 `Mocks` / `FakePokemonDataSource` / `RemotePokemonDataSourceTest` / `ToModelTest` / `PokemonRepositoryImplTest` — 와
 수업 자료 「Kotlin Test 이론」 을 기준으로 정리한, 새로운 테스트를 만들 때 지켜야 할 필수 원칙이다.
