@@ -137,8 +137,7 @@ class Test {
 
         @Test
         fun `상태코드가 200가 아니면 null을 반환한다`() = runTest {
-            val engine = MockEngine { respondError(HttpStatusCode.NotFound) }
-            val repository = FakePokemonRepository(RemotePokemonDataSource(HttpClient(engine)))
+            val repository = FakePokemonRepository(createMockDataSource())
 
             val actualPokemon = repository.getPokemonByName("unknown")
 
