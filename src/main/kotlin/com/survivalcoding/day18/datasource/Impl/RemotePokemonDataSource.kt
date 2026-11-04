@@ -13,18 +13,14 @@ class RemotePokemonDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String = "https://pokeapi.co/api/v2/pokemon",
 ) : PokemonDataSource {
-    override suspend fun getPokemonByName(name: String): MyResponse<Pokemon?> {
+    override suspend fun getPokemonByName(name: String): MyResponse<String> {
         val response = httpClient.get("$baseUrl/$name")
         val statusCode = StatusCode(response.status.value)
 
         return MyResponse(
             statusCode = statusCode,
             headers = response.headers.toMap(),
-            body = if (statusCode == StatusCode.Ok) {
-                Json.decodeFromString<Pokemon>(response.bodyAsText())
-            } else {
-                null
-            }
+            body = response.bodyAsText()
         )
     }
 }
