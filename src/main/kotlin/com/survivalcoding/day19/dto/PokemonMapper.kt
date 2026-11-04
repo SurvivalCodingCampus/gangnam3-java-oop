@@ -5,7 +5,7 @@ import com.survivalcoding.day18.model.Pokemon
 
 fun PokemonDto.toModel(): Pokemon = Pokemon(
     id = id ?: 0,
-    name = name?.takeIf { it.isNotBlank() } ?: "",
+    name = if (name.isNullOrBlank()) "" else name,
     baseExperience = baseExperience ?: 0,
     height = height ?: 0,
     isDefault = isDefault ?: false,
