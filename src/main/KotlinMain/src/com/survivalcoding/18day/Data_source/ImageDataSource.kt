@@ -1,4 +1,4 @@
-package com.survivalcoding.`18day`.Datasource
+package com.survivalcoding.`18day`.Data_source
 
 
 interface ImageDataSource {
