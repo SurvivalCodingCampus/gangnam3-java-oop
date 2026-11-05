@@ -15,7 +15,14 @@ class PokemonRepositoryImpl(
     override suspend fun getPokemonByName(name: String): Result<Pokemon, NetworkError> {
         try {
             val response = dataSource.getPokemonByName(name)
-            val pokemonDto = response.body ?: return Result.Error(NetworkError.SERVER_ERR)
+
+            when {
+                response.statusCode.isServerError() -> return Result.Error(NetworkError.SERVER_ERR)
+                response.statusCode.isClientError() -> return Result.Error(NetworkError.CLIENT_ERR)
+            }
+
+            val pokemonDto = response.body ?: return Result.Error(NetworkError.NULL_DATA_ERR)
+
             return Result.Success(pokemonDto.toModel())
         } catch (_: SocketException) {
             return Result.Error(NetworkError.NO_INTERNET_ERR)

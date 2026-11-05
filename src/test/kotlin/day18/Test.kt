@@ -93,10 +93,10 @@ class Test {
 
             val response = dataSource.getPokemonByName("eevee")
 
-            assertThat(response.body.id).isEqualTo(133)
-            assertThat(response.body.name).isEqualTo("eevee")
-            assertThat(response.body.baseExperience).isEqualTo(65)
-            assertThat(response.body.isDefault).isTrue()
+            assertThat(response.body?.id).isEqualTo(133)
+            assertThat(response.body?.name).isEqualTo("eevee")
+            assertThat(response.body?.baseExperience).isEqualTo(65)
+            assertThat(response.body?.isDefault).isTrue()
         }
 
         @Test

@@ -15,12 +15,12 @@ class RemotePokemonDataSource(
 ) : PokemonDataSource {
     override suspend fun getPokemonByName(name: String): MyResponse<PokemonDto> {
         val response = httpClient.get("$baseUrl/$name")
-        val statusCode = StatusCode(response.status.value)
+        val statusCode = StatusCode.from(response.status.value)
 
         return MyResponse(
             statusCode = statusCode,
             headers = response.headers.toMap(),
-            body = response.body<PokemonDto>()
+            body = if (statusCode.isSuccess()) response.body<PokemonDto>() else null
         )
     }
 }
