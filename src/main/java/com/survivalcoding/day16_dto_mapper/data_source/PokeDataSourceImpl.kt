@@ -15,7 +15,6 @@ class PokeDataSourceImpl(
         val response = httpClient.get("https://pokeapi.co/api/v2/pokemon") {
             url { appendPathSegments(name, encodeSlash = true) }
         }
-
         return if (response.status.isSuccess()) response.body<PokeDto>() else null
     }
 }
