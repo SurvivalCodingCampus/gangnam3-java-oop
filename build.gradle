@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version '2.4.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.4.20'
 }
 
 group = 'com.survivalcoding'
@@ -18,6 +19,13 @@ dependencies {
     
     // JSON for configuration
     implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Kotlin Serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0'
+    
+    // Ktor Client
+    implementation 'io.ktor:ktor-client-core:2.3.7'
+    implementation 'io.ktor:ktor-client-cio:2.3.7'
     
     // JavaFX 네이티브 라이브러리는 OS·아키텍처마다 다르므로 실행 환경에 맞는 classifier 를 고른다.
     // (예: linux 네이티브로 빌드한 뒤 Windows 에서 실행하면 UnsatisfiedLinkError 가 발생한다.)
