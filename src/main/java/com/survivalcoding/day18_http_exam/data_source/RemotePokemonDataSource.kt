@@ -1,6 +1,7 @@
 package com.survivalcoding.day18_http_exam.data_source
 
 import com.survivalcoding.day18_http.HttpClientFactory
+import com.survivalcoding.day18_http_exam.core.Response
 import com.survivalcoding.day18_http_exam.dto.PokemonDto
 import io.ktor.client.*
 import io.ktor.client.request.*

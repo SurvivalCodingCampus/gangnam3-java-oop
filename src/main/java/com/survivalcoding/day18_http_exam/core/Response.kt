@@ -1,4 +1,4 @@
-package com.survivalcoding.day18_http_exam.data_source
+package com.survivalcoding.day18_http_exam.core
 
 data class Response<T>(
     val statusCode: Int = 200,

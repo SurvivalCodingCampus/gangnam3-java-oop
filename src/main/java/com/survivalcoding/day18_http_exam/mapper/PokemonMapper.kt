@@ -7,6 +7,6 @@ fun PokemonDto.toModel(): Pokemon {
     return Pokemon(
         id = id ?: 0,
         name = name ?: "",
-        imageUrl = sprites?.frontDefault ?: ""
+        imageUrl = sprites?.frontShiny ?: ""
     )
 }
