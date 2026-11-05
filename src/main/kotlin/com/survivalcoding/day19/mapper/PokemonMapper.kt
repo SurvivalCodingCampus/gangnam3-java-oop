@@ -1,6 +1,7 @@
-package com.survivalcoding.day19.dto
+package com.survivalcoding.day19.mapper
 
 import com.survivalcoding.day18.model.Pokemon
+import com.survivalcoding.day19.dto.PokemonDto
 
 
 fun PokemonDto.toModel(): Pokemon = Pokemon(

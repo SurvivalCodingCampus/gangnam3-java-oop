@@ -4,8 +4,8 @@ package day19
 
 import com.survivalcoding.day18.model.Pokemon
 import com.survivalcoding.day19.dto.PokemonDto
-import com.survivalcoding.day19.dto.toDto
-import com.survivalcoding.day19.dto.toModel
+import com.survivalcoding.day19.mapper.toDto
+import com.survivalcoding.day19.mapper.toModel
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.Test
