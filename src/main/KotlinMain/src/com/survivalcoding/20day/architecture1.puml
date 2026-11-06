@@ -1,0 +1,65 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+
+package "com.example.recipe.domain.model" {
+    class Recipe {
+        + id: String
+        + title: String
+        + imageUrl: String
+        + cookingTimeMinutes: Int
+        + rating: Double
+        + category: String
+        + ingredients: List<String>
+        + instructions: List<String>
+    }
+
+    class User {
+        + id: String
+        + name: String
+        + profileImageUrl: String
+        + followersCount: Int
+        + followingCount: Int
+    }
+
+    class Review {
+        + id: String
+        + recipeId: String
+        + userId: String
+        + rating: Double
+        + comment: String
+        + createdAt: String
+    }
+}
+
+package "com.example.recipe.domain.repository" {
+    interface RecipeRepository {
+        + getRecipes(category: String?): Result<List<Recipe>, NetworkError>
+        + getRecipeById(id: String): Result<Recipe, NetworkError>
+        + searchRecipes(query: String, category: String?, timeFilter: String?, minRating: Double?): Result<List<Recipe>, NetworkError>
+        + getNewRecipes(): Result<List<Recipe>, NetworkError>
+    }
+
+    interface BookmarkRepository {
+        + getSavedRecipeIds(): Result<Set<String>, NetworkError>
+        + toggleBookmark(recipeId: String): Result<Boolean, NetworkError>
+        + isBookmarked(recipeId: String): Boolean
+    }
+
+    interface UserRepository {
+        + getCurrentUserProfile(): Result<User, NetworkError>
+        + getUserProfile(userId: String): Result<User, NetworkError>
+        + toggleFollowUser(targetUserId: String): Result<Boolean, NetworkError>
+    }
+
+    interface ReviewRepository {
+        + getReviewsByRecipeId(recipeId: String): Result<List<Review>, NetworkError>
+        + addReview(recipeId: String, rating: Double, comment: String): Result<Review, NetworkError>
+    }
+}
+
+RecipeRepository ..> Recipe : creates / returns
+UserRepository ..> User : creates / returns
+ReviewRepository ..> Review : creates / returns
+
+@enduml
