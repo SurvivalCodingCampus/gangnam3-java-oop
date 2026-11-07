@@ -1,0 +1,230 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+' DTO
+' Sign In
+package "SignIn" {
+    class SignInRequestDto {
+        val email: String
+        val password: String
+    }
+
+    class GoogleOAuthSignInRequestDto {
+
+    }
+
+    class FacebookOAuthSignInRequestDto {
+
+    }
+}
+
+' Sign Up
+package "SignUp" {
+    class SignUpRequestDto {
+        val name: String
+        val email: String
+        val password: String
+    }
+
+    class GoogleOAuthSignUpRequestDto {
+
+    }
+
+    class FacebookOAuthSignUpRequestDto {
+
+    }
+}
+
+' Home
+package "Home" {
+    class UserHomeResponseDto {
+        val name: String
+        val image: Image
+    }
+
+    class DishesResponseDto {
+        val recipeId: String
+        val image: Image
+        val rate: float
+        val title: String
+        val time: Int
+        val isBookmarked: Boolean
+    }
+
+    class NewDishesResponseDto {
+        val recipeId: String
+        val title: String
+        val image: Image
+        val rate: float
+        val userImage: Image
+        val userName: String
+        val time: Int
+    }
+}
+
+' Search
+
+package "Search" {
+
+    enum SortType {
+        All,
+        Newest,
+        Oldest,
+        Popularity
+    }
+
+    enum Rate {
+      One = 1,
+      Two = 2,
+      Three = 3,
+      Four = 4,
+      Five = 5,
+    }
+
+    enum RecipeCategory {
+      All = "All",
+      Cereal = "Cereal",
+      Vegetables = "Vegetables",
+      Dinner = "Dinner",
+      Chinese = "Chinese",
+      LocalDish = "Local Dish",
+      Fruit = "Fruit",
+      BreakFast = "BreakFast",
+      Spanish = "Spanish",
+      Lunch = "Lunch",
+    }
+
+    class RecipeSearchRequestDto {
+        val time: SortType
+        val rate: Rate
+        val category: RecipeCategory
+    }
+}
+
+package "SearchResult" {
+    class SearchRecipeResultResponseDto {
+        val recipeId: String
+        val dishImage: Image
+        val rate: float
+        val title: String
+        val userName: String
+    }
+}
+
+' Saved Recipe
+package "SavedRecipe" {
+    class SavedRecipeResponseDto {
+        val recipeId: String
+        val dishImage: Image
+        val rate: float
+        val title: String
+        val userName: String
+        val time: Int
+        val isBookmarked: Boolean
+    }
+}
+
+package RecipeDetail {
+    class RecipeResponseDto {
+        val dishImage: Image
+        val rate: float
+        val time: Int
+        val isBookmarked: Boolean
+        val title: String
+        val totalViewers: Int
+    }
+
+    class RecipeUserResponseDto {
+        val userId: String
+        val userImage: Image
+        val userCity: String
+        val isFollowing
+    }
+
+    class RecipeDetailResponseDto {
+        val servings: Int
+        val ingredients: List<RecipeIngredientResponseDto>
+        val steps: List<RecipeStepResponseDto>
+    }
+
+    package More {
+        class RateRequestDto {
+            val rate: Int
+        }
+
+        class RecipeResponseDto {
+            val recipeLink: String
+        }
+    }
+
+    package Ingredient {
+        class RecipeIngredientResponseDto {
+            val image: Image
+            val name: String
+            val requiredGrams: Int
+        }
+    }
+
+    package Procedure {
+        class RecipeStepResponseDto {
+            val stepNumber: Int
+            val description: String
+        }
+    }
+
+    RecipeDetailResponseDto --* RecipeIngredientResponseDto
+    RecipeDetailResponseDto --* RecipeStepResponseDto
+}
+
+package Review {
+    class RecipeReviewRequestDto {
+        val userId: String
+        val content: String
+    }
+
+    class RecipeReviewResponseDto {
+        val userId: String
+        val userImage: Image
+        val userName: Image
+        val createdAt: LocalDateTime
+        val content: String
+        val likeCount: Int
+        val dislikeCount: Int
+    }
+}
+
+package Notifications {
+
+    enum NotificationType {
+        NEW_RECIPE = "New Recipe Alert"
+        SAVE_RECIPE = "Save Recipe Alert"
+    }
+
+    class RecipeNotificationResponseDto {
+        val RecipeId: Long
+        val notificationType: NotificationType
+        val message: String
+        val createdAt: LocalDateTime
+        val isRead: Boolean
+    }
+
+    RecipeNotificationResponseDto --> NotificationType
+}
+
+package Profile {
+    class UserProfileResponseDto {
+        val profileImageUrl: String
+        val recipeCount: Int
+        val followerCount: Int
+        val followingCount: Int
+        val job: String
+        val name: String
+        val biography: String
+    }
+}
+
+
+
+@enduml
