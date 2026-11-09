@@ -6,30 +6,33 @@ left to right direction
 hide empty members
 
 ' Enum (architecture_DTO.puml 에서 복사)
-enum RecipeCategory {
-  All = "All",
-  Cereal = "Cereal",
-  Vegetables = "Vegetables",
-  Dinner = "Dinner",
-  Chinese = "Chinese",
-  LocalDish = "Local Dish",
-  Fruit = "Fruit",
-  BreakFast = "BreakFast",
-  Spanish = "Spanish",
-  Lunch = "Lunch",
-}
+package Common {
+    left to right direction
+    enum RecipeCategory {
+      All = "All",
+      Cereal = "Cereal",
+      Vegetables = "Vegetables",
+      Dinner = "Dinner",
+      Chinese = "Chinese",
+      LocalDish = "Local Dish",
+      Fruit = "Fruit",
+      BreakFast = "BreakFast",
+      Spanish = "Spanish",
+      Lunch = "Lunch",
+    }
 
-enum Rate {
-  One = 1,
-  Two = 2,
-  Three = 3,
-  Four = 4,
-  Five = 5,
-}
+    enum Rate {
+      One = 1,
+      Two = 2,
+      Three = 3,
+      Four = 4,
+      Five = 5,
+    }
 
-enum NotificationType {
-    NEW_RECIPE = "New Recipe Alert"
-    SAVE_RECIPE = "Save Recipe Alert"
+    enum NotificationType {
+        NEW_RECIPE = "New Recipe Alert"
+        SAVE_RECIPE = "Save Recipe Alert"
+    }
 }
 
 package Model {
