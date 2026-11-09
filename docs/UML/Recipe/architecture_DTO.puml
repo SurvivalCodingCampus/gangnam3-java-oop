@@ -4,6 +4,14 @@
 left to right direction
 
 ' DTO
+' Common
+package "Common" {
+    class SliceResponseDto<T> {
+        val content: List<T>
+        val nextCursor: String?
+    }
+}
+
 ' Sign In
 package "SignIn" {
     class SignInRequestDto {
@@ -12,11 +20,18 @@ package "SignIn" {
     }
 
     class GoogleOAuthSignInRequestDto {
-
+        val idToken: String
     }
 
     class FacebookOAuthSignInRequestDto {
+        val accessToken: String
+    }
 
+    class AuthResponseDto {
+        val userId: Long
+        val name: String
+        val email: String
+        val image: Image
     }
 }
 
@@ -29,11 +44,11 @@ package "SignUp" {
     }
 
     class GoogleOAuthSignUpRequestDto {
-
+        val idToken: String
     }
 
     class FacebookOAuthSignUpRequestDto {
-
+        val accessToken: String
     }
 }
 
@@ -45,19 +60,19 @@ package "Home" {
     }
 
     class DishesResponseDto {
-        val recipeId: String
+        val recipeId: Long
         val image: Image
-        val rate: float
+        val rate: Double
         val title: String
         val time: Int
         val isBookmarked: Boolean
     }
 
     class NewDishesResponseDto {
-        val recipeId: String
+        val recipeId: Long
         val title: String
         val image: Image
-        val rate: float
+        val rate: Double
         val userImage: Image
         val userName: String
         val time: Int
@@ -97,9 +112,12 @@ package "Search" {
     }
 
     class RecipeSearchRequestDto {
-        val time: SortType
-        val rate: Rate
+        val keyword: String
+        val sort: SortType
+        val rate: Rate?
         val category: RecipeCategory
+        val cursor: String?
+        val size: Int
     }
 
     RecipeSearchRequestDto --> SortType
@@ -109,9 +127,9 @@ package "Search" {
 
 package "SearchResult" {
     class SearchRecipeResultResponseDto {
-        val recipeId: String
+        val recipeId: Long
         val dishImage: Image
-        val rate: float
+        val rate: Double
         val title: String
         val userName: String
     }
@@ -120,9 +138,9 @@ package "SearchResult" {
 ' Saved Recipe
 package "SavedRecipe" {
     class SavedRecipeResponseDto {
-        val recipeId: String
+        val recipeId: Long
         val dishImage: Image
-        val rate: float
+        val rate: Double
         val title: String
         val userName: String
         val time: Int
@@ -132,19 +150,23 @@ package "SavedRecipe" {
 
 package RecipeDetail {
     class RecipeResponseDto {
+        val recipeId: Long
         val dishImage: Image
-        val rate: float
+        val rate: Double
         val time: Int
         val isBookmarked: Boolean
         val title: String
         val totalViewers: Int
+        val reviewCount: Int
+        val savedCount: Int
     }
 
     class RecipeUserResponseDto {
-        val userId: String
+        val userId: Long
         val userImage: Image
+        val userName: String
         val userCity: String
-        val isFollowing
+        val isFollowing: Boolean
     }
 
     class RecipeDetailResponseDto {
@@ -155,10 +177,17 @@ package RecipeDetail {
 
     package More {
         class RateRequestDto {
-            val rate: Int
+            val userId: Long
+            val recipeId: Long
+            val rate: Rate
         }
 
-        class RecipeResponseDto {
+        class RateResponseDto {
+            val averageRating: Double
+            val isUpdated: Boolean
+        }
+
+        class RecipeLinkResponseDto {
             val recipeLink: String
         }
     }
@@ -178,20 +207,23 @@ package RecipeDetail {
         }
     }
 
-    RecipeDetailResponseDto "1" --* "1..*" RecipeIngredientResponseDto
-    RecipeDetailResponseDto "1" --* "1..*" RecipeStepResponseDto
+    RecipeDetailResponseDto "1" *-- "1..*" RecipeIngredientResponseDto
+    RecipeDetailResponseDto "1" *-- "1..*" RecipeStepResponseDto
+    RateRequestDto --> Rate
 }
 
 package Review {
     class RecipeReviewRequestDto {
-        val userId: String
+        val recipeId: Long
+        val userId: Long
         val content: String
     }
 
     class RecipeReviewResponseDto {
-        val userId: String
+        val id: Long
+        val userId: Long
         val userImage: Image
-        val userName: Image
+        val userName: String
         val createdAt: LocalDateTime
         val content: String
         val likeCount: Int
@@ -207,7 +239,8 @@ package Notifications {
     }
 
     class RecipeNotificationResponseDto {
-        val RecipeId: Long
+        val id: Long
+        val recipeId: Long
         val notificationType: NotificationType
         val message: String
         val createdAt: LocalDateTime
@@ -219,7 +252,8 @@ package Notifications {
 
 package Profile {
     class UserProfileResponseDto {
-        val profileImageUrl: String
+        val userId: Long
+        val image: Image
         val recipeCount: Int
         val followerCount: Int
         val followingCount: Int
@@ -228,7 +262,5 @@ package Profile {
         val biography: String
     }
 }
-
-
 
 @enduml

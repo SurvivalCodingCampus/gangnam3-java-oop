@@ -1,0 +1,123 @@
+@startuml
+'https://plantuml.com/class-diagram
+' architecture_DTO.puml(DTO) 기반 Model
+
+left to right direction
+
+' Enum (architecture_DTO.puml 에서 복사)
+enum RecipeCategory {
+  All = "All",
+  Cereal = "Cereal",
+  Vegetables = "Vegetables",
+  Dinner = "Dinner",
+  Chinese = "Chinese",
+  LocalDish = "Local Dish",
+  Fruit = "Fruit",
+  BreakFast = "BreakFast",
+  Spanish = "Spanish",
+  Lunch = "Lunch",
+}
+
+enum Rate {
+  One = 1,
+  Two = 2,
+  Three = 3,
+  Four = 4,
+  Five = 5,
+}
+
+enum NotificationType {
+    NEW_RECIPE = "New Recipe Alert"
+    SAVE_RECIPE = "Save Recipe Alert"
+}
+
+package Model {
+    class User {
+        val id: Long
+        val name: String
+        val email: String
+        val image: Image
+        val city: String
+        val job: String
+        val biography: String
+        val recipeCount: Int
+        val followerCount: Int
+        val followingCount: Int
+        val isFollowing: Boolean
+    }
+
+    class Recipe {
+        val id: Long
+        val userId: Long
+        val userName: String
+        val userImage: Image
+        val title: String
+        val image: Image
+        val rate: Double
+        val isBookmarked: Boolean
+        val category: RecipeCategory
+        val time: Int
+        val servings: Int
+        val totalViewers: Int
+        val reviewCount: Int
+        val savedCount: Int
+        val recipeLink: String
+        val createdAt: LocalDateTime
+        val ingredients: List<Ingredient>
+        val steps: List<Step>
+    }
+
+    class Ingredient {
+        val name: String
+        val image: Image
+        val requiredGrams: Int
+    }
+
+    class Step {
+        val stepNumber: Int
+        val description: String
+    }
+
+    class Rating {
+        val userId: Long
+        val recipeId: Long
+        val rate: Rate
+    }
+
+    class Review {
+        val id: Long
+        val recipeId: Long
+        val userId: Long
+        val userName: String
+        val userImage: Image
+        val content: String
+        val createdAt: LocalDateTime
+        val likeCount: Int
+        val dislikeCount: Int
+    }
+
+    class Notification {
+        val id: Long
+        val userId: Long
+        val recipeId: Long
+        val type: NotificationType
+        val message: String
+        val createdAt: LocalDateTime
+        val isRead: Boolean
+    }
+
+    Recipe "0..*" --> "1" User : userId
+    Recipe "1" *-- "1..*" Ingredient
+    Recipe "1" *-- "1..*" Step
+    Recipe --> RecipeCategory
+    Review "0..*" --> "1" User : userId
+    Review "0..*" --> "1" Recipe : recipeId
+    Rating "0..*" --> "1" User : userId
+    Rating "0..*" --> "1" Recipe : recipeId
+    Rating --> Rate
+    Notification "0..*" --> "1" User : userId
+    Notification "0..*" --> "1" Recipe : recipeId
+    Notification --> NotificationType
+}
+
+@enduml
