@@ -2,6 +2,8 @@
 'https://plantuml.com/class-diagram
 
 left to right direction
+skinparam genericDisplay old
+hide empty members
 
 ' DTO
 ' Common

@@ -3,6 +3,7 @@
 ' architecture_DTO.puml(DTO) 기반 Model
 
 left to right direction
+hide empty members
 
 ' Enum (architecture_DTO.puml 에서 복사)
 enum RecipeCategory {
