@@ -1,38 +1,65 @@
-📌 Kotlin 17. 좋은 설계 원칙, 디자인 패턴 및 클린 아키텍처🐣 1. 초등학생도 이해하는 설계 원칙 & 디자인 패턴 (요약 설명)응집도와 결합도 (레고 블록 뗏목):응집도(Cohesion): 한 상자 안에는 한 가지 장난감만 깔끔하게 모아두는 것입니다. (예: 로봇 상자, 자동차 상자)결합도(Coupling): 장난감끼리 끈으로 너무 세게 묶여 있으면 하나를 꺼낼 때 다 딸려 나옵니다. 다른 장난감에 영향을 주지 않도록 끈을 풀고 서로 독립적으로 만드는 것이 좋습니다.좋은 코드의 6가지 약속:DRY: 똑같은 일을 몇 번씩 반복해서 하지 말아요!PIE: 누구나 읽기 쉽게 이름을 명확하게 지어요!SRP (단일 책임): 한 클래스는 오직 한 가지 역할만 담당해요.OCP (개방 폐쇄): 기존 코드는 건드리지 않고도 새로운 기능을 자유롭게 합체(확장)할 수 있게 만들어요.SDP (안정된 의존성): 잘 변하지 않는 튼튼한 인터페이스에 의존해요.ADP (비순환 의존성): A가 B를 부르고 B가 다시 A를 부르는 돌고 도는 굴레(순환)를 만들지 마세요!디자인 패턴 (선배 개발자들의 비밀 레시피):빌더(Builder): 서브웨이 샌드위치처럼 단계별로 재료를 골라 객체를 만듭니다.팩토리(Factory): 맥도날드 주방처럼 주문에 맞춰 객체를 척척 찍어냅니다.싱글턴(Singleton): 렌터카처럼 딱 하나만 만들어서 다 함께 공유합니다.전략(Strategy): 게임 AI 난이도를 쉬움/어려움으로 언제든 갈아 끼웁니다.옵저버(Observer): 방송 구독자처럼 상태가 바뀔 때마다 신호를 받습니다.비즈니스 규칙 함수 (마린 생산 판정):마린 버튼(UI)을 누를 때 미네랄 50개와 인구수가 충분한지 판단하는 것은 SCV(Repository)가 아니라 비즈니스 규칙(도메인)의 역할입니다.🛠️ 2. 핵심 명령어 및 주요 개념 정리개념 / 패턴설명SRP (Single Responsibility)클래스 하나당 딱 하나의 기능만 부여하여 수정이 용이하게 만듭니다.OCP (Open-Closed)기존 코드 수정 없이 인터페이스나 상속으로 기능을 확장합니다.DIP (Dependency Inversion)구체적인 클래스가 아닌 추상화된 Interface에 의존합니다.Singleton Pattern (object)object RentCar처럼 클래스의 인스턴스를 오직 1개만 유지합니다.Builder PatternStringBuilder().append().toString()처럼 복잡한 객체를 체이닝으로 단계별 구성합니다.Strategy Pattern인터페이스를 사용해 런타임에 동적으로 알고리즘을 바꿔 끼웁니다.Observer Pattern콜백 함수 () -> Unit 등을 통해 객체의 변화를 다른 객체에 통지합니다.📝 3. 팀 과제: 레시피 앱 설계 (과제 1~3 풀이)📄 과제 1 & 2: architecture.puml (PlantUML 클래스 다이어그램)@startuml
-package "Model Layer" {
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+
+package "com.example.recipe.domain.model" {
     class Recipe {
-        +String id
-        +String title
-        +String category
-        +String imageUrl
-        +Int cookingTimeMinutes
-        +Double rating
-        +List<String> ingredients
-        +List<String> instructions
+        + id: String
+        + title: String
+        + imageUrl: String
+        + cookingTimeMinutes: Int
+        + rating: Double
+        + category: String
+        + ingredients: List<String>
+        + instructions: List<String>
     }
 
     class User {
-        +String id
-        +String name
-        +String email
-        +List<String> bookmarkedRecipeIds
+        + id: String
+        + name: String
+        + profileImageUrl: String
+        + followersCount: Int
+        + followingCount: Int
+    }
+
+    class Review {
+        + id: String
+        + recipeId: String
+        + userId: String
+        + rating: Double
+        + comment: String
+        + createdAt: String
     }
 }
 
-package "Repository Layer (Interfaces)" {
+package "com.example.recipe.domain.repository" {
     interface RecipeRepository {
-        +suspend fun getRecipes(): List<Recipe>
-        +suspend fun getRecipeById(id: String): Recipe?
-        +suspend fun searchRecipes(query: String): List<Recipe>
+        + getRecipes(category: String?): Result<List<Recipe>, NetworkError>
+        + getRecipeById(id: String): Result<Recipe, NetworkError>
+        + searchRecipes(query: String, category: String?, timeFilter: String?, minRating: Double?): Result<List<Recipe>, NetworkError>
+        + getNewRecipes(): Result<List<Recipe>, NetworkError>
     }
 
     interface BookmarkRepository {
-        +suspend fun getBookmarkedIds(userId: String): List<String>
-        +suspend fun addBookmark(userId: String, recipeId: String)
-        +suspend fun removeBookmark(userId: String, recipeId: String)
+        + getSavedRecipeIds(): Result<Set<String>, NetworkError>
+        + toggleBookmark(recipeId: String): Result<Boolean, NetworkError>
+        + isBookmarked(recipeId: String): Boolean
+    }
+
+    interface UserRepository {
+        + getCurrentUserProfile(): Result<User, NetworkError>
+        + getUserProfile(userId: String): Result<User, NetworkError>
+        + toggleFollowUser(targetUserId: String): Result<Boolean, NetworkError>
+    }
+
+    interface ReviewRepository {
+        + getReviewsByRecipeId(recipeId: String): Result<List<Review>, NetworkError>
+        + addReview(recipeId: String, rating: Double, comment: String): Result<Review, NetworkError>
     }
 }
 
-RecipeRepository ..> Recipe
-BookmarkRepository ..> User
+RecipeRepository ..> Recipe : creates / returns
+UserRepository ..> User : creates / returns
+ReviewRepository ..> Review : creates / returns
+
 @enduml
