@@ -211,7 +211,7 @@ classDiagram
 - **판정(허용/거부)과 가공(정렬·필터·그룹핑·평균 계산)은 Repository가 하지 않는다.** → 기능(UseCase) 함수의 책임.
 - 도메인 객체 1개(또는 Aggregate 1개)당 Repository 1개. `Ingredient`, `Step`은 `Recipe` Aggregate에 포함되므로 별도 Repository 없음.
 - 모든 메서드는 `Result<T, NetworkError>`를 반환한다 (`day20.core.Result`, `NetworkError` 재사용). 아래 표에서는 성공 타입만 표기.
-- 기존 컨벤션대로 `<Model>Repository` / `<Model>RepositoryImpl`, DataSource 생성자 주입 ([repository.md](../../repository.md) 참고).
+- 기존 컨벤션대로 `<Model>Repository` / `<Model>RepositoryImpl`, DataSource 생성자 주입 ([repository 스킬](../../../.claude/skills/repository/SKILL.md) 참고).
 
 ### AuthRepository — 인증
 | 메서드 | 반환 | 용도 (화면) |
