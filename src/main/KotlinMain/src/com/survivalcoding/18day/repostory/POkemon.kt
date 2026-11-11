@@ -6,6 +6,16 @@ import com.survivalcoding.`18day`.core.Result
 
 // 포켓몬 레포지토리 테스트 클래스: FakePokemonDataSource를 사용한 검증 예시
 class PokemonRepositoryTest {
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            println("=== 포켓몬 레포지토리 테스트 시작 ===\n")
+            PokemonRepositoryTest().`존재하지_않는_포켓몬_검색_시_CLIENT_ERROR가_반환된다`()
+            println()
+            PokemonRepositoryTest().`존재하는_포켓몬_검색_시_Success_가_반환된다`()
+            println("\n=== 포켓몬 레포지토리 테스트 종료 ===")
+        }
+    }
 
     fun `존재하지_않는_포켓몬_검색_시_CLIENT_ERROR가_반환된다`() {
         // Given: 가짜 데이터 소스와 레포지토리 준비

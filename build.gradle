@@ -26,6 +26,7 @@ dependencies {
     // Ktor Client
     implementation 'io.ktor:ktor-client-core:2.3.7'
     implementation 'io.ktor:ktor-client-cio:2.3.7'
+    testImplementation 'io.ktor:ktor-client-mock:2.3.7'
     
     // JavaFX 네이티브 라이브러리는 OS·아키텍처마다 다르므로 실행 환경에 맞는 classifier 를 고른다.
     // (예: linux 네이티브로 빌드한 뒤 Windows 에서 실행하면 UnsatisfiedLinkError 가 발생한다.)
@@ -51,13 +52,23 @@ tasks.withType(JavaCompile).configureEach {
 // 제외하지 않으면 부모 빌드가 그 프로젝트의 테스트 소스까지 main 소스로 컴파일해 빌드가 실패한다.
 sourceSets {
     main {
-        kotlin.srcDirs = ['src/main/KotlinMain/src']
+        // 18day 패키지만 포함 (다른 day 패키지는 선행 버그로 컴파일 불가)
+        kotlin.srcDirs = ['src/main/KotlinMain/src/com/survivalcoding/18day']
+        kotlin {
+            // ImageDataSource.kt 는 기존 선행 버그(bodyAsBytes)로 컴파일 불가하므로 제외
+            exclude 'Data_source/ImageDataSource.kt'
+            exclude 'Data_source/RemotePokemonDataSource.kt'
+        }
         java {
             exclude 'com/survivalcoding/day12_abstract_interface/day12-asset/**'
         }
     }
     test {
         kotlin.srcDirs = ['src/main/KotlinMain/test']
+        kotlin {
+            // 18day 패키지만 포함 (다른 day 패키지는 선행 버그로 컴파일 불가)
+            include 'com/survivalcoding/18day/**'
+        }
     }
 }
 
@@ -67,19 +78,34 @@ test {
 }
 
 application {
-    mainClass = 'com.survivalcoding.game.MonsterArenaGame'
+    mainClass = 'com.survivalcoding.18day.PokemonGameApp'
     
     // JavaFX module path from the downloaded dependencies
     applicationDefaultJvmArgs = [
         '--module-path', "${configurations.runtimeClasspath.files.collect { it.absolutePath }.join(File.pathSeparator)}",
-        '--add-modules', 'javafx.controls,javafx.graphics,javafx.fxml,javafx.media'
+        '--add-modules', 'javafx.controls,javafx.graphics,javafx.fxml,javafx.media',
+        '-Dfile.encoding=UTF-8'
     ]
 }
 
-tasks.register('runKotlinGame', JavaExec) {
+tasks.register('runPokemonGame', JavaExec) {
     group = 'application'
-    description = 'Runs the deterministic Kotlin console battle game.'
+    description = 'Runs the Pokemon game with image and sound (JavaFX GUI).'
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'com.survivalcoding.day12kotlin.MainKt'
+    mainClass = 'com.survivalcoding.18day.PokemonGameApp'
     systemProperty 'file.encoding', 'UTF-8'
+
+    // JavaFX 모듈 경로 및 모듈 추가 (GUI 실행에 필요함)
+    def osName = System.getProperty('os.name').toLowerCase()
+    def osArch = System.getProperty('os.arch').toLowerCase()
+    def arm64 = osArch.contains('aarch64') || osArch.contains('arm64')
+    def javafxPlatform = osName.contains('win') ? 'win'
+            : osName.contains('mac') ? (arm64 ? 'mac-aarch64' : 'mac')
+            : (arm64 ? 'linux-aarch64' : 'linux')
+
+    jvmArgs = [
+        '--module-path', configurations.runtimeClasspath.files.collect { it.absolutePath }.join(File.pathSeparator),
+        '--add-modules', 'javafx.controls,javafx.graphics,javafx.fxml,javafx.media',
+        '-Dfile.encoding=UTF-8'
+    ]
 }
