@@ -1,0 +1,181 @@
+@startuml
+title Recipe App - Domain Model & Repository
+
+skinparam classAttributeIconSize 0
+left to right direction
+
+' ===== Enums =====
+enum AuthProvider {
+    EMAIL
+    GOOGLE
+    FACEBOOK
+}
+
+enum Category {
+    ALL
+    CEREAL
+    VEGETABLE
+    DESSERT
+    DINNER
+    CHINESE
+    LOCAL_DISH
+    FRUIT
+    BREAKFAST
+    SPANISH
+    LUNCH
+}
+
+enum NotificationType {
+    NEW_RECIPE
+    REVIEW
+    RATING
+    FOLLOW
+}
+
+' ===== Domain Model =====
+class User {
+    long id
+    String name
+    String email
+    String password
+    String profileImageUrl
+    String bio
+    AuthProvider authProvider
+}
+
+class Recipe {
+    long id
+    long authorId
+    String title
+    String imageUrl
+    int cookingTimeMinutes
+    double rating
+    Category category
+    LocalDateTime createdAt
+}
+
+class Ingredient {
+    long id
+    long recipeId
+    String name
+    String amount
+    String imageUrl
+}
+
+class CookingStep {
+    long id
+    long recipeId
+    int order
+    String description
+}
+
+class Review {
+    long id
+    long recipeId
+    long userId
+    int rating
+    String comment
+    LocalDateTime createdAt
+}
+
+class SavedRecipe {
+    long userId
+    long recipeId
+    LocalDateTime savedAt
+}
+
+class Follow {
+    long followerId
+    long followingId
+}
+
+class Notification {
+    long id
+    long userId
+    NotificationType type
+    String message
+    long targetRecipeId
+    boolean isRead
+    LocalDateTime createdAt
+}
+
+class SearchFilter {
+    String keyword
+    TimeFilter time
+    int minRating
+    List<Category> categories
+}
+
+enum TimeFilter {
+    ALL
+    NEWEST
+    OLDEST
+    POPULAR
+}
+
+class RecentSearch {
+    long userId
+    String keyword
+    LocalDateTime searchedAt
+}
+
+' ===== Repository =====
+interface UserRepository {
+    User signUp(User user)
+    Optional<User> signIn(String email, String password)
+    Optional<User> findById(long id)
+    Optional<User> findByEmail(String email)
+    User update(User user)
+}
+
+interface RecipeRepository {
+    Optional<Recipe> findById(long id)
+    List<Recipe> findAll()
+    List<Recipe> findByCategory(Category category)
+    List<Recipe> findByAuthorId(long userId)
+    List<Recipe> findNewRecipes()
+    List<Recipe> search(SearchFilter filter)
+    Recipe save(Recipe recipe)
+    void delete(long id)
+}
+
+interface IngredientRepository {
+    List<Ingredient> findByRecipeId(long recipeId)
+}
+
+interface CookingStepRepository {
+    List<CookingStep> findByRecipeId(long recipeId)
+}
+
+interface ReviewRepository {
+    List<Review> findByRecipeId(long recipeId)
+    Review save(Review review)
+    void delete(long id)
+}
+
+interface SavedRecipeRepository {
+    List<Recipe> findSavedRecipes(long userId)
+    boolean isSaved(long userId, long recipeId)
+    void save(long userId, long recipeId)
+    void remove(long userId, long recipeId)
+}
+
+interface FollowRepository {
+    void follow(long followerId, long followingId)
+    void unfollow(long followerId, long followingId)
+    int countFollowers(long userId)
+    int countFollowing(long userId)
+}
+
+interface NotificationRepository {
+    List<Notification> findByUserId(long userId)
+    void markAsRead(long id)
+}
+
+interface RecentSearchRepository {
+    List<RecentSearch> findRecent(long userId)
+    void save(RecentSearch search)
+    void clear(long userId)
+}
+
+@enduml
