@@ -1,0 +1,190 @@
+@startuml architecture
+scale 1
+hide empty members
+left to right direction
+
+package "com.survivalcoding.day18_design_principles.model" {
+
+    class User {
+        + id: Int
+        + name: String
+        + profileImageUrl: String
+        + job: String
+        + introduction: String
+        + location: String
+        + followerCount: Int
+        + followingCount: Int
+    }
+
+    class Recipe {
+        + id: Int
+        + title: String
+        + imageUrl: String
+        + videoUrl: String?
+        + chef: User
+        + category: String
+        + rating: Double
+        + reviewCount: Int
+        + cookingTimeMinutes: Int
+        + serving: Int
+        + ingredients: List<Ingredient>
+        + procedures: List<Procedure>
+        + createdAt: LocalDateTime
+    }
+
+    class Ingredient {
+        + id: Int
+        + name: String
+        + imageUrl: String
+        + amountInGrams: Int
+    }
+
+    class Procedure {
+        + step: Int
+        + description: String
+    }
+
+    class Review {
+        + id: Int
+        + recipeId: Int
+        + writer: User
+        + content: String
+        + likeCount: Int
+        + dislikeCount: Int
+        + createdAt: LocalDateTime
+    }
+
+    class Rating {
+        + recipeId: Int
+        + userId: Int
+        + score: Int
+    }
+
+    class Notification {
+        + id: Int
+        + type: NotificationType
+        + message: String
+        + isRead: Boolean
+        + createdAt: LocalDateTime
+    }
+
+    enum NotificationType {
+        NEW_RECIPE
+        SAVE_RECIPE
+    }
+
+    class RecipeFilter {
+        + sortType: SortType
+        + rating: Int?
+        + category: String?
+    }
+
+    enum SortType {
+        ALL
+        NEWEST
+        OLDEST
+        POPULARITY
+    }
+}
+
+package "com.survivalcoding.day18_design_principles.core" {
+
+    interface "Result<D, E>" as Result {
+    }
+
+    class "Success<D>" as Success {
+        + data: D
+    }
+
+    class "Error<E>" as Error {
+        + error: E
+    }
+
+    enum NetworkError {
+        NO_INTERNET
+        SERVER_ERROR
+        CLIENT_ERROR
+        TIMEOUT
+        UNKNOWN
+    }
+}
+
+package "com.survivalcoding.day18_design_principles.repository" {
+
+    interface AuthRepository {
+        + signIn(email: String, password: String): Result<User?, NetworkError>
+        + isEmailRegistered(email: String): Result<Boolean, NetworkError>
+        + signUp(name: String, email: String, password: String): Result<User, NetworkError>
+        + signOut(): Result<Unit, NetworkError>
+        + getCurrentUser(): Result<User?, NetworkError>
+    }
+
+    interface UserRepository {
+        + getUser(userId: Int): Result<User?, NetworkError>
+        + isFollowing(followerId: Int, followeeId: Int): Result<Boolean, NetworkError>
+        + follow(followerId: Int, followeeId: Int): Result<Unit, NetworkError>
+        + unfollow(followerId: Int, followeeId: Int): Result<Unit, NetworkError>
+    }
+
+    interface RecipeRepository {
+        + getRecipes(): Result<List<Recipe>, NetworkError>
+        + getRecipe(recipeId: Int): Result<Recipe?, NetworkError>
+        + getRecipesByChef(chefId: Int): Result<List<Recipe>, NetworkError>
+        + searchRecipes(keyword: String, filter: RecipeFilter): Result<List<Recipe>, NetworkError>
+        + getShareLink(recipeId: Int): Result<String, NetworkError>
+    }
+
+    interface SavedRecipeRepository {
+        + getSavedRecipes(userId: Int): Result<List<Recipe>, NetworkError>
+        + saveRecipe(userId: Int, recipeId: Int): Result<Unit, NetworkError>
+        + unsaveRecipe(userId: Int, recipeId: Int): Result<Unit, NetworkError>
+    }
+
+    interface RecentSearchRepository {
+        + getRecentSearches(userId: Int): Result<List<Recipe>, NetworkError>
+        + addRecentSearch(userId: Int, recipeId: Int): Result<Unit, NetworkError>
+    }
+
+    interface ReviewRepository {
+        + getReviews(recipeId: Int): Result<List<Review>, NetworkError>
+        + addReview(recipeId: Int, userId: Int, content: String): Result<Review, NetworkError>
+        + likeReview(reviewId: Int, userId: Int): Result<Unit, NetworkError>
+        + dislikeReview(reviewId: Int, userId: Int): Result<Unit, NetworkError>
+    }
+
+    interface RatingRepository {
+        + getRating(recipeId: Int, userId: Int): Result<Rating?, NetworkError>
+        + saveRating(rating: Rating): Result<Unit, NetworkError>
+    }
+
+    interface NotificationRepository {
+        + getNotifications(userId: Int): Result<List<Notification>, NetworkError>
+        + markAsRead(notificationId: Int): Result<Unit, NetworkError>
+    }
+}
+
+Recipe --> User : chef
+Recipe *-- "1..*" Ingredient
+Recipe *-- "1..*" Procedure
+Review --> User : writer
+Review ..> Recipe : recipeId
+Rating ..> Recipe : recipeId
+Rating ..> User : userId
+Notification --> NotificationType
+RecipeFilter --> SortType
+
+AuthRepository ..> User
+UserRepository ..> User
+RecipeRepository ..> Recipe
+RecipeRepository ..> RecipeFilter
+SavedRecipeRepository ..> Recipe
+RecentSearchRepository ..> Recipe
+ReviewRepository ..> Review
+RatingRepository ..> Rating
+NotificationRepository ..> Notification
+
+Success ..|> Result
+Error ..|> Result
+Error ..> NetworkError
+
+@enduml
