@@ -6,13 +6,30 @@ import com.survivalcoding.day18.repository.inter.PokemonRepository
 import com.survivalcoding.day19.mapper.toModel
 import com.survivalcoding.day20.core.NetworkError
 import com.survivalcoding.day20.core.Result
+import kotlinx.coroutines.TimeoutCancellationException
+import java.net.SocketException
 
 class PokemonRepositoryImpl(
     private val dataSource: PokemonDataSource,
 ) : PokemonRepository {
-    override suspend fun getPokemonByName(name: String): Result<Pokemon, NetworkError> =
-        when (val result = dataSource.getPokemonByName(name)) {
-            is Result.Success -> Result.Success(result.value.toModel())
-            is Result.Error -> result
+    override suspend fun getPokemonByName(name: String): Result<Pokemon, NetworkError> {
+        try {
+            val response = dataSource.getPokemonByName(name)
+
+            when {
+                response.statusCode.isServerError() -> return Result.Error(NetworkError.SERVER_ERR)
+                response.statusCode.isClientError() -> return Result.Error(NetworkError.CLIENT_ERR)
+            }
+
+            val pokemonDto = response.body ?: return Result.Error(NetworkError.NULL_DATA_ERR)
+
+            return Result.Success(pokemonDto.toModel())
+        } catch (_: SocketException) {
+            return Result.Error(NetworkError.NO_INTERNET_ERR)
+        } catch (_: TimeoutCancellationException) {
+            return Result.Error(NetworkError.TIMEOUT_ERR)
+        } catch (_: Exception) {
+            return Result.Error(NetworkError.UNKNOWN_ERR)
         }
+    }
 }

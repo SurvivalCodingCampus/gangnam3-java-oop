@@ -2,6 +2,8 @@
 
 package day18
 
+import com.survivalcoding.day18.MyResponse
+import com.survivalcoding.day18.StatusCode
 import com.survivalcoding.day18.datasource.PokemonDataSource
 import com.survivalcoding.day18.datasource.RemotePokemonDataSource
 import com.survivalcoding.day18.model.Pokemon
@@ -14,12 +16,16 @@ import day18.mock.FakeHttpClientFactory
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError
+import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withTimeout
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -71,49 +77,39 @@ class Test {
     @Nested
     inner class `RemotePokemonDataSource테스트` {
         @Test
-        fun `성공 응답의 body를 PokemonDto로 역직렬화해서 Success로 반환한다`() = runTest {
+        fun `응답의 상태코드와 헤더를 그대로 담아 반환한다`() = runTest {
             val dataSource = createMockDataSource()
 
-            val result = dataSource.getPokemonByName("eevee")
+            val response = dataSource.getPokemonByName("eevee")
 
-            assertThat(result).isInstanceOf(Result.Success::class.java)
-            val dto = (result as Result.Success).value
-            assertThat(dto.id).isEqualTo(133)
-            assertThat(dto.name).isEqualTo("eevee")
-            assertThat(dto.baseExperience).isEqualTo(65)
-            assertThat(dto.isDefault).isTrue()
+            assertThat(response.statusCode).isEqualTo(StatusCode.Ok)
+            assertThat(response.headers[HttpHeaders.ContentType])
+                .containsExactly("application/json")
         }
 
         @Test
-        fun `존재하지 않는 name이면 CLIENT_ERR Error를 반환한다`() = runTest {
+        fun `응답 body를 PokemonDto로 역직렬화한다`() = runTest {
             val dataSource = createMockDataSource()
 
-            val result = dataSource.getPokemonByName("unknown")
+            val response = dataSource.getPokemonByName("eevee")
 
-            assertThat(result).isEqualTo(Result.Error(NetworkError.CLIENT_ERR))
+            assertThat(response.body?.id).isEqualTo(133)
+            assertThat(response.body?.name).isEqualTo("eevee")
+            assertThat(response.body?.baseExperience).isEqualTo(65)
+            assertThat(response.body?.isDefault).isTrue()
         }
 
         @Test
-        fun `5xx 응답이면 SERVER_ERR Error를 반환한다`() = runTest {
-            val engine = MockEngine { respondError(HttpStatusCode.InternalServerError) }
-            val dataSource = RemotePokemonDataSource(FakeHttpClientFactory.create(engine))
+        fun `존재하지 않는 name으로 요청하면 body를 역직렬화할 수 없어 예외가 발생한다`() = runTest {
+            val dataSource = createMockDataSource()
 
-            val result = dataSource.getPokemonByName("eevee")
+            val exception = runCatching { dataSource.getPokemonByName("unknown") }.exceptionOrNull()
 
-            assertThat(result).isEqualTo(Result.Error(NetworkError.SERVER_ERR))
+            assertThat(exception).isNotNull()
         }
 
         @Test
-        fun `SocketException이 발생하면 NO_INTERNET_ERR Error를 반환한다`() = runTest {
-            val dataSource = remoteDataSourceThrowing(SocketException())
-
-            val result = dataSource.getPokemonByName("eevee")
-
-            assertThat(result).isEqualTo(Result.Error(NetworkError.NO_INTERNET_ERR))
-        }
-
-        @Test
-        fun `응답이 타임아웃 시간보다 늦으면 TIMEOUT_ERR Error를 반환한다`() = runTest {
+        fun `응답이 타임아웃 시간보다 늦으면 HttpRequestTimeoutException이 발생한다`() = runTest {
             // 엔진의 dispatcher를 테스트 스케줄러에 연결해야 타임아웃이 가상 시간으로 동작함
             val engine = MockEngine.create {
                 dispatcher = StandardTestDispatcher(testScheduler)
@@ -125,18 +121,9 @@ class Test {
             val client = FakeHttpClientFactory.create(engine, requestTimeoutMillis = 10_000)
             val dataSource = RemotePokemonDataSource(client)
 
-            val result = dataSource.getPokemonByName("eevee")
+            val exception = runCatching { dataSource.getPokemonByName("eevee") }.exceptionOrNull()
 
-            assertThat(result).isEqualTo(Result.Error(NetworkError.TIMEOUT_ERR))
-        }
-
-        @Test
-        fun `그 외 예외가 발생하면 UNKNOWN_ERR Error를 반환한다`() = runTest {
-            val dataSource = remoteDataSourceThrowing(IllegalStateException())
-
-            val result = dataSource.getPokemonByName("eevee")
-
-            assertThat(result).isEqualTo(Result.Error(NetworkError.UNKNOWN_ERR))
+            assertThat(exception).isInstanceOf(HttpRequestTimeoutException::class.java)
         }
     }
 
@@ -152,21 +139,50 @@ class Test {
         }
 
         @Test
-        fun `datasource가 Error를 반환하면 그대로 전달한다`() = runTest {
-            NetworkError.entries.forEach { error ->
-                val repository = PokemonRepositoryImpl(fakeDataSource(Result.Error(error)))
+        fun `존재하지 않는 name이면 UNKNOWN_ERR Error를 반환한다`() = runTest {
+            val repository = PokemonRepositoryImpl(createMockDataSource())
 
-                val result = repository.getPokemonByName("eevee")
+            val result = repository.getPokemonByName("unknown")
 
-                assertThat(result).isEqualTo(Result.Error(error))
-            }
+            assertThat(result).isEqualTo(Result.Error(NetworkError.UNKNOWN_ERR))
+        }
+
+        @Test
+        fun `SocketException이 발생하면 NO_INTERNET_ERR Error를 반환한다`() = runTest {
+            val repository = PokemonRepositoryImpl(failingDataSource(SocketException()))
+
+            val result = repository.getPokemonByName("eevee")
+
+            assertThat(result).isEqualTo(Result.Error(NetworkError.NO_INTERNET_ERR))
+        }
+
+        @Test
+        fun `TimeoutCancellationException이 발생하면 TIMEOUT_ERR Error를 반환한다`() = runTest {
+            val repository = PokemonRepositoryImpl(failingDataSource(timeoutCancellation()))
+
+            val result = repository.getPokemonByName("eevee")
+
+            assertThat(result).isEqualTo(Result.Error(NetworkError.TIMEOUT_ERR))
+        }
+
+        @Test
+        fun `그 외 예외가 발생하면 UNKNOWN_ERR Error를 반환한다`() = runTest {
+            val repository = PokemonRepositoryImpl(failingDataSource(IllegalStateException()))
+
+            val result = repository.getPokemonByName("eevee")
+
+            assertThat(result).isEqualTo(Result.Error(NetworkError.UNKNOWN_ERR))
         }
     }
 
-    private fun fakeDataSource(result: Result<PokemonDto, NetworkError>) = object : PokemonDataSource {
-        override suspend fun getPokemonByName(name: String) = result
+    private fun failingDataSource(throwable: Throwable) = object : PokemonDataSource {
+        override suspend fun getPokemonByName(name: String): MyResponse<PokemonDto> = throw throwable
     }
 
-    private fun remoteDataSourceThrowing(throwable: Throwable) =
-        RemotePokemonDataSource(FakeHttpClientFactory.create(MockEngine { throw throwable }))
+    private suspend fun timeoutCancellation(): TimeoutCancellationException =
+        try {
+            withTimeout(1) { awaitCancellation() }
+        } catch (e: TimeoutCancellationException) {
+            e
+        }
 }

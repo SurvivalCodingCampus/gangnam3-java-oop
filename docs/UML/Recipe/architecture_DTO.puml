@@ -1,0 +1,268 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+skinparam genericDisplay old
+hide empty members
+
+' DTO
+' Common
+package "Common" {
+    class SliceResponseDto<T> {
+        val content: List<T>
+        val nextCursor: String?
+    }
+}
+
+' Sign In
+package "SignIn" {
+    class SignInRequestDto {
+        val email: String
+        val password: String
+    }
+
+    class GoogleOAuthSignInRequestDto {
+        val idToken: String
+    }
+
+    class FacebookOAuthSignInRequestDto {
+        val accessToken: String
+    }
+
+    class AuthResponseDto {
+        val userId: Long
+        val name: String
+        val email: String
+        val image: Image
+    }
+}
+
+' Sign Up
+package "SignUp" {
+    class SignUpRequestDto {
+        val name: String
+        val email: String
+        val password: String
+    }
+
+    class GoogleOAuthSignUpRequestDto {
+        val idToken: String
+    }
+
+    class FacebookOAuthSignUpRequestDto {
+        val accessToken: String
+    }
+}
+
+' Home
+package "Home" {
+    class UserHomeResponseDto {
+        val name: String
+        val image: Image
+    }
+
+    class DishesResponseDto {
+        val recipeId: Long
+        val image: Image
+        val rate: Double
+        val title: String
+        val time: Int
+        val isBookmarked: Boolean
+    }
+
+    class NewDishesResponseDto {
+        val recipeId: Long
+        val title: String
+        val image: Image
+        val rate: Double
+        val userImage: Image
+        val userName: String
+        val time: Int
+    }
+}
+
+' Search
+
+package "Search" {
+
+    enum SortType {
+        All,
+        Newest,
+        Oldest,
+        Popularity
+    }
+
+    enum Rate {
+      One = 1,
+      Two = 2,
+      Three = 3,
+      Four = 4,
+      Five = 5,
+    }
+
+    enum RecipeCategory {
+      All = "All",
+      Cereal = "Cereal",
+      Vegetables = "Vegetables",
+      Dinner = "Dinner",
+      Chinese = "Chinese",
+      LocalDish = "Local Dish",
+      Fruit = "Fruit",
+      BreakFast = "BreakFast",
+      Spanish = "Spanish",
+      Lunch = "Lunch",
+    }
+
+    class RecipeSearchRequestDto {
+        val keyword: String
+        val sort: SortType
+        val rate: Rate?
+        val category: RecipeCategory
+        val cursor: String?
+        val size: Int
+    }
+
+    RecipeSearchRequestDto --> SortType
+    RecipeSearchRequestDto --> Rate
+    RecipeSearchRequestDto --> RecipeCategory
+}
+
+package "SearchResult" {
+    class SearchRecipeResultResponseDto {
+        val recipeId: Long
+        val dishImage: Image
+        val rate: Double
+        val title: String
+        val userName: String
+    }
+}
+
+' Saved Recipe
+package "SavedRecipe" {
+    class SavedRecipeResponseDto {
+        val recipeId: Long
+        val dishImage: Image
+        val rate: Double
+        val title: String
+        val userName: String
+        val time: Int
+        val isBookmarked: Boolean
+    }
+}
+
+package RecipeDetail {
+    class RecipeResponseDto {
+        val recipeId: Long
+        val dishImage: Image
+        val rate: Double
+        val time: Int
+        val isBookmarked: Boolean
+        val title: String
+        val totalViewers: Int
+        val reviewCount: Int
+        val savedCount: Int
+    }
+
+    class RecipeUserResponseDto {
+        val userId: Long
+        val userImage: Image
+        val userName: String
+        val userCity: String
+        val isFollowing: Boolean
+    }
+
+    class RecipeDetailResponseDto {
+        val servings: Int
+        val ingredients: List<RecipeIngredientResponseDto>
+        val steps: List<RecipeStepResponseDto>
+    }
+
+    package More {
+        class RateRequestDto {
+            val userId: Long
+            val recipeId: Long
+            val rate: Rate
+        }
+
+        class RateResponseDto {
+            val averageRating: Double
+            val isUpdated: Boolean
+        }
+
+        class RecipeLinkResponseDto {
+            val recipeLink: String
+        }
+    }
+
+    package Ingredient {
+        class RecipeIngredientResponseDto {
+            val image: Image
+            val name: String
+            val requiredGrams: Int
+        }
+    }
+
+    package Procedure {
+        class RecipeStepResponseDto {
+            val stepNumber: Int
+            val description: String
+        }
+    }
+
+    RecipeDetailResponseDto "1" *-- "1..*" RecipeIngredientResponseDto
+    RecipeDetailResponseDto "1" *-- "1..*" RecipeStepResponseDto
+    RateRequestDto --> Rate
+}
+
+package Review {
+    class RecipeReviewRequestDto {
+        val recipeId: Long
+        val userId: Long
+        val content: String
+    }
+
+    class RecipeReviewResponseDto {
+        val id: Long
+        val userId: Long
+        val userImage: Image
+        val userName: String
+        val createdAt: LocalDateTime
+        val content: String
+        val likeCount: Int
+        val dislikeCount: Int
+    }
+}
+
+package Notifications {
+
+    enum NotificationType {
+        NEW_RECIPE = "New Recipe Alert"
+        SAVE_RECIPE = "Save Recipe Alert"
+    }
+
+    class RecipeNotificationResponseDto {
+        val id: Long
+        val recipeId: Long
+        val notificationType: NotificationType
+        val message: String
+        val createdAt: LocalDateTime
+        val isRead: Boolean
+    }
+
+    RecipeNotificationResponseDto --> NotificationType
+}
+
+package Profile {
+    class UserProfileResponseDto {
+        val userId: Long
+        val image: Image
+        val recipeCount: Int
+        val followerCount: Int
+        val followingCount: Int
+        val job: String
+        val name: String
+        val biography: String
+    }
+}
+
+@enduml

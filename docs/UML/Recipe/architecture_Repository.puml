@@ -1,0 +1,98 @@
+@startuml
+'https://plantuml.com/class-diagram
+' business_rules.md 1장 기반 Repository 인터페이스
+
+left to right direction
+hide empty fields
+hide empty members
+skinparam genericDisplay old
+
+package Repository {
+    interface AuthRepository {
+        fun signIn(email: String, password: String): Result<User, NetworkError>
+        fun signInWithGoogle(idToken: String): Result<User, NetworkError>
+        fun signInWithFacebook(accessToken: String): Result<User, NetworkError>
+        fun signUp(name: String, email: String, password: String): Result<User, NetworkError>
+        fun getCurrentUserId(): Long?
+    }
+
+    interface UserRepository {
+        fun getUser(userId: Long): Result<User, NetworkError>
+        fun existsByEmail(email: String): Result<Boolean, NetworkError>
+    }
+
+    interface RecipeRepository {
+        fun getRecipe(recipeId: Long): Result<Recipe, NetworkError>
+        fun getRecipesByCategory(category: RecipeCategory, cursor: String?, size: Int): Result<Slice<Recipe>, NetworkError>
+        fun getNewRecipes(cursor: String?, size: Int): Result<Slice<Recipe>, NetworkError>
+        fun getRecipesByAuthor(userId: Long, cursor: String?, size: Int): Result<Slice<Recipe>, NetworkError>
+        fun searchRecipes(keyword: String, filter: SearchFilter, cursor: String?, size: Int): Result<Slice<Recipe>, NetworkError>
+        fun getSearchCount(keyword: String, filter: SearchFilter): Result<Int, NetworkError>
+    }
+
+    interface RatingRepository {
+        fun saveRating(rating: Rating): Result<RateResult, NetworkError>
+    }
+
+    interface ReviewRepository {
+        fun getReviews(recipeId: Long, cursor: String?, size: Int): Result<Slice<Review>, NetworkError>
+        fun addReview(review: Review): Result<Review, NetworkError>
+        fun addLike(reviewId: Long): Result<Unit, NetworkError>
+        fun addDislike(reviewId: Long): Result<Unit, NetworkError>
+    }
+
+    interface SavedRecipeRepository {
+        fun getSavedRecipes(userId: Long, cursor: String?, size: Int): Result<Slice<Recipe>, NetworkError>
+        fun save(userId: Long, recipeId: Long): Result<Int, NetworkError>
+        fun unsave(userId: Long, recipeId: Long): Result<Int, NetworkError>
+    }
+
+    interface FollowRepository {
+        fun follow(followerId: Long, followingId: Long): Result<Unit, NetworkError>
+        fun unfollow(followerId: Long, followingId: Long): Result<Unit, NetworkError>
+    }
+
+    interface NotificationRepository {
+        fun getNotifications(userId: Long, isRead: Boolean?, cursor: String?, size: Int): Result<Slice<Notification>, NetworkError>
+        fun markAsRead(notificationId: Long): Result<Unit, NetworkError>
+    }
+}
+
+package Common {
+    class "Slice<T>" as Slice {
+        val content: List<T>
+        val nextCursor: String?
+    }
+
+    class SearchFilter {
+        val sort: SortType
+        val rate: Rate?
+        val category: RecipeCategory
+    }
+
+    class RateResult {
+        val averageRating: Double
+        val isUpdated: Boolean
+    }
+}
+
+' 필드는 architecture_Model.puml 참고
+package Model {
+    class User
+    class Recipe
+    class Rating
+    class Review
+    class Notification
+}
+
+AuthRepository ..> User
+UserRepository ..> User
+RecipeRepository ..> Recipe
+RecipeRepository ..> SearchFilter
+RatingRepository ..> Rating
+RatingRepository ..> RateResult
+ReviewRepository ..> Review
+SavedRecipeRepository ..> Recipe
+NotificationRepository ..> Notification
+
+@enduml
